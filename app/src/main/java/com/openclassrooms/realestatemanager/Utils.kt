@@ -5,6 +5,7 @@ import android.net.wifi.WifiManager
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 /**
  * Created by Philippe on 21/02/2018.
@@ -19,7 +20,7 @@ object Utils {
      */
     @JvmStatic
     fun convertDollarToEuro(dollars: Int): Int {
-        return Math.round(dollars * 0.812).toInt()
+        return (dollars * 0.812).roundToInt().toInt()
     }
 
     /**
@@ -29,7 +30,7 @@ object Utils {
      * @return
      */
     fun convertEuroToDollar(euros: Int): Int {
-        return Math.round(euros * 1.203).toInt()
+        return (euros * 1.203).roundToInt().toInt()
     }
 
     /**
@@ -52,7 +53,7 @@ object Utils {
      * @return
      */
     fun isInternetAvailable(context: Context): Boolean {
-        val wifi = context.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val wifi = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifi.isWifiEnabled
     }
 }
