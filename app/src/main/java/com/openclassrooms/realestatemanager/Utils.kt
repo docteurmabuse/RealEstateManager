@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager
 import android.content.Context
 import android.net.wifi.WifiManager
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -19,8 +18,8 @@ object Utils {
      * @return
      */
     @JvmStatic
-    fun convertDollarToEuro(dollars: Int): Int {
-        return (dollars * 0.812).roundToInt().toInt()
+    fun convertDollarToEuro(dollars: Int): Int? {
+        return (dollars * 0.831).roundToInt().toInt()
     }
 
     /**
@@ -29,7 +28,7 @@ object Utils {
      * @param euros
      * @return
      */
-    fun convertEuroToDollar(euros: Int): Int {
+    fun convertEuroToDollar(euros: Int): Int? {
         return (euros * 1.203).roundToInt().toInt()
     }
 
@@ -41,7 +40,7 @@ object Utils {
      */
     val todayDate: String
         get() {
-            val dateFormat: DateFormat = SimpleDateFormat("yyyy/MM/dd")
+            val dateFormat: DateFormat = DateFormat.getDateInstance()
             return dateFormat.format(Date())
         }
 
