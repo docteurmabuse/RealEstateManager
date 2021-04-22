@@ -19,7 +19,7 @@ object Utils {
      */
     @JvmStatic
     fun convertDollarToEuro(dollars: Int): Int? {
-        return (dollars * 0.831).roundToInt().toInt()
+        return (dollars * 0.83025).roundToInt().toInt()
     }
 
     /**
@@ -29,7 +29,7 @@ object Utils {
      * @return
      */
     fun convertEuroToDollar(euros: Int): Int? {
-        return (euros * 1.203).roundToInt().toInt()
+        return (euros * 1.20446).roundToInt().toInt()
     }
 
     /**
