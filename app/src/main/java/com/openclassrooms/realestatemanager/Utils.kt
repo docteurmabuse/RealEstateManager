@@ -1,8 +1,11 @@
 package com.openclassrooms.realestatemanager
 
 import android.content.Context
-import android.net.wifi.WifiManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -29,7 +32,7 @@ object Utils {
      * @return
      */
     fun convertEuroToDollar(euros: Int): Int? {
-        return (euros * 1.20446).roundToInt().toInt()
+        return (euros * 1.20336).roundToInt().toInt()
     }
 
     /**
@@ -40,7 +43,7 @@ object Utils {
      */
     val todayDate: String
         get() {
-            val dateFormat: DateFormat = DateFormat.getDateInstance()
+            val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE)
             return dateFormat.format(Date())
         }
 
@@ -52,7 +55,31 @@ object Utils {
      * @return
      */
     fun isInternetAvailable(context: Context): Boolean {
-        val wifi = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        return wifi.isWifiEnabled
+//        val wifi = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+//        return wifi.isWifiEnabled
+//        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
+//        return activeNetwork?.isConnectedOrConnecting == true
+
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                when {
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+                        return true
+                    }
+                    capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+                        return true
+                    }
+                }
+            }
+        } else {
+            val activeNetworkInfo = connectivityManager.activeNetworkInfo
+            if (activeNetworkInfo != null && activeNetworkInfo.isConnected) {
+                return true
+            }
+        }
+        return false
     }
 }
