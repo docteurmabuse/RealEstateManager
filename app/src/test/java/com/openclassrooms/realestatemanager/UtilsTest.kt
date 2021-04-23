@@ -1,8 +1,8 @@
 package com.openclassrooms.realestatemanager
 
-import com.openclassrooms.realestatemanager.Utils.convertDollarToEuro
-import com.openclassrooms.realestatemanager.Utils.convertEuroToDollar
-import com.openclassrooms.realestatemanager.Utils.todayDate
+import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
+import com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar
+import com.openclassrooms.realestatemanager.utils.Utils.todayDate
 import junit.framework.TestCase
 import org.junit.Test
 

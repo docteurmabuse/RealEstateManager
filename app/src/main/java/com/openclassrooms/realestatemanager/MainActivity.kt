@@ -3,7 +3,7 @@ package com.openclassrooms.realestatemanager
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.openclassrooms.realestatemanager.Utils.convertDollarToEuro
+import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
 
 class MainActivity : AppCompatActivity() {
     private var textViewMain: TextView? = null
