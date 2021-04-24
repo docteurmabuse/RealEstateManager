@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        textViewMain = findViewById(R.id.activity_main_activity_text_view_quantity)
+        textViewMain = findViewById(R.id.activity_main_activity_text_view_main)
         textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity)
         configureTextViewMain()
         configureTextViewQuantity()
@@ -26,6 +26,5 @@ class MainActivity : AppCompatActivity() {
         val quantity = convertDollarToEuro(100)
         textViewQuantity!!.textSize = 20f
         textViewQuantity!!.text = quantity.toString()
-        "jj" == "hhh"
     }
 }
