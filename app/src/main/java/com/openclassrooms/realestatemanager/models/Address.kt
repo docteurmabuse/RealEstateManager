@@ -9,7 +9,7 @@ data class Address(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     @ColumnInfo(name = "address_1")
-    val address1: Int,
+    val address1: String,
     @ColumnInfo(name = "address_2")
     val address2: String?,
     val city: String = "New York",
