@@ -3,38 +3,51 @@ package com.openclassrooms.realestatemanager.models
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Parcelize
-@Entity(tableName = "properties")
+@Entity(
+        tableName = "properties",
+        foreignKeys = [ForeignKey(
+                entity = Address::class,
+                parentColumns = ["id"],
+                childColumns = ["address_id"]
+        ),
+                ForeignKey(
+                        entity = Agent::class,
+                        parentColumns = ["id"],
+                        childColumns = ["agent_id"]
+                )],
+)
 data class Property(
         @PrimaryKey(autoGenerate = true)
-        val id: Int,
-        val type: String = "House",
-        val price: Int,
-        val surface: Int,
+        var id: Int,
+        var type: String = "House",
+        var price: Int,
+        var surface: Int,
         @ColumnInfo(name = "room_number")
-        val roomNumber: Int,
+        var roomNumber: Int,
         @ColumnInfo(name = "bathroom_number")
-        val bathroomNumber: Int?,
+        var bathroomNumber: Int?,
         @ColumnInfo(name = "bedroom_number")
-        val bedroomNumber: Int?,
-        val description: String?,
+        var bedroomNumber: Int?,
+        var description: String?,
         @ColumnInfo(name = "address_id")
-        val addressId: Int,
-        val schools: Boolean?,
-        val shops: Boolean?,
-        val parcs: Boolean?,
-        val stations: Boolean?,
-        val hospital: Boolean?,
-        val museum: Boolean?,
-        val sold: Boolean,
+        var addressId: Int,
+        var schools: Boolean?,
+        var shops: Boolean?,
+        var parcs: Boolean?,
+        var stations: Boolean?,
+        var hospital: Boolean?,
+        var museum: Boolean?,
+        var sold: Boolean,
         @ColumnInfo(name = "sell_date")
-        val sellDate: Date,
+        var sellDate: Date,
         @ColumnInfo(name = "sold_date")
-        val soldDate: Date,
+        var soldDate: Date,
         @ColumnInfo(name = "agent_id")
-        val agentId: Int
+        var agentId: Int
 ) : Parcelable
