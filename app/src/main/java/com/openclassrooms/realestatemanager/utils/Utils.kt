@@ -2,8 +2,11 @@ package com.openclassrooms.realestatemanager.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
+import android.util.Log
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -13,6 +16,7 @@ import kotlin.math.roundToInt
  * Created by Philippe on 21/02/2018.
  */
 object Utils {
+    val TAG = "c-Manager"
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
      * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
@@ -60,10 +64,30 @@ object Utils {
 //        val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 //        val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
 //        return activeNetwork?.isConnectedOrConnecting == true
+        lateinit var cm: ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val networkRequest = NetworkRequest.Builder()
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .build()
+            val netWorkCallback = object : ConnectivityManager.NetworkCallback() {
+                override fun onAvailable(network: Network) {
+                    super.onAvailable(network)
+                    Log.d(TAG, "onAvailable: $network")
+                }
 
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+                override fun onLost(network: Network) {
+                    super.onLost(network)
+                    Log.d(TAG, "onLost: $network")
+                }
+            }
+        }
+
+
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val capabilities = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
             if (capabilities != null) {
                 when {
                     capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {

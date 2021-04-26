@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Real Estate Manager</string>
+    <string name="title_property_list">Properties</string>
+    <string name="title_property_detail">Property Detail</string>
 </resources>
