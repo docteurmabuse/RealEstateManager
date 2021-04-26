@@ -14,7 +14,7 @@ object Versions {
     const val hilt = "2.31.2-alpha"
     const val junit5 = "1.7.0.0"
     const val kotlin_compiler_extension = "1.0.0-alpha11"
-    const val compose_compiler = "1.0.0-beta05"
+    //const val compose_compiler = "1.0.0-beta05"
 
     const val core_ktx = "1.3.2"
     const val app_compat = "1.3.0-beta01"
@@ -34,4 +34,10 @@ object Versions {
     const val room = "2.2.6"
     const val junit_jupiter = "5.7.0"
     const val datastore = "1.0.0-alpha06"
+    const val firebase = "20.0.4"
+    const val firebase_ui = "6.4.0"
+    const val recycler_view = "1.2.0"
+    const val activity = "1.2.2"
+
+
 }

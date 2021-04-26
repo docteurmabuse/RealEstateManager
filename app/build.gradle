@@ -1,4 +1,5 @@
 import dependencies.AnnotationProcessing
+import dependencies.Firebase
 import dependencies.InstrumentationTest
 import dependencies.Jetbrains
 import dependencies.Square
@@ -14,6 +15,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -77,6 +79,8 @@ dependencies {
     implementation AndroidX.room_ktx
     implementation AndroidX.datastore
     implementation AndroidX.hilt_lifecycle_viewmodel
+    implementation AndroidX.recycler_view
+    implementation AndroidX.activity
 
     implementation Google.material
     implementation Google.hilt_android
@@ -89,10 +93,15 @@ dependencies {
     implementation Square.retrofit_gson
     implementation Square.okHttp
     implementation Square.leak_canary
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+
+    //Firebase
+    implementation Firebase.firebase_auth
+    implementation Firebase.firebase_auth_ui
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     kapt AnnotationProcessing.hilt_compiler
     //kapt AnnotationProcessing.compose_compiler

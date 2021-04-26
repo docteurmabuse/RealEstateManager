@@ -4,6 +4,8 @@ object AndroidX {
 
     const val core_ktx = "androidx.core:core-ktx:${Versions.core_ktx}"
     const val app_compat = "androidx.appcompat:appcompat:${Versions.app_compat}"
+    const val recycler_view = "androidx.recyclerview:recyclerview:${Versions.recycler_view}"
+    const val activity = "androidx.activity:activity-ktx:${Versions.activity}\""
     const val constraint_layout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
     const val ui_tooling = "androidx.ui:ui-tooling:${Versions.androidx_ui}"

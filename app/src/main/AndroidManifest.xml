@@ -8,7 +8,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -16,18 +15,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.auth.AuthActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".ui.PropertyListActivity"
+            android:name=".ui.property.PropertyListActivity"
             android:label="@string/title_property_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.PropertyDetailActivity"
+            android:name=".ui.property.PropertyDetailActivity"
             android:label="@string/title_property_detail"
-            android:parentActivityName=".ui.PropertyListActivity"
+            android:parentActivityName=".ui.property.PropertyListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.openclassrooms.realestatemanager.ui.PropertyListActivity" />
+                android:value="com.openclassrooms.realestatemanager.ui.property.PropertyListActivity" />
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
