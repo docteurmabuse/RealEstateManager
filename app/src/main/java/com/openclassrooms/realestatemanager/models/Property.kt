@@ -10,17 +10,12 @@ import java.util.*
 
 @Parcelize
 @Entity(
-        tableName = "properties",
-        foreignKeys = [ForeignKey(
-                entity = Address::class,
-                parentColumns = ["id"],
-                childColumns = ["address_id"]
-        ),
-                ForeignKey(
-                        entity = Agent::class,
-                        parentColumns = ["id"],
-                        childColumns = ["agent_id"]
-                )],
+    tableName = "properties",
+    foreignKeys = [ForeignKey(
+        entity = Agent::class,
+        parentColumns = ["id"],
+        childColumns = ["agent_id"]
+    )],
 )
 data class Property(
     @PrimaryKey(autoGenerate = true)
@@ -35,8 +30,15 @@ data class Property(
     @ColumnInfo(name = "bedroom_number")
     var bedroomNumber: Int?,
     var description: String?,
-    @ColumnInfo(name = "address_id")
-    var addressId: Int,
+    @ColumnInfo(name = "address_1")
+    var address1: String,
+    @ColumnInfo(name = "address_2")
+    var address2: String?,
+    var city: String = "New York",
+    @ColumnInfo(name = "zip_code")
+    var zipCode: Int,
+    var state: String = "NY",
+    var country: String = "United States",
     var schools: Boolean?,
     var shops: Boolean?,
     var parcs: Boolean?,
