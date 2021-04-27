@@ -12,7 +12,7 @@ import com.openclassrooms.realestatemanager.ui.dummy.DummyContent
 
 /**
  * A fragment representing a single Property detail screen.
- * This fragment is either contained in a [PropertyListActivity]
+ * This fragment is either contained in a [MainActivity]
  * in two-pane mode (on tablets) or a [PropertyDetailActivity]
  * on handsets.
  */

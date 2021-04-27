@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
 
-class MainActivity : AppCompatActivity() {
+class MainActivity2 : AppCompatActivity() {
     private var textViewMain: TextView? = null
     private var textViewQuantity: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {

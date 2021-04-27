@@ -35,7 +35,7 @@ object Versions {
     const val junit_jupiter = "5.7.0"
     const val datastore = "1.0.0-alpha06"
     const val firebase = "20.0.4"
-    const val firebase_ui = "6.4.0"
+    const val firebase_ui = "7.1.1"
     const val recycler_view = "1.2.0"
     const val activity = "1.2.2"
 

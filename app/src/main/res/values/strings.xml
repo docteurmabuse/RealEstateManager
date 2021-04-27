@@ -4,4 +4,6 @@
     <string name="title_property_detail">Property Detail</string>
     <string name="real_estate_manager">Real Estate Manager</string>
     <string name="connection_succeed">Connection succeed</string>
+    <string name="error_no_internet">No Internet</string>
+    <string name="error_unknown_error">Unknown error</string>
 </resources>

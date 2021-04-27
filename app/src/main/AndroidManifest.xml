@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="false"
@@ -23,19 +24,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.property.PropertyListActivity"
+            android:name=".ui.property.MainActivity"
             android:label="@string/title_property_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.property.PropertyDetailActivity"
             android:label="@string/title_property_detail"
-            android:parentActivityName=".ui.property.PropertyListActivity"
+            android:parentActivityName=".ui.property.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.openclassrooms.realestatemanager.ui.property.PropertyListActivity" />
+                android:value="com.openclassrooms.realestatemanager.ui.property.MainActivity" />
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

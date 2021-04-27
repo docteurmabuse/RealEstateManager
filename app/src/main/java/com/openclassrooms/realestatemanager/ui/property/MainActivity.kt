@@ -23,7 +23,7 @@ import com.openclassrooms.realestatemanager.ui.dummy.DummyContent
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-class PropertyListActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -60,7 +60,7 @@ class PropertyListActivity : AppCompatActivity() {
     }
 
     class SimpleItemRecyclerViewAdapter(
-        private val parentActivity: PropertyListActivity,
+        private val parentActivity: MainActivity,
         private val values: List<DummyContent.DummyItem>,
         private val twoPane: Boolean
     ) :
