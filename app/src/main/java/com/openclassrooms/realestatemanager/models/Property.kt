@@ -47,9 +47,9 @@ data class Property(
     var museum: Boolean?,
     var sold: Boolean = false,
     @ColumnInfo(name = "sell_date")
-    var sellDate: Date,
+    var sellDate: Long,
     @ColumnInfo(name = "sold_date")
-    var soldDate: Date,
+    var soldDate: Long,
     @ColumnInfo(name = "agent_id")
     var agentId: Int
 ) : Parcelable
