@@ -1,9 +1,6 @@
-package com.openclassrooms.realestatemanager.data.room.Dao
+package com.openclassrooms.realestatemanager.data.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.PrimaryKey
-import androidx.room.Query
+import androidx.room.*
 import com.openclassrooms.realestatemanager.models.Photo
 import com.openclassrooms.realestatemanager.models.Property
 
@@ -24,5 +21,11 @@ interface PhotoDao {
     @Query("DELETE FROM  estate_photos WHERE id = :primaryKey")
     suspend fun deletePhoto(primaryKey: PrimaryKey): Int
 
+    //Update Photo
+    @Update
+    suspend fun updatePhoto(photo: Photo)
 
+    //Update Photos
+    @Update
+    suspend fun updatePhotos(photos: List<Photo>)
 }

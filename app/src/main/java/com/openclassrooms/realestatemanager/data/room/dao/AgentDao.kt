@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.data.room.Dao
+package com.openclassrooms.realestatemanager.data.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
