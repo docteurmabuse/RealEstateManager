@@ -2,6 +2,9 @@ package com.openclassrooms.realestatemanager.di
 
 import androidx.room.Room
 import com.openclassrooms.realestatemanager.BaseApplication
+import com.openclassrooms.realestatemanager.data.room.dao.AgentDao
+import com.openclassrooms.realestatemanager.data.room.dao.PhotoDao
+import com.openclassrooms.realestatemanager.data.room.dao.PropertyDao
 import com.openclassrooms.realestatemanager.data.room.database.PropertyDatabase
 import dagger.Module
 import dagger.Provides
@@ -24,4 +27,21 @@ object RoomModule {
             .build()
     }
 
+    @Singleton
+    @Provides
+    fun providesPropertyDao(app: PropertyDatabase): PropertyDao {
+        return app.propertyDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesPhotoDao(app: PropertyDatabase): PhotoDao {
+        return app.photoDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providesAgentDao(app: PropertyDatabase): AgentDao {
+        return app.agentDao()
+    }
 }
