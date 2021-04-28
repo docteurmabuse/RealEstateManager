@@ -6,7 +6,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
-import java.util.*
 
 @Parcelize
 @Entity(
@@ -21,10 +20,10 @@ data class Property(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     var type: String = "House",
-    var price: Int,
-    var surface: Int,
+    var price: Int?,
+    var surface: Int?,
     @ColumnInfo(name = "room_number")
-    var roomNumber: Int,
+    var roomNumber: Int?,
     @ColumnInfo(name = "bathroom_number")
     var bathroomNumber: Int?,
     @ColumnInfo(name = "bedroom_number")
@@ -37,7 +36,7 @@ data class Property(
     var city: String = "New York",
     @ColumnInfo(name = "zip_code")
     var zipCode: Int,
-    var state: String = "NY",
+    var state: String? = "NY",
     var country: String = "United States",
     var schools: Boolean?,
     var shops: Boolean?,
@@ -50,6 +49,6 @@ data class Property(
     var sellDate: Long,
     @ColumnInfo(name = "sold_date")
     var soldDate: Long,
-    @ColumnInfo(name = "agent_id")
-    var agentId: Int
+    @ColumnInfo(name = "agent_id", index = true)
+    var agentId: Int = 1
 ) : Parcelable

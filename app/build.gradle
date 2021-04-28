@@ -51,13 +51,13 @@ android {
         jvmTarget = Versions.jvmTarget
         useIR = true
     }
-    composeOptions {
-        def kotlin_compiler_version = Versions.kotlin
-        kotlinCompilerVersion kotlin_compiler_version
-
-        def kotlin_compiler_extension_version = Versions.kotlin_compiler_extension
-        kotlinCompilerExtensionVersion kotlin_compiler_extension_version
-    }
+//    composeOptions {
+//        def kotlin_compiler_version = Versions.kotlin
+//        kotlinCompilerVersion kotlin_compiler_version
+//
+//        def kotlin_compiler_extension_version = Versions.kotlin_compiler_extension
+//        kotlinCompilerExtensionVersion kotlin_compiler_extension_version
+//    }
     packagingOptions {
         exclude "META-INF/AL2.0"
         exclude "META-INF/LGPL2.1"

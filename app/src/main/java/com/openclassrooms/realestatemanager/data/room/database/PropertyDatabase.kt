@@ -9,13 +9,17 @@ import com.openclassrooms.realestatemanager.models.Agent
 import com.openclassrooms.realestatemanager.models.Photo
 import com.openclassrooms.realestatemanager.models.Property
 
-@Database(entities = [Property::class, Photo::class, Agent::class], version = 1)
+@Database(
+    entities = [Property::class, Photo::class, Agent::class],
+    exportSchema = false,
+    version = 1
+)
 abstract class PropertyDatabase : RoomDatabase() {
     abstract fun propertyDao(): PropertyDao
     abstract fun photoDao(): PhotoDao
     abstract fun agentDao(): AgentDao
 
     companion object {
-        val DATABASE_BASE = "property_db"
+        const val DATABASE_BASE = "property_db"
     }
 }

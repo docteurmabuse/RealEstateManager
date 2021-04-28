@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
 data class Photo(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
-    @ColumnInfo(name = "property_id")
+    @ColumnInfo(name = "property_id", index = true)
     var propertyId: Int,
     var name: String?,
     @ColumnInfo(name = "room")

@@ -5,6 +5,8 @@ import com.openclassrooms.realestatemanager.utils.Utils.convertEuroToDollar
 import com.openclassrooms.realestatemanager.utils.Utils.todayDate
 import junit.framework.TestCase
 import org.junit.Test
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class UtilsTest : TestCase() {
 
@@ -24,13 +26,14 @@ class UtilsTest : TestCase() {
 
     @Test
     fun testGetTodayDate() {
-        val myTodayDate: String = "22/04/2021"
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val myTodayDate = current.format(formatter)
         assertEquals(myTodayDate, todayDate)
     }
 
-    fun testIsInternetAvailable(
+    fun testIsInternetAvailable() {
 
-    ) {
     }
 
 

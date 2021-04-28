@@ -1,8 +1,10 @@
 package com.openclassrooms.realestatemanager.data.room.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import com.openclassrooms.realestatemanager.models.Photo
-import com.openclassrooms.realestatemanager.models.Property
 
 @Dao
 interface PhotoDao {
@@ -12,20 +14,19 @@ interface PhotoDao {
     @Insert
     suspend fun insertPhotos(photos: List<Photo>): LongArray
 
-    @Query("SELECT * FROM estate_photos WHERE id = :id")
-    suspend fun getPropertyById(id: Int): Property
+
+    //Get Photos List
+    @Query("SELECT * FROM estate_photos ORDER BY name ASC")
+    suspend fun getAllPhotos(): List<Photo>
 
     @Query("DELETE FROM  estate_photos WHERE id IN (:ids)")
     suspend fun deletePhotos(ids: List<Int>): Int
 
     @Query("DELETE FROM  estate_photos WHERE id = :primaryKey")
-    suspend fun deletePhoto(primaryKey: PrimaryKey): Int
+    suspend fun deletePhoto(primaryKey: Int): Int
 
     //Update Photo
     @Update
     suspend fun updatePhoto(photo: Photo)
 
-    //Update Photos
-    @Update
-    suspend fun updatePhotos(photos: List<Photo>)
 }
