@@ -4,19 +4,20 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.openclassrooms.realestatemanager.cache.model.AgentEntity
 
 @Dao
 interface AgentDao {
 
-    //Insert AgentCacheEntity
+    //Insert AgentEntity
     @Insert
-    suspend fun insertAgent(agent: AgentCacheEntity): Long
+    suspend fun insertAgent(agent: AgentEntity): Long
 
-    //Get AgentCacheEntity by Id
+    //Get AgentEntity by Id
     @Query("SELECT * FROM agent WHERE id = :id")
-    suspend fun getAgentById(id: Int): AgentCacheEntity
+    suspend fun getAgentById(id: Int): AgentEntity
 
-    //Update AgentCacheEntity
+    //Update AgentEntity
     @Update
-    suspend fun updateAgent(agent: AgentCacheEntity)
+    suspend fun updateAgent(agent: AgentEntity)
 }

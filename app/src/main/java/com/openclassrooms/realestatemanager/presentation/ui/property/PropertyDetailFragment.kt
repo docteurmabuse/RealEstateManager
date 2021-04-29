@@ -11,7 +11,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.presentation.ui.dummy.DummyContent
 
 /**
- * A fragment representing a single PropertyCacheEntity detail screen.
+ * A fragment representing a single PropertyEntity detail screen.
  * This fragment is either contained in a [MainActivity]
  * in two-pane mode (on tablets) or a [PropertyDetailActivity]
  * on handsets.

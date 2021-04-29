@@ -1,25 +1,26 @@
 package com.openclassrooms.realestatemanager.cache.dao
 
 import androidx.room.*
+import com.openclassrooms.realestatemanager.cache.model.PropertyEntity
 
 @Dao
 interface PropertyDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertProperty(property: PropertyCacheEntity): Long
+    suspend fun insertProperty(property: PropertyEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertProperties(properties: List<PropertyCacheEntity>): LongArray
+    suspend fun insertProperties(properties: List<PropertyEntity>): LongArray
 
-    //Get PropertyCacheEntity by Id
+    //Get PropertyEntity by Id
     @Query("SELECT * FROM properties WHERE id = :id")
-    suspend fun getPropertyById(id: Int): PropertyCacheEntity
+    suspend fun getPropertyById(id: Int): PropertyEntity
 
     //Get Properties List
     @Query("SELECT * FROM properties ORDER BY sell_date DESC")
-    suspend fun getAllProperties(): List<PropertyCacheEntity>
+    suspend fun getAllProperties(): List<PropertyEntity>
 
-    //Update PropertyCacheEntity
+    //Update PropertyEntity
     @Update
-    suspend fun updateProperty(property: PropertyCacheEntity)
+    suspend fun updateProperty(property: PropertyEntity)
 }

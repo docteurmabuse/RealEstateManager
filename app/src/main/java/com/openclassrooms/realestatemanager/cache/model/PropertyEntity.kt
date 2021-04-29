@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.cache.dao
+package com.openclassrooms.realestatemanager.cache.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -11,12 +11,12 @@ import kotlinx.parcelize.Parcelize
 @Entity(
     tableName = "properties",
     foreignKeys = [ForeignKey(
-        entity = AgentCacheEntity::class,
+        entity = AgentEntity::class,
         parentColumns = ["id"],
         childColumns = ["agent_id"]
     )],
 )
-data class PropertyCacheEntity(
+data class PropertyEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     var type: String = "House",

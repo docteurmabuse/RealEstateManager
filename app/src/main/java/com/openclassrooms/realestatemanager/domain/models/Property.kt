@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.domain.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import java.util.*
 
 @Parcelize
 data class Property(
@@ -26,7 +27,7 @@ data class Property(
     var hospital: Boolean?,
     var museum: Boolean?,
     var sold: Boolean = false,
-    var sellDate: Long,
-    var soldDate: Long,
+    var sellDate: Date,
+    var soldDate: Date,
     var agentId: Int = 1
 ) : Parcelable

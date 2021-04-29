@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.cache.dao
+package com.openclassrooms.realestatemanager.cache.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "estate_photos", foreignKeys = [ForeignKey(
-        entity = PropertyCacheEntity::class,
+        entity = PropertyEntity::class,
         parentColumns = ["id"],
         childColumns = ["property_id"]
     )]
 )
-data class PhotoCacheEntity(
+data class PhotoEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Int,
     @ColumnInfo(name = "property_id", index = true)
