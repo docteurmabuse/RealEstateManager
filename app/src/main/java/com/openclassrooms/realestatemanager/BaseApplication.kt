@@ -10,4 +10,5 @@ class BaseApplication : Application() {
         super.onCreate()
         AppWatcher.config = AppWatcher.config.copy(watchFragmentViews = false)
     }
+
 }

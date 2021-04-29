@@ -7,16 +7,14 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import android.util.Log
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
+import com.openclassrooms.realestatemanager.utils.Constant.TAG
+import com.openclassrooms.realestatemanager.utils.Constant.USD_PRICE_EURO
 import kotlin.math.roundToInt
 
 /**
  * Created by Philippe on 21/02/2018.
  */
 object Utils {
-    val TAG = "c-Manager"
 
     /**
      * Conversion d'un prix d'un bien immobilier (Dollars vers Euros)
@@ -27,7 +25,7 @@ object Utils {
      */
     @JvmStatic
     fun convertDollarToEuro(dollars: Int): Int? {
-        return (dollars * 0.83025).roundToInt().toInt()
+        return (dollars / USD_PRICE_EURO).roundToInt()
     }
 
     /**
@@ -37,20 +35,9 @@ object Utils {
      * @return
      */
     fun convertEuroToDollar(euros: Int): Int? {
-        return (euros * 1.20336).roundToInt().toInt()
+        return (euros * USD_PRICE_EURO).roundToInt()
     }
 
-    /**
-     * Conversion de la date d'aujourd'hui en un format plus approprié
-     * NOTE : NE PAS SUPPRIMER, A MONTRER DURANT LA SOUTENANCE
-     *
-     * @return
-     */
-    val todayDate: String
-        get() {
-            val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE)
-            return dateFormat.format(Date())
-        }
 
     /**
      * Vérification de la connexion réseau

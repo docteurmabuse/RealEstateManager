@@ -1,12 +1,13 @@
 package com.openclassrooms.realestatemanager.utils
 
 import android.util.Log
-import com.openclassrooms.realestatemanager.utils.Utils.TAG
 import java.io.IOException
 import java.net.InetSocketAddress
 import javax.net.SocketFactory
 
 object DoesNetworkHaveInternet {
+    private const val TAG: String = "socketFactory"
+
     fun execute(socketFactory: SocketFactory): Boolean {
         return try {
             Log.d(TAG, "execute: PINGING GOOGLE")

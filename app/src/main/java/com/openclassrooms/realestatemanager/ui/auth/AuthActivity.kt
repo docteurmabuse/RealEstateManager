@@ -1,9 +1,9 @@
 package com.openclassrooms.realestatemanager.ui.auth
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.firebase.ui.auth.AuthMethodPickerLayout
 import com.firebase.ui.auth.AuthUI
@@ -14,24 +14,24 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityAuthBinding
+import com.openclassrooms.realestatemanager.ui.BaseActivity
 import com.openclassrooms.realestatemanager.ui.property.MainActivity
 import com.openclassrooms.realestatemanager.utils.Constant.RC_SIGN_IN
 import com.openclassrooms.realestatemanager.utils.FirebaseAuthContract
-import com.openclassrooms.realestatemanager.utils.Utils
 
 
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : BaseActivity() {
     private lateinit var binding: ActivityAuthBinding
 
     private val firebaseAuthContract =
         registerForActivityResult(FirebaseAuthContract()) { result ->
             if (result != null) {
                 //  this.createUserInFirestore();
-                Log.d(Utils.TAG, "auth: start MainActivity")
+                Log.d(TAG, "auth: start MainActivity")
                 startMainActivity()
                 showSnackBar(binding.root, getString(R.string.connection_succeed))
             } else {
-                Log.e(Utils.TAG, "auth: authentication error")
+                Log.e(TAG, "auth: authentication error")
                 finish()
             }
         }
@@ -39,15 +39,22 @@ class AuthActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
-        // setContentView(binding.root)
+        setContentView(binding.root)
         firebaseAuthContract.launch(RC_SIGN_IN)
         // startSignInActivity()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (this.isCurrentUserLogged() == true) {
+            startMainActivity()
+        }
     }
 
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        Log.d(Utils.TAG, "auth: start MainActivity")
+        Log.d(TAG, "auth: start MainActivity")
     }
 
     private fun showSnackBar(view: ConstraintLayout, message: String?) {
@@ -88,10 +95,11 @@ class AuthActivity : AppCompatActivity() {
             } else { // ERRORS
                 if (response == null) {
                     showSnackBar(binding.root, getString(R.string.connection_succeed))
-                    Log.e(Utils.TAG, "auth: authentication error")
+                    Log.e(TAG, "auth: authentication error")
                     finish()
                 }
             }
         }
     }
+
 }
