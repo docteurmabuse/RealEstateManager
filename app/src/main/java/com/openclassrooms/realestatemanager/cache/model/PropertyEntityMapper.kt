@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.cache.model
 
-import com.openclassrooms.realestatemanager.domain.models.Property
-import com.openclassrooms.realestatemanager.domain.models.util.DomainMapper
+import com.openclassrooms.realestatemanager.domain.model.Property
+import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper
 import com.openclassrooms.realestatemanager.utils.DateUtil
 
 class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {

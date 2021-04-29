@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.domain.models
+package com.openclassrooms.realestatemanager.domain.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
