@@ -17,9 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.BaseActivity"
+            android:name="com.openclassrooms.realestatemanager.presentation.ui.BaseActivity"
             android:exported="true" />
-        <activity android:name=".ui.auth.AuthActivity">
+        <activity android:name="com.openclassrooms.realestatemanager.presentation.ui.auth.AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,26 +27,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.property.MainActivity"
+            android:name="com.openclassrooms.realestatemanager.presentation.ui.property.MainActivity"
             android:label="@string/title_property_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ui.property.PropertyDetailActivity"
+            android:name="com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailActivity"
             android:label="@string/title_property_detail"
-            android:parentActivityName=".ui.property.MainActivity"
+            android:parentActivityName="com.openclassrooms.realestatemanager.presentation.ui.property.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.openclassrooms.realestatemanager.ui.property.MainActivity" />
+                android:value="com.openclassrooms.realestatemanager.presentation.ui.property.MainActivity" />
         </activity>
-        <activity android:name=".MainActivity2">
+        <activity android:name=".presentation.MainActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SecondActivity" />
+        <activity android:name=".presentation.SecondActivity" />
     </application>
 
 </manifest>

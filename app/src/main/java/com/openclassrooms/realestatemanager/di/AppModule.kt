@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.di
 
 import android.content.Context
-import com.openclassrooms.realestatemanager.BaseApplication
+import com.openclassrooms.realestatemanager.presentation.BaseApplication
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
