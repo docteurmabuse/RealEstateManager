@@ -41,7 +41,6 @@ class AuthActivity : BaseActivity() {
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
         firebaseAuthContract.launch(RC_SIGN_IN)
-        // startSignInActivity()
     }
 
     override fun onResume() {
