@@ -5,6 +5,7 @@ import com.openclassrooms.realestatemanager.cache.dao.AgentDao
 import com.openclassrooms.realestatemanager.cache.dao.PhotoDao
 import com.openclassrooms.realestatemanager.cache.dao.PropertyDao
 import com.openclassrooms.realestatemanager.cache.database.PropertyDatabase
+import com.openclassrooms.realestatemanager.cache.model.PropertyEntityMapper
 import com.openclassrooms.realestatemanager.presentation.BaseApplication
 import dagger.Module
 import dagger.Provides
@@ -43,5 +44,11 @@ object RoomModule {
     @Provides
     fun providesAgentDao(app: PropertyDatabase): AgentDao {
         return app.agentDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providePropertyEntityMapper(): PropertyEntityMapper {
+        return PropertyEntityMapper()
     }
 }
