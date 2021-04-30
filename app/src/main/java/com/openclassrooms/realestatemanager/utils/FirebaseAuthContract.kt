@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.interactors.app
+package com.openclassrooms.realestatemanager.utils
 
 import android.app.Activity.RESULT_OK
 import android.content.Context

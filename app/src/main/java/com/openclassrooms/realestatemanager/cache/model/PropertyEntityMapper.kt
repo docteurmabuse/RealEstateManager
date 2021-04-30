@@ -21,6 +21,7 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
             zipCode = model.zipCode,
             state = model.state,
             country = model.country,
+            area = model.area,
             schools = model.schools,
             shops = model.shops,
             parcs = model.parcs,
@@ -50,6 +51,7 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
             zipCode = domainModel.zipCode,
             state = domainModel.state,
             country = domainModel.country,
+            area = domainModel.area,
             schools = domainModel.schools,
             shops = domainModel.shops,
             parcs = domainModel.parcs,
@@ -61,5 +63,13 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
             soldDate = DateUtil.dateToLong(domainModel.soldDate),
             agentId = domainModel.agentId
         )
+    }
+
+    fun fromPropertyEntityList(initial: List<PropertyEntity>): List<Property> {
+        return initial.map { mapToDomainModel(it) }
+    }
+
+    fun toPropertyEntityList(initial: List<Property>): List<PropertyEntity> {
+        return initial.map { mapFromDomainModel(it) }
     }
 }

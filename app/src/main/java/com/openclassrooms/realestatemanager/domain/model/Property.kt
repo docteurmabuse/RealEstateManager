@@ -20,6 +20,7 @@ data class Property(
     var zipCode: Int,
     var state: String? = "NY",
     var country: String = "United States",
+    var area: String?,
     var schools: Boolean?,
     var shops: Boolean?,
     var parcs: Boolean?,
