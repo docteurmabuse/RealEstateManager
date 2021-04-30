@@ -7,8 +7,6 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import android.util.Log
-import com.openclassrooms.realestatemanager.utils.Constant.TAG
-import com.openclassrooms.realestatemanager.utils.Constant.USD_PRICE_EURO
 import kotlin.math.roundToInt
 
 /**
