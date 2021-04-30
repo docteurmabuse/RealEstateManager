@@ -30,19 +30,19 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun providesPropertyDao(app: PropertyDatabase): PropertyDao {
+    fun providePropertyDao(app: PropertyDatabase): PropertyDao {
         return app.propertyDao()
     }
 
     @Singleton
     @Provides
-    fun providesPhotoDao(app: PropertyDatabase): PhotoDao {
+    fun providePhotoDao(app: PropertyDatabase): PhotoDao {
         return app.photoDao()
     }
 
     @Singleton
     @Provides
-    fun providesAgentDao(app: PropertyDatabase): AgentDao {
+    fun provideAgentDao(app: PropertyDatabase): AgentDao {
         return app.agentDao()
     }
 
