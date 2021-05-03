@@ -21,7 +21,7 @@ interface PropertyDao {
 
     //Get PropertyEntity by Id
     @Query("SELECT * FROM properties WHERE id = :id")
-    suspend fun getPropertyById(id: Int): PropertyEntity
+    suspend fun getPropertyById(id: Int): PropertyEntityAggregate
 
     //Get PropertiesEntity List
     @Query("SELECT * FROM properties ORDER BY sell_date DESC")
@@ -35,5 +35,5 @@ interface PropertyDao {
 
     //Update PropertyEntity
     @Update
-    suspend fun updateProperty(property: PropertyEntity)
+    suspend fun updateProperty(property: PropertyEntityAggregate)
 }

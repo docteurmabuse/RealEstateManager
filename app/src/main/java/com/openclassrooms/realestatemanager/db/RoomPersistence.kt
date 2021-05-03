@@ -29,12 +29,12 @@ class RoomPersistence @Inject constructor(
         return propertyDao.insertPropertyAggregate(property, photos, videos)
     }
 
-    override suspend fun getPropertyById(): PropertyEntityAggregate {
-        TODO("Not yet implemented")
+    override suspend fun getPropertyById(propertyId: Int): PropertyEntityAggregate {
+        return propertyDao.getPropertyById(propertyId)
     }
 
     override suspend fun updateProperty(property: PropertyEntityAggregate) {
-        TODO("Not yet implemented")
+        return propertyDao.updateProperty(property)
     }
 
 }

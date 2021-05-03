@@ -9,7 +9,7 @@ import com.openclassrooms.realestatemanager.db.model.property.VideoEntity
 interface Persistence {
     suspend fun getAllProperties(): List<PropertyEntityAggregate>
 
-    suspend fun getPropertyById(): PropertyEntityAggregate
+    suspend fun getPropertyById(propertyId: Int): PropertyEntityAggregate
 
     suspend fun storeAgent(agent: AgentEntity): Long
 
