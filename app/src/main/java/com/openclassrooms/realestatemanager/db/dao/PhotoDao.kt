@@ -1,10 +1,10 @@
-package com.openclassrooms.realestatemanager.cache.dao
+package com.openclassrooms.realestatemanager.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.openclassrooms.realestatemanager.cache.model.PhotoEntity
+import com.openclassrooms.realestatemanager.db.model.property.PhotoEntity
 
 @Dao
 interface PhotoDao {

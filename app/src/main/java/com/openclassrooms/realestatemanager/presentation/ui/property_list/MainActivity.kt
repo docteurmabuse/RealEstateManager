@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.presentation.ui.property
+package com.openclassrooms.realestatemanager.presentation.ui.property_list
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +14,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.presentation.ui.dummy.DummyContent
+import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailActivity
+import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 
 /**
  * An activity representing a list of Pings. This activity

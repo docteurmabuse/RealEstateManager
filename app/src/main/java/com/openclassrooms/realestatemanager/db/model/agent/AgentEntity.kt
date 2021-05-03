@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.cache.model
+package com.openclassrooms.realestatemanager.db.model.agent
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

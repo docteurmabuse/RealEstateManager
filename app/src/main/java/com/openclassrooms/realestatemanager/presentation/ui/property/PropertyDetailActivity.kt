@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.presentation.ui.property_list.MainActivity
 
 /**
  * An activity representing a single PropertyEntity detail screen. This

@@ -10,7 +10,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".presentation.ui.property.MainActivity">
+    tools:context=".presentation.ui.property_list.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/property_list"
@@ -20,6 +20,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".presentation.ui.property.MainActivity"
+        tools:context=".presentation.ui.property_list.MainActivity"
         tools:listitem="@layout/property_list_content" />
 </LinearLayout>

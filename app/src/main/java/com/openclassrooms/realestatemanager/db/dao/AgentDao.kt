@@ -1,10 +1,10 @@
-package com.openclassrooms.realestatemanager.cache.dao
+package com.openclassrooms.realestatemanager.db.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.openclassrooms.realestatemanager.cache.model.AgentEntity
+import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 
 @Dao
 interface AgentDao {

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.cache.model
+package com.openclassrooms.realestatemanager.db.model.agent
 
 import com.openclassrooms.realestatemanager.domain.model.Agent
 import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper

@@ -3,6 +3,13 @@ package com.openclassrooms.realestatemanager.repository
 import com.openclassrooms.realestatemanager.domain.model.Property
 
 interface PropertyRepository {
-    suspend fun search(query: String): List<Property>
-    suspend fun get(id: Int): Property
+    suspend fun addProperty(property: Property)
+
+    suspend fun searchProperty(query: String): List<Property>
+
+    suspend fun getAllProperties(): List<Property>
+
+    suspend fun getPropertyById(id: Int): Property
+
+    suspend fun updateProperty(property: Property)
 }

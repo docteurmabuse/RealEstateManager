@@ -27,17 +27,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.openclassrooms.realestatemanager.presentation.ui.property.MainActivity"
+            android:name="com.openclassrooms.realestatemanager.presentation.ui.property_list.MainActivity"
             android:label="@string/title_property_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailActivity"
             android:label="@string/title_property_detail"
-            android:parentActivityName="com.openclassrooms.realestatemanager.presentation.ui.property.MainActivity"
+            android:parentActivityName="com.openclassrooms.realestatemanager.presentation.ui.property_list.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.openclassrooms.realestatemanager.presentation.ui.property.MainActivity" />
+                android:value="com.openclassrooms.realestatemanager.presentation.ui.property_list.MainActivity" />
         </activity>
         <activity android:name=".presentation.MainActivity2">
             <intent-filter>

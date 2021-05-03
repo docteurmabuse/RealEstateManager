@@ -15,7 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityAuthBinding
 import com.openclassrooms.realestatemanager.presentation.ui.BaseActivity
-import com.openclassrooms.realestatemanager.presentation.ui.property.MainActivity
+import com.openclassrooms.realestatemanager.presentation.ui.property_list.MainActivity
 import com.openclassrooms.realestatemanager.utils.FirebaseAuthContract
 import com.openclassrooms.realestatemanager.utils.RC_SIGN_IN
 

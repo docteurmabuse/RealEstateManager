@@ -1,14 +1,19 @@
-package com.openclassrooms.realestatemanager.cache.model
+package com.openclassrooms.realestatemanager.db.model.property
 
+import com.openclassrooms.realestatemanager.domain.model.Media
 import com.openclassrooms.realestatemanager.domain.model.Property
 import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper
 import com.openclassrooms.realestatemanager.utils.DateUtil
 
 class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
-    override fun mapToDomainModel(model: PropertyEntity): Property {
+    fun mapToDomainModel(
+        model: PropertyEntity,
+        photos: List<PhotoEntity>,
+        videos: List<VideoEntity>
+    ): Property {
         return Property(
             id = model.id,
-            type = model.type,
+            type = Property.Type.valueOf(model.type.toString()),
             price = model.price,
             surface = model.surface,
             roomNumber = model.roomNumber,
@@ -31,6 +36,10 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
             sold = model.sold,
             sellDate = DateUtil.longToDate(model.soldDate),
             soldDate = DateUtil.longToDate(model.soldDate),
+            Media(
+                photos = photos.map { it.toDomain() },
+                videos = videos.map { it.toDomain() }
+            ),
             agentId = model.agentId
         )
     }
@@ -38,7 +47,7 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
     override fun mapFromDomainModel(domainModel: Property): PropertyEntity {
         return PropertyEntity(
             id = domainModel.id,
-            type = domainModel.type,
+            type = domainModel.type.toString(),
             price = domainModel.price,
             surface = domainModel.surface,
             roomNumber = domainModel.roomNumber,
@@ -72,4 +81,10 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
     fun toPropertyEntityList(initial: List<Property>): List<PropertyEntity> {
         return initial.map { mapFromDomainModel(it) }
     }
+
+    override fun mapToDomainModel(model: PropertyEntity): Property {
+        TODO("Not yet implemented")
+    }
+
+
 }

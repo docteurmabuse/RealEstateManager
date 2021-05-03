@@ -1,8 +1,9 @@
 package com.openclassrooms.realestatemanager.domain.model
 
-data class Photo(
+
+data class Video(
     var id: Int,
     var propertyId: Int,
     var name: String?,
-    var photoPath: String
+    var videoPath: String
 )

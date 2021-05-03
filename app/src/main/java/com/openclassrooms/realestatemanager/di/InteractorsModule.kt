@@ -1,8 +1,8 @@
 package com.openclassrooms.realestatemanager.di
 
-import com.openclassrooms.realestatemanager.cache.dao.PropertyDao
-import com.openclassrooms.realestatemanager.cache.model.PropertyEntityMapper
-import com.openclassrooms.realestatemanager.interactors.app.SearchProperties
+import com.openclassrooms.realestatemanager.db.dao.PropertyDao
+import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityMapper
+import com.openclassrooms.realestatemanager.interactors.property.SearchProperties
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

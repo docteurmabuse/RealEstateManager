@@ -1,7 +1,7 @@
-package com.openclassrooms.realestatemanager.interactors.app
+package com.openclassrooms.realestatemanager.interactors.property
 
-import com.openclassrooms.realestatemanager.cache.dao.PropertyDao
-import com.openclassrooms.realestatemanager.cache.model.PropertyEntityMapper
+import com.openclassrooms.realestatemanager.db.dao.PropertyDao
+import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityMapper
 import com.openclassrooms.realestatemanager.domain.model.Property
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import kotlinx.coroutines.flow.Flow
