@@ -65,6 +65,9 @@ android {
 }
 
 dependencies {
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
     implementation AndroidX.core_ktx
     implementation AndroidX.app_compat
     implementation AndroidX.constraint_layout

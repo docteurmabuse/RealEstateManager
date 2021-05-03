@@ -90,40 +90,39 @@ data class PropertyEntity(
     }
 
     fun toDomain(
-        model: PropertyEntity,
         photos: List<PhotoEntity>,
         videos: List<VideoEntity>
     ): Property {
         return Property(
-            id = model.id,
-            type = Property.Type.valueOf(model.type.toString()),
-            price = model.price,
-            surface = model.surface,
-            roomNumber = model.roomNumber,
-            bathroomNumber = model.bathroomNumber,
-            bedroomNumber = model.bedroomNumber,
-            description = model.description,
-            address1 = model.address1,
-            address2 = model.address2,
-            city = model.city,
-            zipCode = model.zipCode,
-            state = model.state,
-            country = model.country,
-            area = model.area,
-            schools = model.schools,
-            shops = model.shops,
-            parcs = model.parcs,
-            stations = model.stations,
-            hospital = model.hospital,
-            museum = model.museum,
-            sold = model.sold,
-            sellDate = DateUtil.longToDate(model.soldDate),
-            soldDate = DateUtil.longToDate(model.soldDate),
+            id = id,
+            type = Property.Type.valueOf(type.toString()),
+            price = price,
+            surface = surface,
+            roomNumber = roomNumber,
+            bathroomNumber = bathroomNumber,
+            bedroomNumber = bedroomNumber,
+            description = description,
+            address1 = address1,
+            address2 = address2,
+            city = city,
+            zipCode = zipCode,
+            state = state,
+            country = country,
+            area = area,
+            schools = schools,
+            shops = shops,
+            parcs = parcs,
+            stations = stations,
+            hospital = hospital,
+            museum = museum,
+            sold = sold,
+            sellDate = DateUtil.longToDate(soldDate),
+            soldDate = DateUtil.longToDate(soldDate),
             Media(
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
             ),
-            agentId = model.agentId
+            agentId = agentId
         )
     }
 }

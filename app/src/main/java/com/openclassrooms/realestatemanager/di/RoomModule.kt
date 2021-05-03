@@ -1,12 +1,15 @@
 package com.openclassrooms.realestatemanager.di
 
 import androidx.room.Room
+import com.openclassrooms.realestatemanager.db.Persistence
+import com.openclassrooms.realestatemanager.db.RoomPersistence
 import com.openclassrooms.realestatemanager.db.dao.AgentDao
 import com.openclassrooms.realestatemanager.db.dao.PhotoDao
 import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityMapper
 import com.openclassrooms.realestatemanager.presentation.BaseApplication
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +18,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RoomModule {
+abstract class RoomModule {
+
+    @Binds
+    abstract fun bindPersistence(persistence: RoomPersistence): Persistence
+
     @Singleton
     @Provides
     fun provideRoomDb(app: BaseApplication): PropertyDatabase {

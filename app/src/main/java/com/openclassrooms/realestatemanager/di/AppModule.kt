@@ -2,6 +2,9 @@ package com.openclassrooms.realestatemanager.di
 
 import android.content.Context
 import com.openclassrooms.realestatemanager.presentation.BaseApplication
+import com.openclassrooms.realestatemanager.utils.CoroutineDispatchersProvider
+import com.openclassrooms.realestatemanager.utils.DispatchersProvider
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,10 +14,14 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+abstract class AppModule {
     @Singleton
     @Provides
     fun provideApplication(@ApplicationContext app: Context): BaseApplication {
         return app as BaseApplication
     }
+
+    @Binds
+    abstract fun bindDispatchersProvider(dispatchersProvider: CoroutineDispatchersProvider):
+            DispatchersProvider
 }

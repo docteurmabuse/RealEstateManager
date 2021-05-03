@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.interactors.property
 
 import com.openclassrooms.realestatemanager.db.dao.PropertyDao
+import com.openclassrooms.realestatemanager.db.model.property.PropertyEntity
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityMapper
 import com.openclassrooms.realestatemanager.domain.model.Property
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
@@ -28,7 +29,8 @@ class SearchProperties(
             }
 
             //emit LIst<Property> from Room
-            val list = propertyEntityMapper.fromPropertyEntityList(propertyResult)
+            val list =
+                propertyEntityMapper.fromPropertyEntityList(propertyResult as List<PropertyEntity>)
 
             emit(DataState.success(list))
         } catch (e: Exception) {
