@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import com.openclassrooms.realestatemanager.domain.model.Property
 
+
 class PropertyEntityAggregate(
     @Embedded
     val property: PropertyEntity,
