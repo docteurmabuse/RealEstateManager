@@ -13,7 +13,7 @@ interface Persistence {
 
     suspend fun storeProperty(
         property: PropertyEntityAggregate
-    ): Long
+    )
 
     suspend fun updateProperty(property: PropertyEntityAggregate)
 }

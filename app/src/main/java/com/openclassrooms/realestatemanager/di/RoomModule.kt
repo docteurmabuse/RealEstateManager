@@ -23,39 +23,43 @@ abstract class RoomModule {
     @Binds
     abstract fun bindPersistence(persistence: RoomPersistence): Persistence
 
-    @Singleton
-    @Provides
-    fun provideRoomDb(app: BaseApplication): PropertyDatabase {
-        return Room.databaseBuilder(
-            app,
-            PropertyDatabase::class.java,
-            PropertyDatabase.DATABASE_BASE
-        )
-            .fallbackToDestructiveMigration()
-            .build()
+    companion object {
+
+        @Singleton
+        @Provides
+        fun provideRoomDb(app: BaseApplication): PropertyDatabase {
+            return Room.databaseBuilder(
+                app,
+                PropertyDatabase::class.java,
+                PropertyDatabase.DATABASE_BASE
+            )
+                .fallbackToDestructiveMigration()
+                .build()
+        }
+
+        @Singleton
+        @Provides
+        fun providePropertyDao(app: PropertyDatabase): PropertyDao {
+            return app.propertyDao()
+        }
+
+        @Singleton
+        @Provides
+        fun providePhotoDao(app: PropertyDatabase): PhotoDao {
+            return app.photoDao()
+        }
+
+        @Singleton
+        @Provides
+        fun provideAgentDao(app: PropertyDatabase): AgentDao {
+            return app.agentDao()
+        }
+
+        @Singleton
+        @Provides
+        fun providePropertyEntityMapper(): PropertyEntityMapper {
+            return PropertyEntityMapper()
+        }
     }
 
-    @Singleton
-    @Provides
-    fun providePropertyDao(app: PropertyDatabase): PropertyDao {
-        return app.propertyDao()
-    }
-
-    @Singleton
-    @Provides
-    fun providePhotoDao(app: PropertyDatabase): PhotoDao {
-        return app.photoDao()
-    }
-
-    @Singleton
-    @Provides
-    fun provideAgentDao(app: PropertyDatabase): AgentDao {
-        return app.agentDao()
-    }
-
-    @Singleton
-    @Provides
-    fun providePropertyEntityMapper(): PropertyEntityMapper {
-        return PropertyEntityMapper()
-    }
 }

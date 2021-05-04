@@ -22,7 +22,7 @@ class RoomPersistence @Inject constructor(
 
     override suspend fun storeProperty(
         property: PropertyEntityAggregate,
-    ): Long {
+    ) {
         return propertyDao.insertProperty(property)
     }
 

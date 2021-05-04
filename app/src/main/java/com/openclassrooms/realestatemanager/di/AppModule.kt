@@ -15,13 +15,16 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AppModule {
-    @Singleton
-    @Provides
-    fun provideApplication(@ApplicationContext app: Context): BaseApplication {
-        return app as BaseApplication
-    }
 
     @Binds
     abstract fun bindDispatchersProvider(dispatchersProvider: CoroutineDispatchersProvider):
             DispatchersProvider
+
+    companion object {
+        @Singleton
+        @Provides
+        fun provideApplication(@ApplicationContext app: Context): BaseApplication {
+            return app as BaseApplication
+        }
+    }
 }
