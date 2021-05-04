@@ -32,12 +32,13 @@ class PropertyRepository_Impl @Inject constructor(
             }
     }
 
-    override suspend fun getPropertyById(id: Int): Property {
+    override suspend fun getPropertyById(propertyId: Int): Property {
         TODO("Not yet implemented")
+        //return persistence.getPropertyById(propertyId)
     }
 
     override suspend fun updateProperty(property: Property) {
-        TODO("Not yet implemented")
+        persistence.updateProperty(PropertyEntityAggregate.fromDomain(property))
     }
 
 
