@@ -24,11 +24,12 @@ interface PropertyDao {
             propertyAggregate.videos
         )
     }
-
+    @Transaction
     //Get PropertyEntity by Id
     @Query("SELECT * FROM properties WHERE id = :id")
     suspend fun getPropertyById(id: Int): PropertyEntityAggregate
 
+    @Transaction
     //Get PropertiesEntity List
     @Query("SELECT * FROM properties ORDER BY sell_date DESC")
     suspend fun getAllProperties(): Flow<List<PropertyEntityAggregate>>

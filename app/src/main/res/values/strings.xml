@@ -6,4 +6,5 @@
     <string name="connection_succeed">Connection succeed</string>
     <string name="error_no_internet">No Internet</string>
     <string name="error_unknown_error">Unknown error</string>
+    <string name="price">Price</string>
 </resources>

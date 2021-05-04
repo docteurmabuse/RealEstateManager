@@ -10,6 +10,8 @@ interface PropertyRepository {
 
     suspend fun getAllProperties(): Flow<List<Property>>
 
+    fun getPropertyTypes(): List<Property.Type>
+
     suspend fun getPropertyById(id: Int): Property
 
     suspend fun updateProperty(property: Property)

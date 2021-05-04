@@ -8,9 +8,10 @@ import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import com.openclassrooms.realestatemanager.db.model.property.PhotoEntity
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntity
+import com.openclassrooms.realestatemanager.db.model.property.VideoEntity
 
 @Database(
-    entities = [PropertyEntity::class, PhotoEntity::class, AgentEntity::class],
+    entities = [PropertyEntity::class, PhotoEntity::class, VideoEntity::class, AgentEntity::class],
     exportSchema = false,
     version = 1
 )

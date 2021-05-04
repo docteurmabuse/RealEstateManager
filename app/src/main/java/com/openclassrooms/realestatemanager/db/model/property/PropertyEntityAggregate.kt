@@ -8,12 +8,12 @@ class PropertyEntityAggregate(
     @Embedded
     val property: PropertyEntity,
     @Relation(
-        parentColumn = "property_id",
+        parentColumn = "id",
         entityColumn = "property_id"
     )
     val photos: List<PhotoEntity>,
     @Relation(
-        parentColumn = "property_id",
+        parentColumn = "id",
         entityColumn = "property_id"
     )
     val videos: List<VideoEntity>,
