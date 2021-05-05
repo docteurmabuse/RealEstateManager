@@ -10,7 +10,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".presentation.ui.property_list.MainActivity">
+    tools:context=".presentation.ui.property_list.MainActivity2">
 
     <!--
     This layout is a two-pane layout for the Properties master/detail flow.
@@ -25,7 +25,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".presentation.ui.property_list.MainActivity"
+        tools:context=".presentation.ui.property_list.MainActivity2"
         tools:listitem="@layout/property_list_content" />
 
     <FrameLayout

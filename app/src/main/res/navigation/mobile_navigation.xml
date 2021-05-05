@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_property_list">
+    <fragment
+        android:id="@+id/navigation_property_list"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyFragment"
+        android:label="@string/title_property_list"
+        tools:layout="@layout/fragment_property_list" />
+    <fragment
+        android:id="@+id/navigation_property_map"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.property_map.MapFragment"
+        android:label="@string/title_properties_map"
+        tools:layout="@layout/fragment_map" />
+</navigation>

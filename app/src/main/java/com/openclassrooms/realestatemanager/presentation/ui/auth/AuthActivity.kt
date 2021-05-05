@@ -14,10 +14,11 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityAuthBinding
+import com.openclassrooms.realestatemanager.presentation.MainActivity
 import com.openclassrooms.realestatemanager.presentation.ui.BaseActivity
-import com.openclassrooms.realestatemanager.presentation.ui.property_list.MainActivity
 import com.openclassrooms.realestatemanager.utils.FirebaseAuthContract
 import com.openclassrooms.realestatemanager.utils.RC_SIGN_IN
+import timber.log.Timber
 
 
 class AuthActivity : BaseActivity() {
@@ -27,7 +28,7 @@ class AuthActivity : BaseActivity() {
         registerForActivityResult(FirebaseAuthContract()) { result ->
             if (result != null) {
                 //  this.createUserInFirestore();
-                Log.d(TAG, "auth: start MainActivity")
+                Log.d(TAG, "auth: start MainActivity2")
                 startMainActivity()
                 showSnackBar(binding.root, getString(R.string.connection_succeed))
             } else {
@@ -53,7 +54,7 @@ class AuthActivity : BaseActivity() {
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-        Log.d(TAG, "auth: start MainActivity")
+        Timber.d("auth: start MainActivity")
     }
 
     private fun showSnackBar(view: ConstraintLayout, message: String?) {

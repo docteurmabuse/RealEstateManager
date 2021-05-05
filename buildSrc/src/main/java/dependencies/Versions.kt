@@ -38,6 +38,8 @@ object Versions {
     const val firebase_ui = "7.1.1"
     const val recycler_view = "1.2.0"
     const val activity = "1.2.2"
+    const val navigation = "2.3.5"
+    const val sliding_panel_layout = "1.2.0-alpha01"
 
 
 }

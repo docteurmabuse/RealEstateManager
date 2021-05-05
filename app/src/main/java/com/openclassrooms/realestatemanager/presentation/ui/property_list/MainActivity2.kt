@@ -25,7 +25,7 @@ import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDet
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity2 : AppCompatActivity() {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_property_list)
+        setContentView(R.layout.fragment_property_list2)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     class SimpleItemRecyclerViewAdapter(
-        private val parentActivity: MainActivity,
+        private val parentActivity: MainActivity2,
         private val values: List<DummyContent.DummyItem>,
         private val twoPane: Boolean
     ) :

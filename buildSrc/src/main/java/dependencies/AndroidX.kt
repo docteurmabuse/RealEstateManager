@@ -3,6 +3,12 @@ package dependencies
 object AndroidX {
 
     const val core_ktx = "androidx.core:core-ktx:${Versions.core_ktx}"
+    const val navigation_fragment_ktx =
+        "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    const val navigation_ui_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+    const val sliding_panel_layout =
+        "androidx.slidingpanelayout:slidingpanelayout:${Versions.sliding_panel_layout}"
+
     const val app_compat = "androidx.appcompat:appcompat:${Versions.app_compat}"
     const val recycler_view = "androidx.recyclerview:recyclerview:${Versions.recycler_view}"
     const val activity = "androidx.activity:activity-ktx:${Versions.activity}"

@@ -7,13 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.presentation.ui.property_list.MainActivity
+import com.openclassrooms.realestatemanager.presentation.ui.property_list.MainActivity2
 
 /**
  * An activity representing a single PropertyEntity detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a [MainActivity].
+ * in a [MainActivity2].
  */
 class PropertyDetailActivity : AppCompatActivity() {
 
@@ -66,7 +66,7 @@ class PropertyDetailActivity : AppCompatActivity() {
                 //
                 // http://developer.android.com/design/patterns/navigation.html#up-vs-back
 
-                navigateUpTo(Intent(this, MainActivity::class.java))
+                navigateUpTo(Intent(this, MainActivity2::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

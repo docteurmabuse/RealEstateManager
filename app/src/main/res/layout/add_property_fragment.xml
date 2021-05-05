@@ -22,6 +22,7 @@
             app:layout_goneMarginEnd="@dimen/marginEnd">
 
             <AutoCompleteTextView
+                android:labelFor="@id/type_input_layout"
                 android:id="@+id/type_dropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -48,5 +49,68 @@
                 android:textSize="@dimen/textSize"
                 app:layout_goneMarginEnd="@dimen/marginEnd" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/surface_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/price_input_layout"
+            app:layout_goneMarginEnd="@dimen/marginEnd">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/surface_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/marginStart"
+                android:layout_marginTop="@dimen/marginTop"
+                android:hint="@string/price"
+                android:textSize="@dimen/textSize"
+                app:layout_goneMarginEnd="@dimen/marginEnd" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/number_of_room_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/surface_input_layout"
+            app:layout_goneMarginEnd="@dimen/marginEnd">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/number_of_room_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/marginStart"
+                android:layout_marginTop="@dimen/marginTop"
+                android:hint="@string/price"
+                android:textSize="@dimen/textSize"
+                app:layout_goneMarginEnd="@dimen/marginEnd" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/number_of_bathroom_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/number_of_room_input_layout"
+            app:layout_goneMarginEnd="@dimen/marginEnd">
+
+            <NumberPicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/marginStart"
+                android:layout_marginTop="@dimen/marginTop"
+                app:layout_goneMarginEnd="@dimen/marginEnd" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

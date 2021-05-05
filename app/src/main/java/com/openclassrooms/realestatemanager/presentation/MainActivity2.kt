@@ -11,7 +11,7 @@ class MainActivity2 : AppCompatActivity() {
     private var textViewQuantity: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_main2)
         textViewMain = findViewById(R.id.activity_main_activity_text_view_main)
         textViewQuantity = findViewById(R.id.activity_main_activity_text_view_quantity)
         configureTextViewMain()
