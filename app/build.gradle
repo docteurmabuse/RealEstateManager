@@ -21,6 +21,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.openclassrooms.realestatemanager.repository.HiltTestRunner"
         multiDexEnabled true
     }
 
@@ -55,6 +56,12 @@ android {
     packagingOptions {
         exclude "META-INF/AL2.0"
         exclude "META-INF/LGPL2.1"
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
     }
 }
 
@@ -167,6 +174,14 @@ dependencies {
 
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0-RC'
 
+    //Hilt
+    // For Robolectric tests.
+    testImplementation 'com.google.dagger:hilt-android-testing:2.35'
+    // ...with Kotlin.
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.35'
+    // For instrumented tests.
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.35'
 }
 secrets {
     // Optionally specify a different file name containing your secrets.

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.data
 
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import java.util.*

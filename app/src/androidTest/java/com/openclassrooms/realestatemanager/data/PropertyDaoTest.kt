@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
@@ -75,7 +75,7 @@ class PropertyDaoTest {
         //Fake Property 1 should be equal to first agent in database
         assertEquals(property1.property.zipCode, firstProperty.property.zipCode)
         //Fake Property 2 should not be equal to first agent in database
-        Assert.assertNotEquals(property2, firstProperty)
+        Assert.assertNotEquals(property2.property.zipCode, firstProperty.property.zipCode)
         closeDb()
     }
 }

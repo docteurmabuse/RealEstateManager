@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.data
 
 import com.openclassrooms.realestatemanager.db.model.property.PhotoEntity
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntity

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager
+package com.openclassrooms.realestatemanager.data
 
 import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
