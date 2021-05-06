@@ -65,7 +65,7 @@ object PropertyFactory {
 
     private fun makeRandomVideo(): VideoEntity {
         return VideoEntity(
-            makeRandomInt(),
+            makeRandomLong(),
             propertyId,
             makeRandomString(),
             makeRandomString(),

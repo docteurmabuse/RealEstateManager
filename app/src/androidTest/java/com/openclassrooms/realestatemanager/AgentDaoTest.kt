@@ -55,6 +55,7 @@ class AgentDaoTest {
         val firstAgent = agentDao.getAllAgent().first()
         //First agent size should be 0
         assertEquals(0, firstAgent.size)
+        closeDb()
     }
 
 
@@ -75,6 +76,7 @@ class AgentDaoTest {
         assertEquals(agent1, firstAgent)
         //Fake agent 2 should not be equal to first agent in database
         assertNotEquals(agent2, firstAgent)
+        closeDb()
     }
 
     @Test
@@ -98,6 +100,7 @@ class AgentDaoTest {
         assertEquals(agent2, agent2Dao)
         //Fake agent2 should not be equal to agent1 of database
         assertNotEquals(agent2, agent1Dao)
+        closeDb()
     }
 
 }

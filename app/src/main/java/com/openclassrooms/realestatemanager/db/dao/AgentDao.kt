@@ -17,7 +17,7 @@ interface AgentDao {
 
     //Get AgentEntity by Id
     @Query("SELECT * FROM agent WHERE id = :id")
-    fun getAgentById(id: Int): Flow<AgentEntity>
+    fun getAgentById(id: Long): Flow<AgentEntity>
 
     //Update AgentEntity
     @Update

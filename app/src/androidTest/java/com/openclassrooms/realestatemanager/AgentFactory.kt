@@ -7,14 +7,15 @@ import java.util.concurrent.ThreadLocalRandom
 object AgentFactory {
     fun makeAgent(): AgentEntity {
         return AgentEntity(
-            makeRandomInt(),
+            makeRandomLong(),
             makeRandomString(),
             makeRandomString()
         )
     }
 
+    private fun makeRandomLong() =
+        ThreadLocalRandom.current().nextLong(0, 1000 + 1)
+
     private fun makeRandomString() = UUID.randomUUID().toString()
 
-    private fun makeRandomInt() =
-        ThreadLocalRandom.current().nextInt(0, 1000 + 1)
 }
