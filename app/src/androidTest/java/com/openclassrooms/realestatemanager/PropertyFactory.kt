@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager
 import com.openclassrooms.realestatemanager.db.model.property.PhotoEntity
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntity
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
+import com.openclassrooms.realestatemanager.db.model.property.VideoEntity
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
@@ -10,13 +11,16 @@ object PropertyFactory {
     fun makeProperty(): PropertyEntityAggregate {
         return PropertyEntityAggregate(
             makeRandomProperty(),
-
-            )
+            makeRandomPhotoList,
+            makeRandomVideoList
+        )
     }
 
-    private fun makeRandomMedia(): List<PhotoEntity> {
+    private val makeRandomPhotoList =
+        listOf(makeRandomPhoto(), makeRandomPhoto(), makeRandomPhoto())
+    private val makeRandomVideoList: List<VideoEntity> =
+        listOf(makeRandomVideo(), makeRandomVideo(), makeRandomVideo())
 
-    }
 
     private fun makeRandomProperty(): PropertyEntity {
         return PropertyEntity(
@@ -57,8 +61,8 @@ object PropertyFactory {
         )
     }
 
-    private fun makeRandomVideo(): PhotoEntity {
-        return PhotoEntity(
+    private fun makeRandomVideo(): VideoEntity {
+        return VideoEntity(
             makeRandomInt(),
             makeRandomInt(),
             makeRandomString(),
