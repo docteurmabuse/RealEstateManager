@@ -8,6 +8,15 @@ import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
 object PropertyFactory {
+
+    private val propertyId: Long = 1
+
+    private val makeRandomPhotoList =
+        listOf(makeRandomPhoto(), makeRandomPhoto(), makeRandomPhoto())
+
+    private val makeRandomVideoList: List<VideoEntity> =
+        listOf(makeRandomVideo(), makeRandomVideo(), makeRandomVideo())
+
     fun makeProperty(): PropertyEntityAggregate {
         return PropertyEntityAggregate(
             makeRandomProperty(),
@@ -15,14 +24,6 @@ object PropertyFactory {
             makeRandomVideoList
         )
     }
-
-    private val makeRandomPhotoList =
-        listOf(makeRandomPhoto(), makeRandomPhoto(), makeRandomPhoto())
-    private val makeRandomVideoList: List<VideoEntity> =
-        listOf(makeRandomVideo(), makeRandomVideo(), makeRandomVideo())
-
-    private val propertyId = makeRandomLong()
-
 
     private fun makeRandomProperty(): PropertyEntity {
         return PropertyEntity(
@@ -50,7 +51,7 @@ object PropertyFactory {
             makeRandomBoolean(),
             makeRandomLong(),
             makeRandomLong(),
-            makeRandomLong(),
+            1,
         )
     }
 

@@ -40,7 +40,7 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
             ),
-            agentId = model.agentId
+            agentId = model.agent_id
         )
     }
 
@@ -70,7 +70,7 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
             sold = domainModel.sold,
             sellDate = DateUtil.dateToLong(domainModel.soldDate),
             soldDate = DateUtil.dateToLong(domainModel.soldDate),
-            agentId = domainModel.agentId
+            agent_id = domainModel.agentId
         )
     }
 

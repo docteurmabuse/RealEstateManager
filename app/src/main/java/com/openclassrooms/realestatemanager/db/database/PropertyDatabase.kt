@@ -11,8 +11,11 @@ import com.openclassrooms.realestatemanager.db.model.property.PropertyEntity
 import com.openclassrooms.realestatemanager.db.model.property.VideoEntity
 
 @Database(
-    entities = [PropertyEntity::class, PhotoEntity::class, VideoEntity::class, AgentEntity::class],
-    exportSchema = false,
+    entities = [
+        AgentEntity::class,
+        PropertyEntity::class,
+        PhotoEntity::class,
+        VideoEntity::class],
     version = 1
 )
 abstract class PropertyDatabase : RoomDatabase() {

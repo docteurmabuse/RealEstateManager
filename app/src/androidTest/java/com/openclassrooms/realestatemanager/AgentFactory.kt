@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom
 object AgentFactory {
     fun makeAgent(): AgentEntity {
         return AgentEntity(
-            makeRandomLong(),
+            1,
             makeRandomString(),
             makeRandomString()
         )

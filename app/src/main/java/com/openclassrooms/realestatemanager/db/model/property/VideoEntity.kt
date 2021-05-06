@@ -17,7 +17,7 @@ data class VideoEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
     @ColumnInfo(name = "property_id", index = true)
-    var propertyId: Long,
+    var property_id: Long,
     var name: String?,
     @ColumnInfo(name = " video_path")
     var videoPath: String
@@ -26,7 +26,7 @@ data class VideoEntity(
     companion object {
         fun fromDomain(propertyId: Long, video: Media.Video): VideoEntity {
             return VideoEntity(
-                propertyId = propertyId,
+                property_id = propertyId,
                 name = video.name,
                 videoPath = video.videoPath
             )

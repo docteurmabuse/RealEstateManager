@@ -55,7 +55,7 @@ data class PropertyEntity(
     @ColumnInfo(name = "sold_date")
     var soldDate: Long,
     @ColumnInfo(name = "agent_id", index = true)
-    var agentId: Long = 1
+    var agent_id: Long = 1
 ) : Parcelable {
     companion object {
         fun fromDomain(domainModel: Property): PropertyEntity {
@@ -84,7 +84,7 @@ data class PropertyEntity(
                 sold = domainModel.sold,
                 sellDate = DateUtil.dateToLong(domainModel.soldDate),
                 soldDate = DateUtil.dateToLong(domainModel.soldDate),
-                agentId = domainModel.agentId
+                agent_id = domainModel.agentId
             )
         }
     }
@@ -122,7 +122,7 @@ data class PropertyEntity(
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
             ),
-            agentId = agentId
+            agentId = agent_id
         )
     }
 }

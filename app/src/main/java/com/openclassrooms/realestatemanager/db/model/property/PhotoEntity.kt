@@ -17,7 +17,7 @@ data class PhotoEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
     @ColumnInfo(name = "property_id", index = true)
-    var propertyId: Long,
+    var property_id: Long,
     var name: String?,
     @ColumnInfo(name = " photo_path")
     var photoPath: String
@@ -25,7 +25,7 @@ data class PhotoEntity(
     companion object {
         fun fromDomain(propertyId: Long, photo: Media.Photo): PhotoEntity {
             return PhotoEntity(
-                propertyId = propertyId,
+                property_id = propertyId,
                 name = photo.name,
                 photoPath = photo.photoPath
             )
