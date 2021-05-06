@@ -9,7 +9,7 @@ object Versions {
     const val versionName = "1.0"
     const val jvmTarget = "1.8"
 
-    const val kotlin = "1.4.32"
+    const val kotlin = "1.5.0"
     const val gradle = "7.0.0-alpha05"
     const val hilt = "2.31.2-alpha"
     const val junit5 = "1.7.0.0"

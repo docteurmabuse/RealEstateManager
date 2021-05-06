@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.presentation.ui.dummy.DummyContent
 
 /**
@@ -16,13 +17,14 @@ import com.openclassrooms.realestatemanager.presentation.ui.dummy.DummyContent
  * in two-pane mode (on tablets) or a [PropertyDetailActivity]
  * on handsets.
  */
-class PropertyDetailFragment : Fragment() {
+class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
     /**
      * The dummy content this fragment is presenting.
      */
     private var item: DummyContent.DummyItem? = null
-
+    private var _binding: PropertyDetailBinding? = null
+    private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,8 +44,8 @@ class PropertyDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.property_detail, container, false)
-
+        _binding = PropertyDetailBinding.inflate(inflater, container, false)
+        val rootView = binding.root
         // Show the dummy content as text in a TextView.
         item?.let {
             rootView.findViewById<TextView>(R.id.property_detail).text = it.details

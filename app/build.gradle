@@ -7,6 +7,8 @@ plugins {
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
+    id 'com.google.secrets_gradle_plugin' version '0.5'
+
 }
 
 android {
@@ -18,7 +20,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
 
@@ -113,6 +115,11 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
 
+    // Concurrency
+    implementation "io.reactivex.rxjava2:rxjava:2.2.19"
+    implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
+
     //Timber for easier Logs
     def timberVersion = "4.7.1"
     implementation "com.jakewharton.timber:timber:$timberVersion"
@@ -142,6 +149,30 @@ dependencies {
     // Optional -- Mockito framework
     testImplementation 'org.mockito:mockito-core:3.8.0'
 
+    // Testing Dependencies
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
 
+    androidTestImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
+    androidTestImplementation "org.mockito:mockito-android:2.28.2"
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'android.arch.core:core-testing:1.1.1'
+    // Optional -- Hamcrest library
+    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
+    // Optional -- UI testing with Espresso
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    // Optional -- UI testing with UI Automator
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0-RC'
+
+}
+secrets {
+    // Optionally specify a different file name containing your secrets.
+    // The plugin defaults to "local.properties"
+
+    // Add keys that the plugin should ignore from the properties file
+    ignoreList.add("keyToIgnore")
+    ignoreList.add("ignore*")
 }

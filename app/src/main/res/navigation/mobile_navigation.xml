@@ -6,12 +6,21 @@
     app:startDestination="@+id/navigation_property_list">
     <fragment
         android:id="@+id/navigation_property_list"
-        android:name="com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListFragment"
         android:label="@string/title_property_list"
-        tools:layout="@layout/fragment_property_list" />
+        tools:layout="@layout/fragment_property_list">
+        <action
+            android:id="@+id/action_navigation_property_list_to_propertyDetailFragment"
+            app:destination="@id/navigation_property_detail" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_property_map"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.property_map.MapFragment"
         android:label="@string/title_properties_map"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/navigation_property_detail"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment"
+        android:label="property_detail"
+        tools:layout="@layout/property_detail" />
 </navigation>
