@@ -98,6 +98,6 @@ class AgentDaoTest {
         assertEquals(agent2, agent2Dao)
         //Fake agent2 should not be equal to agent1 of database
         assertNotEquals(agent2, agent1Dao)
-
     }
+
 }
