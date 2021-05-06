@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 )
 data class AgentEntity(
     @PrimaryKey(autoGenerate = false)
-    var id: Int,
+    var id: Long,
     var name: String,
     var email: String
 )

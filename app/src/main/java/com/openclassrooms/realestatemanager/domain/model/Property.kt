@@ -7,7 +7,7 @@ import java.util.*
 
 @Parcelize
 data class Property(
-    var id: Int,
+    var id: Long,
     var type: Type?,
     var price: Int?,
     var surface: Int?,
@@ -32,7 +32,7 @@ data class Property(
     var sellDate: Date,
     var soldDate: Date,
     var media: @RawValue Media,
-    var agentId: Int = 1
+    var agentId: Long = 1
 ) : Parcelable {
 
     enum class Type {

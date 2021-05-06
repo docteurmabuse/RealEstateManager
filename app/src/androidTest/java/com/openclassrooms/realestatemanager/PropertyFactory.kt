@@ -21,10 +21,12 @@ object PropertyFactory {
     private val makeRandomVideoList: List<VideoEntity> =
         listOf(makeRandomVideo(), makeRandomVideo(), makeRandomVideo())
 
+    private val propertyId = makeRandomLong()
+
 
     private fun makeRandomProperty(): PropertyEntity {
         return PropertyEntity(
-            makeRandomInt(),
+            propertyId,
             makeRandomString(),
             makeRandomInt(),
             makeRandomInt(),
@@ -48,14 +50,14 @@ object PropertyFactory {
             makeRandomBoolean(),
             makeRandomLong(),
             makeRandomLong(),
-            makeRandomInt(),
+            makeRandomLong(),
         )
     }
 
     private fun makeRandomPhoto(): PhotoEntity {
         return PhotoEntity(
-            makeRandomInt(),
-            makeRandomInt(),
+            makeRandomLong(),
+            propertyId,
             makeRandomString(),
             makeRandomString(),
         )
@@ -64,7 +66,7 @@ object PropertyFactory {
     private fun makeRandomVideo(): VideoEntity {
         return VideoEntity(
             makeRandomInt(),
-            makeRandomInt(),
+            propertyId,
             makeRandomString(),
             makeRandomString(),
         )

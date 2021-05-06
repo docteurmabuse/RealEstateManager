@@ -12,7 +12,7 @@ interface PropertyRepository {
 
     fun getPropertyTypes(): List<Property.Type>
 
-    suspend fun getPropertyById(id: Int): Property
+    suspend fun getPropertyById(id: Long): Property
 
     suspend fun updateProperty(property: Property)
 }

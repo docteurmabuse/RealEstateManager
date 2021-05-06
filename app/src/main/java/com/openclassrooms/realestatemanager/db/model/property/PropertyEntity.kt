@@ -22,7 +22,7 @@ import kotlinx.parcelize.Parcelize
 )
 data class PropertyEntity(
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    var id: Long,
     var type: String?,
     var price: Int?,
     var surface: Int?,
@@ -55,7 +55,7 @@ data class PropertyEntity(
     @ColumnInfo(name = "sold_date")
     var soldDate: Long,
     @ColumnInfo(name = "agent_id", index = true)
-    var agentId: Int = 1
+    var agentId: Long = 1
 ) : Parcelable {
     companion object {
         fun fromDomain(domainModel: Property): PropertyEntity {

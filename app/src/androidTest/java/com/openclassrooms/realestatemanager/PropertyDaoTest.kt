@@ -49,4 +49,23 @@ class PropertyDaoTest {
         //First agent size should be 0
         Assert.assertEquals(0, firstProperty.size)
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun insertAndGetPropertyAggregate() = runBlocking {
+        //Create fake agent
+        val property1 = PropertyFactory.makeProperty()
+        val property2 = PropertyFactory.makeProperty()
+
+        //Insert fake agents
+        propertyDao.insertProperty(property1)
+        propertyDao.insertProperty(property2)
+
+        //First Agent in database
+        val firstProperty = propertyDao.getAllProperties().first()[0]
+        //Fake agent 1 should be equal to first agent in database
+        Assert.assertEquals(property1, firstProperty)
+        //Fake agent 2 should not be equal to first agent in database
+        Assert.assertNotEquals(property2, firstProperty)
+    }
 }

@@ -60,7 +60,7 @@ class AgentDaoTest {
 
     @Test
     @Throws(Exception::class)
-    fun saveAgentAndGetAgent() = runBlocking {
+    fun insertAndGetAgent() = runBlocking {
         //Create fake agent
         val agent1 = AgentFactory.makeAgent()
         val agent2 = AgentFactory.makeAgent()

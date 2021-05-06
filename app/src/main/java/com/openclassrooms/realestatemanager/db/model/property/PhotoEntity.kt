@@ -15,15 +15,15 @@ import com.openclassrooms.realestatemanager.domain.model.Media
 )
 data class PhotoEntity(
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    var id: Long? = null,
     @ColumnInfo(name = "property_id", index = true)
-    var propertyId: Int,
+    var propertyId: Long,
     var name: String?,
     @ColumnInfo(name = " photo_path")
     var photoPath: String
 ) {
     companion object {
-        fun fromDomain(propertyId: Int, photo: Media.Photo): PhotoEntity {
+        fun fromDomain(propertyId: Long, photo: Media.Photo): PhotoEntity {
             return PhotoEntity(
                 propertyId = propertyId,
                 name = photo.name,
@@ -32,5 +32,5 @@ data class PhotoEntity(
         }
     }
 
-    fun toDomain(): Media.Photo = Media.Photo(id, propertyId, name, photoPath)
+    fun toDomain(): Media.Photo = Media.Photo(name, photoPath)
 }

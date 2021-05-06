@@ -15,16 +15,16 @@ import com.openclassrooms.realestatemanager.domain.model.Media
 )
 data class VideoEntity(
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
+    var id: Long? = null,
     @ColumnInfo(name = "property_id", index = true)
-    var propertyId: Int,
+    var propertyId: Long,
     var name: String?,
     @ColumnInfo(name = " video_path")
     var videoPath: String
 ) {
 
     companion object {
-        fun fromDomain(propertyId: Int, video: Media.Video): VideoEntity {
+        fun fromDomain(propertyId: Long, video: Media.Video): VideoEntity {
             return VideoEntity(
                 propertyId = propertyId,
                 name = video.name,
@@ -33,5 +33,5 @@ data class VideoEntity(
         }
     }
 
-    fun toDomain(): Media.Video = Media.Video(id, propertyId, name, videoPath)
+    fun toDomain(): Media.Video = Media.Video(name, videoPath)
 }
