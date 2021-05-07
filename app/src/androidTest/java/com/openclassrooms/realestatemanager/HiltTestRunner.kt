@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.repository
+package com.openclassrooms.realestatemanager
 
 import android.app.Application
 import android.content.Context
