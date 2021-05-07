@@ -3,8 +3,6 @@ package com.openclassrooms.realestatemanager.presentation.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.PropertyListContentBinding
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent.PlaceholderItem
@@ -24,31 +22,18 @@ class PropertyAdapter(
     }
 
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
-        val item: PlaceholderItem = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        val item = values[position]
+        holder.binding.property = item
     }
 
     override fun getItemCount(): Int = values.size
 
     inner class PropertyViewHolder(
-        private val binding: PropertyListContentBinding
+        val binding: PropertyListContentBinding
     ) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: PlaceholderItem) {
-            binding.content.text = item.content
-            binding.idText.text = item.details
-        }
-
-        val idView: TextView = binding.idText
-        val contentView: TextView = binding.content
-
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
-        }
-    }
+        RecyclerView.ViewHolder(binding.root)
 
     interface PropertyClickListener {
-        fun onPropertyClick(view: View, property: String)
+        fun onPropertyClick(view: View, property: PlaceholderItem)
     }
 }

@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.presentation.ui.property_list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent
+import timber.log.Timber
 
 /**
  * A fragment representing a list of Items.
@@ -67,9 +67,9 @@ class PropertyListFragment : Fragment(R.layout.property_list),
             }
     }
 
-    override fun onPropertyClick(view: View, property: String) {
-        //  navigateToProperty(property, view)
-        Log.d("click item", "It's ok $property")
+    override fun onPropertyClick(view: View, property: PlaceholderContent.PlaceholderItem) {
+        navigateToProperty(property, view)
+        Timber.tag("click ").d("It's ok ")
     }
 
     private fun navigateToProperty(property: PlaceholderContent.PlaceholderItem, it: View?) {

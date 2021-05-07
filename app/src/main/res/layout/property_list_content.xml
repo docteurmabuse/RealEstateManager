@@ -16,7 +16,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{(view) -> clickListener.onPropertyClick(view, property.id)}"
+        android:onClick="@{(view) -> clickListener.onPropertyClick(view, property)}"
         app:cardElevation="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
