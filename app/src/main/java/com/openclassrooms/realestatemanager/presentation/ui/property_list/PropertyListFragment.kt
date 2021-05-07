@@ -1,24 +1,25 @@
 package com.openclassrooms.realestatemanager.presentation.ui.property_list
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavOptions
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.findNavController
 import com.openclassrooms.realestatemanager.R
-import com.openclassrooms.realestatemanager.databinding.FragmentPropertyListBinding
+import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent
 
 /**
  * A fragment representing a list of Items.
  */
-class PropertyListFragment : Fragment(R.layout.fragment_property_list) {
+class PropertyListFragment : Fragment(R.layout.property_list),
+    PropertyAdapter.PropertyClickListener {
 
     private var columnCount = 1
-    private var _binding: FragmentPropertyListBinding? = null
+    private var _binding: PropertyListBinding? = null
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,11 +33,11 @@ class PropertyListFragment : Fragment(R.layout.fragment_property_list) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentPropertyListBinding.inflate(inflater, container, false)
+        _binding = PropertyListBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
         val adapter = PropertyAdapter(PlaceholderContent.ITEMS)
-        binding.list.adapter = adapter
+        binding.propertyList.adapter = adapter
 
         // Set the adapter
 //        binding.list.apply {
@@ -51,33 +52,6 @@ class PropertyListFragment : Fragment(R.layout.fragment_property_list) {
         return binding.root
     }
 
-    fun openDetails(itemId: Int) {
-        // Assume the NavHostFragment is added with the +id/detail_container.
-        val navHostFragment = childFragmentManager.findFragmentById(
-            R.id.detail_container
-        ) as NavHostFragment
-        val navController = navHostFragment.navController
-        navController.navigate(
-            // Assume the itemId is the android:id of a destination in the graph.
-            itemId,
-            null,
-            NavOptions.Builder()
-                // Pop all destinations off the back stack.
-                .setPopUpTo(navController.graph.startDestination, true)
-                .apply {
-                    // If we're already open and the detail pane is visible,
-                    // crossfade between the destinations.
-                    if (binding.slidingPaneLayout.isOpen) {
-                        setEnterAnim(R.animator.nav_default_enter_anim)
-                        setExitAnim(R.animator.nav_default_exit_anim)
-                    }
-                }
-                .build()
-        )
-        binding.slidingPaneLayout.open()
-    }
-
-
     companion object {
 
         // TODO: Customize parameter argument names
@@ -91,5 +65,18 @@ class PropertyListFragment : Fragment(R.layout.fragment_property_list) {
                     putInt(ARG_COLUMN_COUNT, columnCount)
                 }
             }
+    }
+
+    override fun onPropertyClick(view: View, property: String) {
+        //  navigateToProperty(property, view)
+        Log.d("click item", "It's ok $property")
+    }
+
+    private fun navigateToProperty(property: PlaceholderContent.PlaceholderItem, it: View?) {
+        val directions =
+            PropertyListFragmentDirections.actionPropertyListFragmentToPropertyDetailFragment(
+                property.id
+            )
+        it?.findNavController()?.navigate(directions)
     }
 }

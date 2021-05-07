@@ -16,8 +16,7 @@
     This layout is a two-pane layout for the Properties master/detail flow.
     -->
 
-    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/property_list"
         android:name="com.openclassrooms.realestatemanager.ui.PropertyListFragment"
         android:layout_width="@dimen/item_width"

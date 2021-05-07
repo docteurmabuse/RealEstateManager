@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.findNavController
+
 import androidx.recyclerview.widget.RecyclerView
-import com.openclassrooms.realestatemanager.databinding.FragmentPropertyBinding
-import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListFragmentDirections
+import com.openclassrooms.realestatemanager.databinding.PropertyListContentBinding
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent.PlaceholderItem
 
 /**
@@ -16,45 +15,32 @@ import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeh
  */
 class PropertyAdapter(
     private val values: List<PlaceholderItem>
-) : RecyclerView.Adapter<PropertyAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-        return ViewHolder(
-            FragmentPropertyBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
+        val binding =
+            PropertyListContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PropertyViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = values[position]
+    override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
+        val item: PlaceholderItem = values[position]
         holder.idView.text = item.id
         holder.contentView.text = item.content
     }
 
     override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(binding: FragmentPropertyBinding) :
+    inner class PropertyViewHolder(
+        private val binding: PropertyListContentBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
-        init {
-            binding.setClickListener { view ->
-                binding.itemNumber.let { itemNumber ->
-                    navigateToProperty(itemNumber, view)
-                }
-            }
+        fun bind(item: PlaceholderItem) {
+            binding.content.text = item.content
+            binding.idText.text = item.details
         }
 
-        private fun navigateToProperty(itemNumber: TextView, it: View?) {
-            val directions =
-                PropertyListFragmentDirections.actionPropertyListFragmentToPropertyDetailFragment()
-            it?.findNavController()?.navigate(directions)
-        }
-
-        val idView: TextView = binding.itemNumber
+        val idView: TextView = binding.idText
         val contentView: TextView = binding.content
 
         override fun toString(): String {
@@ -62,4 +48,7 @@ class PropertyAdapter(
         }
     }
 
+    interface PropertyClickListener {
+        fun onPropertyClick(view: View, property: String)
+    }
 }
