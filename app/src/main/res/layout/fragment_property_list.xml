@@ -1,15 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:layout_width="280dp"
-    android:layout_height="match_parent"
-    android:layout_gravity="start"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context=".presentation.ui.property_list.PropertyListFragment"
-    tools:listitem="@layout/fragment_property" />
+<?xml version="1.0" encoding="utf-8"?><!-- two_pane.xml -->
+<androidx.slidingpanelayout.widget.SlidingPaneLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sliding_pane_layout"
+    android:name="com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+    <!-- The first child view becomes the left pane. When the combined
+           desired width (expressed using android:layout_width) would
+           not fit on-screen at once, the right pane is permitted to
+           overlap the left. -->
+
+    <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/list"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context=".presentation.ui.property_list.PropertyListFragment"
+        tools:listitem="@layout/fragment_property" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/detail_container"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#ff333333" />
+
+</androidx.slidingpanelayout.widget.SlidingPaneLayout>
 

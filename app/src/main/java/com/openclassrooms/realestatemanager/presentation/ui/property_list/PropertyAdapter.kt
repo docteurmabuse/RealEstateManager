@@ -11,9 +11,9 @@ import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeh
  * [RecyclerView.Adapter] that can display a [PlaceholderItem].
  * TODO: Replace the implementation with code for your data type.
  */
-class MyPropertyRecyclerViewAdapter(
+class PropertyAdapter(
     private val values: List<PlaceholderItem>
-) : RecyclerView.Adapter<MyPropertyRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<PropertyAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 

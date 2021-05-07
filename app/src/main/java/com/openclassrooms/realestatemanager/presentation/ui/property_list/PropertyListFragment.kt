@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyListBinding
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent
@@ -34,17 +32,21 @@ class PropertyListFragment : Fragment(R.layout.fragment_property_list) {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPropertyListBinding.inflate(inflater, container, false)
+        context ?: return binding.root
+
+        val adapter = PropertyAdapter(PlaceholderContent.ITEMS)
+        binding.list.adapter = adapter
 
         // Set the adapter
-        binding.list.apply {
-            layoutManager = when {
-                columnCount <= 1 -> LinearLayoutManager(context)
-                else -> GridLayoutManager(context, columnCount)
-            }
-            adapter = MyPropertyRecyclerViewAdapter(PlaceholderContent.ITEMS)
-        }
+//        binding.list.apply {
+//            layoutManager = when {
+//                columnCount <= 1 -> LinearLayoutManager(context)
+//                else -> GridLayoutManager(context, columnCount)
+//            }
+//            adapter = PropertyAdapter(PlaceholderContent.ITEMS)
+//        }
 
-        //  openDetails(R.id.navigation_property_detail)
+        //openDetails(R.id.navigation_property_detail)
         return binding.root
     }
 

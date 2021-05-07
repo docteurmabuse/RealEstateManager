@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/drawable/ic_add_24dp.xml" value="0.28177083333333336" />
+        <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/drawable/ic_menu_24dp.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/activity_main.xml" value="0.24728260869565216" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/activity_property_list.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/add_property_fragment.xml" value="0.25" />
