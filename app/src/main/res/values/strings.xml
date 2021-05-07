@@ -10,4 +10,7 @@
     <string name="price">Price</string>
     <string name="list">List</string>
     <string name="map">Map</string>
+    <string name="search">Search</string>
+    <string name="more">More</string>
+    <string name="add_property_button">Add property button</string>
 </resources>

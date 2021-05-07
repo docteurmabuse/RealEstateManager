@@ -8,4 +8,9 @@
         android:id="@+id/navigation_property_map"
         android:icon="@drawable/ic_baseline_map_24"
         android:title="@string/map" />
+
+    <item
+        android:id="@+id/navigation_property_map"
+        android:icon="@drawable/ic_baseline_map_24"
+        android:title="@string/map" />
 </menu>
