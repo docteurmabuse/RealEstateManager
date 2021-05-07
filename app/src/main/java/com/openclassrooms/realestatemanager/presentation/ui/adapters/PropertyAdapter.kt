@@ -1,10 +1,13 @@
-package com.openclassrooms.realestatemanager.presentation.ui.property_list
+package com.openclassrooms.realestatemanager.presentation.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertyBinding
+import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent.PlaceholderItem
 
 /**
@@ -37,6 +40,20 @@ class PropertyAdapter(
 
     inner class ViewHolder(binding: FragmentPropertyBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.setClickListener { view ->
+                binding.itemNumber.let { itemNumber ->
+                    navigateToProperty(itemNumber, view)
+                }
+            }
+        }
+
+        private fun navigateToProperty(itemNumber: TextView, it: View?) {
+            val directions =
+                PropertyListFragmentDirections.actionPropertyListFragmentToPropertyDetailFragment()
+            it?.findNavController()?.navigate(directions)
+        }
+
         val idView: TextView = binding.itemNumber
         val contentView: TextView = binding.content
 
