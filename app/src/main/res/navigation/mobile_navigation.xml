@@ -24,11 +24,15 @@
         android:id="@+id/propertyDetailFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment"
         android:label="property_detail"
-        tools:layout="@layout/property_detail">
+        tools:layout="@layout/property_list_content">
         <argument
             android:name="property"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="item_id"
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/addPropertyFragment"

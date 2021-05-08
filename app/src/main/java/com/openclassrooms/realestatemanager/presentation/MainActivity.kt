@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         binding.addPropertyFAB.setOnClickListener {
-            Timber.tag("click").d("It's ok FAB")
+            Timber.tag("FabClick").d("It's ok FAB")
             findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.addPropertyFragment)
         }
         setContentView(binding.root)

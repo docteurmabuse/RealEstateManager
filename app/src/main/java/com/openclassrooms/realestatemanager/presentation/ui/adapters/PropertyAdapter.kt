@@ -6,13 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.PropertyListContentBinding
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent.PlaceholderItem
+import timber.log.Timber
 
 /**
  * [RecyclerView.Adapter] that can display a [PlaceholderItem].
  * TODO: Replace the implementation with code for your data type.
  */
 class PropertyAdapter(
-    private val values: List<PlaceholderItem>
+    private val values: List<PlaceholderItem>,
+    private val onClickListener: View.OnClickListener,
+    private val onContextClickListener: View.OnContextClickListener
 ) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
@@ -24,6 +27,15 @@ class PropertyAdapter(
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
         val item = values[position]
         holder.binding.property = item
+        with(holder.itemView) {
+            tag = item
+            setOnClickListener(onClickListener)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                setOnContextClickListener(onContextClickListener)
+                Timber.tag("clickTransformation").d("click item : It's OK :$position")
+            }
+        }
+
     }
 
     override fun getItemCount(): Int = values.size
@@ -33,7 +45,4 @@ class PropertyAdapter(
     ) :
         RecyclerView.ViewHolder(binding.root)
 
-    interface PropertyClickListener {
-        fun onPropertyClick(view: View, property: PlaceholderItem)
-    }
 }

@@ -4,19 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
+import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent
-import timber.log.Timber
 
 /**
  * A fragment representing a list of Items.
  */
-class PropertyListFragment : Fragment(R.layout.property_list),
-    PropertyAdapter.PropertyClickListener {
+class PropertyListFragment : Fragment() {
 
     private var columnCount = 1
     private var _binding: PropertyListBinding? = null
@@ -34,22 +35,63 @@ class PropertyListFragment : Fragment(R.layout.property_list),
         savedInstanceState: Bundle?
     ): View? {
         _binding = PropertyListBinding.inflate(inflater, container, false)
-        context ?: return binding.root
-
-        val adapter = PropertyAdapter(PlaceholderContent.ITEMS)
-        binding.propertyList.adapter = adapter
-
-        // Set the adapter
-//        binding.list.apply {
-//            layoutManager = when {
-//                columnCount <= 1 -> LinearLayoutManager(context)
-//                else -> GridLayoutManager(context, columnCount)
-//            }
-//            adapter = PropertyAdapter(PlaceholderContent.ITEMS)
-//        }
-
-        //openDetails(R.id.navigation_property_detail)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val recyclerView: RecyclerView = binding.propertyList
+
+        // Leaving this not using view binding as it relies on if the view is visible the current
+        // layout configuration (layout, layout-sw600dp)
+        val itemDetailFragmentContainer: View? =
+            view.findViewById(R.id.item_detail_nav_container)
+
+        /** Click Listener to trigger navigation based on if you have
+         * a single pane layout or two pane layout
+         */
+        val onClickListener = View.OnClickListener { itemView ->
+            val item = itemView.tag as PlaceholderContent.PlaceholderItem
+            val bundle = Bundle()
+            bundle.putString(
+                PropertyDetailFragment.ARG_ITEM_ID,
+                item.id
+            )
+            if (itemDetailFragmentContainer != null) {
+                itemDetailFragmentContainer.findNavController()
+                    .navigate(R.id.propertyDetailFragmentWide, bundle)
+            } else {
+                itemView.findNavController().navigate(R.id.propertyDetailFragment, bundle)
+            }
+        }
+
+        /**
+         * Context click listener to handle Right click events
+         * from mice and trackpad input to provide a more native
+         * experience on larger screen devices
+         */
+        val onContextClickListener = View.OnContextClickListener { v ->
+            val item = v.tag as PlaceholderContent.PlaceholderItem
+            Toast.makeText(
+                v.context,
+                "Context click of item " + item.id,
+                Toast.LENGTH_LONG
+            ).show()
+            true
+        }
+        setupRecyclerView(recyclerView, onClickListener, onContextClickListener)
+    }
+
+    private fun setupRecyclerView(
+        recyclerView: RecyclerView,
+        onClickListener: View.OnClickListener,
+        onContextClickListener: View.OnContextClickListener
+    ) {
+        recyclerView.adapter = PropertyAdapter(
+            PlaceholderContent.ITEMS,
+            onClickListener,
+            onContextClickListener
+        )
     }
 
     companion object {
@@ -67,16 +109,8 @@ class PropertyListFragment : Fragment(R.layout.property_list),
             }
     }
 
-    override fun onPropertyClick(view: View, property: PlaceholderContent.PlaceholderItem) {
-        navigateToProperty(property, view)
-        Timber.tag("click ").d("It's ok ")
-    }
-
-    private fun navigateToProperty(property: PlaceholderContent.PlaceholderItem, it: View?) {
-        val directions =
-            PropertyListFragmentDirections.actionPropertyListFragmentToPropertyDetailFragment(
-                property.id
-            )
-        it?.findNavController()?.navigate(directions)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -10,7 +10,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".presentation.ui.property_list.MainActivity2">
+    tools:context=".presentation.ui.property_list.PropertyListFragment">
 
     <!--
     This layout is a two-pane layout for the Properties master/detail flow.
@@ -24,13 +24,19 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
-        tools:context=".presentation.ui.property_list.MainActivity2"
+        tools:context=".presentation.ui.property_list.PropertyListFragment"
         tools:listitem="@layout/property_list_content" />
 
-    <FrameLayout
-        android:id="@+id/property_detail_container"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/item_detail_nav_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_marginStart="@dimen/marginStart"
+        app:defaultNavHost="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/mobile_detail_nav_sub" />
 
 </LinearLayout>
