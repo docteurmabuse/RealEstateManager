@@ -36,5 +36,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/add_property_button"
         app:layout_anchor="@id/bottomAppBar"
+        android:background="@color/colorAccent"
+        app:backgroundTint="@color/colorAccent"
         app:srcCompat="@drawable/ic_add_24dp" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
