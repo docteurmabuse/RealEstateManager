@@ -25,6 +25,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        updateFloatingButtonUI()
+        setContentView(binding.root)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    private fun updateFloatingButtonUI() {
         var isFabChecked = false
 
         binding.addPropertyFAB.setOnClickListener {
@@ -37,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                 findNavController(R.id.nav_host_fragment_activity_main).currentDestination
             Timber.tag("FabClick").d("FAB: $isFabChecked")
             val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
-            val addPropertyFragment = navHostFragment.graph.findNode(R.id.addPropertyFragment)
             if (isFabChecked) {
                 binding.addPropertyFAB.hide(object :
                     FloatingActionButton.OnVisibilityChangedListener() {
@@ -54,15 +59,13 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             fab?.setImageDrawable(resources.getDrawable(R.drawable.ic_check_24dp))
                         }
-
                         fab?.show()
                     }
                 })
-
                 binding.bottomAppBar.navigationIcon = null
-                findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.addPropertyFragment)
+                navHostFragment.navigate(R.id.addPropertyFragment)
             } else {
-                findNavController(R.id.nav_host_fragment_activity_main).navigate(R.id.propertyListFragment)
+                navHostFragment.navigate(R.id.propertyListFragment)
                 binding.addPropertyFAB.hide(object :
                     FloatingActionButton.OnVisibilityChangedListener() {
                     override fun onShown(fab: FloatingActionButton?) {
@@ -79,17 +82,17 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             fab?.setImageDrawable(resources.getDrawable(R.drawable.ic_add_24dp))
                         }
-
                         fab?.show()
                     }
                 })
-
-                binding.bottomAppBar.navigationIcon = null
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    binding.bottomAppBar.navigationIcon = getDrawable(R.drawable.ic_menu_24dp)
+                } else {
+                    binding.bottomAppBar.navigationIcon =
+                        resources.getDrawable(R.drawable.ic_menu_24dp)
+                }
             }
-
         }
-        setContentView(binding.root)
-        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
