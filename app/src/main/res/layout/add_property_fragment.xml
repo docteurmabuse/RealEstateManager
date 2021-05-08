@@ -108,8 +108,6 @@
                 android:layout_marginStart="@dimen/marginStart"
                 android:layout_marginTop="@dimen/marginTop"
                 app:layout_goneMarginEnd="@dimen/marginEnd" />
-
-
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

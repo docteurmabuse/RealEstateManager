@@ -13,4 +13,6 @@
     <string name="search">Search</string>
     <string name="more">More</string>
     <string name="add_property_button">Add property button</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
 </resources>
