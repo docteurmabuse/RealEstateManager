@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent
+import timber.log.Timber
 
 /**
  * A fragment representing a list of Items.
@@ -79,7 +81,11 @@ class PropertyListFragment : Fragment() {
             ).show()
             true
         }
+
         setupRecyclerView(recyclerView, onClickListener, onContextClickListener)
+
+        setFabListener()
+
     }
 
     private fun setupRecyclerView(
@@ -92,6 +98,14 @@ class PropertyListFragment : Fragment() {
             onClickListener,
             onContextClickListener
         )
+    }
+
+    private fun setFabListener() {
+        binding.addPropertyFAB.setOnClickListener {
+            Timber.tag("FabClick").d("It's ok FAB")
+            val navHostFragment = findNavController()
+            navHostFragment.navigate(R.id.addPropertyFragment)
+        }
     }
 
     companion object {

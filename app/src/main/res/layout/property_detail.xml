@@ -64,17 +64,26 @@
 
         </androidx.core.widget.NestedScrollView>
 
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:fabAlignmentMode="end"
+            app:navigationIcon="@drawable/ic_menu_24dp"
+            app:title="Add a new property" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/addPropertyFAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="TODO"
-            app:layout_anchor="@+id/item_detail_scroll_view"
-            app:layout_anchorGravity="top|end"
-            app:srcCompat="@android:drawable/stat_notify_chat" />
+            android:background="@color/colorAccent"
+            android:baselineAlignBottom="true"
+            android:contentDescription="@string/add_property_button"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_anchor="@id/bottomAppBar"
+            app:srcCompat="@drawable/ic_edit_24dp" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

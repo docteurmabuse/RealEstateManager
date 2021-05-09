@@ -7,9 +7,11 @@
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/drawable/ic_menu_24dp.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/drawable/loading_animation.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/drawable/loading_image.xml" value="0.28177083333333336" />
+        <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout-land/add_property_fragment.xml" value="0.22486772486772486" />
+        <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout-sw600dp/add_property_fragment.xml" value="0.17349726775956284" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout-sw600dp/property_detail.xml" value="0.16131191432396252" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout-w900dp/property_detail.xml" value="0.17349726775956284" />
-        <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout-w900dp/property_list.xml" value="0.12158469945355191" />
+        <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout-w900dp/property_list.xml" value="0.1390625" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/activity_main.xml" value="0.24728260869565216" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/activity_property_detail.xml" value="0.23596014492753623" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/activity_property_list.xml" value="0.24895833333333334" />
