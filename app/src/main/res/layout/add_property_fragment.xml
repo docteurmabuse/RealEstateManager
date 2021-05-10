@@ -8,14 +8,14 @@
         <import type="android.view.View" />
 
         <variable
-            name="property"
-            type="com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent.PlaceholderItem" />
+            name="propertyType"
+            type="com.openclassrooms.realestatemanager.domain.model.Property.PropertyType" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.property.AddPropertyFragment">
+        tools:context=".presentation.ui.addProperty.AddPropertyFragment">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

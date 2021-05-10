@@ -8,7 +8,7 @@ import java.util.*
 @Parcelize
 data class Property(
     var id: Long,
-    var type: Type?,
+    var type: PropertyType?,
     var price: Int?,
     var surface: Int?,
     var roomNumber: Int?,
@@ -35,7 +35,7 @@ data class Property(
     var agentId: Long = 1
 ) : Parcelable {
 
-    enum class Type {
+    enum class PropertyType {
         House,
         Flat,
         Duplex,

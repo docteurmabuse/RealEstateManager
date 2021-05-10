@@ -28,7 +28,7 @@ class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
     override fun onActive() {
         networkCallback = createNetworkCallback()
         val networkRequest =
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 NetworkRequest.Builder().addCapability(NET_CAPABILITY_INTERNET)
             } else {
                 TODO("VERSION.SDK_INT < LOLLIPOP")
@@ -36,7 +36,7 @@ class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
     }
 
     override fun onInactive() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             cm.unregisterNetworkCallback(networkCallback)
         }
     }
@@ -49,7 +49,7 @@ class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
           Source: https://developer.android.com/reference/android/net/ConnectivityManager.NetworkCallback#onAvailable(android.net.Network)
          */
         override fun onAvailable(network: Network) {
-            Log.d(TAG, "onAvailable: ${network}")
+            Log.d(TAG, "onAvailable: $network")
             val networkCapabilities = cm.getNetworkCapabilities(network)
             val hasInternetCapability = networkCapabilities?.hasCapability(NET_CAPABILITY_INTERNET)
             Log.d(TAG, "onAvailable: ${network}, $hasInternetCapability")
@@ -59,7 +59,7 @@ class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
                     val hasInternet = DoesNetworkHaveInternet.execute(network.socketFactory)
                     if (hasInternet) {
                         withContext(Dispatchers.Main) {
-                            Log.d(TAG, "onAvailable: adding network. ${network}")
+                            Log.d(TAG, "onAvailable: adding network. $network")
                             validNetworks.add(network)
                             checkValidNetworks()
                         }
@@ -73,7 +73,7 @@ class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
           Source: https://developer.android.com/reference/android/net/ConnectivityManager.NetworkCallback#onLost(android.net.Network)
          */
         override fun onLost(network: Network) {
-            Log.d(TAG, "onLost: ${network}")
+            Log.d(TAG, "onLost: $network")
             validNetworks.remove(network)
             checkValidNetworks()
 

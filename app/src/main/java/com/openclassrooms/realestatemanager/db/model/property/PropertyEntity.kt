@@ -95,7 +95,7 @@ data class PropertyEntity(
     ): Property {
         return Property(
             id = id,
-            type = Property.Type.valueOf(type.toString()),
+            type = Property.PropertyType.valueOf(type.toString()),
             price = price,
             surface = surface,
             roomNumber = roomNumber,

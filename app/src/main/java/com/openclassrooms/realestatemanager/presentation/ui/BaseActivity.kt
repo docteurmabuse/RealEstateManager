@@ -15,7 +15,7 @@ open class BaseActivity : AppCompatActivity() {
         return FirebaseAuth.getInstance().currentUser
     }
 
-    protected fun isCurrentUserLogged(): Boolean? {
+    protected fun isCurrentUserLogged(): Boolean {
         return getCurrentUser() != null
     }
 }

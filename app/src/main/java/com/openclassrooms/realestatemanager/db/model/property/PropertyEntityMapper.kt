@@ -13,7 +13,7 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
     ): Property {
         return Property(
             id = model.id,
-            type = Property.Type.valueOf(model.type.toString()),
+            type = Property.PropertyType.valueOf(model.type.toString()),
             price = model.price,
             surface = model.surface,
             roomNumber = model.roomNumber,

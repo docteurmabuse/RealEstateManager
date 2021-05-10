@@ -102,7 +102,7 @@ dependencies {
     implementation Glide.glide
     implementation("io.coil-kt:coil:1.2.1")
 
-    implementation Jetbrains.kotlin_stdlib
+    //implementation Jetbrains.kotlin_stdlib
 
     implementation Square.retrofit
     implementation Square.retrofit_gson
@@ -195,6 +195,11 @@ dependencies {
     // For instrumented tests.
     androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.35'
+
+    //Espresso
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
 }
 secrets {
     // Optionally specify a different file name containing your secrets.

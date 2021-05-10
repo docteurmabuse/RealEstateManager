@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/addPropertyFragment"
-        android:name="com.openclassrooms.realestatemanager.presentation.ui.property.AddPropertyFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyFragment"
         android:label="add_property_fragment"
         tools:layout="@layout/add_property_fragment" />
     <fragment

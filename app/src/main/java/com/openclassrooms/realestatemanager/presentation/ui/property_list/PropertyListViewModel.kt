@@ -22,8 +22,8 @@ constructor(
     private val _properties: MutableStateFlow<List<Property>> = MutableStateFlow(listOf())
     val properties: StateFlow<List<Property>>
         get() = _properties
-    val query = MutableStateFlow<String>("")
-    private val loading = MutableStateFlow<Boolean>(false)
+    val query = MutableStateFlow("")
+    private val loading = MutableStateFlow(false)
 
     private fun newSearch() {
         searchProperties.execute(query = query.value).onEach { dataState ->

@@ -32,7 +32,7 @@ class PropertyRepository_Impl @Inject constructor(
             }
     }
 
-    override fun getPropertyTypes(): List<Property.Type> {
+    override fun getPropertyTypes(): List<Property.PropertyType> {
         return getPropertyTypes()
     }
 

@@ -1,9 +1,10 @@
-package com.openclassrooms.realestatemanager.presentation.ui.property
+package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -27,7 +28,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = AddPropertyFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,7 +37,14 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(this).get(AddPropertyViewModel::class.java)
+        val typeDropdown: AutoCompleteTextView = binding.typeDropdown
+        setupMenuValues(typeDropdown)
         setFabListener()
+    }
+
+    private fun setupMenuValues(dropdown: AutoCompleteTextView) {
+        //val typeDropdownValues=
+        // dropdown.setAdapter()
     }
 
     private fun setFabListener() {
@@ -51,6 +59,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private fun saveProperty() {
         TODO("Not yet implemented")
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

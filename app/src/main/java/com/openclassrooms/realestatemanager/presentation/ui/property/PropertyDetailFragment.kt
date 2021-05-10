@@ -13,12 +13,6 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent
 
-/**
- * A fragment representing a single PropertyEntity detail screen.
- * This fragment is either contained in a [MainActivity]
- * in two-pane mode (on tablets) or a [PropertyDetailActivity]
- * on handsets.
- */
 class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
     /**
@@ -61,7 +55,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = PropertyDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root

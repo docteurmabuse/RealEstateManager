@@ -14,7 +14,7 @@ class SearchProperties(
 ) {
     fun execute(query: String): Flow<DataState<List<Property>>> = flow {
         try {
-            emit(DataState.loading<List<Property>>())
+            emit(DataState.loading())
 
             // force error for testing
             if (query == "error") {

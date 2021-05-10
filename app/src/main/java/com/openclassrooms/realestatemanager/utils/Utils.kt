@@ -22,7 +22,7 @@ object Utils {
      * @return
      */
     @JvmStatic
-    fun convertDollarToEuro(dollars: Int): Int? {
+    fun convertDollarToEuro(dollars: Int): Int {
         return (dollars / USD_PRICE_EURO).roundToInt()
     }
 
@@ -32,7 +32,7 @@ object Utils {
      * @param euros
      * @return
      */
-    fun convertEuroToDollar(euros: Int): Int? {
+    fun convertEuroToDollar(euros: Int): Int {
         return (euros * USD_PRICE_EURO).roundToInt()
     }
 
@@ -70,7 +70,7 @@ object Utils {
 
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val result: Boolean = false
+        val result = false
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val capabilities =
                 connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
