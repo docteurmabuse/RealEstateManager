@@ -30,6 +30,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
+                    android:textStyle="bold"
                     android:text="@string/property_type"
                     app:layout_constraintBaseline_toBaselineOf="@id/type_input_layout"
                     app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
                     android:text="@string/address"
+                    android:textStyle="bold"
                     app:layout_constraintBaseline_toBaselineOf="@id/address_text_input"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewType" />
@@ -51,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
                     android:text="@string/description"
+                    android:textStyle="bold"
                     app:layout_constraintBaseline_toBaselineOf="@id/description_text_input"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewType" />
@@ -153,7 +156,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/description_text_input"
                     android:layout_width="280dp"
-                    android:layout_height="435dp"
+                    android:layout_height="300dp"
                     android:layout_marginStart="@dimen/marginStart"
                     android:layout_marginTop="@dimen/marginTop"
                     android:hint="@string/description"
@@ -234,5 +237,4 @@
             app:layout_anchor="@id/bottomAppBar"
             app:srcCompat="@drawable/ic_check_24dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 </layout>
