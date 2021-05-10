@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:barrierDirection="start"
-                    app:constraint_referenced_ids="type_input_layout,address_text_input, description_text_input" />
+                    app:constraint_referenced_ids="type_input_layout,address_text_input, description_text_input,price_text_input, surface_text_input" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/type_input_layout"
