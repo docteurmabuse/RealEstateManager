@@ -9,7 +9,7 @@
 
         <variable
             name="propertyType"
-            type="com.openclassrooms.realestatemanager.domain.model.Property.PropertyType" />
+            type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

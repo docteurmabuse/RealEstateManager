@@ -6,8 +6,8 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
-import com.openclassrooms.realestatemanager.domain.model.Media
-import com.openclassrooms.realestatemanager.domain.model.Property
+import com.openclassrooms.realestatemanager.domain.model.property.Media
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.utils.DateUtil
 import kotlinx.parcelize.Parcelize
 

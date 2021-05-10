@@ -10,7 +10,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
-import com.openclassrooms.realestatemanager.interactors.app.DoesNetworkHaveInternet
+import com.openclassrooms.realestatemanager.domain.interactors.app.DoesNetworkHaveInternet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import com.openclassrooms.realestatemanager.domain.model.Media
+import com.openclassrooms.realestatemanager.domain.model.property.Media
 
 @Entity(
     tableName = "estate_videos", foreignKeys = [ForeignKey(

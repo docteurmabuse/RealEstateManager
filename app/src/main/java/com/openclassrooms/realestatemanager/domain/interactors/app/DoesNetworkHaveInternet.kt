@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.interactors.app
+package com.openclassrooms.realestatemanager.domain.interactors.app
 
 import android.util.Log
 import java.io.IOException

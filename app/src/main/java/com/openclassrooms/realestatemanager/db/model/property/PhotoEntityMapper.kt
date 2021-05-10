@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.db.model.property
 
-import com.openclassrooms.realestatemanager.domain.model.Media
+import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper
 
 class PhotoEntityMapper : DomainMapper<PhotoEntity, Media.Photo> {

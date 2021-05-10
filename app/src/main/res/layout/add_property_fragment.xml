@@ -9,7 +9,7 @@
 
         <variable
             name="propertyType"
-            type="com.openclassrooms.realestatemanager.domain.model.Property.PropertyType" />
+            type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -17,30 +17,33 @@
         android:layout_height="match_parent"
         tools:context=".presentation.ui.addProperty.AddPropertyFragment">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textViewType"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:text="@string/property_type"
-                app:layout_constraintBaseline_toBaselineOf="@id/type_input_layout"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textViewType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:text="@string/property_type"
+                    app:layout_constraintBaseline_toBaselineOf="@id/type_input_layout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textViewPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:text="Price"
-                app:layout_constraintBaseline_toBaselineOf="@id/price_text_input"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewType" />
+                <TextView
+                    android:id="@+id/textViewPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:text="Address"
+                    app:layout_constraintBaseline_toBaselineOf="@id/address_text_input"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewType" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/barrier"
@@ -71,18 +74,45 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address_text_input"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:hint="@string/address"
+                    android:textSize="@dimen/textSize"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintStart_toEndOf="@id/barrier"
+                    app:layout_constraintTop_toBottomOf="@id/type_input_layout"
+                    app:layout_goneMarginEnd="@dimen/marginEnd" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/price_text_input"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                android:hint="@string/price"
-                android:textSize="@dimen/textSize"
-                app:layout_constraintStart_toEndOf="@id/barrier"
-                app:layout_constraintTop_toBottomOf="@id/type_input_layout"
-                app:layout_goneMarginEnd="@dimen/marginEnd" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/address2_text_input"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:hint="@string/address2"
+                    android:textSize="@dimen/textSize"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintStart_toEndOf="@id/barrier"
+                    app:layout_constraintTop_toBottomOf="@id/address_text_input"
+                    app:layout_goneMarginEnd="@dimen/marginEnd" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/price_text_input"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:hint="City
+"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="@dimen/marginTop"
+                    app:endIconMode="clear_text"
+                    android:textSize="@dimen/textSize"
+                    app:layout_constraintStart_toEndOf="@id/barrier"
+                    app:layout_constraintTop_toBottomOf="@id/address2_text_input"
+                    app:layout_goneMarginEnd="@dimen/marginEnd" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/surface_input_layout"
@@ -99,6 +129,8 @@
                     android:id="@+id/surface_text_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+
                     android:layout_marginStart="@dimen/marginStart"
                     android:layout_marginTop="@dimen/marginTop"
                     android:hint="@string/price"
@@ -110,6 +142,7 @@
                 android:id="@+id/number_of_room_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:endIconMode="clear_text"
                 android:layout_marginStart="@dimen/marginStart"
                 android:layout_marginTop="@dimen/marginTop"
                 android:layout_marginEnd="@dimen/marginEnd"
@@ -119,6 +152,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/number_of_room_text_input"
+                    app:endIconMode="clear_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
@@ -147,8 +181,8 @@
                     app:layout_goneMarginEnd="@dimen/marginEnd" />
             </com.google.android.material.textfield.TextInputLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
@@ -170,4 +204,5 @@
             app:layout_anchor="@id/bottomAppBar"
             app:srcCompat="@drawable/ic_check_24dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 </layout>

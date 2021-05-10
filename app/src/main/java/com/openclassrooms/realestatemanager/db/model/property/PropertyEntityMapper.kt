@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.db.model.property
 
-import com.openclassrooms.realestatemanager.domain.model.Media
-import com.openclassrooms.realestatemanager.domain.model.Property
+import com.openclassrooms.realestatemanager.domain.model.property.Media
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper
 import com.openclassrooms.realestatemanager.utils.DateUtil
 

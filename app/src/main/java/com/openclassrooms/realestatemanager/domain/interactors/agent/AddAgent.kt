@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.interactors.agent
+package com.openclassrooms.realestatemanager.domain.interactors.agent
 
 import com.openclassrooms.realestatemanager.domain.model.Agent
 import com.openclassrooms.realestatemanager.repository.AgentRepository_Impl

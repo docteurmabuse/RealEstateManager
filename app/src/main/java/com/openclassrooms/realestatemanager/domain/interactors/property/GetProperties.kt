@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.interactors.property
+package com.openclassrooms.realestatemanager.domain.interactors.property
 
 import com.openclassrooms.realestatemanager.repository.PropertyRepository_Impl
 import javax.inject.Inject

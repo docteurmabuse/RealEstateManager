@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.db.model.property
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.openclassrooms.realestatemanager.domain.model.Property
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 
 
 class PropertyEntityAggregate(

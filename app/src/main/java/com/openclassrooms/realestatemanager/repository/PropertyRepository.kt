@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.repository
 
-import com.openclassrooms.realestatemanager.domain.model.Property
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 import kotlinx.coroutines.flow.Flow
 
 interface PropertyRepository {

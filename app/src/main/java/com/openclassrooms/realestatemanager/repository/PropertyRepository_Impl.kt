@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.repository
 
 import com.openclassrooms.realestatemanager.db.Persistence
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
-import com.openclassrooms.realestatemanager.domain.model.Property
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.utils.DispatchersProvider
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.Flow
