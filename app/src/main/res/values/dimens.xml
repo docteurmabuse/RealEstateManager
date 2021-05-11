@@ -8,4 +8,6 @@
     <dimen name="marginStart">14dp</dimen>
     <dimen name="marginEnd">16dp</dimen>
     <dimen name="textSize">16sp</dimen>
+    <dimen name="formWidth">260dp</dimen>
+
 </resources>
