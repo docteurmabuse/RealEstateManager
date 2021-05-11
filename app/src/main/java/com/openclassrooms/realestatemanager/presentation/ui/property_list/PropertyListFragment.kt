@@ -6,24 +6,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
  * A fragment representing a list of Items.
  */
-class PropertyListFragment : Fragment() {
+@AndroidEntryPoint
+class PropertyListFragment : Fragment(R.id.item_detail_nav_container) {
 
     private var columnCount = 1
     private var _binding: PropertyListBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: PropertyListViewModel by viewModels()
+    private lateinit var adapter: PropertyAdapter
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -94,7 +106,7 @@ class PropertyListFragment : Fragment() {
         onContextClickListener: View.OnContextClickListener
     ) {
         recyclerView.adapter = PropertyAdapter(
-            PlaceholderContent.ITEMS,
+            arrayListOf(),
             onClickListener,
             onContextClickListener
         )
@@ -106,6 +118,29 @@ class PropertyListFragment : Fragment() {
             val navHostFragment = findNavController()
             navHostFragment.navigate(R.id.addPropertyFragment)
         }
+    }
+
+    private fun setObserver() {
+        lifecycleScope.launch {
+            val value = viewModel.state
+            value.collect {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+                        it.data?.let { properties -> renderList(properties) }
+                    }
+                    DataState.Status.LOADING -> {
+
+                    }
+                    DataState.Status.ERROR -> {
+                        Timber.d("LIST_OBSERVER: ${it.error}")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun renderList(properties: List<Property>) {
+        adapter.addData(properties)
     }
 
     companion object {

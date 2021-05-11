@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.db.model.agent
 
-import com.openclassrooms.realestatemanager.domain.model.Agent
+import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper
 
 class AgentEntityMapper : DomainMapper<AgentEntity, Agent> {

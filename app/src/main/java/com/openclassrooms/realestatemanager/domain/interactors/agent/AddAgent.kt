@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager.domain.interactors.agent
 
-import com.openclassrooms.realestatemanager.domain.model.Agent
+import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.repository.AgentRepository_Impl
 import javax.inject.Inject
 

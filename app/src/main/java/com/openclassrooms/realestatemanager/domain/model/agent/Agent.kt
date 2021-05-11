@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.domain.model
+package com.openclassrooms.realestatemanager.domain.model.agent
 
 data class Agent(
     var id: Long,

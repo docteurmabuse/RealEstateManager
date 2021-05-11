@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.PropertyListContentBinding
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent.PlaceholderItem
 import timber.log.Timber
 
@@ -13,7 +14,7 @@ import timber.log.Timber
  * TODO: Replace the implementation with code for your data type.
  */
 class PropertyAdapter(
-    private val values: List<PlaceholderItem>,
+    private val properties: ArrayList<Property>,
     private val onClickListener: View.OnClickListener,
     private val onContextClickListener: View.OnContextClickListener
 ) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
@@ -25,7 +26,7 @@ class PropertyAdapter(
     }
 
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
-        val item = values[position]
+        val item = properties[position]
         holder.binding.property = item
         with(holder.itemView) {
             tag = item
@@ -35,10 +36,13 @@ class PropertyAdapter(
                 Timber.tag("clickTransformation").d("click item : It's OK :$position")
             }
         }
-
     }
 
-    override fun getItemCount(): Int = values.size
+    override fun getItemCount(): Int = properties.size
+
+    fun addData(list: List<Property>) {
+        properties.addAll(list)
+    }
 
     inner class PropertyViewHolder(
         val binding: PropertyListContentBinding

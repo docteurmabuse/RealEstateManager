@@ -2,7 +2,7 @@ package com.openclassrooms.realestatemanager.repository
 
 import com.openclassrooms.realestatemanager.db.Persistence
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntityMapper
-import com.openclassrooms.realestatemanager.domain.model.Agent
+import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.utils.DispatchersProvider
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject

@@ -9,7 +9,7 @@
 
         <variable
             name="property"
-            type="com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent.PlaceholderItem" />
+            type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -40,7 +40,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
-                android:text="@{property.id}"
+                android:text="@{property.address1}"
                 android:textAppearance="?attr/textAppearanceListItem"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/content"
@@ -52,7 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
-                android:text="@{property.content}"
+                android:text="@{property.description}"
                 android:textAppearance="?attr/textAppearanceListItem"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
