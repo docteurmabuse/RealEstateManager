@@ -28,7 +28,7 @@ constructor(
     // val query = MutableStateFlow("")
     // private val loading = MutableStateFlow(false)
 
-    val _state = MutableStateFlow(DataState<List<Property>>(DataState.loading(null)))
+    val _state = MutableStateFlow<DataState<List<Property>>>(DataState.loading(null))
     val state: StateFlow<DataState<List<Property>>>
         get() = _state
 

@@ -2,8 +2,8 @@ package com.openclassrooms.realestatemanager.domain.model.data
 
 class DataState<out T>(
     val status: Status,
-    val data: T? = null,
-    val error: String? = null
+    val data: T?,
+    val message: String?
 ) {
     companion object {
         fun <T> success(data: T?): DataState<T> {

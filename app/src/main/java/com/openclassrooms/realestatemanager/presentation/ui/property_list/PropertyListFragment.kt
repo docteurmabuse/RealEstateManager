@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
@@ -27,7 +29,7 @@ import timber.log.Timber
  * A fragment representing a list of Items.
  */
 @AndroidEntryPoint
-class PropertyListFragment : Fragment(R.id.item_detail_nav_container) {
+class PropertyListFragment : Fragment(R.layout.property_list) {
 
     private var columnCount = 1
     private var _binding: PropertyListBinding? = null
@@ -38,7 +40,7 @@ class PropertyListFragment : Fragment(R.id.item_detail_nav_container) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        viewModel.fetchProperties()
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
@@ -97,7 +99,6 @@ class PropertyListFragment : Fragment(R.id.item_detail_nav_container) {
         setupRecyclerView(recyclerView, onClickListener, onContextClickListener)
 
         setFabListener()
-
     }
 
     private fun setupRecyclerView(
@@ -105,11 +106,19 @@ class PropertyListFragment : Fragment(R.id.item_detail_nav_container) {
         onClickListener: View.OnClickListener,
         onContextClickListener: View.OnContextClickListener
     ) {
-        recyclerView.adapter = PropertyAdapter(
+        adapter = PropertyAdapter(
             arrayListOf(),
             onClickListener,
             onContextClickListener
         )
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                recyclerView.context,
+                (recyclerView.layoutManager as LinearLayoutManager).orientation
+            )
+        )
+        recyclerView.adapter = adapter
+
     }
 
     private fun setFabListener() {
@@ -132,7 +141,7 @@ class PropertyListFragment : Fragment(R.id.item_detail_nav_container) {
 
                     }
                     DataState.Status.ERROR -> {
-                        Timber.d("LIST_OBSERVER: ${it.error}")
+                        Timber.d("LIST_OBSERVER: ${it.message}")
                     }
                 }
             }
