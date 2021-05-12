@@ -1,16 +1,8 @@
 package com.openclassrooms.realestatemanager.presentation.ui.auth
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.firebase.ui.auth.AuthMethodPickerLayout
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.AuthUI.IdpConfig
-import com.firebase.ui.auth.AuthUI.IdpConfig.EmailBuilder
-import com.firebase.ui.auth.AuthUI.IdpConfig.GoogleBuilder
-import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityAuthBinding
@@ -28,11 +20,11 @@ class AuthActivity : BaseActivity() {
         registerForActivityResult(FirebaseAuthContract()) { result ->
             if (result != null) {
                 //  this.createUserInFirestore();
-                Log.d(TAG, "auth: start MainActivity2")
+                Timber.d("auth: start MainActivity2")
                 startMainActivity()
                 showSnackBar(binding.root, getString(R.string.connection_succeed))
             } else {
-                Log.e(TAG, "auth: authentication error")
+                Timber.e("auth: authentication error")
                 finish()
             }
         }
@@ -46,7 +38,7 @@ class AuthActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (this.isCurrentUserLogged() == true) {
+        if (this.isCurrentUserLogged()) {
             startMainActivity()
         }
     }
@@ -60,46 +52,4 @@ class AuthActivity : BaseActivity() {
     private fun showSnackBar(view: ConstraintLayout, message: String?) {
         Snackbar.make(view, message!!, Snackbar.LENGTH_SHORT).show()
     }
-
-    private fun startSignInActivity() {
-        //Login
-        val customLayout = AuthMethodPickerLayout.Builder(R.layout.activity_auth)
-            .setGoogleButtonId(R.id.google_signin)
-            .setEmailButtonId(R.id.email_signin)
-            .build()
-
-        //  new AuthUI.IdpConfig.PhoneBuilder().build(),
-        val providers: List<IdpConfig> = arrayListOf(
-            EmailBuilder().build(),
-            GoogleBuilder().build()
-        )
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAuthMethodPickerLayout(customLayout)
-                //.setTheme(R.style.LoginTheme)
-                .setIsSmartLockEnabled(false, true)
-                .setAvailableProviders(providers) //EMAIL
-                .build(), RC_SIGN_IN
-        )
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_SIGN_IN) {
-            val response: IdpResponse? = IdpResponse.fromResultIntent(data)
-            if (resultCode == RESULT_OK) { // SUCCESS
-                // this.createUserInFirestore()
-                startMainActivity()
-                showSnackBar(binding.root, getString(R.string.connection_succeed))
-            } else { // ERRORS
-                if (response == null) {
-                    showSnackBar(binding.root, getString(R.string.connection_succeed))
-                    Log.e(TAG, "auth: authentication error")
-                    finish()
-                }
-            }
-        }
-    }
-
 }
