@@ -51,11 +51,11 @@ data class PropertyEntity(
     var museum: Boolean = false,
     var sold: Boolean = false,
     @ColumnInfo(name = "sell_date")
-    var sellDate: Long,
+    var sellDate: Long?,
     @ColumnInfo(name = "sold_date")
-    var soldDate: Long,
+    var soldDate: Long?,
     @ColumnInfo(name = "agent_id", index = true)
-    var agent_id: Long = 1
+    var agent_id: String
 ) : Parcelable {
     companion object {
         fun fromDomain(domainModel: Property): PropertyEntity {

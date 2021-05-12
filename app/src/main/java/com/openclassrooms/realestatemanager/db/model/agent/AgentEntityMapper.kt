@@ -8,7 +8,8 @@ class AgentEntityMapper : DomainMapper<AgentEntity, Agent> {
         return Agent(
             id = model.id,
             name = model.name,
-            email = model.email
+            email = model.email,
+            photoUrl = model.photoUrl
         )
     }
 
@@ -16,7 +17,8 @@ class AgentEntityMapper : DomainMapper<AgentEntity, Agent> {
         return AgentEntity(
             id = domainModel.id,
             name = domainModel.name,
-            email = domainModel.email
+            email = domainModel.email,
+            photoUrl = domainModel.photoUrl
         )
     }
 

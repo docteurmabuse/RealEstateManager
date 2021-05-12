@@ -18,15 +18,9 @@ import javax.inject.Inject
 class PropertyListViewModel
 @Inject
 constructor(
-    //private val searchProperties: SearchProperties,
     private val getProperties: GetProperties,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    //private val _properties: MutableStateFlow<List<Property>> = MutableStateFlow(listOf())
-    // val properties: StateFlow<List<Property>>
-    //    get() = _properties
-    // val query = MutableStateFlow("")
-    // private val loading = MutableStateFlow(false)
 
     val _state = MutableStateFlow<DataState<List<Property>>>(DataState.loading(null))
     val state: StateFlow<DataState<List<Property>>>

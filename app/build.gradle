@@ -9,7 +9,6 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.secrets_gradle_plugin' version '0.5'
     id 'androidx.navigation.safeargs.kotlin'
-
 }
 
 android {
@@ -25,6 +24,12 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "com.openclassrooms.realestatemanager.repository.HiltTestRunner"
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildFeatures {

@@ -17,12 +17,15 @@ object DateUtil {
             return sdf.format(createTimestamp())
         }
 
-    fun longToDate(long: Long): Date {
-        return Date(long)
+    fun longToDate(long: Long?): Date? {
+        if (long != null) return Date(long)
+        else return null
     }
 
-    fun dateToLong(date: Date): Long {
-        return date.time / 1000
+    fun dateToLong(date: Date?): Long? {
+        if (date != null)
+            return date.time / 1000
+        else return null
     }
 
     fun dateToString(date: Date): String {

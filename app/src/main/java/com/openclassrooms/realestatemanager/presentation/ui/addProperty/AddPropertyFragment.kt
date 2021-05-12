@@ -45,6 +45,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         viewModel = ViewModelProvider(this).get(AddPropertyViewModel::class.java)
         val typeDropdown: AutoCompleteTextView = binding.typeDropdown
         setupMenuValues(typeDropdown)
+        this.binding.handlers = Handlers()
         setFabListener()
     }
 
@@ -57,15 +58,16 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
-            Timber.tag("FabClick").d("It's ok FAB")
+            Timber.tag("FabClick").d("It's ok FAB2")
             val navHostFragment = findNavController()
             navHostFragment.navigate(R.id.propertyListFragment)
-            // saveProperty()
+            //  saveProperty()
         }
     }
 
-    private fun saveProperty() {
-        TODO("Not yet implemented")
+    fun saveProperty() {
+        Timber.tag("FabClick").d("It's ok FAB2")
+        //addPropertyViewModel.addPropertyToRoomDb()
     }
 
 
@@ -73,5 +75,12 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         super.onDestroyView()
         _binding = null
     }
+
+    class Handlers {
+        fun onClickFriend(property: Property) {
+            Timber.tag("FabClick").d("It's ok FAB Handler:${property.address1}")
+        }
+    }
+
 
 }

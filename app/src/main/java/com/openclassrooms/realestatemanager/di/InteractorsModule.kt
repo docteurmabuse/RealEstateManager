@@ -23,5 +23,4 @@ object InteractorsModule {
             propertyEntityMapper = propertyEntityMapper
         )
     }
-
 }

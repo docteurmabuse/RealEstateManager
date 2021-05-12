@@ -2,7 +2,6 @@ package com.openclassrooms.realestatemanager.domain.model.property
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
 import java.util.*
 
 @Parcelize
@@ -29,10 +28,10 @@ data class Property(
     var hospital: Boolean = false,
     var museum: Boolean = false,
     var sold: Boolean = false,
-    var sellDate: Date,
-    var soldDate: Date,
-    var media: @RawValue Media,
-    var agentId: Long = 1
+    var sellDate: Date?,
+    var soldDate: Date?,
+    var media: Media,
+    var agentId: String = "1"
 ) : Parcelable {
 
     enum class PropertyType {

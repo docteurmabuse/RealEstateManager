@@ -7,6 +7,7 @@ import com.openclassrooms.realestatemanager.db.dao.AgentDao
 import com.openclassrooms.realestatemanager.db.dao.PhotoDao
 import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.database.PropertyDatabase
+import com.openclassrooms.realestatemanager.db.model.agent.AgentEntityMapper
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityMapper
 import com.openclassrooms.realestatemanager.presentation.BaseApplication
 import dagger.Binds
@@ -59,6 +60,12 @@ abstract class RoomModule {
         @Provides
         fun providePropertyEntityMapper(): PropertyEntityMapper {
             return PropertyEntityMapper()
+        }
+
+        @Singleton
+        @Provides
+        fun providesAgentEntityMapper(): AgentEntityMapper {
+            return AgentEntityMapper()
         }
     }
 
