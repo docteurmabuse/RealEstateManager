@@ -55,7 +55,6 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
-            Timber.tag("FabClick").d("It's ok FAB2")
             val type = binding.type!!.typeDropdown.text
             val price = binding.characteristics!!.priceTextInput.text.toString().toInt()
             val surface = binding.characteristics!!.surfaceTextInput.text.toString().toInt()

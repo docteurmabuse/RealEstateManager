@@ -36,4 +36,6 @@
     <string name="schools">School</string>
     <string name="museum">Museum</string>
     <string name="station">Station</string>
+    <string name="phone_upload">Phone upload</string>
+    <string name="camera_upload">Camera upload</string>
 </resources>
