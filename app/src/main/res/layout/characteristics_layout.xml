@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="property"
+            type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/price_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:hint="@string/price"
+            android:text="@{String.valueOf(property.price)}"
+            android:textSize="@dimen/textSize"
+            app:endIconMode="clear_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/surface_text_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:hint="@string/surface"
+            android:inputType="number"
+            android:maxLength="2"
+            android:text="@{String.valueOf(property.surface)}"
+            android:textSize="@dimen/textSize"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toStartOf="@id/number_of_room_text_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/price_text_input" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/number_of_room_text_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:hint="@string/rooms"
+            android:inputType="number"
+            android:text="@{String.valueOf(property.roomNumber)}"
+            android:textSize="@dimen/textSize"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toStartOf="@id/number_of_bedroom_text_input"
+            app:layout_constraintStart_toEndOf="@id/surface_text_input"
+            app:layout_constraintTop_toBottomOf="@id/price_text_input" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/number_of_bedroom_text_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:hint="@string/bedrooms"
+            android:inputType="number"
+            android:text="@{String.valueOf(property.bedroomNumber)}"
+            android:textSize="@dimen/textSize"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toStartOf="@id/number_of_bathroom_text_input"
+            app:layout_constraintStart_toEndOf="@id/number_of_room_text_input"
+            app:layout_constraintTop_toBottomOf="@id/price_text_input" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/number_of_bathroom_text_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:hint="@string/bathroom"
+            android:inputType="number"
+            android:text="@{String.valueOf(property.bathroomNumber)}"
+            android:textSize="@dimen/textSize"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/number_of_bedroom_text_input"
+            app:layout_constraintTop_toBottomOf="@id/price_text_input" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

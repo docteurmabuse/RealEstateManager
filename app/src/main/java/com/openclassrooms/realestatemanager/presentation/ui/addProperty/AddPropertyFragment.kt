@@ -27,7 +27,6 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +38,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val typeDropdown: AutoCompleteTextView = binding.typeDropdown
+        val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
         setupMenuValues(typeDropdown)
         //  this.binding.handlers = Handlers()
         binding.lifecycleOwner = this
@@ -57,12 +56,21 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
             Timber.tag("FabClick").d("It's ok FAB2")
-            val type = binding.typeDropdown.text
-            val price = binding.priceTextInput.text.toString().toInt()
-            val surface = binding.surfaceTextInput.text.toString().toInt()
-            val roomNumber = binding.numberOfRoomTextInput.text.toString().toInt()
-            val bathroomNumber = binding.numberOfBathroomTextInput?.text.toString().toInt()
-            val bedroomNumber = binding.numberOfBedroomTextInput?.text.toString().toInt()
+            val type = binding.type!!.typeDropdown.text
+            val price = binding.characteristics!!.priceTextInput.text.toString().toInt()
+            val surface = binding.characteristics!!.surfaceTextInput.text.toString().toInt()
+            val roomNumber = binding.characteristics!!.numberOfRoomTextInput.text.toString().toInt()
+            val bathroomNumber =
+                binding.characteristics!!.numberOfBathroomTextInput.text.toString().toInt()
+            val bedroomNumber =
+                binding.characteristics!!.numberOfBedroomTextInput.text.toString().toInt()
+            val address = binding.address!!.addressTextInput.text.toString()
+            val address2 = binding.address!!.address2TextInput.text.toString()
+            val city = binding.address!!.cityTextInput.text.toString()
+            val state = binding.address!!.stateTextInput.text.toString()
+            val zipcode = binding.address!!.zipcodeTextInput.text.toString()
+            val country = binding.address!!.countryTextInput.text.toString()
+
 
             //val navHostFragment = findNavController()
             //navHostFragment.navigate(R.id.propertyListFragment)
@@ -74,7 +82,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     }
 
     fun saveProperty() {
-        Timber.tag("FabClick").d("It's ok FABSAVE: ${binding.typeDropdown.text}")
+        Timber.tag("FabClick").d("It's ok FABSAVE: ${binding.typeDropdown!!.text}")
         //addPropertyViewModel.addPropertyToRoomDb()
     }
 
