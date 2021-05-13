@@ -114,6 +114,15 @@
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:property="@{property}" />
 
+                <include
+                    android:id="@+id/point_of_interest"
+                    layout="@layout/point_of_interest_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/characteristics"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:property="@{property}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

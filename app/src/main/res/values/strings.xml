@@ -30,4 +30,10 @@
     <string name="bathroom">Bathroom</string>
     <string name="rooms">Rooms</string>
     <string name="surface">Surface</string>
+    <string name="parcs">Parcs</string>
+    <string name="hospital">Hospital</string>
+    <string name="shops">Shops</string>
+    <string name="schools">Schools</string>
+    <string name="museum">Museum</string>
+    <string name="station">Station</string>
 </resources>

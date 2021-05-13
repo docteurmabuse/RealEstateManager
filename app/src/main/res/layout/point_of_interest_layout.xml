@@ -1,58 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <CheckBox
-        android:id="@+id/station"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Station"
-        app:layout_constraintStart_toStartOf="@+id/schools"
-        app:layout_constraintTop_toBottomOf="@+id/schools" />
+    <data>
 
-    <CheckBox
-        android:id="@+id/museum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Museum"
-        app:layout_constraintEnd_toStartOf="@+id/schools"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <variable
+            name="property"
+            type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
 
-    <CheckBox
-        android:id="@+id/schools"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Schools"
-        app:layout_constraintEnd_toStartOf="@+id/shops"
-        app:layout_constraintStart_toEndOf="@+id/museum"
-        app:layout_constraintTop_toTopOf="parent" />
+    </data>
 
-    <CheckBox
-        android:id="@+id/shops"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="Shops"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/schools"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <CheckBox
-        android:id="@+id/parcs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Parcs"
-        app:layout_constraintStart_toStartOf="@+id/shops"
-        app:layout_constraintTop_toBottomOf="@+id/shops" />
+        <CheckBox
+            android:id="@+id/station"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/station"
+            app:layout_constraintStart_toStartOf="@+id/schools"
+            app:layout_constraintTop_toBottomOf="@+id/schools" />
 
-    <CheckBox
-        android:id="@+id/hospital"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hospital"
-        app:layout_constraintStart_toStartOf="@+id/museum"
-        app:layout_constraintTop_toBottomOf="@+id/museum" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <CheckBox
+            android:id="@+id/museum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/museum"
+            app:layout_constraintEnd_toStartOf="@+id/schools"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/schools"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/schools"
+            app:layout_constraintEnd_toStartOf="@+id/shops"
+            app:layout_constraintStart_toEndOf="@+id/museum"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/shops"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@string/shops"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/schools"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/parcs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/parcs"
+            app:layout_constraintStart_toStartOf="@+id/shops"
+            app:layout_constraintTop_toBottomOf="@+id/shops" />
+
+        <CheckBox
+            android:id="@+id/hospital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hospital"
+            app:layout_constraintStart_toStartOf="@+id/museum"
+            app:layout_constraintTop_toBottomOf="@+id/museum" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
