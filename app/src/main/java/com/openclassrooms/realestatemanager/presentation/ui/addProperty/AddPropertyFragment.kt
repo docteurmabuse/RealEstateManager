@@ -8,8 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -18,13 +16,12 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
-    private val addPropertyViewModel: AddPropertyViewModel by viewModels()
+    private val viewModel: AddPropertyViewModel by viewModels()
 
     companion object {
         fun newInstance() = AddPropertyFragment()
     }
 
-    private lateinit var viewModel: AddPropertyViewModel
     private var _binding: AddPropertyFragmentBinding? = null
 
     // This property is only valid between onCreateView and
@@ -42,10 +39,11 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AddPropertyViewModel::class.java)
         val typeDropdown: AutoCompleteTextView = binding.typeDropdown
         setupMenuValues(typeDropdown)
-        this.binding.handlers = Handlers()
+        //  this.binding.handlers = Handlers()
+        binding.lifecycleOwner = this
+        this.binding.viewModel = viewModel
         setFabListener()
     }
 
@@ -59,14 +57,24 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
             Timber.tag("FabClick").d("It's ok FAB2")
-            val navHostFragment = findNavController()
-            navHostFragment.navigate(R.id.propertyListFragment)
-            //  saveProperty()
+            val type = binding.typeDropdown.text
+            val price = binding.priceTextInput.text.toString().toInt()
+            val surface = binding.surfaceTextInput.text.toString().toInt()
+            val roomNumber = binding.numberOfRoomTextInput.text.toString().toInt()
+            val bathroomNumber = binding.numberOfBathroomTextInput?.text.toString().toInt()
+            val bedroomNumber = binding.numberOfBedroomTextInput?.text.toString().toInt()
+
+            //val navHostFragment = findNavController()
+            //navHostFragment.navigate(R.id.propertyListFragment)
+            //saveProperty()
+            Timber.tag("FabClick")
+                .d("It's ok FABSAVE: $type, $price, $surface, $roomNumber, $bathroomNumber, $bedroomNumber")
+
         }
     }
 
     fun saveProperty() {
-        Timber.tag("FabClick").d("It's ok FAB2")
+        Timber.tag("FabClick").d("It's ok FABSAVE: ${binding.typeDropdown.text}")
         //addPropertyViewModel.addPropertyToRoomDb()
     }
 
@@ -77,8 +85,10 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     }
 
     class Handlers {
-        fun onClickFriend(property: Property) {
-            Timber.tag("FabClick").d("It's ok FAB Handler:${property.address1}")
+        fun onClickFriend(property: String) {
+            Timber.tag("FabClick").d("It's ok FAB Handler:$property")
+            //private val viewModel: AddPropertyViewModel by viewModels()
+
         }
     }
 

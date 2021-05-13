@@ -1,38 +1,66 @@
 package com.openclassrooms.realestatemanager.domain.model.property
 
 import android.os.Parcelable
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
 @Parcelize
 data class Property(
-    var id: Long,
-    var type: PropertyType?,
-    var price: Int?,
-    var surface: Int?,
-    var roomNumber: Int?,
-    var bathroomNumber: Int?,
-    var bedroomNumber: Int?,
-    var description: String?,
-    var address1: String,
-    var address2: String?,
+    @get:Bindable
+    var id: Long = 0,
+    @get:Bindable
+    var type: PropertyType? = null,
+    @get:Bindable
+    var price: Int? = 0,
+    @get:Bindable
+    var surface: Int? = 0,
+    @get:Bindable
+    var roomNumber: Int? = 1,
+    @get:Bindable
+    var bathroomNumber: Int? = 1,
+    @get:Bindable
+    var bedroomNumber: Int? = 1,
+    @get:Bindable
+    var description: String? = "",
+    @get:Bindable
+    var address1: String = "",
+    @get:Bindable
+    var address2: String? = "",
+    @get:Bindable
     var city: String = "New York",
-    var zipCode: Int,
+    @get:Bindable
+    var zipCode: Int? = null,
+    @get:Bindable
     var state: String? = "NY",
+    @get:Bindable
     var country: String = "United States",
-    var area: String?,
+    @get:Bindable
+    var area: String? = "",
+    @get:Bindable
     var schools: Boolean = false,
+    @get:Bindable
     var shops: Boolean = false,
+    @get:Bindable
     var parcs: Boolean = false,
+    @get:Bindable
     var stations: Boolean = false,
+    @get:Bindable
     var hospital: Boolean = false,
+    @get:Bindable
     var museum: Boolean = false,
+    @get:Bindable
     var sold: Boolean = false,
-    var sellDate: Date?,
-    var soldDate: Date?,
-    var media: Media,
+    @get:Bindable
+    var sellDate: Date? = null,
+    @get:Bindable
+    var soldDate: Date? = null,
+    @get:Bindable
+    var media: Media = Media(arrayListOf(), arrayListOf()),
+    @get:Bindable
     var agentId: String = "1"
-) : Parcelable {
+) : Parcelable, BaseObservable() {
 
     enum class PropertyType {
         House,

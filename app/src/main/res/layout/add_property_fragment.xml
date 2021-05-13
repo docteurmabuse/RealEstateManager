@@ -73,7 +73,7 @@
                     android:layout_marginStart="@dimen/marginStart"
                     android:text="@string/price"
                     android:textStyle="bold"
-                    app:layout_constraintBaseline_toBaselineOf="@id/surface_text_input"
+                    app:layout_constraintBaseline_toBaselineOf="@id/price_text_input"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
 
@@ -84,7 +84,7 @@
                     android:layout_marginStart="@dimen/marginStart"
                     android:text="@string/characteristics"
                     android:textStyle="bold"
-                    app:layout_constraintBaseline_toBaselineOf="@id/price_text_input"
+                    app:layout_constraintBaseline_toBaselineOf="@id/surface_text_input"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewType" />
 
@@ -127,7 +127,7 @@
                     android:layout_marginTop="@dimen/marginTop"
                     android:hint="@string/address"
                     android:inputType="textPostalAddress"
-                    android:text="@{property.address1}"
+                    android:text="@={property.address1}"
                     android:textSize="@dimen/textSize"
                     app:endIconMode="clear_text"
                     app:layout_constraintStart_toEndOf="@id/barrier"
@@ -169,7 +169,7 @@
                     android:layout_marginTop="@dimen/marginTop"
                     android:hint="@string/state"
                     android:inputType="textPostalAddress"
-                    android:text="@{property.state}"
+                    android:text="@={property.state}"
                     android:textSize="@dimen/textSize"
                     app:endIconMode="clear_text"
                     app:layout_constraintStart_toEndOf="@id/barrier"
@@ -198,7 +198,7 @@
                     android:hint="@string/description"
                     android:inputType="text"
                     android:maxLength="512"
-                    android:text="@{property.description}"
+                    android:text="@={property.description}"
                     android:textSize="@dimen/textSize"
                     app:endIconMode="clear_text"
                     app:layout_constraintStart_toEndOf="@id/barrier"
@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
                     android:layout_marginTop="@dimen/marginTop"
-                    android:hint="Price"
+                    android:hint="@string/price"
                     android:text="@{String.valueOf(property.price)}"
                     android:textSize="@dimen/textSize"
                     app:endIconMode="clear_text"
@@ -238,7 +238,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
                     android:layout_marginTop="@dimen/marginTop"
-                    android:hint="Surface"
+                    android:hint="@string/surface"
                     android:inputType="number"
                     android:maxLength="2"
                     android:text="@{String.valueOf(property.surface)}"
@@ -253,7 +253,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
                     android:layout_marginTop="@dimen/marginTop"
-                    android:hint="Rooms"
+                    android:hint="@string/rooms"
+                    android:inputType="number"
                     android:text="@{String.valueOf(property.roomNumber)}"
                     android:textSize="@dimen/textSize"
                     app:endIconMode="clear_text"
@@ -266,12 +267,28 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
                     android:layout_marginTop="@dimen/marginTop"
-                    android:hint="Bedrooms"
+                    android:hint="@string/bedrooms"
                     android:text="@{String.valueOf(property.bedroomNumber)}"
                     android:textSize="@dimen/textSize"
                     app:endIconMode="clear_text"
+                    android:inputType="number"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/surface_text_input"
+                    app:layout_constraintTop_toBottomOf="@id/price_text_input" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/number_of_bathroom_text_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:hint="@string/bathroom"
+                    android:inputType="number"
+                    android:text="@{String.valueOf(property.bathroomNumber)}"
+                    android:textSize="@dimen/textSize"
+                    app:endIconMode="clear_text"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/number_of_bedroom_text_input"
                     app:layout_constraintTop_toBottomOf="@id/price_text_input" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -296,7 +313,6 @@
             android:baselineAlignBottom="true"
             android:contentDescription="@string/add_property_button"
             app:backgroundTint="@color/colorAccent"
-            android:onClick="@{(v) -> handlers.onClickFriend(property)}"
             app:layout_anchor="@id/bottomAppBar"
             app:srcCompat="@drawable/ic_check_24dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
