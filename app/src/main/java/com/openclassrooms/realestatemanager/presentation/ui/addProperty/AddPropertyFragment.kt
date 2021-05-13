@@ -68,8 +68,14 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
             val address2 = binding.address!!.address2TextInput.text.toString()
             val city = binding.address!!.cityTextInput.text.toString()
             val state = binding.address!!.stateTextInput.text.toString()
-            val zipcode = binding.address!!.zipcodeTextInput.text.toString()
+            val zipcode = binding.address!!.zipcodeTextInput.text.toString().toInt()
             val country = binding.address!!.countryTextInput.text.toString()
+            val museum = binding.pointOfInterest!!.museum.isChecked
+            val schools = binding.pointOfInterest!!.schools.isChecked
+            val shops = binding.pointOfInterest!!.shops.isChecked
+            val hospital = binding.pointOfInterest!!.hospital.isChecked
+            val station = binding.pointOfInterest!!.station.isChecked
+            val parcs = binding.pointOfInterest!!.parcs.isChecked
 
 
             //val navHostFragment = findNavController()
