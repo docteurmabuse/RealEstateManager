@@ -66,7 +66,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     private fun setNewPropertyValues() {
 
-        val type = Property.PropertyType.valueOf(binding.type!!.typeDropdown.toString())
+        val type = binding.type!!.typeDropdown.text
         val price = binding.characteristics!!.priceTextInput.text.toString().toInt()
         val surface = binding.characteristics!!.surfaceTextInput.text.toString().toInt()
         val roomNumber = binding.characteristics!!.numberOfRoomTextInput.text.toString().toInt()
@@ -88,7 +88,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         val parcs = binding.pointOfInterest!!.parcs.isChecked
 
         Timber.tag("FabClick")
-            .d("It's ok FABSAVE: $type, $price, $surface, $roomNumber, $bathroomNumber, $bedroomNumber")
+            .d("It's ok FABSAVE: ${type}, $price, $surface, $roomNumber, $bathroomNumber, $bedroomNumber")
     }
 
     fun saveProperty() {
