@@ -55,35 +55,40 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
-            val type = binding.type!!.typeDropdown.text
-            val price = binding.characteristics!!.priceTextInput.text.toString().toInt()
-            val surface = binding.characteristics!!.surfaceTextInput.text.toString().toInt()
-            val roomNumber = binding.characteristics!!.numberOfRoomTextInput.text.toString().toInt()
-            val bathroomNumber =
-                binding.characteristics!!.numberOfBathroomTextInput.text.toString().toInt()
-            val bedroomNumber =
-                binding.characteristics!!.numberOfBedroomTextInput.text.toString().toInt()
-            val address = binding.address!!.addressTextInput.text.toString()
-            val address2 = binding.address!!.address2TextInput.text.toString()
-            val city = binding.address!!.cityTextInput.text.toString()
-            val state = binding.address!!.stateTextInput.text.toString()
-            val zipcode = binding.address!!.zipcodeTextInput.text.toString().toInt()
-            val country = binding.address!!.countryTextInput.text.toString()
-            val museum = binding.pointOfInterest!!.museum.isChecked
-            val schools = binding.pointOfInterest!!.schools.isChecked
-            val shops = binding.pointOfInterest!!.shops.isChecked
-            val hospital = binding.pointOfInterest!!.hospital.isChecked
-            val station = binding.pointOfInterest!!.station.isChecked
-            val parcs = binding.pointOfInterest!!.parcs.isChecked
-
-
+            setNewPropertyValues()
             //val navHostFragment = findNavController()
             //navHostFragment.navigate(R.id.propertyListFragment)
             //saveProperty()
-            Timber.tag("FabClick")
-                .d("It's ok FABSAVE: $type, $price, $surface, $roomNumber, $bathroomNumber, $bedroomNumber")
+
 
         }
+    }
+
+    private fun setNewPropertyValues() {
+
+        val type = Property.PropertyType.valueOf(binding.type!!.typeDropdown.toString())
+        val price = binding.characteristics!!.priceTextInput.text.toString().toInt()
+        val surface = binding.characteristics!!.surfaceTextInput.text.toString().toInt()
+        val roomNumber = binding.characteristics!!.numberOfRoomTextInput.text.toString().toInt()
+        val bathroomNumber =
+            binding.characteristics!!.numberOfBathroomTextInput.text.toString().toInt()
+        val bedroomNumber =
+            binding.characteristics!!.numberOfBedroomTextInput.text.toString().toInt()
+        val address = binding.address!!.addressTextInput.text.toString()
+        val address2 = binding.address!!.address2TextInput.text.toString()
+        val city = binding.address!!.cityTextInput.text.toString()
+        val state = binding.address!!.stateTextInput.text.toString()
+        val zipcode = binding.address!!.zipcodeTextInput.text.toString().toInt()
+        val country = binding.address!!.countryTextInput.text.toString()
+        val museum = binding.pointOfInterest!!.museum.isChecked
+        val schools = binding.pointOfInterest!!.schools.isChecked
+        val shops = binding.pointOfInterest!!.shops.isChecked
+        val hospital = binding.pointOfInterest!!.hospital.isChecked
+        val station = binding.pointOfInterest!!.station.isChecked
+        val parcs = binding.pointOfInterest!!.parcs.isChecked
+
+        Timber.tag("FabClick")
+            .d("It's ok FABSAVE: $type, $price, $surface, $roomNumber, $bathroomNumber, $bedroomNumber")
     }
 
     fun saveProperty() {

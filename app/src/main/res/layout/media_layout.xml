@@ -8,6 +8,11 @@
         <variable
             name="property"
             type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
+
+        <variable
+            name="viewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,9 +24,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            tools:listitem="@layout/media_item_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button_camera" />
+            app:layout_constraintTop_toBottomOf="@+id/button_camera"
+            tools:listitem="@layout/media_item_content" />
 
         <Button
             android:id="@+id/button_camera"
@@ -37,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:onClick="@"
             android:text="@string/phone_upload"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/button_camera"
