@@ -44,6 +44,12 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
         setFabListener()
+        setUploaddImageListener()
+
+    }
+
+    private fun setUploaddImageListener() {
+        TODO("Not yet implemented")
     }
 
     private fun setupMenuValues(dropdown: AutoCompleteTextView) {

@@ -38,4 +38,6 @@
     <string name="station">Station</string>
     <string name="phone_upload">Phone upload</string>
     <string name="camera_upload">Camera upload</string>
+    <string name="upload_video">Upload video</string>
+    <string name="upload_photo">Upload photo</string>
 </resources>
