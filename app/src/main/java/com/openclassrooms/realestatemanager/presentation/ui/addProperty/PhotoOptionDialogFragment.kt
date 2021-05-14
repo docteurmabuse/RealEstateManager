@@ -1,16 +1,19 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
+import android.app.Dialog
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.provider.MediaStore
+import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
+
 class PhotoOptionDialogFragment : DialogFragment() {
-    interface PhotoOptionDialogListener {
-        fun onCaptureClick()
-        fun onPickClick()
-    }
 
-    private lateinit var listener: PhotoOptionDialogListener
-
-    //Create dialog fragment to choose photo retrived method
+    //Create dialog fragment to choose photo retrieved method
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        listener = fragment as PhotoOptionDialogListener
         //Dynamic indices because position of the Gallery and Camera may change based on evice capabilities
         var captureSelectIdx = -1
         var pickSelectIdx = -1
@@ -32,9 +35,11 @@ class PhotoOptionDialogFragment : DialogFragment() {
             .setTitle("Photo Option")
             .setItems(options.toTypedArray<CharSequence>()) { _, which ->
                 if (which == captureSelectIdx) {
-                    listener.onCaptureClick()
+                    val result = "capture"
+                    setFragmentResult("requestKey", bundleOf("bundleKey" to result))
                 } else if (which == pickSelectIdx) {
-                    listener.onPickClick()
+                    val result = "pick"
+                    setFragmentResult("requestKey", bundleOf("bundleKey" to result))
                 }
             }
             .setNegativeButton("Cancel", null)

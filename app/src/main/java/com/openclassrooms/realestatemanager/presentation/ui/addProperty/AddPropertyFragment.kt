@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.openclassrooms.realestatemanager.R
@@ -27,6 +28,8 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,12 +47,32 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
         setFabListener()
-        setUploaddImageListener()
-
+        setUploadImageListener()
+        setImageDialogListener()
     }
 
-    private fun setUploaddImageListener() {
-        TODO("Not yet implemented")
+    private fun setImageDialogListener() {
+        childFragmentManager.setFragmentResultListener("requestKey", this) { key, bundle ->
+            val result = bundle.getString("bundleKey")
+            when (result) {
+                "capture" -> onCaptureClick()
+                "pick" -> onPickClick()
+                else -> {
+                    Timber.e("Something went wrong")
+                }
+            }
+        }
+    }
+
+    private fun setUploadImageListener() {
+        binding.media!!.buttonPhoto.setOnClickListener {
+            addImagetoRecyclerView()
+        }
+    }
+
+    private fun addImagetoRecyclerView() {
+        val newFragment = PhotoOptionDialogFragment.newInstance(this.requireContext())
+        newFragment?.show(childFragmentManager, "photoOptionDialog")
     }
 
     private fun setupMenuValues(dropdown: AutoCompleteTextView) {
@@ -71,7 +94,6 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     }
 
     private fun setNewPropertyValues() {
-
         val type = binding.type!!.typeDropdown.text
         val price = binding.characteristics!!.priceTextInput.text.toString().toInt()
         val surface = binding.characteristics!!.surfaceTextInput.text.toString().toInt()
@@ -114,6 +136,14 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
             //private val viewModel: AddPropertyViewModel by viewModels()
 
         }
+    }
+
+    fun onCaptureClick() {
+        Toast.makeText(activity, "Camera Capture", Toast.LENGTH_SHORT).show()
+    }
+
+    fun onPickClick() {
+        Toast.makeText(activity, "Gallery Pick", Toast.LENGTH_LONG).show()
     }
 
 

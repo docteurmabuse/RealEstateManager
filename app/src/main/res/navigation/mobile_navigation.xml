@@ -38,7 +38,11 @@
         android:id="@+id/addPropertyFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyFragment"
         android:label="add_property_fragment"
-        tools:layout="@layout/add_property_fragment" />
+        tools:layout="@layout/add_property_fragment">
+        <action
+            android:id="@+id/action_addPropertyFragment_to_photoOptionDialogFragment"
+            app:destination="@id/photoOptionDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.property_map.MapFragment"
@@ -49,4 +53,8 @@
         android:name="com.openclassrooms.realestatemanager.presentation.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+    <dialog
+        android:id="@+id/photoOptionDialogFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.addProperty.PhotoOptionDialogFragment"
+        android:label="PhotoOptionDialogFragment" />
 </navigation>
