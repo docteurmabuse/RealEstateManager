@@ -25,7 +25,7 @@ object ImageUtils {
 
     fun saveBitmapToFile(context: Context, bitmap: Bitmap, filename: String) {
         val stream = ByteArrayOutputStream()
-        bitmap.compress((Bitmap.CompressFormat.PNG, 100, stream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
         val bytes = stream.toByteArray()
         saveBytesToFile(context, bytes, filename)
     }
