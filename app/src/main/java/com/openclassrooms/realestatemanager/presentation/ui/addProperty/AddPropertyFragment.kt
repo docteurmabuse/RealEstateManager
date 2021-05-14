@@ -1,5 +1,7 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,17 +9,20 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.utils.ImageUtils
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
 class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private val viewModel: AddPropertyViewModel by viewModels()
+    private var photoFile: File? = null
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -139,12 +144,42 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     }
 
     fun onCaptureClick() {
-        Toast.makeText(activity, "Camera Capture", Toast.LENGTH_SHORT).show()
+        photoFile = 1
+        try {
+            photoFile = ImageUtils.createUniqueImageFile(this)
+        } catch (ex: java.io.IOException) {
+            return
+        }
+        photoFile.let { photoFile ->
+            val photoUri = FileProvider.getUriForFile(
+                this, "com.openclassrooms.realestatemanager",
+                photoFile
+            )
+            val captureIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+            captureIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri)
+            val intentActivities = requireActivity().packageManager.queryIntentActivities(
+                captureIntent, PackageManager.MATCH_DEFAULT_ONLY
+            )
+            intentActivities.map {
+                it.activityInfo.packageName
+            }
+                .forEach(
+                    requireActivity().grantUriPermission(
+                        it,
+                        photoUri,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    )
+                )
+        }
+        startActivityForResult(captureIntent, REQUEST_CAPTURE_IMAGE)
     }
 
     fun onPickClick() {
-        Toast.makeText(activity, "Gallery Pick", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "Camera Pick", Toast.LENGTH_SHORT).show()
+
     }
 
-
+    companion object {
+        private const val REQUEST_CAPTURE_IMAGE = 1
+    }
 }
