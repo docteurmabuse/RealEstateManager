@@ -10,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ constructor(
                 .catch { e ->
                     _state.value = (DataState.error(e.toString(), null))
                 }
-                .collect {
+                .collectLatest {
                     _state.value = DataState.success(it)
                 }
         }

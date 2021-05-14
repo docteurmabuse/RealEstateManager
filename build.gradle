@@ -11,12 +11,12 @@ buildscript {
         def nav_version = "2.3.5"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
-        classpath 'com.android.tools.build:gradle:7.0.0-alpha15'
-
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin"
+        classpath("com.android.tools.build:gradle:7.0.0-alpha15")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.0")
 
         classpath "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
-        classpath "com.google.gms:google-services:4.3.5"
+
+        classpath "com.google.gms:google-services:4.3.7"
     }
 }
 
