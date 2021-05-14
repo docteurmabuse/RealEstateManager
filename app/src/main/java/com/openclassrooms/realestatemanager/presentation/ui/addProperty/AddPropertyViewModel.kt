@@ -7,10 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
-import com.openclassrooms.realestatemanager.utils.ImageUtils
+import com.openclassrooms.realestatemanager.domain.model.property.Media
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,9 +33,37 @@ class AddPropertyViewModel @Inject constructor(
     }
 
     fun setImage(context: Context, image: Bitmap) {
-        id.let {
-            ImageUtils.sa
-        }
+
     }
+
+
+    data class AddPropertyView(
+        var id: Long? = null,
+        var type: Property.PropertyType? = null,
+        var price: Int? = 0,
+        var surface: Int? = 0,
+        var roomNumber: Int? = 1,
+        var bathroomNumber: Int? = 1,
+        var bedroomNumber: Int? = 1,
+        var description: String? = "",
+        var address1: String = "",
+        var address2: String? = "",
+        var city: String = "New York",
+        var zipCode: Int? = null,
+        var state: String? = "NY",
+        var country: String = "United States",
+        var area: String? = "",
+        var schools: Boolean = false,
+        var shops: Boolean = false,
+        var parcs: Boolean = false,
+        var stations: Boolean = false,
+        var hospital: Boolean = false,
+        var museum: Boolean = false,
+        var sold: Boolean = false,
+        var sellDate: Date? = null,
+        var soldDate: Date? = null,
+        var media: Media = Media(arrayListOf(), arrayListOf()),
+        var agentId: String = "1"
+    )
 }
 
