@@ -6,6 +6,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
     id 'com.google.secrets_gradle_plugin' version '0.5'
     id 'androidx.navigation.safeargs.kotlin'
 }
@@ -80,7 +81,6 @@ dependencies {
     implementation AndroidX.navigation_fragment_ktx
     implementation AndroidX.navigation_ui_ktx
     implementation AndroidX.sliding_panel_layout
-    kapt("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.2.0")
 
 
 //    implementation AndroidX.compose_ui
@@ -88,7 +88,7 @@ dependencies {
 //    implementation AndroidX.compose_material
 //    implementation AndroidX.compose_icons_core
 //    implementation AndroidX.compose_icons_extended
-  //  implementation AndroidX.navigation_compose
+    //  implementation AndroidX.navigation_compose
     implementation AndroidX.navigation_hilt
     implementation AndroidX.room_runtime
     implementation AndroidX.room_ktx
@@ -122,6 +122,7 @@ dependencies {
     implementation Square.okHttp
     implementation Square.leak_canary
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
 
     //Firebase
@@ -137,7 +138,6 @@ dependencies {
 
     def lifecycle_version = "2.3.1"
     def arch_version = "2.1.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.0"
 
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"

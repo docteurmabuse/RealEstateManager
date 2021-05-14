@@ -155,7 +155,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         }
         photoFile?.let { photoFile ->
             val photoUri = FileProvider.getUriForFile(
-                requireActivity(), "com.openclassrooms.realestatemanager",
+                requireActivity(), "com.openclassrooms.realestatemanager.fileprovider",
                 photoFile
             )
             val captureIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
