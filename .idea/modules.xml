@@ -3,10 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RealEstateManager.iml" filepath="$PROJECT_DIR$/.idea/modules/RealEstateManager.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/androidFood2Fork/RealEstateManager.androidFood2Fork.iml" filepath="$PROJECT_DIR$/.idea/modules/androidFood2Fork/RealEstateManager.androidFood2Fork.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/RealEstateManager.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/RealEstateManager.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/RealEstateManager.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/RealEstateManager.buildSrc.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shared/RealEstateManager.shared.iml" filepath="$PROJECT_DIR$/.idea/modules/shared/RealEstateManager.shared.iml" />
     </modules>
   </component>
 </project>

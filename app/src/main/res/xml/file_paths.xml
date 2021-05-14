@@ -2,5 +2,5 @@
 <paths>
     <external-path
         name="real_estate_manager_image"
-        path="Android/data/ com.openclassrooms.realestatemanager/files/Pictures" />
+        path="Android/data/com.openclassrooms.realestatemanager/files/Pictures" />
 </paths>
