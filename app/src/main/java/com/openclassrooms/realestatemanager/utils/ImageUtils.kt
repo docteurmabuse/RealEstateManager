@@ -8,9 +8,7 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import java.io.File
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,6 +21,24 @@ object ImageUtils {
         val fileName = "REM_" + timestamp + "_"
         val fileDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(fileName, ".jpg", fileDir)
+    }
+
+    fun saveBitmapToFile(context: Context, bitmap: Bitmap, filename: String) {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress((Bitmap.CompressFormat.PNG, 100, stream)
+        val bytes = stream.toByteArray()
+        saveBytesToFile(context, bytes, filename)
+    }
+
+    private fun saveBytesToFile(context: Context, bytes: ByteArray, filename: String) {
+        val outputStream: FileOutputStream
+        try {
+            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE)
+            outputStream.write(bytes)
+            outputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     //Calculate the optimum inSampleSize that can be used to resize an image to a specified width and height

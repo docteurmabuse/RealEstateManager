@@ -177,6 +177,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         }
     }
 
+
     private fun onPickClick() {
         Toast.makeText(activity, "Camera Pick", Toast.LENGTH_SHORT).show()
 
