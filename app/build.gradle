@@ -6,7 +6,6 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
-    id 'com.google.gms.google-services'
     id 'com.google.secrets_gradle_plugin' version '0.5'
     id 'androidx.navigation.safeargs.kotlin'
 }
@@ -82,6 +81,7 @@ dependencies {
     implementation AndroidX.navigation_ui_ktx
     implementation AndroidX.sliding_panel_layout
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.0"
 
 //    implementation AndroidX.compose_ui
 //    implementation AndroidX.compose_foundation
@@ -131,7 +131,7 @@ dependencies {
 
 
     // Concurrency
-    implementation "io.reactivex.rxjava2:rxjava:2.2.19"
+    implementation "io.reactivex.rxjava2:rxjava:2.2.21"
     implementation "io.reactivex.rxjava2:rxkotlin:2.4.0"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
 
@@ -178,10 +178,10 @@ dependencies {
     kapt AnnotationProcessing.room_compiler
 
     //mock
-    testImplementation 'com.squareup.okhttp3:mockwebserver:4.9.0'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.0.0-alpha.2'
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.moshi:moshi-kotlin:1.11.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.12.0'
 
     // TESTING
     testImplementation UnitTest.jupiter_api
@@ -198,33 +198,32 @@ dependencies {
     // Optional -- Robolectric environment
     testImplementation 'androidx.test:core:1.3.0'
     // Optional -- Mockito framework
-    testImplementation 'org.mockito:mockito-core:3.8.0'
+    testImplementation 'org.mockito:mockito-core:3.10.0'
 
     // Testing Dependencies
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
 
     androidTestImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
-    androidTestImplementation "org.mockito:mockito-android:2.28.2"
+    androidTestImplementation "org.mockito:mockito-android:3.10.0"
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'android.arch.core:core-testing:1.1.1'
     // Optional -- Hamcrest library
-    androidTestImplementation 'org.hamcrest:hamcrest-library:1.3'
+    androidTestImplementation 'org.hamcrest:hamcrest-library:2.2'
     // Optional -- UI testing with Espresso
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     // Optional -- UI testing with UI Automator
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0-RC'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0-RC-native-mt'
 
     //Hilt
-    // For Robolectric tests.
-    testImplementation 'com.google.dagger:hilt-android-testing:2.35'
+
     // ...with Kotlin.
     kaptTest 'com.google.dagger:hilt-android-compiler:2.35'
     // For instrumented tests.
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35'
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35.1'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.35'
 
     //Espresso

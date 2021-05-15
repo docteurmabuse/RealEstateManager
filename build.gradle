@@ -1,22 +1,26 @@
 import dependencies.Versions
 
+
 buildscript {
     ext.kotlin_version = Versions.kotlin
-    ext.navigation_version = "2.1.0"
+    ext.navigation_version = "2.3.5"
+
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
         def nav_version = "2.3.5"
+        classpath "com.android.tools.build:gradle:7.0.0-alpha15"
+
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+
+        classpath("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.2.0")
+
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
-        classpath 'com.android.tools.build:gradle:7.0.0-alpha15'
-
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin"
-
         classpath "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
-        classpath "com.google.gms:google-services:4.3.5"
+        classpath "com.google.gms:google-services:4.3.7"
     }
 }
 
