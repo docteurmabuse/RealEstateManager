@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.PropertyListContentBinding
-import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent.PlaceholderItem
 import timber.log.Timber
@@ -52,7 +51,7 @@ class PropertyAdapter(
         RecyclerView.ViewHolder(binding.root)
 }
 
-private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Media.Photo>() {
+private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Property>() {
     override fun areItemsTheSame(oldItem: Property, newItem: Property): Boolean {
         return oldItem.id == newItem.id
     }
