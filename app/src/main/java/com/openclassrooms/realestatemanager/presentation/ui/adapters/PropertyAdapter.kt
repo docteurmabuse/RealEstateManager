@@ -3,8 +3,10 @@ package com.openclassrooms.realestatemanager.presentation.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.PropertyListContentBinding
+import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent.PlaceholderItem
 import timber.log.Timber
@@ -17,7 +19,7 @@ class PropertyAdapter(
     private val properties: ArrayList<Property>,
     private val onClickListener: View.OnClickListener,
     private val onContextClickListener: View.OnContextClickListener
-) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>() {
+) : RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder>(ITEM_COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
         val binding =
@@ -48,5 +50,14 @@ class PropertyAdapter(
         val binding: PropertyListContentBinding
     ) :
         RecyclerView.ViewHolder(binding.root)
+}
 
+private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Media.Photo>() {
+    override fun areItemsTheSame(oldItem: Media.Photo, newItem: Media.Photo): Boolean {
+        return oldItem.photoPath == newItem.photoPath
+    }
+
+    override fun areContentsTheSame(oldItem: Media.Photo, newItem: Media.Photo): Boolean {
+        return newItem.photoPath == newItem.name && oldItem.photoPath == newItem.photoPath
+    }
 }
