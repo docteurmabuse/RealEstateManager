@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
+import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.utils.ImageUtils
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,10 +25,12 @@ import java.io.File
 class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private val viewModel: AddPropertyViewModel by viewModels()
     private var photoFile: File? = null
+    private val photos: ArrayList<Media.Photo> = arrayListOf()
 
     companion object {
         fun newInstance() = AddPropertyFragment()
         private const val REQUEST_CAPTURE_IMAGE = 1
+        private const val REQUEST_PICK_IMAGE = 2
 
     }
 
@@ -174,6 +177,30 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
                     )
                 }
             startActivityForResult(captureIntent, REQUEST_CAPTURE_IMAGE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == android.app.Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_CAPTURE_IMAGE -> {
+                    val photoFile = photoFile ?: return
+                    val uri = FileProvider.getUriForFile(
+                        requireContext(),
+                        "com.openclassrooms.realestatemanager.fileprovider",
+                        photoFile
+                    )
+                    requireContext().revokeUriPermission(
+                        uri,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                    )
+                    val photo = Media.Photo("", uri.toString())
+                    photos.add(photo)
+                    Timber.d("PHOTOS: ${photos[0]}")
+                    // val image = getImageWithPath(photoFile.absolutePath)
+                }
+            }
         }
     }
 
