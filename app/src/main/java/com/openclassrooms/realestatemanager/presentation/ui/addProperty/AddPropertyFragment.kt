@@ -35,7 +35,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     companion object {
         fun newInstance() = AddPropertyFragment()
         private const val REQUEST_CAPTURE_IMAGE = 1
-        private const val REQUEST_PICK_IMAGE = 2
+        private const val REQUEST_GALLERY_IMAGE = 2
 
     }
 
@@ -57,18 +57,12 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
         recyclerView = binding.media!!.photoRecyclerView
-        setupMenuValues(typeDropdown)
         //  this.binding.handlers = Handlers()
         binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
-        photos.add(
-            Media.Photo(
-                name = "living room",
-                photoPath = "/Android/data/com.openclassrooms.realestatemanager/files/Pictures/REM_20210516165100_4678410953489501184.jpg"
-            )
-        )
+        val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
+        setupMenuValues(typeDropdown)
 
         setupRecyclerView()
         setFabListener()
@@ -242,7 +236,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     private fun submitPhotoToList(photo: Media.Photo) {
         photos.add(photo)
-        Timber.d("PHOTOS: ${photos[1]}")
+        Timber.d("PHOTOS: ${photos[0]}")
         val adapter = PhotosAdapter()
         recyclerView.adapter = adapter
         adapter.submitList(photos)
