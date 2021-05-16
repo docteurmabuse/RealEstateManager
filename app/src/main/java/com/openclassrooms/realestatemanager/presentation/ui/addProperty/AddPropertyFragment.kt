@@ -12,10 +12,13 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotosAdapter
 import com.openclassrooms.realestatemanager.utils.ImageUtils
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -26,7 +29,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private val viewModel: AddPropertyViewModel by viewModels()
     private var photoFile: File? = null
     private val photos: ArrayList<Media.Photo> = arrayListOf()
-
+    private lateinit var adapter: PhotosAdapter
     companion object {
         fun newInstance() = AddPropertyFragment()
         private const val REQUEST_CAPTURE_IMAGE = 1
@@ -60,6 +63,21 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         setFabListener()
         setUploadImageListener()
         setImageDialogListener()
+        setRecyCleView()
+    }
+
+    private fun setRecyCleView() {
+        val recyclerView = binding.media.photoRecyclerView
+        adapter = PhotosAdapter(
+            arrayListOf()
+        )
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                recyclerView.context,
+                (recyclerView.layoutManager as LinearLayoutManager).orientation
+            )
+        )
+        recyclerView.adapter = adapter
     }
 
     private fun setImageDialogListener() {
@@ -198,6 +216,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
                     val photo = Media.Photo("", uri.toString())
                     photos.add(photo)
                     Timber.d("PHOTOS: ${photos[0]}")
+                    binding.media!!.photoRecyclerView.adapter = photos
                     // val image = getImageWithPath(photoFile.absolutePath)
                 }
             }
