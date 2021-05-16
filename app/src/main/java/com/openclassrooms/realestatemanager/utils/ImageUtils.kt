@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 object ImageUtils {
+    lateinit var currentPhotoPath: String
 
     //Returns an empty File in the app’s private pictures folder using a unique filename
     @Throws(IOException::class)
@@ -20,7 +21,9 @@ object ImageUtils {
         val timestamp = SimpleDateFormat("yyyyMMddHHmmss", Locale.US).format(Date())
         val fileName = "REM_" + timestamp + "_"
         val fileDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(fileName, ".jpg", fileDir)
+        return File.createTempFile(fileName, ".jpg", fileDir).apply {
+            currentPhotoPath = absolutePath
+        }
     }
 
     fun saveBitmapToFile(context: Context, bitmap: Bitmap, filename: String) {

@@ -65,7 +65,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         photos.add(
             Media.Photo(
                 name = "living room",
-                photoPath = "content://com.openclassrooms.realestatemanager.fileprovider/real_estate_manager_image/REM_20210516123152_2135246225477172142.jpg"
+                photoPath = "//com.openclassrooms.realestatemanager.fileprovider/real_estate_manager_image/REM_20210516123152_2135246225477172142.jpg"
             )
         )
 
@@ -83,7 +83,6 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private fun setupRecyclerView() {
         val adapter = PhotosAdapter()
         recyclerView.adapter = adapter
-        recyclerView.layoutManager
         adapter.submitList(photos)
     }
 
@@ -200,6 +199,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         }
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == android.app.Activity.RESULT_OK) {
@@ -215,7 +215,12 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
                         uri,
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
-                    val photo = Media.Photo("", uri.toString())
+                    val image = getImageWithPath(photoFile.absolutePath)
+
+                    val photo = Media.Photo(
+                        photoFile.absolutePath.toString(),
+                        photoFile.absolutePath.toString()
+                    )
                     submitPhotoToList(photo)
 
                     // val image = getImageWithPath(photoFile.absolutePath)
@@ -224,9 +229,15 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         }
     }
 
+    private fun getImageWithPath(filePath: String) = ImageUtils.decodeFileToSize(
+        filePath,
+        resources.getDimensionPixelSize(R.dimen.default_image_width),
+        resources.getDimensionPixelSize(R.dimen.default_image_height)
+    )
+
     private fun submitPhotoToList(photo: Media.Photo) {
         photos.add(photo)
-        Timber.d("PHOTOS: ${photos[0]}")
+        Timber.d("PHOTOS: ${photos[1]}")
         val adapter = PhotosAdapter()
         recyclerView.adapter = adapter
         adapter.submitList(photos)
@@ -234,6 +245,5 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     private fun onPickClick() {
         Toast.makeText(activity, "Camera Pick", Toast.LENGTH_SHORT).show()
-
     }
 }

@@ -15,6 +15,10 @@
             type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
 
         <variable
+            name="photo"
+            type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
+
+        <variable
             name="viewModel"
             type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyViewModel" />
     </data>

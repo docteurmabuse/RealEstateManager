@@ -24,7 +24,7 @@ class PhotosAdapter :
 
     override fun onBindViewHolder(holder: PhotosAdapter.PhotosViewHolder, position: Int) {
         val item = getItem(position)
-        holder.binding.photo
+        holder.binding.photo = item
     }
 
     inner class PhotosViewHolder(

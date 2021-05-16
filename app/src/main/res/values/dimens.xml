@@ -9,5 +9,6 @@
     <dimen name="marginEnd">16dp</dimen>
     <dimen name="textSize">16sp</dimen>
     <dimen name="formWidth">260dp</dimen>
-
+    <dimen name="default_image_width">480dp</dimen>
+    <dimen name="default_image_height">270dp</dimen>
 </resources>
