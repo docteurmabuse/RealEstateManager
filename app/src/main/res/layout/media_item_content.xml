@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="photo"
             type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
@@ -31,6 +30,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/mediaTitle_EditText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="@string/property_picture"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <com.google.android.material.textfield.TextInputEditText

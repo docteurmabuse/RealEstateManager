@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Media
@@ -27,6 +28,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private val viewModel: AddPropertyViewModel by viewModels()
     private var photoFile: File? = null
     private var photos: ArrayList<Media.Photo> = arrayListOf()
+    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PhotosAdapter
 
     companion object {
@@ -55,6 +57,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
+        recyclerView = binding.media!!.photoRecyclerView
         setupMenuValues(typeDropdown)
         //  this.binding.handlers = Handlers()
         binding.lifecycleOwner = this
@@ -78,10 +81,10 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     }
 
     private fun setupRecyclerView() {
-        val recyclerView = binding.media!!.photoRecyclerView
-        recyclerView.adapter = PhotosAdapter(
-            photos
-        )
+        val adapter = PhotosAdapter()
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager
+        adapter.submitList(photos)
     }
 
     private fun setupImageDialogListener() {
@@ -213,15 +216,21 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
                     val photo = Media.Photo("", uri.toString())
-                    photos.add(photo)
-                    Timber.d("PHOTOS: ${photos[0]}")
-                    adapter.addData(photos)
+                    submitPhotoToList(photo)
+
                     // val image = getImageWithPath(photoFile.absolutePath)
                 }
             }
         }
     }
 
+    private fun submitPhotoToList(photo: Media.Photo) {
+        photos.add(photo)
+        Timber.d("PHOTOS: ${photos[0]}")
+        val adapter = PhotosAdapter()
+        recyclerView.adapter = adapter
+        adapter.submitList(photos)
+    }
 
     private fun onPickClick() {
         Toast.makeText(activity, "Camera Pick", Toast.LENGTH_SHORT).show()

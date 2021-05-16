@@ -149,7 +149,7 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
     }
 
     private fun renderList(properties: List<Property>) {
-        adapter.addData(properties)
+        adapter.submitList(properties)
     }
 
     companion object {
