@@ -12,8 +12,6 @@ import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Media
@@ -28,8 +26,9 @@ import java.io.File
 class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private val viewModel: AddPropertyViewModel by viewModels()
     private var photoFile: File? = null
-    private val photos: ArrayList<Media.Photo> = arrayListOf()
+    private var photos: ArrayList<Media.Photo> = arrayListOf()
     private lateinit var adapter: PhotosAdapter
+
     companion object {
         fun newInstance() = AddPropertyFragment()
         private const val REQUEST_CAPTURE_IMAGE = 1
@@ -60,27 +59,32 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         //  this.binding.handlers = Handlers()
         binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
-        setFabListener()
-        setUploadImageListener()
-        setImageDialogListener()
-        setRecyCleView()
-    }
-
-    private fun setRecyCleView() {
-        val recyclerView = binding.media.photoRecyclerView
-        adapter = PhotosAdapter(
-            arrayListOf()
-        )
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                recyclerView.context,
-                (recyclerView.layoutManager as LinearLayoutManager).orientation
+        photos.add(
+            Media.Photo(
+                name = "living room",
+                photoPath = "content://com.openclassrooms.realestatemanager.fileprovider/real_estate_manager_image/REM_20210516123152_2135246225477172142.jpg"
             )
         )
-        recyclerView.adapter = adapter
+
+        setupRecyclerView()
+        setFabListener()
+        setupUploadImageListener()
+        setupImageDialogListener()
     }
 
-    private fun setImageDialogListener() {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun setupRecyclerView() {
+        val recyclerView = binding.media!!.photoRecyclerView
+        recyclerView.adapter = PhotosAdapter(
+            photos
+        )
+    }
+
+    private fun setupImageDialogListener() {
         childFragmentManager.setFragmentResultListener("requestKey", this) { key, bundle ->
             val result = bundle.getString("bundleKey")
             when (result) {
@@ -93,13 +97,13 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         }
     }
 
-    private fun setUploadImageListener() {
+    private fun setupUploadImageListener() {
         binding.media!!.buttonPhoto.setOnClickListener {
-            addImagetoRecyclerView()
+            addImageToRecyclerView()
         }
     }
 
-    private fun addImagetoRecyclerView() {
+    private fun addImageToRecyclerView() {
         val newFragment = PhotoOptionDialogFragment.newInstance(this.requireContext())
         newFragment?.show(childFragmentManager, "photoOptionDialog")
     }
@@ -153,11 +157,6 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         //addPropertyViewModel.addPropertyToRoomDb()
     }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     class Handlers {
         fun onClickFriend(property: String) {
@@ -216,7 +215,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
                     val photo = Media.Photo("", uri.toString())
                     photos.add(photo)
                     Timber.d("PHOTOS: ${photos[0]}")
-                    binding.media!!.photoRecyclerView.adapter = photos
+                    adapter.addData(photos)
                     // val image = getImageWithPath(photoFile.absolutePath)
                 }
             }

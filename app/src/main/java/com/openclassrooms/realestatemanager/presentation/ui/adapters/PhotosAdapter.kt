@@ -24,6 +24,10 @@ class PhotosAdapter(private val photos: ArrayList<Photo>) :
 
     override fun getItemCount(): Int = photos.size
 
+    fun addData(list: ArrayList<Photo>) {
+        photos.addAll(list)
+    }
+
     inner class PhotosViewHolder(
         val binding: MediaItemContentBinding
     ) : RecyclerView.ViewHolder(binding.root)
