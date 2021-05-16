@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.media.MediaScannerConnection
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -65,7 +66,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         photos.add(
             Media.Photo(
                 name = "living room",
-                photoPath = "//com.openclassrooms.realestatemanager.fileprovider/real_estate_manager_image/REM_20210516123152_2135246225477172142.jpg"
+                photoPath = "/Android/data/com.openclassrooms.realestatemanager/files/Pictures/REM_20210516165100_4678410953489501184.jpg"
             )
         )
 
@@ -216,10 +217,14 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION
                     )
                     val image = getImageWithPath(photoFile.absolutePath)
-
+                    val file = File(photoFile.absolutePath)
+                    MediaScannerConnection.scanFile(
+                        context, arrayOf(file.toString()),
+                        null, null
+                    )
                     val photo = Media.Photo(
                         photoFile.absolutePath.toString(),
-                        photoFile.absolutePath.toString()
+                        photoFile.toString()
                     )
                     submitPhotoToList(photo)
 

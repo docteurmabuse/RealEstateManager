@@ -1,10 +1,10 @@
 package com.openclassrooms.realestatemanager.presentation.ui.binding
 
 import android.widget.ImageView
-import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import coil.load
 import com.openclassrooms.realestatemanager.R
+import java.io.File
 
 
 class ViewBinding {
@@ -14,9 +14,7 @@ class ViewBinding {
         @BindingAdapter("imagePath")
         fun bindImage(imgView: ImageView, imgPath: String?) {
             imgPath?.let {
-                // val imgUri = imgUrl.toUri().buildUpon().scheme("https").build()
-
-                imgView.load(imgPath.toUri()) {
+                imgView.load(File(imgPath)) {
                     placeholder(R.drawable.loading_animation)
                     error(R.drawable.ic_baseline_broken_image_24dp)
                 }
