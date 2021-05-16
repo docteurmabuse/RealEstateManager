@@ -6,8 +6,10 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
     id 'com.google.secrets_gradle_plugin' version '0.5'
     id 'androidx.navigation.safeargs.kotlin'
+
 }
 
 android {
@@ -81,7 +83,6 @@ dependencies {
     implementation AndroidX.navigation_ui_ktx
     implementation AndroidX.sliding_panel_layout
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.0"
 
 //    implementation AndroidX.compose_ui
 //    implementation AndroidX.compose_foundation
@@ -122,7 +123,8 @@ dependencies {
     implementation Square.okHttp
     implementation Square.leak_canary
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
 
 
     //Firebase
@@ -219,12 +221,13 @@ dependencies {
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0-RC-native-mt'
 
     //Hilt
-
+    // For Robolectric tests.
+  //  testImplementation 'com.google.dagger:hilt-android-testing:2.35'
     // ...with Kotlin.
-    kaptTest 'com.google.dagger:hilt-android-compiler:2.35'
+    //kaptTest 'com.google.dagger:hilt-android-compiler:2.35'
     // For instrumented tests.
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35.1'
-    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.35'
+   // androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35'
+    //kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.35'
 
     //Espresso
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
