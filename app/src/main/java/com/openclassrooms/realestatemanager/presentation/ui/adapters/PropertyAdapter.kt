@@ -53,11 +53,11 @@ class PropertyAdapter(
 }
 
 private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Media.Photo>() {
-    override fun areItemsTheSame(oldItem: Media.Photo, newItem: Media.Photo): Boolean {
-        return oldItem.photoPath == newItem.photoPath
+    override fun areItemsTheSame(oldItem: Property, newItem: Property): Boolean {
+        return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Media.Photo, newItem: Media.Photo): Boolean {
-        return newItem.photoPath == newItem.name && oldItem.photoPath == newItem.photoPath
+    override fun areContentsTheSame(oldItem: Property, newItem: Property): Boolean {
+        return newItem.description == newItem.description && oldItem.address1 == newItem.address1 && newItem.address2 == newItem.address2
     }
 }
