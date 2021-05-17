@@ -3,13 +3,14 @@ package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -217,16 +218,31 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
                         null, null
                     )
                     val photo = Media.Photo(
-                        photoFile.absolutePath.toString(),
-                        photoFile.toString()
+                        uri.toString(),
+                        uri.toString()
                     )
                     submitPhotoToList(photo)
 
                     // val image = getImageWithPath(photoFile.absolutePath)
                 }
+                REQUEST_GALLERY_IMAGE -> if (data != null && data.data != null) {
+                    val imageUri = data.data
+                    val photo = Media.Photo(
+                        imageUri.toString(),
+                        imageUri.toString()
+                    )
+                    submitPhotoToList(photo)
+                }
             }
         }
     }
+
+    private fun getImageWithAuthority(uri: Uri) = ImageUtils.decodeUriStreamToSize(
+        uri,
+        resources.getDimensionPixelSize(R.dimen.default_image_width),
+        resources.getDimensionPixelSize(R.dimen.default_image_height),
+        requireContext()
+    )
 
     private fun getImageWithPath(filePath: String) = ImageUtils.decodeFileToSize(
         filePath,
@@ -236,13 +252,15 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     private fun submitPhotoToList(photo: Media.Photo) {
         photos.add(photo)
-        Timber.d("PHOTOS: ${photos[0]}")
+        Timber.d("PHOTOS: ${photo.photoPath}")
         val adapter = PhotosAdapter()
         recyclerView.adapter = adapter
         adapter.submitList(photos)
     }
 
     private fun onPickClick() {
-        Toast.makeText(activity, "Camera Pick", Toast.LENGTH_SHORT).show()
+        val pickIntent =
+            Intent(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
+        startActivityForResult(pickIntent, REQUEST_GALLERY_IMAGE)
     }
 }

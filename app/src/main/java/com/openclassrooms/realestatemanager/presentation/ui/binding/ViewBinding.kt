@@ -4,7 +4,6 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import coil.load
 import com.openclassrooms.realestatemanager.R
-import java.io.File
 
 
 class ViewBinding {
@@ -14,7 +13,7 @@ class ViewBinding {
         @BindingAdapter("imagePath")
         fun bindImage(imgView: ImageView, imgPath: String?) {
             imgPath?.let {
-                imgView.load(File(imgPath)) {
+                imgView.load(imgPath.toString()) {
                     placeholder(R.drawable.loading_animation)
                     error(R.drawable.ic_baseline_broken_image_24dp)
                 }
