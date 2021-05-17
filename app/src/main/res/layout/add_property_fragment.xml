@@ -129,16 +129,24 @@
                     app:property="@{property}" />
 
                 <include
+                    android:id="@+id/dates"
+                    layout="@layout/dates_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/point_of_interest"
+                    app:layout_goneMarginEnd="@dimen/marginEnd" />
+
+                <include
                     android:id="@+id/media"
                     layout="@layout/media_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/point_of_interest"
+                    app:layout_constraintTop_toBottomOf="@id/dates"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:property="@{property}"
-                    app:photo="@{photo}" />
-
+                    app:photo="@{photo}"
+                    app:property="@{property}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

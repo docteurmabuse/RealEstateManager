@@ -86,5 +86,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/number_of_bedroom_text_input"
             app:layout_constraintTop_toBottomOf="@id/price_text_input" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

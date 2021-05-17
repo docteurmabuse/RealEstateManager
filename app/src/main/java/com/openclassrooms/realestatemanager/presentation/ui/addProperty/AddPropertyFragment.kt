@@ -218,17 +218,15 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
                         null, null
                     )
                     val photo = Media.Photo(
-                        uri.toString(),
+                        "",
                         uri.toString()
                     )
                     submitPhotoToList(photo)
-
-                    // val image = getImageWithPath(photoFile.absolutePath)
                 }
                 REQUEST_GALLERY_IMAGE -> if (data != null && data.data != null) {
                     val imageUri = data.data
                     val photo = Media.Photo(
-                        imageUri.toString(),
+                        "",
                         imageUri.toString()
                     )
                     submitPhotoToList(photo)

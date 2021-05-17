@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/drawable/ic_add_24dp.xml" value="0.28177083333333336" />
+        <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/drawable/ic_delete_24dp.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/drawable/ic_menu_24dp.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/drawable/loading_animation.xml" value="0.28177083333333336" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/drawable/loading_image.xml" value="0.28177083333333336" />
@@ -18,7 +19,9 @@
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/add_property_fragment.xml" value="0.25" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/address_layout.xml" value="0.24166666666666667" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/characteristics.xml" value="0.2390625" />
+        <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/characteristics_layout.xml" value="0.1403985507246377" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/content_main.xml" value="0.2066869300911854" />
+        <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/dates_layout.xml" value="0.1403985507246377" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/fragment_map.xml" value="0.24895833333333334" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/fragment_property.xml" value="0.25" />
         <entry key="..\:/Users/laure/AndroidStudioProjects/RealEstateManager/app/src/main/res/layout/fragment_property_list.xml" value="0.23489583333333333" />
