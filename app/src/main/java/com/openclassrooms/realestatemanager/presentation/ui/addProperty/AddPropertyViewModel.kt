@@ -1,7 +1,5 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
-import android.content.Context
-import android.graphics.Bitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,13 +30,45 @@ class AddPropertyViewModel @Inject constructor(
         }
     }
 
-    fun setImage(context: Context, image: Bitmap) {
-
+    fun saveProperty(addPropertyView: AddPropertyView) {
+        viewModelScope.launch {
+            val property: Property = addPropertyViewToProperty(addPropertyView)
+            property.let { addProperty(it) }
+        }
     }
 
+    private fun addPropertyViewToProperty(addPropertyView: AddPropertyView): Property? {
+        val property: Property?
+        property.id = addPropertyView.id
+        property.type = addPropertyView.type
+        property.price = addPropertyView.price
+        property.surface = addPropertyView.surface
+        property.roomNumber = addPropertyView.roomNumber
+        property.bathroomNumber = addPropertyView.bathroomNumber
+        property.bedroomNumber = addPropertyView.bedroomNumber
+        property.description = addPropertyView.description
+        property.address1 = addPropertyView.address1
+        property.address2 = addPropertyView.address2
+        property.city = addPropertyView.city
+        property.zipCode = addPropertyView.zipCode
+        property.state = addPropertyView.state
+        property.country = addPropertyView.country
+        property.area = addPropertyView.area
+        property.schools = addPropertyView.schools
+        property.shops = addPropertyView.shops
+        property.parcs = addPropertyView.parcs
+        property.stations = addPropertyView.stations
+        property.hospital = addPropertyView.hospital
+        property.museum = addPropertyView.museum
+        property.sold = addPropertyView.sold
+        property.sellDate = addPropertyView.sellDate
+        property.soldDate = addPropertyView.soldDate
+        property.media = addPropertyView.media
+        property.agentId = addPropertyView.agentId
+    }
 
     data class AddPropertyView(
-        var id: Long? = null,
+        var id: Long = null,
         var type: Property.PropertyType? = null,
         var price: Int? = 0,
         var surface: Int? = 0,

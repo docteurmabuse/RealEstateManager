@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="property"
             type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
@@ -41,6 +43,7 @@
                 android:id="@+id/sell_date_dropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:hint="@string/on_market_since"
                 android:inputType="textAutoComplete"
                 android:labelFor="@id/type_input_layout" />
@@ -62,15 +65,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginStart"
+            android:checked="@{property.sold}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switch_title" />
 
         <TextView
+            android:layout_height="wrap_content"
             android:id="@+id/sold_title"
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_width="wrap_content"
             android:layout_marginTop="22dp"
             android:text="@string/sold_since"
+            android:visibility="@{property.sold ? View.VISIBLE: View.GONE}"
             app:layout_constraintStart_toStartOf="@id/sold_input_layout"
             app:layout_constraintTop_toBottomOf="@+id/sell_input_layout" />
 
@@ -81,6 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginStart"
             android:layout_marginEnd="@dimen/marginEnd"
+            android:visibility="@{property.sold ? View.VISIBLE: View.GONE}"
             app:layout_constraintStart_toEndOf="@id/sold_switch"
             app:layout_constraintTop_toBottomOf="@id/sold_title"
             app:layout_goneMarginEnd="@dimen/marginEnd">

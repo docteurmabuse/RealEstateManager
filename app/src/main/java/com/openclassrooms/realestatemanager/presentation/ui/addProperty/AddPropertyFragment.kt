@@ -32,6 +32,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private var photos: ArrayList<Media.Photo> = arrayListOf()
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PhotosAdapter
+    private var addPropertyView: AddPropertyViewModel.AddPropertyView? = null
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -118,41 +119,40 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
             setNewPropertyValues()
             //val navHostFragment = findNavController()
             //navHostFragment.navigate(R.id.propertyListFragment)
-            //saveProperty()
-
-
+            saveProperty()
         }
-    }
-
-    private fun setNewPropertyValues() {
-        val type = binding.type!!.typeDropdown.text
-        val price = binding.characteristics!!.priceTextInput.text.toString().toInt()
-        val surface = binding.characteristics!!.surfaceTextInput.text.toString().toInt()
-        val roomNumber = binding.characteristics!!.numberOfRoomTextInput.text.toString().toInt()
-        val bathroomNumber =
-            binding.characteristics!!.numberOfBathroomTextInput.text.toString().toInt()
-        val bedroomNumber =
-            binding.characteristics!!.numberOfBedroomTextInput.text.toString().toInt()
-        val address = binding.address!!.addressTextInput.text.toString()
-        val address2 = binding.address!!.address2TextInput.text.toString()
-        val city = binding.address!!.cityTextInput.text.toString()
-        val state = binding.address!!.stateTextInput.text.toString()
-        val zipcode = binding.address!!.zipcodeTextInput.text.toString().toInt()
-        val country = binding.address!!.countryTextInput.text.toString()
-        val museum = binding.pointOfInterest!!.museum.isChecked
-        val schools = binding.pointOfInterest!!.schools.isChecked
-        val shops = binding.pointOfInterest!!.shops.isChecked
-        val hospital = binding.pointOfInterest!!.hospital.isChecked
-        val station = binding.pointOfInterest!!.station.isChecked
-        val parcs = binding.pointOfInterest!!.parcs.isChecked
-
-        Timber.tag("FabClick")
-            .d("It's ok FABSAVE: ${type}, $price, $surface, $roomNumber, $bathroomNumber, $bedroomNumber")
     }
 
     fun saveProperty() {
         Timber.tag("FabClick").d("It's ok FABSAVE: ${binding.typeDropdown!!.text}")
-        //addPropertyViewModel.addPropertyToRoomDb()
+        addPropertyView?.let { addPropertyView ->
+            addPropertyView.type = binding.type!!.typeDropdown.text
+            addPropertyView.price = binding.characteristics!!.priceTextInput.text.toString().toInt()
+            addPropertyView.surface =
+                binding.characteristics!!.surfaceTextInput.text.toString().toInt()
+            addPropertyView.roomNumber =
+                binding.characteristics!!.numberOfRoomTextInput.text.toString().toInt()
+            addPropertyView.bathroomNumber =
+                binding.characteristics!!.numberOfBathroomTextInput.text.toString().toInt()
+            addPropertyView.bedroomNumber =
+                binding.characteristics!!.numberOfBedroomTextInput.text.toString().toInt()
+            addPropertyView.address = binding.address!!.addressTextInput.text.toString()
+            addPropertyView.address2 = binding.address!!.address2TextInput.text.toString()
+            addPropertyView.city = binding.address!!.cityTextInput.text.toString()
+            addPropertyView.state = binding.address!!.stateTextInput.text.toString()
+            addPropertyView.zipcode = binding.address!!.zipcodeTextInput.text.toString().toInt()
+            addPropertyView.country = binding.address!!.countryTextInput.text.toString()
+            addPropertyView.museum = binding.pointOfInterest!!.museum.isChecked
+            addPropertyView.schools = binding.pointOfInterest!!.schools.isChecked
+            addPropertyView.shops = binding.pointOfInterest!!.shops.isChecked
+            addPropertyView.hospital = binding.pointOfInterest!!.hospital.isChecked
+            addPropertyView.station = binding.pointOfInterest!!.station.isChecked
+            addPropertyView.parcs = binding.pointOfInterest!!.parcs.isChecked
+        }
+
+        viewModel.saveProperty(addPropertyView)
+        Timber.tag("FabClick")
+            .d("It's ok FABSAVE: ${addPropertyView.type}, $addPropertyView.price, $addPropertyView.surface, $addPropertyView.roomNumber, $addPropertyView.bathroomNumber, $addPropertyView.bedroomNumber")
     }
 
 

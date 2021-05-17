@@ -121,12 +121,6 @@
                 app:layout_constraintTop_toBottomOf="@id/number_of_room_input_layout"
                 app:layout_goneMarginEnd="@dimen/marginEnd">
 
-                <NumberPicker
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/marginStart"
-                    android:layout_marginTop="@dimen/marginTop"
-                    app:layout_goneMarginEnd="@dimen/marginEnd" />
             </com.google.android.material.textfield.TextInputLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
