@@ -41,4 +41,10 @@
     <string name="upload_video">Upload video</string>
     <string name="upload_photo">Add picture</string>
     <string name="property_picture">Property picture</string>
+    <string name="delete_icon">Delete icon</string>
+    <string name="enter_media_title">Enter Media title</string>
+    <string name="on_market_since">On market since</string>
+    <string name="sold_since">Sold since</string>
+    <string name="sold_date">Sold date</string>
+    <string name="sold">Sold</string>
 </resources>
