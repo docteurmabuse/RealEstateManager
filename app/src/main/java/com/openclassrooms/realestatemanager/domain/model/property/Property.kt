@@ -11,7 +11,7 @@ data class Property(
     @get:Bindable
     var id: Long = 0,
     @get:Bindable
-    var type: PropertyType? = null,
+    var type: String? = "",
     @get:Bindable
     var price: Int? = 0,
     @get:Bindable

@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaScannerConnection
@@ -20,19 +21,24 @@ import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBindi
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotosAdapter
+import com.openclassrooms.realestatemanager.utils.DateUtil
 import com.openclassrooms.realestatemanager.utils.ImageUtils
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.io.File
+import java.util.*
+
 
 @AndroidEntryPoint
 class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private val viewModel: AddPropertyViewModel by viewModels()
     private var photoFile: File? = null
     private var photos: ArrayList<Media.Photo> = arrayListOf()
+    private var videos: ArrayList<Media.Video> = arrayListOf()
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PhotosAdapter
-    private var addPropertyView: AddPropertyViewModel.AddPropertyView? = null
+    private lateinit var addPropertyView: AddPropertyViewModel.AddPropertyView
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -70,11 +76,34 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         setFabListener()
         setupUploadImageListener()
         setupImageDialogListener()
+        setupSellDateListener()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupSellDateListener() {
+        binding.dates!!.sellDateDropdown.setOnClickListener {
+            val cldr: Calendar = Calendar.getInstance()
+            val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
+            val month: Int = cldr.get(Calendar.MONTH)
+            val year: Int = cldr.get(Calendar.YEAR)
+            // date picker dialog3
+            val picker = DatePickerDialog(
+                requireContext(),
+                { view, year, monthOfYear, dayOfMonth ->
+                    binding.dates!!.sellDateDropdown.setText(
+                        dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
+                    )
+                },
+                year,
+                month,
+                day
+            )
+            picker.show()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -116,7 +145,6 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
-            setNewPropertyValues()
             //val navHostFragment = findNavController()
             //navHostFragment.navigate(R.id.propertyListFragment)
             saveProperty()
@@ -125,8 +153,8 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
 
     fun saveProperty() {
         Timber.tag("FabClick").d("It's ok FABSAVE: ${binding.typeDropdown!!.text}")
-        addPropertyView?.let { addPropertyView ->
-            addPropertyView.type = binding.type!!.typeDropdown.text
+        addPropertyView.let { addPropertyView ->
+            addPropertyView.type = binding.type!!.typeDropdown.text.toString()
             addPropertyView.price = binding.characteristics!!.priceTextInput.text.toString().toInt()
             addPropertyView.surface =
                 binding.characteristics!!.surfaceTextInput.text.toString().toInt()
@@ -136,7 +164,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
                 binding.characteristics!!.numberOfBathroomTextInput.text.toString().toInt()
             addPropertyView.bedroomNumber =
                 binding.characteristics!!.numberOfBedroomTextInput.text.toString().toInt()
-            addPropertyView.address = binding.address!!.addressTextInput.text.toString()
+            addPropertyView.address1 = binding.address!!.addressTextInput.text.toString()
             addPropertyView.address2 = binding.address!!.address2TextInput.text.toString()
             addPropertyView.city = binding.address!!.cityTextInput.text.toString()
             addPropertyView.state = binding.address!!.stateTextInput.text.toString()
@@ -146,8 +174,15 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
             addPropertyView.schools = binding.pointOfInterest!!.schools.isChecked
             addPropertyView.shops = binding.pointOfInterest!!.shops.isChecked
             addPropertyView.hospital = binding.pointOfInterest!!.hospital.isChecked
-            addPropertyView.station = binding.pointOfInterest!!.station.isChecked
+            addPropertyView.stations = binding.pointOfInterest!!.station.isChecked
             addPropertyView.parcs = binding.pointOfInterest!!.parcs.isChecked
+            addPropertyView.sold = binding.dates!!.soldSwitch.isChecked
+            addPropertyView.sellDate =
+                DateUtil.stringToDate(binding.dates!!.sellDateDropdown.text.toString())
+            addPropertyView.soldDate =
+                DateUtil.stringToDate(binding.dates!!.soldDateDropdown.text.toString())
+            addPropertyView.media = Media(photos, videos)
+            //addPropertyView.agentId =
         }
 
         viewModel.saveProperty(addPropertyView)

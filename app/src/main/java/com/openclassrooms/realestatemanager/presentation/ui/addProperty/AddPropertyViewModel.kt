@@ -33,12 +33,12 @@ class AddPropertyViewModel @Inject constructor(
     fun saveProperty(addPropertyView: AddPropertyView) {
         viewModelScope.launch {
             val property: Property = addPropertyViewToProperty(addPropertyView)
-            property.let { addProperty(it) }
+            property.let { addProperty.invoke(it) }
         }
     }
 
-    private fun addPropertyViewToProperty(addPropertyView: AddPropertyView): Property? {
-        val property: Property?
+    private fun addPropertyViewToProperty(addPropertyView: AddPropertyView): Property {
+        val property = Property()
         property.id = addPropertyView.id
         property.type = addPropertyView.type
         property.price = addPropertyView.price
@@ -50,7 +50,7 @@ class AddPropertyViewModel @Inject constructor(
         property.address1 = addPropertyView.address1
         property.address2 = addPropertyView.address2
         property.city = addPropertyView.city
-        property.zipCode = addPropertyView.zipCode
+        property.zipCode = addPropertyView.zipcode
         property.state = addPropertyView.state
         property.country = addPropertyView.country
         property.area = addPropertyView.area
@@ -65,11 +65,13 @@ class AddPropertyViewModel @Inject constructor(
         property.soldDate = addPropertyView.soldDate
         property.media = addPropertyView.media
         property.agentId = addPropertyView.agentId
+
+        return property
     }
 
     data class AddPropertyView(
-        var id: Long = null,
-        var type: Property.PropertyType? = null,
+        var id: Long,
+        var type: String? = "null",
         var price: Int? = 0,
         var surface: Int? = 0,
         var roomNumber: Int? = 1,
@@ -79,7 +81,7 @@ class AddPropertyViewModel @Inject constructor(
         var address1: String = "",
         var address2: String? = "",
         var city: String = "New York",
-        var zipCode: Int? = null,
+        var zipcode: Int? = null,
         var state: String? = "NY",
         var country: String = "United States",
         var area: String? = "",
@@ -93,7 +95,7 @@ class AddPropertyViewModel @Inject constructor(
         var sellDate: Date? = null,
         var soldDate: Date? = null,
         var media: Media = Media(arrayListOf(), arrayListOf()),
-        var agentId: String = "1"
+        var agentId: String = FirebaseAuth.getInstance().currentUser.uid
     )
 }
 
