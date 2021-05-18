@@ -95,7 +95,7 @@ class AddPropertyViewModel @Inject constructor(
         var sellDate: Date? = null,
         var soldDate: Date? = null,
         var media: Media = Media(arrayListOf(), arrayListOf()),
-        var agentId: String = FirebaseAuth.getInstance().currentUser.uid
+        var agentId: String = "1"
     )
 }
 

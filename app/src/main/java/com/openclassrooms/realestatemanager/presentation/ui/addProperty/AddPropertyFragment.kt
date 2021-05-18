@@ -21,7 +21,6 @@ import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBindi
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotosAdapter
-import com.openclassrooms.realestatemanager.utils.DateUtil
 import com.openclassrooms.realestatemanager.utils.ImageUtils
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -93,6 +92,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun setupSellDateListener() {
         binding.dates!!.sellDateDropdown.setOnClickListener {
             val cldr: Calendar = Calendar.getInstance()
+            var date: Long = cldr.timeInMillis
             val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
             val month: Int = cldr.get(Calendar.MONTH)
             val year: Int = cldr.get(Calendar.YEAR)
@@ -100,7 +100,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                 requireContext(),
                 { view, year, monthOfYear, dayOfMonth ->
                     binding.dates!!.sellDateDropdown.setText(
-                        dayOfMonth.toString() + "/" + (monthOfYear + 1) + "/" + year
+                        "$dayOfMonth / $monthOfYear + 1)/ $year"
                     )
                 },
                 year,
@@ -184,14 +184,16 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.pointOfInterest!!.station.isChecked,
             binding.pointOfInterest!!.parcs.isChecked,
             binding.dates!!.soldSwitch.isChecked,
-            DateUtil.stringToDate(binding.dates!!.sellDateDropdown.text.toString()),
-            DateUtil.stringToDate(binding.dates!!.soldDateDropdown.text.toString()),
-            Media(photos, videos)
+            //DateUtil.stringToDate(binding.dates!!.sellDateDropdown.text.toString()),
+            //  DateUtil.stringToDate(binding.dates!!.soldDateDropdown.text.toString()),
+            null, null,
+            Media(photos, videos),
+            "Maurice Chevalier"
         )
-
-        viewModel.saveProperty(addPropertyView)
         Timber.tag("FabClick")
             .d("It's ok FABSAVE: ${addPropertyView.type}, $addPropertyView!!.price, $addPropertyView!!.surface, $addPropertyView!!.roomNumber, $addPropertyView!!.bathroomNumber, $addPropertyView!!.bedroomNumber")
+
+        viewModel.saveProperty(addPropertyView)
     }
 
 

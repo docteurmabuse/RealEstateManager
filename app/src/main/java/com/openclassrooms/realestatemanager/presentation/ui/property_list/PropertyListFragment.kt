@@ -59,6 +59,7 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView: RecyclerView = binding.propertyList
         setObserver()
+        viewModel.fetchProperties()
         // Leaving this not using view binding as it relies on if the view is visible the current
         // layout configuration (layout, layout-sw600dp)
         val itemDetailFragmentContainer: View? =
@@ -108,7 +109,6 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
         onContextClickListener: View.OnContextClickListener
     ) {
         adapter = PropertyAdapter(
-            arrayListOf(),
             onClickListener,
             onContextClickListener
         )
@@ -119,7 +119,6 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
             )
         )
         recyclerView.adapter = adapter
-
     }
 
     private fun setFabListener() {

@@ -11,7 +11,6 @@ import com.openclassrooms.realestatemanager.domain.model.property.Property
 import timber.log.Timber
 
 class PropertyAdapter(
-    private val properties: ArrayList<Property>,
     private val onClickListener: View.OnClickListener,
     private val onContextClickListener: View.OnContextClickListener
 ) : ListAdapter<Property, PropertyAdapter.PropertyViewHolder>(
@@ -25,7 +24,7 @@ class PropertyAdapter(
     }
 
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
-        val item = properties[position]
+        val item = getItem(position)
         holder.binding.property = item
         with(holder.itemView) {
             tag = item

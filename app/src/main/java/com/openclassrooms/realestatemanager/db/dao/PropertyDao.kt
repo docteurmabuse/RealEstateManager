@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.Flow
 interface PropertyDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertPropertyAggregate(
+    suspend fun insertPropertyAggregate(
         property: PropertyEntity,
         photos: List<PhotoEntity>,
         videos: List<VideoEntity>
     )
 
-    fun insertProperty(propertyAggregate: PropertyEntityAggregate) {
+    suspend fun insertProperty(propertyAggregate: PropertyEntityAggregate) {
         insertPropertyAggregate(
             propertyAggregate.property,
             propertyAggregate.photos,
