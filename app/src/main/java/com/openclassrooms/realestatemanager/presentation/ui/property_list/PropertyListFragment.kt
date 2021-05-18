@@ -36,6 +36,7 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
     private val binding get() = _binding!!
     private val viewModel: PropertyListViewModel by viewModels()
     private lateinit var adapter: PropertyAdapter
+    private var properties: List<Property> = arrayListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,7 +58,7 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView: RecyclerView = binding.propertyList
-
+        setObserver()
         // Leaving this not using view binding as it relies on if the view is visible the current
         // layout configuration (layout, layout-sw600dp)
         val itemDetailFragmentContainer: View? =
@@ -123,9 +124,14 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
 
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
-            Timber.tag("FabClick").d("It's ok FAB")
             val navHostFragment = findNavController()
-            navHostFragment.navigate(R.id.addPropertyFragment)
+            val newPropertyId = properties.size.toLong() + 1
+            val action =
+                PropertyListFragmentDirections.actionPropertyListFragmentToAddPropertyFragment(
+                    newPropertyId
+                )
+            navHostFragment.navigate(action)
+            Timber.tag("PROPERTYID").d("PROPERTYID: $newPropertyId")
         }
     }
 
@@ -148,8 +154,9 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
         }
     }
 
-    private fun renderList(properties: List<Property>) {
-        adapter.submitList(properties)
+    private fun renderList(list: List<Property>) {
+        adapter.submitList(list)
+        properties = list
     }
 
     companion object {

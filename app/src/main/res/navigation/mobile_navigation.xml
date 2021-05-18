@@ -42,6 +42,10 @@
         <action
             android:id="@+id/action_addPropertyFragment_to_photoOptionDialogFragment"
             app:destination="@id/photoOptionDialogFragment" />
+        <argument
+            android:name="propertyId"
+            android:defaultValue="0L"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"

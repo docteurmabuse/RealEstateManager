@@ -15,6 +15,7 @@ import android.widget.AutoCompleteTextView
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
@@ -35,7 +36,8 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private var photoFile: File? = null
     private var photos: ArrayList<Media.Photo> = arrayListOf()
     private var videos: ArrayList<Media.Video> = arrayListOf()
-
+    private val args: AddPropertyFragmentArgs by navArgs()
+    private var newPropertyId: Long = 0
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PhotosAdapter
     private lateinit var addPropertyView: AddPropertyViewModel.AddPropertyView
@@ -77,6 +79,12 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         setupUploadImageListener()
         setupImageDialogListener()
         setupSellDateListener()
+        retrieveArguments()
+    }
+
+    private fun retrieveArguments() {
+        newPropertyId = args.propertyId
+        Timber.d("ADDPROPERTY: ${newPropertyId}")
     }
 
     override fun onDestroyView() {
@@ -90,7 +98,6 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
             val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
             val month: Int = cldr.get(Calendar.MONTH)
             val year: Int = cldr.get(Calendar.YEAR)
-            // date picker dialog3
             val picker = DatePickerDialog(
                 requireContext(),
                 { view, year, monthOfYear, dayOfMonth ->
@@ -139,7 +146,11 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private fun setupMenuValues(dropdown: AutoCompleteTextView) {
         val items = Property.PropertyType.values()
         val adapter =
-            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                items
+            )
         dropdown.setAdapter(adapter)
     }
 
@@ -152,10 +163,12 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     }
 
     fun saveProperty() {
-        Timber.tag("FabClick").d("It's ok FABSAVE: ${binding.typeDropdown!!.text}")
+        //   Timber.tag("FabClick").d("It's ok FABSAVE: ${binding.typeDropdown!!.text}")
         addPropertyView.let { addPropertyView ->
+            addPropertyView.id = newPropertyId
             addPropertyView.type = binding.type!!.typeDropdown.text.toString()
-            addPropertyView.price = binding.characteristics!!.priceTextInput.text.toString().toInt()
+            addPropertyView.price =
+                binding.characteristics!!.priceTextInput.text.toString().toInt()
             addPropertyView.surface =
                 binding.characteristics!!.surfaceTextInput.text.toString().toInt()
             addPropertyView.roomNumber =
@@ -168,7 +181,8 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
             addPropertyView.address2 = binding.address!!.address2TextInput.text.toString()
             addPropertyView.city = binding.address!!.cityTextInput.text.toString()
             addPropertyView.state = binding.address!!.stateTextInput.text.toString()
-            addPropertyView.zipcode = binding.address!!.zipcodeTextInput.text.toString().toInt()
+            addPropertyView.zipcode =
+                binding.address!!.zipcodeTextInput.text.toString().toInt()
             addPropertyView.country = binding.address!!.countryTextInput.text.toString()
             addPropertyView.museum = binding.pointOfInterest!!.museum.isChecked
             addPropertyView.schools = binding.pointOfInterest!!.schools.isChecked

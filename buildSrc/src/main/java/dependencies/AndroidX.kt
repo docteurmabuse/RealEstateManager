@@ -16,7 +16,6 @@ object AndroidX {
         "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
     const val ui_tooling = "androidx.ui:ui-tooling:${Versions.androidx_ui}"
 
-    // we will remove these 2 dependencies later when building the compose-only nav system
     const val nav_fragment_ktx =
         "androidx.navigation:navigation-fragment-ktx:${Versions.nav_component}"
     const val nav_ui_ktx = "androidx.navigation:navigation-ui-ktx:${Versions.nav_component}"
