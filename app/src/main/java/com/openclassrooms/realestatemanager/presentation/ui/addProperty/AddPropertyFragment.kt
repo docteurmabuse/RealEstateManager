@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.core.content.FileProvider
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
@@ -31,7 +30,7 @@ import java.util.*
 
 
 @AndroidEntryPoint
-class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
+class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property_fragment) {
     private val viewModel: AddPropertyViewModel by viewModels()
     private var photoFile: File? = null
     private var photos: ArrayList<Media.Photo> = arrayListOf()
@@ -40,7 +39,7 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
     private var newPropertyId: Long = 0
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PhotosAdapter
-    private lateinit var addPropertyView: AddPropertyViewModel.AddPropertyView
+    private var addPropertyView: AddPropertyViewModel.AddPropertyView? = null
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -162,9 +161,9 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
         }
     }
 
-    fun saveProperty() {
-        //   Timber.tag("FabClick").d("It's ok FABSAVE: ${binding.typeDropdown!!.text}")
-        addPropertyView.let { addPropertyView ->
+    private fun saveProperty() {
+
+        addPropertyView?.let { addPropertyView ->
             addPropertyView.id = newPropertyId
             addPropertyView.type = binding.type!!.typeDropdown.text.toString()
             addPropertyView.price =
@@ -199,9 +198,9 @@ class AddPropertyFragment : Fragment(R.layout.add_property_fragment) {
             //addPropertyView.agentId =
         }
 
-        viewModel.saveProperty(addPropertyView)
+        viewModel.saveProperty(addPropertyView!!)
         Timber.tag("FabClick")
-            .d("It's ok FABSAVE: ${addPropertyView.type}, $addPropertyView.price, $addPropertyView.surface, $addPropertyView.roomNumber, $addPropertyView.bathroomNumber, $addPropertyView.bedroomNumber")
+            .d("It's ok FABSAVE: ${addPropertyView!!.type}, $addPropertyView!!.price, $addPropertyView!!.surface, $addPropertyView!!.roomNumber, $addPropertyView!!.bathroomNumber, $addPropertyView!!.bedroomNumber")
     }
 
 

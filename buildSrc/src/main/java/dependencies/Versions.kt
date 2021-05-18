@@ -11,7 +11,7 @@ object Versions {
 
     const val kotlin = "1.5.0"
     const val gradle = "7.0.0-alpha05"
-    const val hilt = "2.31.2-alpha"
+    const val hilt = "2.35"
     const val junit5 = "1.7.0.0"
     const val kotlin_compiler_extension = "1.0.0-alpha11"
     //const val compose_compiler = "1.0.0-beta05"
@@ -24,7 +24,6 @@ object Versions {
     const val compose = "1.0.0-alpha11"
     const val hilt_lifecycle_viewmodel = "1.0.0-alpha03"
     const val nav_component = "2.3.5"
-    const val nav_compose = "1.0.0-alpha10"
     const val hilt_navigation = "1.0.0-beta01"
     const val hilt_navigation_compose = "1.0.0-alpha02"
     const val glide = "4.11.0"

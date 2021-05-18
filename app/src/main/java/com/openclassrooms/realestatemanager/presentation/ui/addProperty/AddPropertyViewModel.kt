@@ -70,7 +70,7 @@ class AddPropertyViewModel @Inject constructor(
     }
 
     data class AddPropertyView(
-        var id: Long,
+        var id: Long = 0,
         var type: String? = "null",
         var price: Int? = 0,
         var surface: Int? = 0,

@@ -10,6 +10,7 @@ plugins {
     id 'com.google.secrets_gradle_plugin' version '0.5'
     id("androidx.navigation.safeargs.kotlin")
 }
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion Versions.compileSdk
@@ -33,7 +34,6 @@ android {
     }
 
     buildFeatures {
-        //compose true
         dataBinding true
         viewBinding true
     }
@@ -76,13 +76,6 @@ dependencies {
     implementation AndroidX.navigation_ui_ktx
     implementation AndroidX.sliding_panel_layout
 
-
-//    implementation AndroidX.compose_ui
-//    implementation AndroidX.compose_foundation
-//    implementation AndroidX.compose_material
-//    implementation AndroidX.compose_icons_core
-//    implementation AndroidX.compose_icons_extended
-    //  implementation AndroidX.navigation_compose
     implementation AndroidX.navigation_hilt
     implementation AndroidX.room_runtime
     implementation AndroidX.room_ktx
@@ -93,10 +86,7 @@ dependencies {
 
     implementation("androidx.navigation:navigation-dynamic-features-fragment:2.3.5")
 
-    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
-    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+
     implementation 'androidx.test:monitor:1.3.0'
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -105,8 +95,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
     implementation 'androidx.fragment:fragment-ktx:1.3.3'
-    implementation "androidx.navigation:navigation-fragment-ktx:2.3.5"
-    implementation "androidx.navigation:navigation-ui-ktx:2.3.5"
+
 
     implementation Google.material
     implementation Google.hilt_android
@@ -192,8 +181,6 @@ dependencies {
     testImplementation UnitTest.mock_web_server
     testImplementation UnitTest.okHttp
 
-    // compose testing
-    //implementation InstrumentationTest.compose_ui
 
     // Optional -- Robolectric environment
     testImplementation 'androidx.test:core:1.3.0'
@@ -216,15 +203,15 @@ dependencies {
     // Optional -- UI testing with UI Automator
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0-RC-native-mt'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0-native-mt'
 
     //Hilt
     // For Robolectric tests.
-  //  testImplementation 'com.google.dagger:hilt-android-testing:2.35'
+    //  testImplementation 'com.google.dagger:hilt-android-testing:2.35'
     // ...with Kotlin.
     //kaptTest 'com.google.dagger:hilt-android-compiler:2.35'
     // For instrumented tests.
-   // androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35'
+    // androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35'
     //kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.35'
 
     //Espresso
@@ -240,4 +227,7 @@ secrets {
     // Add keys that the plugin should ignore from the properties file
     ignoreList.add("keyToIgnore")
     ignoreList.add("ignore*")
+}
+repositories {
+    mavenCentral()
 }

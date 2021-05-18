@@ -1,8 +1,7 @@
-import dependencies.Versions
-
+import dependencies.*
 
 buildscript {
-    ext.kotlin_version = Versions.kotlin
+    ext.kotlin_version = '1.5.0'
     ext.navigation_version = "2.3.5"
 
     repositories {
@@ -13,14 +12,15 @@ buildscript {
         def nav_version = "2.3.5"
         classpath 'com.google.gms:google-services:4.3.8'
 
-        classpath "com.android.tools.build:gradle:7.0.0-alpha15"
+        classpath 'com.android.tools.build:gradle:4.2.1'
+
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.0"
 
         //classpath "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.2.0"
 
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
 
-        classpath "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
-
+        classpath "com.google.dagger:hilt-android-gradle-plugin:2.35"
     }
 }
 
