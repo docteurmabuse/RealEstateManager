@@ -47,4 +47,5 @@
     <string name="sold_since">Sold since</string>
     <string name="sold_date">Sold date</string>
     <string name="sold">Sold</string>
+    <string name="area">Area</string>
 </resources>

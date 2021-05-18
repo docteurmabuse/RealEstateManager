@@ -39,7 +39,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var newPropertyId: Long = 0
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PhotosAdapter
-    private var addPropertyView: AddPropertyViewModel.AddPropertyView? = null
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -162,45 +161,37 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun saveProperty() {
+        val addPropertyView = AddPropertyViewModel.AddPropertyView(
+            newPropertyId,
+            binding.type!!.typeDropdown.text.toString(),
+            binding.characteristics!!.priceTextInput.text.toString().toInt(),
+            binding.characteristics!!.surfaceTextInput.text.toString().toInt(),
+            binding.characteristics!!.numberOfRoomTextInput.text.toString().toInt(),
+            binding.characteristics!!.numberOfBathroomTextInput.text.toString().toInt(),
+            binding.characteristics!!.numberOfBedroomTextInput.text.toString().toInt(),
+            binding.type!!.descriptionTextInput.toString(),
+            binding.address!!.addressTextInput.text.toString(),
+            binding.address!!.address2TextInput.text.toString(),
+            binding.address!!.cityTextInput.text.toString(),
+            binding.address!!.zipcodeTextInput.text.toString().toInt(),
+            binding.address!!.stateTextInput.text.toString(),
+            binding.address!!.countryTextInput.text.toString(),
+            binding.address!!.areaTextInput.toString(),
+            binding.pointOfInterest!!.museum.isChecked,
+            binding.pointOfInterest!!.schools.isChecked,
+            binding.pointOfInterest!!.shops.isChecked,
+            binding.pointOfInterest!!.hospital.isChecked,
+            binding.pointOfInterest!!.station.isChecked,
+            binding.pointOfInterest!!.parcs.isChecked,
+            binding.dates!!.soldSwitch.isChecked,
+            DateUtil.stringToDate(binding.dates!!.sellDateDropdown.text.toString()),
+            DateUtil.stringToDate(binding.dates!!.soldDateDropdown.text.toString()),
+            Media(photos, videos)
+        )
 
-        addPropertyView?.let { addPropertyView ->
-            addPropertyView.id = newPropertyId
-            addPropertyView.type = binding.type!!.typeDropdown.text.toString()
-            addPropertyView.price =
-                binding.characteristics!!.priceTextInput.text.toString().toInt()
-            addPropertyView.surface =
-                binding.characteristics!!.surfaceTextInput.text.toString().toInt()
-            addPropertyView.roomNumber =
-                binding.characteristics!!.numberOfRoomTextInput.text.toString().toInt()
-            addPropertyView.bathroomNumber =
-                binding.characteristics!!.numberOfBathroomTextInput.text.toString().toInt()
-            addPropertyView.bedroomNumber =
-                binding.characteristics!!.numberOfBedroomTextInput.text.toString().toInt()
-            addPropertyView.address1 = binding.address!!.addressTextInput.text.toString()
-            addPropertyView.address2 = binding.address!!.address2TextInput.text.toString()
-            addPropertyView.city = binding.address!!.cityTextInput.text.toString()
-            addPropertyView.state = binding.address!!.stateTextInput.text.toString()
-            addPropertyView.zipcode =
-                binding.address!!.zipcodeTextInput.text.toString().toInt()
-            addPropertyView.country = binding.address!!.countryTextInput.text.toString()
-            addPropertyView.museum = binding.pointOfInterest!!.museum.isChecked
-            addPropertyView.schools = binding.pointOfInterest!!.schools.isChecked
-            addPropertyView.shops = binding.pointOfInterest!!.shops.isChecked
-            addPropertyView.hospital = binding.pointOfInterest!!.hospital.isChecked
-            addPropertyView.stations = binding.pointOfInterest!!.station.isChecked
-            addPropertyView.parcs = binding.pointOfInterest!!.parcs.isChecked
-            addPropertyView.sold = binding.dates!!.soldSwitch.isChecked
-            addPropertyView.sellDate =
-                DateUtil.stringToDate(binding.dates!!.sellDateDropdown.text.toString())
-            addPropertyView.soldDate =
-                DateUtil.stringToDate(binding.dates!!.soldDateDropdown.text.toString())
-            addPropertyView.media = Media(photos, videos)
-            //addPropertyView.agentId =
-        }
-
-        viewModel.saveProperty(addPropertyView!!)
+        viewModel.saveProperty(addPropertyView)
         Timber.tag("FabClick")
-            .d("It's ok FABSAVE: ${addPropertyView!!.type}, $addPropertyView!!.price, $addPropertyView!!.surface, $addPropertyView!!.roomNumber, $addPropertyView!!.bathroomNumber, $addPropertyView!!.bedroomNumber")
+            .d("It's ok FABSAVE: ${addPropertyView.type}, $addPropertyView!!.price, $addPropertyView!!.surface, $addPropertyView!!.roomNumber, $addPropertyView!!.bathroomNumber, $addPropertyView!!.bedroomNumber")
     }
 
 
