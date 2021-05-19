@@ -26,9 +26,9 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/propertyImg"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/img_photo"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:contentDescription="@null"
                 android:fitsSystemWindows="true"
@@ -41,28 +41,40 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/id_text"
+                android:id="@+id/text_type"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
-                android:text="@{property.address1}"
+                android:text="@{property.type}"
                 android:textAppearance="?attr/textAppearanceListItem"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/content"
-                app:layout_constraintStart_toEndOf="@id/propertyImg"
+                app:layout_constraintBottom_toTopOf="@id/text_area"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/img_photo"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/content"
+                android:id="@+id/text_area"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
-                android:text="@{property.description}"
+                android:text="@{property.area}"
+                android:textAppearance="?attr/textAppearanceListItem"
+                app:layout_constraintBottom_toTopOf="@id/text_price"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/img_photo"
+                app:layout_constraintTop_toBottomOf="@id/text_type" />
+
+            <TextView
+                android:id="@+id/text_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:text="@{property.price.toString()}"
                 android:textAppearance="?attr/textAppearanceListItem"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/id_text"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/img_photo"
+                app:layout_constraintTop_toBottomOf="@id/text_area" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>

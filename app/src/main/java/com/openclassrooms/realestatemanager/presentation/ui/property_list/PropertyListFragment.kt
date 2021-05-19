@@ -130,7 +130,7 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
                     newPropertyId
                 )
             navHostFragment.navigate(action)
-            Timber.tag("PROPERTYID").d("PROPERTYID: $newPropertyId")
+            Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
         }
     }
 

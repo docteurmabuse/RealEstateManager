@@ -5,6 +5,7 @@ import androidx.databinding.BindingAdapter
 import coil.load
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.property.Media
+import timber.log.Timber
 
 
 class ViewBinding {
@@ -26,6 +27,8 @@ class ViewBinding {
         @BindingAdapter("imagePath")
         fun bindPhotoImage(imgView: ImageView, photos: List<Media.Photo>?) {
             photos?.let {
+                Timber.d("PHOTOS: $it")
+
                 if (photos.isNotEmpty())
                     imgView.load(photos[0].photoPath) {
                         placeholder(R.drawable.loading_animation)
