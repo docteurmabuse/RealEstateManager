@@ -33,10 +33,6 @@
             android:layout_height="@dimen/app_bar_height"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="300dp" />
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
@@ -45,6 +41,22 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:toolbarId="@+id/toolbar">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:tabBackground="@drawable/tab_selector"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMaxWidth="10dp" />
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/detail_toolbar"
@@ -63,19 +75,36 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <TextView
-                android:id="@+id/item_detail"
-                style="?android:attr/textAppearanceLarge"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="@dimen/marginEnd"
-                android:paddingTop="16dp"
-                android:paddingEnd="@dimen/marginEnd"
-                android:paddingBottom="16dp"
-                android:text="@{property.type}"
-                android:textIsSelectable="true"
-                tools:context="com.example.myapplication.ItemDetailFragment" />
+                android:layout_height="wrap_content">
 
+                <TextView
+                    android:id="@+id/item_type"
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:paddingBottom="16dp"
+                    android:text="@{property.type}"
+                    android:textIsSelectable="true"
+                    tools:context="com.example.myapplication.ItemDetailFragment" />
+
+                <TextView
+                    android:id="@+id/item_detail"
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:paddingBottom="16dp"
+                    android:text="@{property.type}"
+                    android:textIsSelectable="true"
+                    tools:context="com.example.myapplication.ItemDetailFragment" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.bottomappbar.BottomAppBar

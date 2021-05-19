@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,11 +15,17 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private lateinit var properties: List<Property>
     private lateinit var binding: ActivityMainBinding
     private val viewModel: PropertyListViewModel by viewModels()
 
@@ -106,6 +113,32 @@ class MainActivity : AppCompatActivity() {
 
     private fun showImages() {
         viewModel.fetchProperties()
+    }
+
+    private fun setObserver() {
+        lifecycleScope.launch {
+            val value = viewModel.state
+            value.collect {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+                        it.data?.let { properties ->
+
+                            renderList(properties)
+                        }
+                    }
+                    DataState.Status.LOADING -> {
+
+                    }
+                    DataState.Status.ERROR -> {
+                        Timber.d("LIST_OBSERVER: ${it.message}")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun renderList(list: List<Property>) {
+        properties = list
     }
 
 }

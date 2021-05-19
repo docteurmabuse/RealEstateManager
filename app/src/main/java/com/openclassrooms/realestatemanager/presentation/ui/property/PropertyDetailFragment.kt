@@ -8,10 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.android.material.tabs.TabLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyPagerAdapter
 import timber.log.Timber
 
 class PropertyDetailFragment : Fragment(R.layout.property_detail) {
@@ -20,10 +23,11 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
      * The placeholder content this fragment is presenting.
      */
     private var property: Property? = null
-
-    lateinit var itemDetailTextView: TextView
+    private var viewPager: ViewPager2? = null
+    private var tabLayout: TabLayout? = null
+    private lateinit var itemDetailTextView: TextView
     private var toolbarLayout: CollapsingToolbarLayout? = null
-
+    private var adapter = PropertyPagerAdapter()
     private var _binding: PropertyDetailBinding? = null
 
     // This property is only valid between onCreateView and
@@ -54,6 +58,19 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         }
     }
 
+    private fun setupViewPager() {
+        viewPager = binding.viewPager
+        viewPager!!.adapter = adapter
+        //tabLayout = binding.tabLayout
+        // tabLayout!!.setupr(viewPager, true)
+
+//        tabLayout?.let {
+//            TabLayoutMediator(it, viewPager!!) { tab, position ->
+//                tab.text = "OBJECT ${(position + 1)}"
+//            }.attach()
+//        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -64,10 +81,9 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
         toolbarLayout = binding.toolbarLayout
         itemDetailTextView = binding.itemDetail
-
+        setupViewPager()
         updateContent()
         rootView.setOnDragListener(dragListener)
-
         return rootView
     }
 
@@ -78,6 +94,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         property?.let {
             binding.property = it
             //itemDetailTextView.text = it.details
+            adapter.submitList(it.media.photos)
         }
     }
 
