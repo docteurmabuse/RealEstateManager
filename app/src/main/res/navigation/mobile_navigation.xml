@@ -27,7 +27,7 @@
         tools:layout="@layout/property_list_content">
         <argument
             android:name="property"
-            app:argType="string"
+            app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
             app:nullable="true" />
         <argument
             android:name="item_id"

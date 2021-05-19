@@ -8,6 +8,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="photo"
+            type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
+
+        <variable
             name="property"
             type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
     </data>
@@ -29,7 +33,7 @@
                 android:contentDescription="@null"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                app:imagePath="@{property.media.photos[0]}"
+                app:imagePath="@{property.media.photos}"
                 app:layout_collapseMode="parallax"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

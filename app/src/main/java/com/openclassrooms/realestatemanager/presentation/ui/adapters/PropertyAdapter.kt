@@ -48,6 +48,6 @@ private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Property>() {
     }
 
     override fun areContentsTheSame(oldItem: Property, newItem: Property): Boolean {
-        return newItem.description == newItem.description && oldItem.address1 == newItem.address1 && newItem.address2 == newItem.address2
+        return oldItem == newItem
     }
 }

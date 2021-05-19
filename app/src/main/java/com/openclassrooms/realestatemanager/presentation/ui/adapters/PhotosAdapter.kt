@@ -38,6 +38,6 @@ private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Media.Photo>() {
     }
 
     override fun areContentsTheSame(oldItem: Media.Photo, newItem: Media.Photo): Boolean {
-        return newItem.photoPath == newItem.name && oldItem.photoPath == newItem.photoPath
+        return oldItem == newItem
     }
 }

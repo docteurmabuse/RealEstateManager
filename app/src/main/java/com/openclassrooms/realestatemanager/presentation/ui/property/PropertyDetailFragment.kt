@@ -11,14 +11,14 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
-import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 
 class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
     /**
      * The placeholder content this fragment is presenting.
      */
-    private var item: PlaceholderContent.PlaceholderItem? = null
+    private var property: Property? = null
 
     lateinit var itemDetailTextView: TextView
     private var toolbarLayout: CollapsingToolbarLayout? = null
@@ -33,7 +33,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         if (event.action == DragEvent.ACTION_DROP) {
             val clipDataItem: ClipData.Item = event.clipData.getItemAt(0)
             val dragData = clipDataItem.text
-            item = PlaceholderContent.ITEM_MAP[dragData]
+            //   property = PlaceholderContent.ITEM_MAP[dragData]
             updateContent()
         }
         true
@@ -47,7 +47,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                 // Load the placeholder content specified by the fragment
                 // arguments. In a real-world scenario, use a Loader
                 // to load content from a content provider.
-                item = PlaceholderContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
+                property = it.getParcelable(ARG_ITEM_ID)
             }
         }
     }
@@ -70,11 +70,12 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     }
 
     private fun updateContent() {
-        toolbarLayout?.title = item?.content
+        //toolbarLayout?.title = property?.content
 
         // Show the placeholder content as text in a TextView.
-        item?.let {
-            itemDetailTextView.text = it.details
+        property?.let {
+            binding.property = it
+            //itemDetailTextView.text = it.details
         }
     }
 
@@ -84,6 +85,8 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
          * represents.
          */
         const val ARG_ITEM_ID = "item_id"
+        const val ARG_PROPERTY = "property"
+
     }
 
     override fun onDestroyView() {

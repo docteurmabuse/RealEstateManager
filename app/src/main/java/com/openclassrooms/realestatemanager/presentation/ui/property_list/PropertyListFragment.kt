@@ -19,7 +19,6 @@ import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
-import com.openclassrooms.realestatemanager.presentation.ui.property_list.placeholder.PlaceholderContent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -69,12 +68,13 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
          * a single pane layout or two pane layout
          */
         val onClickListener = View.OnClickListener { itemView ->
-            val item = itemView.tag as PlaceholderContent.PlaceholderItem
+            val item = itemView.tag as Property
             val bundle = Bundle()
-            bundle.putString(
-                PropertyDetailFragment.ARG_ITEM_ID,
-                item.id
+            bundle.putParcelable(
+                PropertyDetailFragment.ARG_PROPERTY,
+                item
             )
+
             if (itemDetailFragmentContainer != null) {
                 itemDetailFragmentContainer.findNavController()
                     .navigate(R.id.propertyDetailFragmentWide, bundle)
@@ -89,7 +89,7 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
          * experience on larger screen devices
          */
         val onContextClickListener = View.OnContextClickListener { v ->
-            val item = v.tag as PlaceholderContent.PlaceholderItem
+            val item = v.tag as Property
             Toast.makeText(
                 v.context,
                 "Context click of item " + item.id,
