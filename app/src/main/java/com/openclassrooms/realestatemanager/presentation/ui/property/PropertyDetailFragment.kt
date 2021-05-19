@@ -12,6 +12,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import timber.log.Timber
 
 class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
@@ -47,7 +48,8 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                 // Load the placeholder content specified by the fragment
                 // arguments. In a real-world scenario, use a Loader
                 // to load content from a content provider.
-                property = it.getParcelable(ARG_ITEM_ID)
+                property = it.getParcelable(ARG_PROPERTY)
+                Timber.d("PROPERTY_DETAIL: $property")
             }
         }
     }

@@ -15,11 +15,11 @@ class ViewBinding {
         @BindingAdapter("imagePath")
         fun bindImage(imgView: ImageView, imgPath: String?) {
             imgPath?.let {
+                Timber.d("PHOTO: $imgPath")
                 imgView.load(imgPath) {
                     placeholder(R.drawable.loading_animation)
                     error(R.drawable.ic_baseline_broken_image_24dp)
                 }
-
             }
         }
 
@@ -28,13 +28,14 @@ class ViewBinding {
         fun bindPhotoImage(imgView: ImageView, photos: List<Media.Photo>?) {
             photos?.let {
                 Timber.d("PHOTOS: $it")
-
-                if (photos.isNotEmpty())
-                    imgView.load(photos[0].photoPath) {
-                        placeholder(R.drawable.loading_animation)
+                if (it.isNotEmpty()) {
+                    val imgPath = it[0].photoPath
+                    imgView.load(imgPath) {
+                        placeholder(R.drawable.loading_image)
                         error(R.drawable.ic_baseline_broken_image_24dp)
+                        Timber.d("PHOTO: $imgPath")
                     }
-                else {
+                } else {
                     imgView.load(R.drawable.ic_search_24dp) {
                         error(R.drawable.ic_baseline_broken_image_24dp)
                     }

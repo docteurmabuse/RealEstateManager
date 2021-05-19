@@ -16,7 +16,6 @@
         <variable
             name="photo"
             type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
