@@ -125,8 +125,8 @@
                 <TextView
                     android:id="@+id/item_type"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingStart="@dimen/marginEnd"
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
@@ -137,20 +137,45 @@
                     tools:context="com.example.myapplication.ItemDetailFragment" />
 
                 <TextView
+                    android:id="@+id/surface_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{@string/surface_text(property.surface)}"
+                    app:drawableLeftCompat="@drawable/ic_square_foot_24dp"
+                    app:layout_constraintStart_toEndOf="@id/item_type"
+                    app:layout_constraintTop_toBottomOf="@id/item_address_suite" />
+
+                <TextView
                     android:id="@+id/item_price"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    price="@{property.price}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="@dimen/marginEnd"
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
-                    price="@{property.price}"
                     android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
                     android:textIsSelectable="true"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/item_type"
                     tools:context="com.example.myapplication.ItemDetailFragment" />
+
+
+                <TextView
+                    android:id="@+id/rooms_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{@plurals/room_plural(property.roomNumber,property.roomNumber)}"
+                    app:drawableLeftCompat="@drawable/ic_room_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_price" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
