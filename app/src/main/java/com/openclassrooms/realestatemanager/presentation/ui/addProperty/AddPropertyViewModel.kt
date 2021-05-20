@@ -65,7 +65,6 @@ class AddPropertyViewModel @Inject constructor(
         property.soldDate = addPropertyView.soldDate
         property.media = addPropertyView.media
         property.agentId = addPropertyView.agentId
-
         return property
     }
 
