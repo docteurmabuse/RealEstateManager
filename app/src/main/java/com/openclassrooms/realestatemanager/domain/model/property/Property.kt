@@ -43,7 +43,7 @@ data class Property(
     @get:Bindable
     var shops: Boolean = false,
     @get:Bindable
-    var parcs: Boolean = false,
+    var park: Boolean = false,
     @get:Bindable
     var stations: Boolean = false,
     @get:Bindable

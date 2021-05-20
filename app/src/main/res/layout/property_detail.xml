@@ -290,7 +290,7 @@
                     android:paddingStart="@dimen/marginEnd"
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
-                    android:visibility="@{property.parcs? View.VISIBLE : View.GONE }"
+                    android:visibility="@{property.park? View.VISIBLE : View.GONE }"
                     app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

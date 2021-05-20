@@ -56,7 +56,7 @@ class AddPropertyViewModel @Inject constructor(
         property.area = addPropertyView.area
         property.schools = addPropertyView.schools
         property.shops = addPropertyView.shops
-        property.parcs = addPropertyView.parcs
+        property.park = addPropertyView.parcs
         property.stations = addPropertyView.stations
         property.hospital = addPropertyView.hospital
         property.museum = addPropertyView.museum
