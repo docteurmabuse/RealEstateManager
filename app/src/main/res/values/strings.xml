@@ -64,7 +64,7 @@
     </plurals>
     <string name="surface_text">%d m²</string>
     <string name="nearby">Nearby:</string>
-    <string name="location">Localisation</string>
+    <string name="location">Localisation: </string>
     <string name="mapbox_access_token">pk.eyJ1IjoiZG9jbWFidXNlIiwiYSI6ImNrb3gza3d1YTA0emkycm1jZDRhZzRrdmgifQ.wzrFHkZdVf8D-FM0SOSbGw</string>
 
 </resources>
