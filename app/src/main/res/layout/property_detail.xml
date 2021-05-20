@@ -203,6 +203,17 @@
                     app:layout_constraintStart_toEndOf="@id/bedrooms_text"
                     app:layout_constraintTop_toBottomOf="@id/item_type" />
 
+                <TextView
+                    android:id="@+id/nearby"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@string/nearby"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rooms_text" />
+
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/museum_icon"
                     android:layout_width="wrap_content"
@@ -212,10 +223,36 @@
                     android:paddingEnd="@dimen/marginEnd"
                     android:visibility="@{property.museum? View.VISIBLE : View.GONE }"
                     app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/nearby"
                     app:layout_constraintTop_toBottomOf="@id/rooms_text"
                     app:srcCompat="@drawable/ic_museum_24dp" />
 
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/schools_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:visibility="@{property.schools? View.VISIBLE : View.GONE }"
+                    app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                    app:layout_constraintEnd_toStartOf="@id/shops_icon"
+                    app:layout_constraintTop_toBottomOf="@id/rooms_text"
+                    app:srcCompat="@drawable/ic_school_24dp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/shops_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:visibility="@{property.shops? View.VISIBLE : View.GONE }"
+                    app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rooms_text"
+                    app:srcCompat="@drawable/ic_shopping_basket_24dp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -225,7 +262,7 @@
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@{property.description}"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/rooms_text" />
+                    app:layout_constraintTop_toBottomOf="@id/nearby" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
