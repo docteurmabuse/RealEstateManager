@@ -208,6 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/marginEnd"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@string/nearby"
@@ -253,6 +254,48 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rooms_text"
                     app:srcCompat="@drawable/ic_shopping_basket_24dp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/hospital_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:visibility="@{property.hospital? View.VISIBLE : View.GONE }"
+                    app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rooms_text"
+                    app:srcCompat="@drawable/ic_local_hospital_24dp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/station_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:visibility="@{property.stations? View.VISIBLE : View.GONE }"
+                    app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rooms_text"
+                    app:srcCompat="@drawable/ic_train_24dp" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/park_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:visibility="@{property.parcs? View.VISIBLE : View.GONE }"
+                    app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rooms_text"
+                    app:srcCompat="@drawable/baseline_park_24" />
 
                 <TextView
                     android:layout_width="match_parent"
