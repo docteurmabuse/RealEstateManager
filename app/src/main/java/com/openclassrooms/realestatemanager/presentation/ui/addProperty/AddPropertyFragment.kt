@@ -27,7 +27,6 @@ import timber.log.Timber
 import java.io.File
 import java.util.*
 
-
 @AndroidEntryPoint
 class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property_fragment) {
     private val viewModel: AddPropertyViewModel by viewModels()
@@ -51,8 +50,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,7 +57,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         _binding = AddPropertyFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,11 +78,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun retrieveArguments() {
         newPropertyId = args.propertyId
         Timber.d("ADDPROPERTY: ${newPropertyId}")
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun setupSellDateListener() {
@@ -196,7 +187,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         viewModel.saveProperty(addPropertyView)
     }
 
-
     class Handlers {
         fun onClickFriend(property: String) {
             Timber.tag("FabClick").d("It's ok FAB Handler:$property")
@@ -235,7 +225,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             startActivityForResult(captureIntent, REQUEST_CAPTURE_IMAGE)
         }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -301,5 +290,11 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         val pickIntent =
             Intent(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
         startActivityForResult(pickIntent, REQUEST_GALLERY_IMAGE)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        recyclerView.adapter = null
     }
 }

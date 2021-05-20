@@ -36,6 +36,7 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
     private val viewModel: PropertyListViewModel by viewModels()
     private lateinit var adapter: PropertyAdapter
     private var properties: List<Property> = arrayListOf()
+    private var recyclerView: RecyclerView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +57,7 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recyclerView: RecyclerView = binding.propertyList
+        recyclerView = binding.propertyList
         setObserver()
         viewModel.fetchProperties()
         // Leaving this not using view binding as it relies on if the view is visible the current
@@ -98,7 +99,7 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
             true
         }
 
-        setupRecyclerView(recyclerView, onClickListener, onContextClickListener)
+        setupRecyclerView(recyclerView!!, onClickListener, onContextClickListener)
 
         setFabListener()
     }
@@ -176,5 +177,6 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        recyclerView!!.adapter = null
     }
 }

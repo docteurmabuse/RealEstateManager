@@ -18,6 +18,7 @@ class ViewBinding {
                 Timber.d("PHOTO: $imgPath")
                 imgView.load(imgPath) {
                     placeholder(R.drawable.loading_animation)
+                    crossfade(true)
                     error(R.drawable.ic_baseline_broken_image_24dp)
                 }
             }
@@ -32,6 +33,7 @@ class ViewBinding {
                     val imgPath = it[0].photoPath
                     imgView.load(imgPath) {
                         placeholder(R.drawable.loading_image)
+                        crossfade(true)
                         error(R.drawable.ic_baseline_broken_image_24dp)
                         Timber.d("PHOTO: $imgPath")
                     }

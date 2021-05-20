@@ -10,11 +10,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.google.android.material.tabs.TabLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyPagerAdapter
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import timber.log.Timber
 
 class PropertyDetailFragment : Fragment(R.layout.property_detail) {
@@ -24,7 +24,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
      */
     private var property: Property? = null
     private var viewPager: ViewPager2? = null
-    private var tabLayout: TabLayout? = null
+    private var dotsIndicator: DotsIndicator? = null
     private lateinit var itemDetailTextView: TextView
     private var toolbarLayout: CollapsingToolbarLayout? = null
     private var adapter = PropertyPagerAdapter()
@@ -60,7 +60,10 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
     private fun setupViewPager() {
         viewPager = binding.viewPager
+        dotsIndicator = binding.dotsIndicator
         viewPager!!.adapter = adapter
+        dotsIndicator!!.setViewPager2(viewPager!!)
+
         //tabLayout = binding.tabLayout
         // tabLayout!!.setupr(viewPager, true)
 
@@ -111,5 +114,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        viewPager!!.adapter = null
     }
 }
