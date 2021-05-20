@@ -49,18 +49,18 @@
     <string name="sold">Sold</string>
     <string name="area">Area</string>
     <string name="property_image_view">Property Image View</string>
-    <string name="address2_layout">%1$s, %2$s,%3$s, %4$s</string>
+    <string name="address2_layout">%1$s, %2$s, %3$s, %4$s</string>
     <plurals name="room_plural">
         <item quantity="one">1 room</item>
         <item quantity="other">%d rooms</item>
     </plurals>
     <plurals name="bedrooms_plural">
-        <item quantity="one">1 bedroom</item>
-        <item quantity="other">%d bedrooms</item>
+        <item quantity="one">1 bed</item>
+        <item quantity="other">%d beds</item>
     </plurals>
     <plurals name="bathrooms_plural">
-        <item quantity="one">1 bathroom</item>
-        <item quantity="other">%d bathrooms</item>
+        <item quantity="one">1 bath</item>
+        <item quantity="other">%d baths</item>
     </plurals>
     <string name="surface_text">%d m²</string>
 </resources>
