@@ -1,11 +1,14 @@
 package com.openclassrooms.realestatemanager.presentation.ui.binding
 
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import coil.load
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import timber.log.Timber
+import java.text.NumberFormat
+import java.util.*
 
 
 class ViewBinding {
@@ -42,6 +45,15 @@ class ViewBinding {
                         error(R.drawable.ic_baseline_broken_image_24dp)
                     }
                 }
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("price")
+        fun bindPriceText(textView: TextView, price: Int?) {
+            price?.let {
+                Timber.d("PRICE: $it")
+                textView.text = NumberFormat.getCurrencyInstance(Locale.US).format(price)
             }
         }
     }

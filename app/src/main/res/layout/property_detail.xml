@@ -144,7 +144,7 @@
                     android:paddingStart="@dimen/marginEnd"
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
-                    android:text="@{property.price.toString()}"
+                    price="@{property.price}"
                     android:textIsSelectable="true"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/item_type"
