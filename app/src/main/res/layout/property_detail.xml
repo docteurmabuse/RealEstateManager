@@ -33,7 +33,6 @@
             android:layout_height="@dimen/app_bar_height"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
@@ -94,29 +93,61 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/item_address"
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{property.address1}"
+                    android:textIsSelectable="true"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:context="com.example.myapplication.ItemDetailFragment" />
+
+                <TextView
+                    android:id="@+id/item_address_suite"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{@string/address2_layout(property.area,property.city, property.state, property.zipCode)}"
+                    android:textIsSelectable="true"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_address"
+                    tools:context="com.example.myapplication.ItemDetailFragment" />
+
+                <TextView
                     android:id="@+id/item_type"
                     style="?android:attr/textAppearanceLarge"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="@dimen/marginEnd"
-                    android:paddingTop="16dp"
+                    android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
-                    android:paddingBottom="16dp"
                     android:text="@{property.type}"
                     android:textIsSelectable="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_address_suite"
                     tools:context="com.example.myapplication.ItemDetailFragment" />
 
                 <TextView
-                    android:id="@+id/item_detail"
+                    android:id="@+id/item_price"
                     style="?android:attr/textAppearanceLarge"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingStart="@dimen/marginEnd"
-                    android:paddingTop="16dp"
+                    android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
-                    android:paddingBottom="16dp"
-                    android:text="@{property.type}"
+                    android:text="@{property.price.toString()}"
                     android:textIsSelectable="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_type"
                     tools:context="com.example.myapplication.ItemDetailFragment" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

@@ -49,4 +49,5 @@
     <string name="sold">Sold</string>
     <string name="area">Area</string>
     <string name="property_image_view">Property Image View</string>
+    <string name="address2_layout">%1$s, %2$s,%3$s, %4$s</string>
 </resources>

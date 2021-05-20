@@ -83,7 +83,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         val rootView = binding.root
 
         toolbarLayout = binding.toolbarLayout
-        itemDetailTextView = binding.itemDetail
         setupViewPager()
         updateContent()
         rootView.setOnDragListener(dragListener)
