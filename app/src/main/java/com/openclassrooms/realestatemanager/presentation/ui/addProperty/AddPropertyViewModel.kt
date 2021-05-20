@@ -41,27 +41,27 @@ class AddPropertyViewModel @Inject constructor(
         val property = Property()
         property.id = addPropertyView.id
         property.type = addPropertyView.type
-        if (addPropertyView.price != null) {
+        if (addPropertyView.price!!.isNotEmpty()) {
             property.price = addPropertyView.price!!.toInt()
         } else {
             property.price = 0
         }
-        if (addPropertyView.surface != null) {
+        if (addPropertyView.surface!!.isNotEmpty()) {
             property.surface = addPropertyView.surface!!.toInt()
         } else {
             property.surface = 0
         }
-        if (addPropertyView.roomNumber != null) {
+        if (addPropertyView.roomNumber!!.isNotEmpty()) {
             property.roomNumber = addPropertyView.roomNumber!!.toInt()
         } else {
             property.bathroomNumber = 0
         }
-        if (addPropertyView.bathroomNumber != null) {
+        if (addPropertyView.bathroomNumber!!.isNotEmpty()) {
             property.bathroomNumber = addPropertyView.bathroomNumber!!.toInt()
         } else {
             property.bathroomNumber = 0
         }
-        if (addPropertyView.bedroomNumber != null) {
+        if (addPropertyView.bedroomNumber!!.isNotEmpty()) {
             property.bedroomNumber = addPropertyView.bedroomNumber!!.toInt()
         } else {
             property.bedroomNumber = 0
@@ -70,10 +70,10 @@ class AddPropertyViewModel @Inject constructor(
         property.address1 = addPropertyView.address1
         property.address2 = addPropertyView.address2
         property.city = addPropertyView.city
-        if (addPropertyView.zipcode != null) {
+        if (addPropertyView.zipcode!!.isNotEmpty()) {
             property.zipCode = addPropertyView.zipcode!!.toInt()
         } else {
-            property.bedroomNumber = 0
+            property.zipCode = 10000
         }
         property.state = addPropertyView.state
         property.country = addPropertyView.country
@@ -94,7 +94,7 @@ class AddPropertyViewModel @Inject constructor(
 
     data class AddPropertyView(
         var id: Long = 0,
-        var type: String? = "null",
+        var type: String? = "",
         var price: String? = "",
         var surface: String? = "",
         var roomNumber: String? = "",
@@ -104,7 +104,7 @@ class AddPropertyViewModel @Inject constructor(
         var address1: String = "",
         var address2: String? = "",
         var city: String = "New York",
-        var zipcode: String? = null,
+        var zipcode: String? = "",
         var state: String? = "NY",
         var country: String = "United States",
         var area: String? = "",

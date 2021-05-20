@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.R
@@ -146,8 +147,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
-            //val navHostFragment = findNavController()
-            //navHostFragment.navigate(R.id.propertyListFragment)
+            val navHostFragment = findNavController()
+            navHostFragment.navigate(R.id.propertyListFragment)
             saveProperty()
         }
     }
