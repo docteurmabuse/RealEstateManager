@@ -221,6 +221,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test:rules:1.3.0'
 
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.6.1'
+
 }
 secrets {
     // Optionally specify a different file name containing your secrets.
