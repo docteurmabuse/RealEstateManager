@@ -20,6 +20,8 @@
             android:layout_marginStart="@dimen/marginStart"
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginEnd="@dimen/marginEnd"
+            android:inputType="number"
+            android:text=""
             android:hint="@string/price"
             android:textSize="@dimen/textSize"
             app:endIconMode="clear_text"

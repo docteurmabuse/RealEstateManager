@@ -38,6 +38,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PhotosAdapter
 
+
     companion object {
         fun newInstance() = AddPropertyFragment()
         private const val REQUEST_CAPTURE_IMAGE = 1
@@ -155,16 +156,16 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         val addPropertyView = AddPropertyViewModel.AddPropertyView(
             newPropertyId,
             binding.type!!.typeDropdown.text.toString(),
-            binding.characteristics!!.priceTextInput.text.toString().toInt(),
-            binding.characteristics!!.surfaceTextInput.text.toString().toInt(),
-            binding.characteristics!!.numberOfRoomTextInput.text.toString().toInt(),
-            binding.characteristics!!.numberOfBathroomTextInput.text.toString().toInt(),
-            binding.characteristics!!.numberOfBedroomTextInput.text.toString().toInt(),
+            binding.characteristics!!.priceTextInput.text.toString(),
+            binding.characteristics!!.surfaceTextInput.text.toString(),
+            binding.characteristics!!.numberOfRoomTextInput.text.toString(),
+            binding.characteristics!!.numberOfBathroomTextInput.text.toString(),
+            binding.characteristics!!.numberOfBedroomTextInput.text.toString(),
             binding.type!!.descriptionTextInput.toString(),
             binding.address!!.addressTextInput.text.toString(),
             binding.address!!.address2TextInput.text.toString(),
             binding.address!!.cityTextInput.text.toString(),
-            binding.address!!.zipcodeTextInput.text.toString().toInt(),
+            binding.address!!.zipcodeTextInput.text.toString(),
             binding.address!!.stateTextInput.text.toString(),
             binding.address!!.countryTextInput.text.toString(),
             binding.address!!.areaTextInput.toString(),
@@ -293,8 +294,9 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _binding = null
         recyclerView.adapter = null
+        super.onDestroyView()
+
     }
 }
