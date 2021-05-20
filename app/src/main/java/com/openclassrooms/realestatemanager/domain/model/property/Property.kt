@@ -13,15 +13,15 @@ data class Property(
     @get:Bindable
     var type: String? = "",
     @get:Bindable
-    var price: Int? = 0,
+    var price: Int? = null,
     @get:Bindable
-    var surface: Int? = 0,
+    var surface: Int? = null,
     @get:Bindable
-    var roomNumber: Int? = 1,
+    var roomNumber: Int? = null,
     @get:Bindable
-    var bathroomNumber: Int? = 1,
+    var bathroomNumber: Int? = null,
     @get:Bindable
-    var bedroomNumber: Int? = 1,
+    var bedroomNumber: Int? = null,
     @get:Bindable
     var description: String? = "",
     @get:Bindable
@@ -59,7 +59,7 @@ data class Property(
     @get:Bindable
     var media: Media = Media(arrayListOf(), arrayListOf()),
     @get:Bindable
-    var agentId: String = "1"
+    var agentId: String = ""
 ) : Parcelable, BaseObservable() {
 
     enum class PropertyType {

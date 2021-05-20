@@ -79,7 +79,6 @@
             android:layout_marginTop="@dimen/marginTop"
             android:hint="@string/zipcode"
             android:inputType="number"
-            android:text="@{String.valueOf(property.zipCode)}"
             android:textSize="@dimen/textSize"
             app:endIconMode="clear_text"
             app:layout_constraintStart_toEndOf="@id/state_text_input"

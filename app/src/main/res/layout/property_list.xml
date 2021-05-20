@@ -12,8 +12,10 @@
         android:name="com.openclassrooms.realestatemanager.ui.PropertyListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="80dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".presentation.ui.property_list.PropertyListFragment"
         tools:listitem="@layout/property_list_content" />

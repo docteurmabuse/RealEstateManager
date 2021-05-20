@@ -19,6 +19,7 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/marginTop"
         app:cardElevation="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,6 +34,7 @@
                 android:contentDescription="@string/property_picture"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
+                android:layout_margin="2dp"
                 app:imagePath="@{property.media.photos}"
                 app:layout_collapseMode="parallax"
                 app:layout_constraintBottom_toBottomOf="parent"
