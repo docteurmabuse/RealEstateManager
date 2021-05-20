@@ -64,4 +64,5 @@
     </plurals>
     <string name="surface_text">%d m²</string>
     <string name="nearby">Nearby:</string>
+    <string name="location">Localisation</string>
 </resources>
