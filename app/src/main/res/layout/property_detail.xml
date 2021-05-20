@@ -164,7 +164,6 @@
                     app:layout_constraintTop_toBottomOf="@id/item_type"
                     tools:context="com.example.myapplication.ItemDetailFragment" />
 
-
                 <TextView
                     android:id="@+id/rooms_text"
                     android:layout_width="wrap_content"
@@ -175,6 +174,33 @@
                     android:text="@{@plurals/room_plural(property.roomNumber,property.roomNumber)}"
                     app:drawableLeftCompat="@drawable/ic_room_24dp"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/bedrooms_text"
+                    app:layout_constraintTop_toBottomOf="@id/item_price" />
+
+                <TextView
+                    android:id="@+id/bedrooms_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{@plurals/bedrooms_plural(property.bedroomNumber,property.bedroomNumber)}"
+                    app:drawableLeftCompat="@drawable/ic_bedroom_parent_24dp"
+                    app:layout_constraintEnd_toStartOf="@id/bathrooms_text"
+                    app:layout_constraintStart_toEndOf="@id/rooms_text"
+                    app:layout_constraintTop_toBottomOf="@id/item_price" />
+
+                <TextView
+                    android:id="@+id/bathrooms_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{@plurals/bathrooms_plural(property.bathroomNumber,property.bathroomNumber)}"
+                    app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/bedrooms_text"
                     app:layout_constraintTop_toBottomOf="@id/item_price" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

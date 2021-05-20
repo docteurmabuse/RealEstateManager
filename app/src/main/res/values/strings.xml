@@ -54,5 +54,13 @@
         <item quantity="one">1 room</item>
         <item quantity="other">%d rooms</item>
     </plurals>
+    <plurals name="bedrooms_plural">
+        <item quantity="one">1 bedroom</item>
+        <item quantity="other">%d bedrooms</item>
+    </plurals>
+    <plurals name="bathrooms_plural">
+        <item quantity="one">1 bathroom</item>
+        <item quantity="other">%d bathrooms</item>
+    </plurals>
     <string name="surface_text">%d m²</string>
 </resources>
