@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
+import coil.load
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
@@ -29,6 +31,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private var toolbarLayout: CollapsingToolbarLayout? = null
     private var adapter = PropertyPagerAdapter()
     private var _binding: PropertyDetailBinding? = null
+    private var map_key: String = ""
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -63,7 +66,11 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         dotsIndicator = binding.dotsIndicator
         viewPager!!.adapter = adapter
         dotsIndicator!!.setViewPager2(viewPager!!)
-
+        val staticMap: AppCompatImageView? = binding.staticMapView
+        map_key = getString(R.string.mapbox_access_token)
+        staticMap!!.load(
+            "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(%7B%22type%22%3A%22FeatureCollection%22%2C%22features%22%3A%5B%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%22marker-color%22%3A%22%23462eff%22%2C%22marker-size%22%3A%22medium%22%2C%22marker-symbol%22%3A%22bus%22%7D%2C%22geometry%22%3A%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B-122.25993633270264,37.80988566878777%5D%7D%7D%2C%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%22marker-color%22%3A%22%23e99401%22%2C%22marker-size%22%3A%22medium%22%2C%22marker-symbol%22%3A%22park%22%7D%2C%22geometry%22%3A%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B-122.25916385650635,37.80629162635318%5D%7D%7D%2C%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%22marker-color%22%3A%22%23d505ff%22%2C%22marker-size%22%3A%22medium%22%2C%22marker-symbol%22%3A%22music%22%7D%2C%22geometry%22%3A%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B-122.25650310516359,37.8063933469406%5D%7D%7D%5D%7D)/-122.256654,37.804077,13/500x300?access_token=$map_key"
+        )
         //tabLayout = binding.tabLayout
         // tabLayout!!.setupr(viewPager, true)
 
