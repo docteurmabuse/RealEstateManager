@@ -8,12 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -29,9 +23,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: PropertyListViewModel by viewModels()
 
-    private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment }
+/*    private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment }
     private val navController by lazy { navHostFragment.navController }
-    private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
+    private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }*/
     private val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
 
 
@@ -39,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        // setupActionBarWithNavController(navController, appBarConfiguration)
         setUpMedia()
     }
 
@@ -51,10 +45,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-    }
+    /*  override fun onSupportNavigateUp(): Boolean {
+          val navController = findNavController(R.id.nav_host_fragment_activity_main)
+          return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+      }*/
 
     private fun haveStoragePermission() =
         ContextCompat.checkSelfPermission(

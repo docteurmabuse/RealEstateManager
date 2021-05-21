@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/propertyListFragment">
+    app:startDestination="@id/itemTabsFragment2">
 
     <fragment
         android:id="@+id/propertyListFragment"
@@ -61,4 +61,8 @@
         android:id="@+id/photoOptionDialogFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.addProperty.PhotoOptionDialogFragment"
         android:label="PhotoOptionDialogFragment" />
+    <fragment
+        android:id="@+id/itemTabsFragment2"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragment"
+        android:label="ItemTabsFragment" />
 </navigation>
