@@ -4,8 +4,9 @@ import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 open class BaseActivity : AppCompatActivity() {
     // UTILS
 

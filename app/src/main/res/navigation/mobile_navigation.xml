@@ -11,7 +11,8 @@
         android:label="PropertyListFragment">
         <action
             android:id="@+id/action_propertyListFragment_to_propertyDetailFragment"
-            app:destination="@id/propertyDetailFragment" />
+            app:destination="@id/propertyDetailFragment"
+            app:popUpToInclusive="false" />
         <argument
             android:name="property"
             android:defaultValue="@null"
@@ -52,7 +53,7 @@
         android:id="@+id/mapFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.property_map.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/map_layout" />
     <activity
         android:id="@+id/mainActivity"
         android:name="com.openclassrooms.realestatemanager.presentation.MainActivity"
@@ -65,5 +66,13 @@
     <fragment
         android:id="@+id/itemTabsFragment2"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragment"
-        android:label="ItemTabsFragment" />
+        android:label="ItemTabsFragment">
+        <action
+            android:id="@+id/action_itemTabsFragment2_to_addPropertyFragment"
+            app:destination="@id/addPropertyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/masterHostFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.MasterHostFragment"
+        android:label="MasterHostFragment" />
 </navigation>

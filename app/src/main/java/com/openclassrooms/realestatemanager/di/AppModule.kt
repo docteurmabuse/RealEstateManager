@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.di
 
 import android.content.Context
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.BaseApplication
 import com.openclassrooms.realestatemanager.utils.CoroutineDispatchersProvider
 import com.openclassrooms.realestatemanager.utils.DispatchersProvider
@@ -26,5 +27,18 @@ abstract class AppModule {
         fun provideApplication(@ApplicationContext app: Context): BaseApplication {
             return app as BaseApplication
         }
+
+        @Singleton
+        @Provides
+        fun provideProperties(): List<Property?> {
+            return ArrayList()
+        }
+
+        @Singleton
+        @Provides
+        fun provideProperty(): Property {
+            return Property()
+        }
     }
+
 }

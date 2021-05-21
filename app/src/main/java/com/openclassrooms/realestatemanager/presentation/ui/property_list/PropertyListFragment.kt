@@ -17,6 +17,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,14 +29,14 @@ import timber.log.Timber
  * A fragment representing a list of Items.
  */
 @AndroidEntryPoint
-class PropertyListFragment : Fragment(R.layout.property_list) {
+class PropertyListFragment constructor(private var properties: List<Property>) :
+    Fragment(R.layout.property_list) {
 
     private var columnCount = 1
     private var _binding: PropertyListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PropertyListViewModel by viewModels()
     private lateinit var adapter: PropertyAdapter
-    private var properties: List<Property> = arrayListOf()
     private var recyclerView: RecyclerView? = null
 
 
@@ -126,10 +127,10 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
         binding.addPropertyFAB.setOnClickListener {
             val navHostFragment = findNavController()
             val newPropertyId = properties.size.toLong() + 1
-            val action =
-                PropertyListFragmentDirections.actionPropertyListFragmentToAddPropertyFragment(
-                    newPropertyId
-                )
+            val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
+                newPropertyId
+            )
+
             navHostFragment.navigate(action)
             Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
         }
@@ -165,13 +166,13 @@ class PropertyListFragment : Fragment(R.layout.property_list) {
         const val ARG_COLUMN_COUNT = "column-count"
 
         // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            PropertyListFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
+        /*  @JvmStatic
+          fun newInstance(columnCount: Int) =
+              PropertyListFragment(properties).apply {
+                  arguments = Bundle().apply {
+                      putInt(ARG_COLUMN_COUNT, columnCount)
+                  }
+              }*/
     }
 
     override fun onDestroyView() {

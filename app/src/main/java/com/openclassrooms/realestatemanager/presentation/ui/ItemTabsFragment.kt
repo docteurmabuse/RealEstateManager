@@ -12,7 +12,9 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.TabsPagerAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListFragment
 import com.openclassrooms.realestatemanager.presentation.ui.property_map.MapFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ItemTabsFragment : Fragment() {
 
     private lateinit var tabsPagerAdapter: TabsPagerAdapter
@@ -30,7 +32,7 @@ class ItemTabsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val fragmentList = arrayListOf(
-            PropertyListFragment(),
+            PropertyListFragment(arrayListOf()),
             MapFragment()
         )
 

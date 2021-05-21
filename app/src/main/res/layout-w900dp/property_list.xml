@@ -35,7 +35,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/item_detail_nav_container"
-            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:name="com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
 

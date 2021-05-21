@@ -9,7 +9,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -18,18 +18,24 @@ import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
+import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
+import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-    private lateinit var properties: List<Property>
+class MainActivity constructor(
+    private var properties: List<Property>? = null
+) : AppCompatActivity() {
+    @Inject
+    lateinit var fragmentFactory: MainFragmentFactory
     private lateinit var binding: ActivityMainBinding
     private val viewModel: PropertyListViewModel by viewModels()
 
-    private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment }
+    private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment }
     private val navController by lazy { navHostFragment.navController }
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
     private val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
@@ -41,6 +47,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setupActionBarWithNavController(navController, appBarConfiguration)
         setUpMedia()
+    }
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        savedInstanceState.putBundle("nav_state", navHostFragment.findNavController().saveState())
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        navHostFragment.findNavController().restoreState(savedInstanceState.getBundle("nav_state"))
     }
 
     private fun setUpMedia() {
