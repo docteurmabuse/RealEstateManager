@@ -33,7 +33,7 @@ class ItemTabsFragment : Fragment() {
 
         val fragmentList = arrayListOf(
             PropertyListFragment(arrayListOf()),
-            MapFragment()
+            MapFragment(arrayListOf())
         )
 
         tabsPagerAdapter = TabsPagerAdapter(

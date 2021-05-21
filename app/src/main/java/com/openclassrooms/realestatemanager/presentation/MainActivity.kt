@@ -46,6 +46,7 @@ class MainActivity constructor(
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupActionBarWithNavController(navController, appBarConfiguration)
+        setObserver()
         setUpMedia()
     }
 
@@ -139,7 +140,6 @@ class MainActivity constructor(
                 when (it.status) {
                     DataState.Status.SUCCESS -> {
                         it.data?.let { properties ->
-
                             renderList(properties)
                         }
                     }
@@ -156,6 +156,8 @@ class MainActivity constructor(
 
     private fun renderList(list: List<Property>) {
         properties = list
+        Timber.tag("MAP").d("MAP_PROPERTIES: ${properties!!.size}")
+
     }
 
 }

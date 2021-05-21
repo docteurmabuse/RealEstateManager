@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.view.animation.BounceInterpolator
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.mapbox.android.core.location.LocationEngineProvider
 import com.mapbox.android.core.permissions.PermissionsListener
 import com.mapbox.android.core.permissions.PermissionsManager
@@ -22,18 +24,22 @@ import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
+import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
-class MapFragment : Fragment() {
+class MapFragment constructor(private var properties: List<Property>) : Fragment() {
     private var mapView: MapView? = null
     private lateinit var mapboxMap: MapboxMap
+    private val viewModel: PropertyListViewModel by viewModels()
 
-    companion object {
-        private const val REQUEST_LOCATION = 1
-    }
 
-    lateinit var permissionsManager: PermissionsManager
+    private lateinit var permissionsManager: PermissionsManager
 
 
     override fun onCreateView(
@@ -43,6 +49,7 @@ class MapFragment : Fragment() {
     ): View? {
         Mapbox.getInstance(requireContext(), getString(R.string.mapbox_access_token))
         setupLocationClient()
+        viewModel.fetchProperties()
         return inflater.inflate(R.layout.map_layout, container, false)
     }
 
@@ -70,7 +77,7 @@ class MapFragment : Fragment() {
     }
 
 
-    var permissionsListener: PermissionsListener = object : PermissionsListener {
+    private var permissionsListener: PermissionsListener = object : PermissionsListener {
         override fun onExplanationNeeded(permissionsToExplain: List<String>) {
 
         }
@@ -97,7 +104,7 @@ class MapFragment : Fragment() {
             mapboxMap = it
             mapboxMap.setStyle(Style.MAPBOX_STREETS) { style ->
                 enableLocationComponent(style)
-
+                setObserver()
             }
 
         }
@@ -150,6 +157,8 @@ class MapFragment : Fragment() {
             // Set the component's render mode
             locationComponent.renderMode = RenderMode.COMPASS
 
+            Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
+
         } else {
 
             permissionsManager = PermissionsManager(this.permissionsListener)
@@ -159,6 +168,32 @@ class MapFragment : Fragment() {
         }
     }
 
+    private fun setObserver() {
+        lifecycleScope.launch {
+            val value = viewModel.state
+            value.collect {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+                        it.data?.let { properties ->
+                            renderList(properties)
+                        }
+                    }
+                    DataState.Status.LOADING -> {
+
+                    }
+                    DataState.Status.ERROR -> {
+                        Timber.d("LIST_OBSERVER: ${it.message}")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun renderList(list: List<Property>) {
+        properties = list
+        Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
+
+    }
 
     override fun onStart() {
         super.onStart()
