@@ -16,6 +16,7 @@ import com.mapbox.android.core.location.LocationEngineProvider
 import com.mapbox.android.core.permissions.PermissionsListener
 import com.mapbox.android.core.permissions.PermissionsManager
 import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
 import com.mapbox.mapboxsdk.location.LocationComponentOptions
 import com.mapbox.mapboxsdk.location.modes.CameraMode
@@ -23,10 +24,14 @@ import com.mapbox.mapboxsdk.location.modes.RenderMode
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.Style
+import com.mapbox.mapboxsdk.plugins.annotation.Symbol
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
+import com.openclassrooms.realestatemanager.utils.MAKI_ICON_SQUARE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -37,8 +42,8 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
     private var mapView: MapView? = null
     private lateinit var mapboxMap: MapboxMap
     private val viewModel: PropertyListViewModel by viewModels()
-
-
+    private var symbolManager: SymbolManager? = null
+    private val symbol: Symbol? = null
     private lateinit var permissionsManager: PermissionsManager
 
 
@@ -104,10 +109,19 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
             mapboxMap = it
             mapboxMap.setStyle(Style.MAPBOX_STREETS) { style ->
                 enableLocationComponent(style)
+                setSymbolManger(style)
                 setObserver()
             }
-
         }
+    }
+
+    private fun setSymbolManger(style: Style) {
+// Create a SymbolManager.
+        symbolManager = mapView?.let { SymbolManager(it, mapboxMap, style) }
+
+// Set non-data-driven properties.
+        symbolManager!!.iconAllowOverlap = true
+        symbolManager!!.iconIgnorePlacement = true
     }
 
     private fun enableLocationComponent(style: Style) {
@@ -192,6 +206,14 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
     private fun renderList(list: List<Property>) {
         properties = list
         Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
+
+// Create a symbol at the specified location.
+        var symbol = symbolManager!!.create(
+            SymbolOptions()
+                .withLatLng(LatLng(48.286861, 3.204315))
+                .withIconImage(MAKI_ICON_SQUARE)
+                .withIconSize(1.8f)
+        )
 
     }
 
