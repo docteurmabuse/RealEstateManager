@@ -47,9 +47,9 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         true
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
                 // Load the placeholder content specified by the fragment
