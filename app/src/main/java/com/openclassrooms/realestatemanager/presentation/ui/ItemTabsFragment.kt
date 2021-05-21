@@ -10,6 +10,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.TabsPagerAdapter
+import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListFragment
+import com.openclassrooms.realestatemanager.presentation.ui.property_map.MapFragment
 
 private const val ARG_OBJECT = "object"
 
@@ -32,7 +34,17 @@ class ItemTabsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        tabsPagerAdapter = TabsPagerAdapter(this)
+
+        val fragmentList = arrayListOf<Fragment>(
+            PropertyListFragment(),
+            MapFragment()
+        )
+
+        tabsPagerAdapter = TabsPagerAdapter(
+            fragmentList,
+            requireActivity().supportFragmentManager,
+            lifecycle
+        )
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = tabsPagerAdapter
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)

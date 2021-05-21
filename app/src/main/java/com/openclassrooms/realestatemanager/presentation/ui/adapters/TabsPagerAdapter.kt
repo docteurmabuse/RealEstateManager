@@ -1,13 +1,28 @@
 package com.openclassrooms.realestatemanager.presentation.ui.adapters
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragment
-import com.openclassrooms.realestatemanager.presentation.ui.MasterHostFragment
 
-class TabsPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int = 2
+class TabsPagerAdapter(
+    list: ArrayList<Fragment>,
+    fm: FragmentManager,
+    lifecycle: Lifecycle
+) : FragmentStateAdapter(fm, lifecycle) {
+
+    private val fragmentList = list
+
+    override fun getItemCount(): Int {
+        return fragmentList.size
+    }
+
+    override fun createFragment(position: Int): Fragment {
+        return fragmentList[position]
+    }
+
+
+    /*override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
         // Return a NEW fragment instance in createFragment(int)
@@ -21,7 +36,8 @@ class TabsPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     private fun getReadableTabPosition(position: Int): Int {
         return position + 1
-    }
+    }*/
+
 }
 
 private const val ARG_OBJECT = "object"

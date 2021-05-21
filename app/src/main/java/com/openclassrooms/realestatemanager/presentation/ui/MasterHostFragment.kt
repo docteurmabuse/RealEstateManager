@@ -16,7 +16,6 @@ class MasterHostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.content_main, container, false)
-
         val master =
             childFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment?
         if (master != null) {
