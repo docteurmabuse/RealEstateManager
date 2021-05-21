@@ -49,7 +49,10 @@ class ItemTabsFragment : Fragment() {
         viewPager.adapter = tabsPagerAdapter
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = "OBJECT ${(position + 1)}"
+            when (position) {
+                0 -> tab.text = "View List"
+                1 -> tab.text = "View Map"
+            }
         }.attach()
     }
 }
