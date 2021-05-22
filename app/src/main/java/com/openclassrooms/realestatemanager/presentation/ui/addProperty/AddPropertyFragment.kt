@@ -11,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
@@ -20,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
+import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions
@@ -186,7 +186,22 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         startActivityForResult(
             intent, REQUEST_CODE_AUTOCOMPLETE
         )
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
+            val feature = PlaceAutocomplete.getPlace(data)
+            submitAddress(feature)
+        }
+    }
+
+    private fun submitAddress(feature: CarmenFeature) {
+        Timber.d("ADDRESS: ${feature.text()}, ${location}, ${feature.placeName()}")
+        address = feature.placeName()
+        binding.address?.addressTextInput?.setText(address)
+        val point: Point = feature.geometry() as Point
+        location = LatLng(point.coordinates()[0], point.coordinates()[1])
     }
 
     private fun saveProperty() {
@@ -330,20 +345,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
      }*/
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
-            val feature = PlaceAutocomplete.getPlace(data)
-            Toast.makeText(context, feature.text(), Toast.LENGTH_LONG).show()
-        }
-    }
 
-    private fun submitAddress(feature: CarmenFeature) {
-        Timber.d("ADDRESS: ${feature.address()}, ${feature.geometry()}")
-        address = feature.address()
-        binding.address?.addressTextInput?.setText(address)
-        location = feature.geometry() as LatLng
-    }
 
     private fun getImageWithAuthority(uri: Uri) = ImageUtils.decodeUriStreamToSize(
         uri,
