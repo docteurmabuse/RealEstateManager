@@ -4,7 +4,6 @@ import androidx.room.Room
 import com.openclassrooms.realestatemanager.db.Persistence
 import com.openclassrooms.realestatemanager.db.RoomPersistence
 import com.openclassrooms.realestatemanager.db.dao.AgentDao
-import com.openclassrooms.realestatemanager.db.dao.PhotoDao
 import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntityMapper
@@ -44,11 +43,6 @@ abstract class RoomModule {
             return app.propertyDao()
         }
 
-        @Singleton
-        @Provides
-        fun providePhotoDao(app: PropertyDatabase): PhotoDao {
-            return app.photoDao()
-        }
 
         @Singleton
         @Provides

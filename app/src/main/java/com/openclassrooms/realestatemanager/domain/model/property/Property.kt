@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.domain.model.property
 import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import com.mapbox.mapboxsdk.geometry.LatLng
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
@@ -59,7 +60,9 @@ data class Property(
     @get:Bindable
     var media: Media = Media(arrayListOf(), arrayListOf()),
     @get:Bindable
-    var agentId: String = ""
+    var agentId: String = "",
+    @get: Bindable
+    var location: LatLng? = null
 ) : Parcelable, BaseObservable() {
 
     enum class PropertyType {

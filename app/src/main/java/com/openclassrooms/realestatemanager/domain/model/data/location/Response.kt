@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.domain.model.location
+package com.openclassrooms.realestatemanager.domain.model.data.location
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
