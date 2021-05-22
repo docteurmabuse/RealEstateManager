@@ -48,6 +48,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var address: String? = ""
     private var location: LatLng? = null
     private var latestTmpUri: Uri? = null
+    private var feature: CarmenFeature? = null
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -161,8 +162,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun setAddressListener() {
-        binding.address?.addressTextInput?.setOnClickListener {
-            popupAutocomplete(it)
+        binding.address?.addressTextInput.setOnClickListener {
+            popupAutocomplete()
         }
     }
 
@@ -199,7 +200,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun submitAddress(feature: CarmenFeature) {
         Timber.d("ADDRESS: ${feature.text()}, ${location}, ${feature.placeName()}")
         address = feature.placeName()
-        binding.address?.addressTextInput?.setText(address)
+        binding.address?.addressTextInput.setText(address)
         val point: Point = feature.geometry() as Point
         location = LatLng(point.coordinates()[0], point.coordinates()[1])
     }
