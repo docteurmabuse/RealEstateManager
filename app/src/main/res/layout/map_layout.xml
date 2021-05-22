@@ -6,7 +6,7 @@
 
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
-        mapbox:mapbox_cameraZoom="18"
+        mapbox:mapbox_cameraZoom="13"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

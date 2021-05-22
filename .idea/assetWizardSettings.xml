@@ -30,8 +30,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_building_15" />
-                            <entry key="sourceFile" value="C:\Users\laure\AndroidStudioProjects\RealEstateManager\img\building-15.svg" />
+                            <entry key="outputName" value="ic_mapbox_marker_icon_pink" />
+                            <entry key="sourceFile" value="C:\Users\laure\AndroidStudioProjects\RealEstateManager\img\mapbox-marker-icon-pink.svg" />
                           </map>
                         </option>
                       </PersistentState>

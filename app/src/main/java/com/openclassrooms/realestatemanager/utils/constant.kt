@@ -3,5 +3,5 @@ package com.openclassrooms.realestatemanager.utils
 const val TAG = "AppDebug"
 const val RC_SIGN_IN: Int = 915
 const val USD_PRICE_EURO: Double = 0.827
-const val MAKI_ICON_SQUARE = "marker-15"
+const val MAKI_ICON_SQUARE = "fire-station-15"
 
