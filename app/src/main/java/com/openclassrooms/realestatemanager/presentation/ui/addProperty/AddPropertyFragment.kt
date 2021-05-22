@@ -1,28 +1,35 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.media.MediaScannerConnection
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
+import com.mapbox.api.geocoding.v5.models.CarmenFeature
+import com.mapbox.mapboxsdk.geometry.LatLng
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete
+import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotosAdapter
 import com.openclassrooms.realestatemanager.utils.ImageUtils
+import com.openclassrooms.realestatemanager.utils.REQUEST_CODE_AUTOCOMPLETE
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.io.File
@@ -38,13 +45,12 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var newPropertyId: Long = 0
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PhotosAdapter
-
+    private var address: String? = ""
+    private var location: LatLng? = null
+    private var latestTmpUri: Uri? = null
 
     companion object {
         fun newInstance() = AddPropertyFragment()
-        private const val REQUEST_CAPTURE_IMAGE = 1
-        private const val REQUEST_GALLERY_IMAGE = 2
-
     }
 
     private var _binding: AddPropertyFragmentBinding? = null
@@ -75,6 +81,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupImageDialogListener()
         setupSellDateListener()
         retrieveArguments()
+        setAddressListener()
     }
 
     private fun retrieveArguments() {
@@ -153,6 +160,35 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
     }
 
+    private fun setAddressListener() {
+        binding.address?.addressTextInput?.setOnClickListener {
+            popupAutocomplete(it)
+        }
+    }
+
+
+    private lateinit var intent: Intent
+    private var placeOptions: PlaceOptions? = null
+    private fun popupAutocomplete(it: View?) {
+        intent = PlaceAutocomplete.IntentBuilder()
+            .accessToken(
+                getString(R.string.mapbox_access_token)
+            )
+            .placeOptions(
+                PlaceOptions.builder()
+                    .backgroundColor(Color.parseColor("#FFFFFF"))
+                    .limit(5)
+                    .country(Locale.US)
+                    .build()
+            )
+            .build(requireActivity())
+        Timber.tag("AddressClick").d("It's ok Addresspop")
+        startActivityForResult(
+            intent, REQUEST_CODE_AUTOCOMPLETE
+        )
+
+    }
+
     private fun saveProperty() {
         val addPropertyView = AddPropertyViewModel.AddPropertyView(
             newPropertyId,
@@ -198,73 +234,115 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun onCaptureClick() {
-        photoFile = null
-        try {
-            photoFile = ImageUtils.createUniqueImageFile(requireContext())
-        } catch (ex: java.io.IOException) {
-            return
-        }
-        photoFile?.let { photoFile ->
-            val photoUri = FileProvider.getUriForFile(
-                requireActivity(), "com.openclassrooms.realestatemanager.fileprovider",
-                photoFile
-            )
-            val captureIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
-            captureIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri)
-            val intentActivities = requireActivity().packageManager.queryIntentActivities(
-                captureIntent, PackageManager.MATCH_DEFAULT_ONLY
-            )
-            intentActivities.map {
-                it.activityInfo.packageName
+        /* photoFile = null
+         try {
+             photoFile = ImageUtils.createUniqueImageFile(requireContext())
+         } catch (ex: java.io.IOException) {
+             return
+         }
+         photoFile?.let { photoFile ->
+             val photoUri = FileProvider.getUriForFile(
+                 requireActivity(), "com.openclassrooms.realestatemanager.fileprovider",
+                 photoFile
+             )
+             val captureIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+             captureIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri)
+             val intentActivities = requireActivity().packageManager.queryIntentActivities(
+                 captureIntent, PackageManager.MATCH_DEFAULT_ONLY
+             )
+             intentActivities.map {
+                 it.activityInfo.packageName
+             }
+                 .forEach {
+                     requireActivity().grantUriPermission(
+                         it,
+                         photoUri,
+                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                     )
+                 }
+             startActivityForResult(captureIntent, REQUEST_CAPTURE_IMAGE)
+         }*/
+
+        lifecycleScope.launchWhenStarted {
+            getTmpFileUri().let { uri ->
+                latestTmpUri = uri
+                takeImageResult.launch(uri)
             }
-                .forEach {
-                    requireActivity().grantUriPermission(
-                        it,
-                        photoUri,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    )
-                }
-            startActivityForResult(captureIntent, REQUEST_CAPTURE_IMAGE)
         }
     }
 
+    private fun getTmpFileUri(): Uri {
+        val tmpFile =
+            File.createTempFile("tmp_image_file", ".png", requireContext().cacheDir).apply {
+                createNewFile()
+                deleteOnExit()
+            }
+        return FileProvider.getUriForFile(
+            requireContext(),
+            "com.openclassrooms.realestatemanager.fileprovider",
+            tmpFile
+        )
+    }
+
+    /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+         super.onActivityResult(requestCode, resultCode, data)
+         if (resultCode == Activity.RESULT_OK) {
+             when (requestCode) {
+                 REQUEST_CAPTURE_IMAGE -> {
+                     val photoFile = photoFile ?: return
+                     val uri = FileProvider.getUriForFile(
+                         requireContext(),
+                         "com.openclassrooms.realestatemanager.fileprovider",
+                         photoFile
+                     )
+                     requireContext().revokeUriPermission(
+                         uri,
+                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                     )
+                     val image = getImageWithPath(photoFile.absolutePath)
+                     val file = File(photoFile.absolutePath)
+                     MediaScannerConnection.scanFile(
+                         context, arrayOf(file.toString()),
+                         null, null
+                     )
+                     val photo = Media.Photo(
+                         "",
+                         uri.toString()
+                     )
+                     submitPhotoToList(photo)
+                 }
+                 REQUEST_GALLERY_IMAGE -> if (data != null && data.data != null) {
+                     val imageUri = data.data
+                     val photo = Media.Photo(
+                         "",
+                         imageUri.toString()
+                     )
+                     submitPhotoToList(photo)
+                 }
+                 REQUEST_CODE_AUTOCOMPLETE -> if (data != null && data.data != null) {
+                     val feature = PlaceAutocomplete.getPlace(data)
+                     Timber.d("ADDRESS: ${feature.address()}, ${feature.geometry()}")
+                     submitAddress(feature)
+                     Toast.makeText(requireContext(), feature.text(), Toast.LENGTH_LONG).show()
+                 }
+             }
+         }
+
+     }*/
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == android.app.Activity.RESULT_OK) {
-            when (requestCode) {
-                REQUEST_CAPTURE_IMAGE -> {
-                    val photoFile = photoFile ?: return
-                    val uri = FileProvider.getUriForFile(
-                        requireContext(),
-                        "com.openclassrooms.realestatemanager.fileprovider",
-                        photoFile
-                    )
-                    requireContext().revokeUriPermission(
-                        uri,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                    )
-                    val image = getImageWithPath(photoFile.absolutePath)
-                    val file = File(photoFile.absolutePath)
-                    MediaScannerConnection.scanFile(
-                        context, arrayOf(file.toString()),
-                        null, null
-                    )
-                    val photo = Media.Photo(
-                        "",
-                        uri.toString()
-                    )
-                    submitPhotoToList(photo)
-                }
-                REQUEST_GALLERY_IMAGE -> if (data != null && data.data != null) {
-                    val imageUri = data.data
-                    val photo = Media.Photo(
-                        "",
-                        imageUri.toString()
-                    )
-                    submitPhotoToList(photo)
-                }
-            }
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
+            val feature = PlaceAutocomplete.getPlace(data)
+            Toast.makeText(context, feature.text(), Toast.LENGTH_LONG).show()
         }
+    }
+
+    private fun submitAddress(feature: CarmenFeature) {
+        Timber.d("ADDRESS: ${feature.address()}, ${feature.geometry()}")
+        address = feature.address()
+        binding.address?.addressTextInput?.setText(address)
+        location = feature.geometry() as LatLng
     }
 
     private fun getImageWithAuthority(uri: Uri) = ImageUtils.decodeUriStreamToSize(
@@ -288,16 +366,39 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         adapter.submitList(photos)
     }
 
+    private val selectImageFromGalleryResult =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                val photo = Media.Photo(
+                    "",
+                    uri.toString()
+                )
+                submitPhotoToList(photo)
+            }
+        }
+    private val takeImageResult =
+        registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
+            if (isSuccess) {
+                latestTmpUri?.let { uri ->
+                    val photo = Media.Photo(
+                        "",
+                        uri.toString()
+                    )
+                    submitPhotoToList(photo)
+                }
+            }
+        }
+
     private fun onPickClick() {
-        val pickIntent =
-            Intent(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
-        startActivityForResult(pickIntent, REQUEST_GALLERY_IMAGE)
+        /*  val pickIntent =
+              Intent(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
+          startActivityForResult(pickIntent, REQUEST_GALLERY_IMAGE)*/
+        selectImageFromGalleryResult.launch("image/*")
     }
 
     override fun onDestroyView() {
         _binding = null
         recyclerView.adapter = null
         super.onDestroyView()
-
     }
 }

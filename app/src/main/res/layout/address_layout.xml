@@ -17,11 +17,13 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/address_text_input"
-            android:layout_width="@dimen/formWidth"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginEnd="@dimen/marginEnd"
             android:layout_marginTop="@dimen/marginTop"
             android:hint="@string/address"
+            android:focusable="false"
             android:inputType="textPostalAddress"
             android:text="@={property.address1}"
             android:textSize="@dimen/textSize"

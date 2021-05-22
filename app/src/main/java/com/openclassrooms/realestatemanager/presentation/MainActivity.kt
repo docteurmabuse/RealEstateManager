@@ -20,6 +20,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
+import com.openclassrooms.realestatemanager.utils.READ_EXTERNAL_STORAGE_REQUEST
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -38,7 +39,6 @@ class MainActivity constructor(
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment }
     private val navController by lazy { navHostFragment.navController }
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
-    private val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -123,9 +123,11 @@ class MainActivity constructor(
                         // showNoAccess()
                     } else {
                     }
+
                 }
                 return
             }
+
         }
     }
 
