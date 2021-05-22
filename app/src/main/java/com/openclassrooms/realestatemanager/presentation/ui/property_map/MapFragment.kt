@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -25,6 +26,10 @@ import com.mapbox.mapboxsdk.maps.Style
 import com.mapbox.mapboxsdk.plugins.annotation.Symbol
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
 import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
+import com.mapbox.mapboxsdk.utils.BitmapUtils
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -34,6 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
+
 
 @AndroidEntryPoint
 class MapFragment constructor(private var properties: List<Property>) : Fragment(),
@@ -70,8 +76,10 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
 
             // Map is set up and the style has loaded. Now you can add data or make other map adjustments
             enableLocationComponent(it)
+            initMarkerSymbolLayer(it)
             setSymbolManger(it)
             setObserver()
+
         }
     }
 
@@ -105,11 +113,34 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
             SymbolOptions()
                 .withLatLng(LatLng(48.286861, 3.204315))
                 .withIconImage(MAKI_ICON_SQUARE)
-                .withIconSize(1.8f)
+                .withIconSize(1.2f)
         )
 
     }
 
+    private fun initMarkerSymbolLayer(style: Style) {
+        BitmapUtils.getBitmapFromDrawable(
+            AppCompatResources.getDrawable(
+                requireContext(),
+                R.drawable.ic_mapbox_marker_icon_pink
+            )
+        )
+            ?.let {
+                style.addImage(
+                    "marker_icon_pink-id",
+                    it
+                )
+            }
+        style.addSource(GeoJsonSource("source-id"))
+        style.addLayer(
+            SymbolLayer("layer-id", "source-id").withProperties(
+                iconImage("space-station-icon-id"),
+                iconIgnorePlacement(true),
+                iconAllowOverlap(true),
+                iconSize(.7f)
+            )
+        )
+    }
 
     private fun setSymbolManger(style: Style) {
 // Create a SymbolManager.
