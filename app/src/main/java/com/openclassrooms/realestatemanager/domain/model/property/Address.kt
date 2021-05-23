@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Address(
     @get:Bindable
-    var address1: String = "",
+    var address1: String? = "",
     @get:Bindable
     var address2: String? = "",
     @get:Bindable

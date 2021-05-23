@@ -32,16 +32,6 @@ data class PropertyEntity(
     @ColumnInfo(name = "bedroom_number")
     var bedroomNumber: Int? = null,
     var description: String? = "",
-    @ColumnInfo(name = "address_1")
-    var address1: String = "",
-    @ColumnInfo(name = "address_2")
-    var address2: String? = "",
-    var city: String = "New York",
-    @ColumnInfo(name = "zip_code")
-    var zipCode: Int? = null,
-    var state: String? = "NY",
-    var country: String = "United States",
-    var area: String?,
     var schools: Boolean = false,
     var shops: Boolean = false,
     var park: Boolean = false,
@@ -67,13 +57,6 @@ data class PropertyEntity(
                 bathroomNumber = domainModel.bathroomNumber,
                 bedroomNumber = domainModel.bedroomNumber,
                 description = domainModel.description,
-                address1 = domainModel.address1,
-                address2 = domainModel.address2,
-                city = domainModel.city,
-                zipCode = domainModel.zipCode,
-                state = domainModel.state,
-                country = domainModel.country,
-                area = domainModel.area,
                 schools = domainModel.schools,
                 shops = domainModel.shops,
                 park = domainModel.park,
@@ -90,7 +73,8 @@ data class PropertyEntity(
 
     fun toDomain(
         photos: List<PhotoEntity>,
-        videos: List<VideoEntity>
+        videos: List<VideoEntity>,
+        address: AddressEntity
     ): Property {
         return Property(
             id = id,
@@ -101,13 +85,6 @@ data class PropertyEntity(
             bathroomNumber = bathroomNumber,
             bedroomNumber = bedroomNumber,
             description = description,
-            address1 = address1,
-            address2 = address2,
-            city = city,
-            zipCode = zipCode,
-            state = state,
-            country = country,
-            area = area,
             schools = schools,
             shops = shops,
             park = park,
@@ -121,7 +98,8 @@ data class PropertyEntity(
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
             ),
-            agentId = agent_id
+            agentId = agent_id,
+            address = address.toDomain()
         )
     }
 }

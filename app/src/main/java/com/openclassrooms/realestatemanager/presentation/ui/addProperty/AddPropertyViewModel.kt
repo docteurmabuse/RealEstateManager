@@ -67,17 +67,17 @@ class AddPropertyViewModel @Inject constructor(
             property.bedroomNumber = 0
         }
         property.description = addPropertyView.description
-        property.address1 = addPropertyView.address1
-        property.address2 = addPropertyView.address2
-        property.city = addPropertyView.city
+        property.address?.address1 = addPropertyView.address1
+        property.address?.address2 = addPropertyView.address2
+        property.address?.city = addPropertyView.city
         if (addPropertyView.zipcode!!.isNotEmpty()) {
-            property.zipCode = addPropertyView.zipcode!!.toInt()
+            property.address?.zipCode = addPropertyView.zipcode!!.toInt()
         } else {
-            property.zipCode = 10000
+            property.address?.zipCode = 10000
         }
-        property.state = addPropertyView.state
-        property.country = addPropertyView.country
-        property.area = addPropertyView.area
+        property.address?.state = addPropertyView.state
+        property.address?.country = addPropertyView.country
+        property.address?.area = addPropertyView.area
         property.schools = addPropertyView.schools
         property.shops = addPropertyView.shops
         property.park = addPropertyView.parcs

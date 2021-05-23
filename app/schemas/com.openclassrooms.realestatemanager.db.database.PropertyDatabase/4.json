@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "964b11cbdf98ebb325558e8499f99054",
+    "identityHash": "a2b843b3f471d17907b6e5954259318b",
     "entities": [
       {
         "tableName": "agent",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "properties",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `type` TEXT, `price` INTEGER, `surface` INTEGER, `room_number` INTEGER, `bathroom_number` INTEGER, `bedroom_number` INTEGER, `description` TEXT, `address_1` TEXT NOT NULL, `address_2` TEXT, `city` TEXT NOT NULL, `zip_code` INTEGER, `state` TEXT, `country` TEXT NOT NULL, `area` TEXT, `schools` INTEGER NOT NULL, `shops` INTEGER NOT NULL, `park` INTEGER NOT NULL, `stations` INTEGER NOT NULL, `hospital` INTEGER NOT NULL, `museum` INTEGER NOT NULL, `sold` INTEGER NOT NULL, `sell_date` INTEGER, `sold_date` INTEGER, `agent_id` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `type` TEXT, `price` INTEGER, `surface` INTEGER, `room_number` INTEGER, `bathroom_number` INTEGER, `bedroom_number` INTEGER, `description` TEXT, `schools` INTEGER NOT NULL, `shops` INTEGER NOT NULL, `park` INTEGER NOT NULL, `stations` INTEGER NOT NULL, `hospital` INTEGER NOT NULL, `museum` INTEGER NOT NULL, `sold` INTEGER NOT NULL, `sell_date` INTEGER, `sold_date` INTEGER, `agent_id` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -91,48 +91,6 @@
           {
             "fieldPath": "description",
             "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "address1",
-            "columnName": "address_1",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "address2",
-            "columnName": "address_2",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "city",
-            "columnName": "city",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "zipCode",
-            "columnName": "zip_code",
-            "affinity": "INTEGER",
-            "notNull": false
-          },
-          {
-            "fieldPath": "state",
-            "columnName": "state",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "country",
-            "columnName": "country",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "area",
-            "columnName": "area",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -332,12 +290,113 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "estate_address",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `property_id` INTEGER NOT NULL, `address1` TEXT, `address_2` TEXT, `city` TEXT NOT NULL, `zip_code` INTEGER, `state` TEXT, `country` TEXT NOT NULL, `area` TEXT, `lat` TEXT, `lng` TEXT, FOREIGN KEY(`property_id`) REFERENCES `properties`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "property_id",
+            "columnName": "property_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "address1",
+            "columnName": "address1",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address2",
+            "columnName": "address_2",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "city",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "zipCode",
+            "columnName": "zip_code",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "state",
+            "columnName": "state",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "country",
+            "columnName": "country",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "area",
+            "columnName": "area",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lat",
+            "columnName": "lat",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lng",
+            "columnName": "lng",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_estate_address_property_id",
+            "unique": false,
+            "columnNames": [
+              "property_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_estate_address_property_id` ON `${TABLE_NAME}` (`property_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "properties",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "property_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '964b11cbdf98ebb325558e8499f99054')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a2b843b3f471d17907b6e5954259318b')"
     ]
   }
 }

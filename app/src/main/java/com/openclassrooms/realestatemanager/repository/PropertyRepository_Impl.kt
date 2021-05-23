@@ -28,7 +28,7 @@ class PropertyRepository_Impl @Inject constructor(
         return persistence.getAllProperties()
             .distinctUntilChanged()
             .map { propertyList ->
-                propertyList.map { it.property.toDomain(it.photos, it.videos) }
+                propertyList.map { it.property.toDomain(it.photos, it.videos, it.address) }
             }
     }
 

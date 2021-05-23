@@ -18,6 +18,11 @@ class PropertyEntityAggregate(
         entityColumn = "property_id"
     )
     val videos: List<VideoEntity>,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "property_id"
+    )
+    val address: AddressEntity
 ) {
     companion object {
         fun fromDomain(property: Property): PropertyEntityAggregate {
@@ -28,7 +33,8 @@ class PropertyEntityAggregate(
                 },
                 videos = property.media.videos.map {
                     VideoEntity.fromDomain(property.id, it)
-                }
+                },
+                address = AddressEntity.fromDomain(property.id, property.address)
             )
         }
     }

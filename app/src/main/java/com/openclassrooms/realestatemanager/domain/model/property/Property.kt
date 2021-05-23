@@ -25,20 +25,6 @@ data class Property(
     @get:Bindable
     var description: String? = "",
     @get:Bindable
-    var address1: String = "",
-    @get:Bindable
-    var address2: String? = "",
-    @get:Bindable
-    var city: String = "New York",
-    @get:Bindable
-    var zipCode: Int? = null,
-    @get:Bindable
-    var state: String? = "NY",
-    @get:Bindable
-    var country: String = "United States",
-    @get:Bindable
-    var area: String? = "",
-    @get:Bindable
     var schools: Boolean = false,
     @get:Bindable
     var shops: Boolean = false,
@@ -59,7 +45,9 @@ data class Property(
     @get:Bindable
     var media: Media = Media(arrayListOf(), arrayListOf()),
     @get:Bindable
-    var agentId: String = ""
+    var agentId: String = "",
+    @get:Bindable
+    var address: Address? = null
 ) : Parcelable, BaseObservable() {
 
     enum class PropertyType {

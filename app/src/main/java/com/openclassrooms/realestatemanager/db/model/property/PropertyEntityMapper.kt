@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.db.model.property
 
+import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper
@@ -9,7 +10,8 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
     fun mapToDomainModel(
         model: PropertyEntity,
         photos: List<PhotoEntity>,
-        videos: List<VideoEntity>
+        videos: List<VideoEntity>,
+        address: Address
     ): Property {
         return Property(
             id = model.id,
@@ -20,13 +22,6 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
             bathroomNumber = model.bathroomNumber,
             bedroomNumber = model.bedroomNumber,
             description = model.description,
-            address1 = model.address1,
-            address2 = model.address2,
-            city = model.city,
-            zipCode = model.zipCode,
-            state = model.state,
-            country = model.country,
-            area = model.area,
             schools = model.schools,
             shops = model.shops,
             park = model.park,
@@ -40,7 +35,8 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
             ),
-            agentId = model.agent_id
+            agentId = model.agent_id,
+            address = address
         )
     }
 
@@ -54,13 +50,6 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
             bathroomNumber = domainModel.bathroomNumber,
             bedroomNumber = domainModel.bedroomNumber,
             description = domainModel.description,
-            address1 = domainModel.address1,
-            address2 = domainModel.address2,
-            city = domainModel.city,
-            zipCode = domainModel.zipCode,
-            state = domainModel.state,
-            country = domainModel.country,
-            area = domainModel.area,
             schools = domainModel.schools,
             shops = domainModel.shops,
             park = domainModel.park,

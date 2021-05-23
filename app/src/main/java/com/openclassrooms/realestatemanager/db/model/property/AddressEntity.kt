@@ -18,7 +18,7 @@ data class AddressEntity(
     var id: Long? = null,
     @ColumnInfo(name = "property_id", index = true)
     var property_id: Long,
-    var address1: String = "",
+    var address1: String? = "",
     @ColumnInfo(name = "address_2")
     var address2: String? = "",
     var city: String = "New York",
@@ -31,10 +31,10 @@ data class AddressEntity(
     var lng: String?
 ) {
     companion object {
-        fun fromDomain(propertyId: Long, address: Address): AddressEntity {
+        fun fromDomain(propertyId: Long, address: Address?): AddressEntity {
             return AddressEntity(
                 property_id = propertyId,
-                address1 = address.address1,
+                address1 = address!!.address1,
                 address2 = address.address2,
                 city = address.city,
                 zipCode = address.zipCode,
