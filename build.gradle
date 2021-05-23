@@ -23,6 +23,7 @@ buildscript {
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.35"
     }
 }
+def sdkRegistryToken = project.properties['SDK_REGISTRY_TOKEN'] ?: System.getenv('SDK_REGISTRY_TOKEN')
 
 allprojects {
     repositories {
@@ -38,7 +39,7 @@ allprojects {
                 // This should always be `mapbox` (not your username).
                 username = 'mapbox'
                 // Use the secret token you stored in gradle.properties as the password
-                password = project.properties['MAPBOX_DOWNLOADS_TOKEN'] ?: ""
+                password = sdkRegistryToken
             }
         }
     }

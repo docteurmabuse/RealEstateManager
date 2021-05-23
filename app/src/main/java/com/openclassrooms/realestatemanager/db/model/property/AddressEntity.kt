@@ -2,10 +2,17 @@ package com.openclassrooms.realestatemanager.db.model.property
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 
-@Entity
+@Entity(
+    tableName = "estate_address", foreignKeys = [ForeignKey(
+        entity = PropertyEntity::class,
+        parentColumns = ["id"],
+        childColumns = ["property_id"]
+    )]
+)
 data class AddressEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
