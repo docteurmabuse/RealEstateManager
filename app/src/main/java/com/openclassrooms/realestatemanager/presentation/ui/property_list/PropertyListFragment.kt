@@ -22,7 +22,6 @@ import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAda
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -137,7 +136,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
     }
 
     private fun setObserver() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenResumed {
             val value = viewModel.state
             value.collect {
                 when (it.status) {

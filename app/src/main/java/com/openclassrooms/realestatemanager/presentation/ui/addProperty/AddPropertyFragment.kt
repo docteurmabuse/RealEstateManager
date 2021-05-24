@@ -91,8 +91,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupMenuValues(typeDropdown)
         val onClickListener = View.OnClickListener { itemView ->
             val item = itemView.tag as Media.Photo
-            photos.remove(item)
-            adapter.submitList(photos)
+            viewModel.removePhotoToPhotosList(item)
             Timber.d("PHOTO_DELETE: ${item.photoPath}")
         }
         setupRecyclerView(recyclerView, onClickListener)
@@ -102,7 +101,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupSellDateListener()
         retrieveArguments()
         setAddressListener()
-        setObserver()
     }
 
     private fun setObserver() {
@@ -117,7 +115,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun setPhotosAdapter(photoList: List<Media.Photo>) {
         photos.addAll(photoList)
-        adapter.submitList(photos)
+        Timber.d("PHOTO_ADAPTER: $photoList")
+        adapter.submitList(photoList)
     }
 
     private fun retrieveArguments() {
