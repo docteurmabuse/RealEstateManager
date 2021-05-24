@@ -27,6 +27,7 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotosAdapter
@@ -34,6 +35,8 @@ import com.openclassrooms.realestatemanager.utils.ImageUtils
 import com.openclassrooms.realestatemanager.utils.REQUEST_CODE_AUTOCOMPLETE
 import com.openclassrooms.realestatemanager.utils.Utils.isNetworkConnected
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.util.*
@@ -85,12 +88,13 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         //  this.binding.handlers = Handlers()
         binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
+        viewModel.fetchPhotos()
+        setObserver()
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
         setupMenuValues(typeDropdown)
         val onClickListener = View.OnClickListener { itemView ->
             val item = itemView.tag as Media.Photo
             photos.remove(item)
-            viewModel.addPhotos(photos)
             adapter.submitList(photos)
 
             Timber.d("PHOTO_DELETE: ${item.photoPath}")
@@ -102,6 +106,21 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupSellDateListener()
         retrieveArguments()
         setAddressListener()
+    }
+
+    private fun setObserver() {
+        lifecycleScope.launch {
+            val value = viewModel.statePhotos
+            value.collect {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+                        it.data?.let { photos ->
+                            adapter.submitList(photos)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun retrieveArguments() {
