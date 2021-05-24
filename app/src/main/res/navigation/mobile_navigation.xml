@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/itemTabsFragment2">
+
+    <fragment
+        android:id="@+id/propertyListFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListFragment"
+        android:label="PropertyListFragment">
+        <action
+            android:id="@+id/action_propertyListFragment_to_propertyDetailFragment"
+            app:destination="@id/propertyDetailFragment"
+            app:popUpToInclusive="false" />
+        <argument
+            android:name="property"
+            android:defaultValue="@null"
+            app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_propertyListFragment_to_addPropertyFragment"
+            app:destination="@id/addPropertyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/propertyDetailFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment"
+        android:label="property_detail"
+        tools:layout="@layout/property_list_content">
+        <argument
+            android:name="property"
+            app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
+            app:nullable="true" />
+        <argument
+            android:name="item_id"
+            android:defaultValue=""
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPropertyFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyFragment"
+        android:label="add_property_fragment"
+        tools:layout="@layout/add_property_fragment">
+        <action
+            android:id="@+id/action_addPropertyFragment_to_photoOptionDialogFragment"
+            app:destination="@id/photoOptionDialogFragment" />
+        <argument
+            android:name="propertyId"
+            android:defaultValue="0L"
+            app:argType="long" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.property_map.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/map_layout" />
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.openclassrooms.realestatemanager.presentation.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <dialog
+        android:id="@+id/photoOptionDialogFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.addProperty.PhotoOptionDialogFragment"
+        android:label="PhotoOptionDialogFragment" />
+    <fragment
+        android:id="@+id/itemTabsFragment2"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragment"
+        android:label="ItemTabsFragment">
+        <action
+            android:id="@+id/action_itemTabsFragment2_to_addPropertyFragment"
+            app:destination="@id/addPropertyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/masterHostFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.MasterHostFragment"
+        android:label="MasterHostFragment" />
+</navigation>

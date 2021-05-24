@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="property"
+            type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
+
+        <variable
+            name="photo"
+            type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
+
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/item_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ItemDetailHostActivity"
+        tools:ignore="MergeRootFrame">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/app_bar_height"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:toolbarId="@+id/toolbar">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="90" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:tabBackground="@drawable/tab_selector"
+                    app:tabGravity="center"
+                    app:tabIndicatorHeight="0dp"
+                    app:tabMaxWidth="10dp" />
+
+                <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                    android:id="@+id/dots_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="@dimen/marginTop"
+                    app:dotsColor="@color/colorPrimaryDark"
+                    app:dotsCornerRadius="8dp"
+                    app:dotsSize="16dp"
+                    app:dotsSpacing="4dp"
+                    app:dotsWidthFactor="2.5"
+                    app:progressMode="true"
+                    app:selectedDotColor="@color/colorAccent" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/detail_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/item_detail_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/item_address"
+                    style="?android:attr/textAppearanceLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{property.address.address1}"
+                    android:textIsSelectable="true"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:context="com.example.myapplication.ItemDetailFragment" />
+
+                <TextView
+                    android:id="@+id/item_address_suite"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{@string/address2_layout(property.address.area,property.address.city, property.address.state, property.address.zipCode)}"
+                    android:textIsSelectable="true"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_address"
+                    tools:context="com.example.myapplication.ItemDetailFragment" />
+
+                <TextView
+                    android:id="@+id/item_price"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    price="@{property.price}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:textColor="@color/colorAccent"
+                    android:textIsSelectable="true"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_address_suite"
+                    tools:context="com.example.myapplication.ItemDetailFragment" />
+
+                <TextView
+                    android:id="@+id/item_type"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{property.type}"
+                    android:textIsSelectable="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_price"
+                    tools:context="com.example.myapplication.ItemDetailFragment" />
+
+                <TextView
+                    android:id="@+id/surface_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{@string/surface_text(property.surface)}"
+                    app:drawableLeftCompat="@drawable/ic_square_foot_24dp"
+                    app:layout_constraintStart_toEndOf="@id/item_type"
+                    app:layout_constraintTop_toBottomOf="@id/item_price" />
+
+                <TextView
+                    android:id="@+id/rooms_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{@plurals/room_plural(property.roomNumber,property.roomNumber)}"
+                    app:drawableLeftCompat="@drawable/ic_room_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_type" />
+
+                <TextView
+                    android:id="@+id/bedrooms_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{@plurals/bedrooms_plural(property.bedroomNumber,property.bedroomNumber)}"
+                    app:drawableLeftCompat="@drawable/ic_bedroom_parent_24dp"
+                    app:layout_constraintEnd_toStartOf="@id/bathrooms_text"
+                    app:layout_constraintStart_toEndOf="@id/rooms_text"
+                    app:layout_constraintTop_toBottomOf="@id/item_type" />
+
+                <TextView
+                    android:id="@+id/bathrooms_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{@plurals/bathrooms_plural(property.bathroomNumber,property.bathroomNumber)}"
+                    app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/bedrooms_text"
+                    app:layout_constraintTop_toBottomOf="@id/item_type" />
+
+                <TextView
+                    android:id="@+id/description_title_text"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@string/description"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rooms_text" />
+
+                <TextView
+                    android:id="@+id/description_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:justificationMode="inter_word"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{property.description}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description_title_text" />
+
+                <TextView
+                    android:id="@+id/nearby"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@string/nearby"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description_text" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="9dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    app:layout_constraintStart_toEndOf="@id/nearby"
+                    app:layout_constraintTop_toBottomOf="@id/description_text">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/museum_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/marginEnd"
+                        android:paddingEnd="@dimen/marginEnd"
+                        android:visibility="@{property.museum? View.VISIBLE : View.GONE }"
+                        app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                        app:srcCompat="@drawable/ic_museum_24dp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/schools_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/marginEnd"
+                        android:visibility="@{property.schools? View.VISIBLE : View.GONE }"
+                        app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                        app:srcCompat="@drawable/ic_school_24dp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/shops_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/marginEnd"
+                        android:visibility="@{property.shops? View.VISIBLE : View.GONE }"
+                        app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                        app:srcCompat="@drawable/ic_shopping_basket_24dp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/hospital_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/marginEnd"
+                        android:visibility="@{property.hospital? View.VISIBLE : View.GONE }"
+                        app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                        app:srcCompat="@drawable/ic_local_hospital_24dp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/station_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/marginEnd"
+                        android:visibility="@{property.stations? View.VISIBLE : View.GONE }"
+                        app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                        app:srcCompat="@drawable/ic_train_24dp"
+                        tools:ignore="RtlSymmetry" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/park_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/marginEnd"
+                        android:visibility="@{property.park? View.VISIBLE : View.GONE }"
+                        app:drawableLeftCompat="@drawable/ic_bathroom_24dp"
+                        app:srcCompat="@drawable/baseline_park_24"
+                        tools:ignore="RtlSymmetry" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <TextView
+                    android:id="@+id/location_text"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@string/location"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nearby" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/static_map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:paddingBottom="60dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/location_text" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:fabAlignmentMode="end"
+            app:navigationIcon="@drawable/ic_menu_24dp"
+            app:title="Add a new property" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addPropertyFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:baselineAlignBottom="true"
+            android:contentDescription="@string/add_property_button"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_anchor="@id/bottomAppBar"
+            app:srcCompat="@drawable/ic_edit_24dp" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
