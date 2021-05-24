@@ -73,9 +73,9 @@ class PropertyDaoTest {
         val firstProperty = propertyDao.getAllProperties().first()[0]
 
         //Fake Property 1 should be equal to first agent in database
-        assertEquals(property1.property.zipCode, firstProperty.property.zipCode)
+        assertEquals(property1.address.zipCode, firstProperty.address.zipCode)
         //Fake Property 2 should not be equal to first agent in database
-        Assert.assertNotEquals(property2.property.zipCode, firstProperty.property.zipCode)
+        Assert.assertNotEquals(property2.address.zipCode, firstProperty.address.zipCode)
         closeDb()
     }
 }

@@ -30,6 +30,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotosAdapter
 import com.openclassrooms.realestatemanager.utils.ImageUtils
 import com.openclassrooms.realestatemanager.utils.REQUEST_CODE_AUTOCOMPLETE
+import com.openclassrooms.realestatemanager.utils.Utils.isNetworkConnected
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.io.File
@@ -49,6 +50,15 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var location: LatLng? = null
     private var latestTmpUri: Uri? = null
     private var feature: CarmenFeature? = null
+    var address1: String? = ""
+    var address2: String? = ""
+    var city: String = "New York"
+    var zipCode: Int? = null
+    var state: String? = "NY"
+    var country: String = "United States"
+    var area: String? = null
+    var lat: String? = null
+    var lng: String? = null
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -83,6 +93,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupSellDateListener()
         retrieveArguments()
         setAddressListener()
+
+
     }
 
     private fun retrieveArguments() {
@@ -163,6 +175,11 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun setAddressListener() {
         binding.address?.addressTextInput?.setOnClickListener {
+            if (isNetworkConnected(requireContext())) {
+                Timber.d("INTERNET_CONNECTION: Internet is connected")
+            } else {
+                Timber.d("INTERNET_CONNECTION: Internet is not connected")
+            }
             popupAutocomplete(it)
         }
     }
@@ -179,6 +196,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                 PlaceOptions.builder()
                     .backgroundColor(Color.parseColor("#FFFFFF"))
                     .limit(5)
+                    .geocodingTypes("address")
                     .country(Locale.US)
                     .build()
             )
@@ -202,8 +220,19 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         binding.address?.addressTextInput?.setText(address)
         val point: Point = feature.geometry() as Point
         location = LatLng(point.coordinates()[0], point.coordinates()[1])
-        Timber.d("ADDRESS: ${location}, ${location}, ${feature.placeName()}")
 
+        var placename = address?.split(",")
+
+        Timber.d(
+            "ADDRESS:  ${location}, context:  ${
+                listOf(
+                    feature.context()?.component2()
+                )[1]
+            }, placename= $placename"
+        )
+
+        //if ()
+        // city = feature.context()
     }
 
     private fun saveProperty() {
@@ -216,13 +245,13 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.characteristics!!.numberOfBathroomTextInput.text.toString(),
             binding.characteristics!!.numberOfBedroomTextInput.text.toString(),
             binding.type!!.descriptionTextInput.text.toString(),
-            binding.address!!.addressTextInput.text.toString(),
-            binding.address!!.address2TextInput.text.toString(),
-            binding.address!!.cityTextInput.text.toString(),
-            binding.address!!.zipcodeTextInput.text.toString(),
-            binding.address!!.stateTextInput.text.toString(),
-            binding.address!!.countryTextInput.text.toString(),
-            binding.address!!.areaTextInput.text.toString(),
+            address1,
+            binding.address?.address2TextInput?.text.toString(),
+            city,
+            zipCode.toString(),
+            state,
+            country,
+            area,
             binding.pointOfInterest!!.museum.isChecked,
             binding.pointOfInterest!!.schools.isChecked,
             binding.pointOfInterest!!.shops.isChecked,
@@ -346,7 +375,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
          }
 
      }*/
-
 
 
     private fun getImageWithAuthority(uri: Uri) = ImageUtils.decodeUriStreamToSize(

@@ -101,7 +101,7 @@ class AddPropertyViewModel @Inject constructor(
         var bathroomNumber: String? = "",
         var bedroomNumber: String? = "",
         var description: String? = "",
-        var address1: String = "",
+        var address1: String? = "",
         var address2: String? = "",
         var city: String = "New York",
         var zipcode: String? = "",

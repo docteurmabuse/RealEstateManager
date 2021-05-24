@@ -1,9 +1,6 @@
 package com.openclassrooms.realestatemanager.data
 
-import com.openclassrooms.realestatemanager.db.model.property.PhotoEntity
-import com.openclassrooms.realestatemanager.db.model.property.PropertyEntity
-import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
-import com.openclassrooms.realestatemanager.db.model.property.VideoEntity
+import com.openclassrooms.realestatemanager.db.model.property.*
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
@@ -21,7 +18,8 @@ object PropertyFactory {
         return PropertyEntityAggregate(
             makeRandomProperty(),
             makeRandomPhotoList,
-            makeRandomVideoList
+            makeRandomVideoList,
+            makeRandomAddress()
         )
     }
 
@@ -35,13 +33,6 @@ object PropertyFactory {
             makeRandomInt(),
             makeRandomInt(),
             makeRandomString(),
-            makeRandomString(),
-            makeRandomString(),
-            makeRandomString(),
-            makeRandomInt(),
-            makeRandomString(),
-            makeRandomString(),
-            makeRandomString(),
             makeRandomBoolean(),
             makeRandomBoolean(),
             makeRandomBoolean(),
@@ -51,7 +42,7 @@ object PropertyFactory {
             makeRandomBoolean(),
             makeRandomLong(),
             makeRandomLong(),
-            1,
+            "Marlon Brando",
         )
     }
 
@@ -68,6 +59,22 @@ object PropertyFactory {
         return VideoEntity(
             makeRandomLong(),
             propertyId,
+            makeRandomString(),
+            makeRandomString(),
+        )
+    }
+
+    private fun makeRandomAddress(): AddressEntity {
+        return AddressEntity(
+            makeRandomLong(),
+            propertyId,
+            makeRandomString(),
+            makeRandomString(),
+            makeRandomString(),
+            makeRandomInt(),
+            makeRandomString(),
+            makeRandomString(),
+            makeRandomString(),
             makeRandomString(),
             makeRandomString(),
         )

@@ -7,7 +7,8 @@ import java.util.concurrent.ThreadLocalRandom
 object AgentFactory {
     fun makeAgent(): AgentEntity {
         return AgentEntity(
-            1,
+            "Marlon Brando",
+            makeRandomString(),
             makeRandomString(),
             makeRandomString()
         )
