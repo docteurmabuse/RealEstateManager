@@ -73,7 +73,7 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
     override fun onMapReady(mapboxMap: MapboxMap) {
         this.mapboxMap = mapboxMap
         mapboxMap.setStyle(Style.MAPBOX_STREETS) {
-
+            mapboxMap.uiSettings.isZoomGesturesEnabled = true
             // Map is set up and the style has loaded. Now you can add data or make other map adjustments
             enableLocationComponent(it)
             initMarkerSymbolLayer(it)

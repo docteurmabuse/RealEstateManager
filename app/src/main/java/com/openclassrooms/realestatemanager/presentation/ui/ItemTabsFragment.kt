@@ -44,6 +44,7 @@ class ItemTabsFragment : Fragment() {
 
         viewPager = view.findViewById(R.id.pager)
         viewPager.adapter = tabsPagerAdapter
+        viewPager.isUserInputEnabled = false
 
         tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
