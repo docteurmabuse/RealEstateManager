@@ -27,7 +27,6 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
-import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotosAdapter
@@ -88,15 +87,12 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         //  this.binding.handlers = Handlers()
         binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
-        viewModel.fetchPhotos()
-        setObserver()
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
         setupMenuValues(typeDropdown)
         val onClickListener = View.OnClickListener { itemView ->
             val item = itemView.tag as Media.Photo
             photos.remove(item)
             adapter.submitList(photos)
-
             Timber.d("PHOTO_DELETE: ${item.photoPath}")
         }
         setupRecyclerView(recyclerView, onClickListener)
@@ -106,21 +102,22 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupSellDateListener()
         retrieveArguments()
         setAddressListener()
+        setObserver()
     }
 
     private fun setObserver() {
         lifecycleScope.launch {
             val value = viewModel.statePhotos
             value.collect {
-                when (it.status) {
-                    DataState.Status.SUCCESS -> {
-                        it.data?.let { photos ->
-                            adapter.submitList(photos)
-                        }
-                    }
-                }
+                setPhotosAdapter(it)
+                Timber.d("PHOTO_OBSERVER: $it")
             }
         }
+    }
+
+    private fun setPhotosAdapter(photoList: List<Media.Photo>) {
+        photos.addAll(photoList)
+        adapter.submitList(photos)
     }
 
     private fun retrieveArguments() {
@@ -162,7 +159,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             )
         )
         recyclerView.adapter = adapter
-        adapter.submitList(photos)
     }
 
     private fun setupImageDialogListener() {
@@ -365,51 +361,51 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         )
     }
 
-    /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-         super.onActivityResult(requestCode, resultCode, data)
-         if (resultCode == Activity.RESULT_OK) {
-             when (requestCode) {
-                 REQUEST_CAPTURE_IMAGE -> {
-                     val photoFile = photoFile ?: return
-                     val uri = FileProvider.getUriForFile(
-                         requireContext(),
-                         "com.openclassrooms.realestatemanager.fileprovider",
-                         photoFile
-                     )
-                     requireContext().revokeUriPermission(
-                         uri,
-                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                     )
-                     val image = getImageWithPath(photoFile.absolutePath)
-                     val file = File(photoFile.absolutePath)
-                     MediaScannerConnection.scanFile(
-                         context, arrayOf(file.toString()),
-                         null, null
-                     )
-                     val photo = Media.Photo(
-                         "",
-                         uri.toString()
-                     )
-                     submitPhotoToList(photo)
-                 }
-                 REQUEST_GALLERY_IMAGE -> if (data != null && data.data != null) {
-                     val imageUri = data.data
-                     val photo = Media.Photo(
-                         "",
-                         imageUri.toString()
-                     )
-                     submitPhotoToList(photo)
-                 }
-                 REQUEST_CODE_AUTOCOMPLETE -> if (data != null && data.data != null) {
-                     val feature = PlaceAutocomplete.getPlace(data)
-                     Timber.d("ADDRESS: ${feature.address()}, ${feature.geometry()}")
-                     submitAddress(feature)
-                     Toast.makeText(requireContext(), feature.text(), Toast.LENGTH_LONG).show()
-                 }
+/* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+     super.onActivityResult(requestCode, resultCode, data)
+     if (resultCode == Activity.RESULT_OK) {
+         when (requestCode) {
+             REQUEST_CAPTURE_IMAGE -> {
+                 val photoFile = photoFile ?: return
+                 val uri = FileProvider.getUriForFile(
+                     requireContext(),
+                     "com.openclassrooms.realestatemanager.fileprovider",
+                     photoFile
+                 )
+                 requireContext().revokeUriPermission(
+                     uri,
+                     Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                 )
+                 val image = getImageWithPath(photoFile.absolutePath)
+                 val file = File(photoFile.absolutePath)
+                 MediaScannerConnection.scanFile(
+                     context, arrayOf(file.toString()),
+                     null, null
+                 )
+                 val photo = Media.Photo(
+                     "",
+                     uri.toString()
+                 )
+                 submitPhotoToList(photo)
+             }
+             REQUEST_GALLERY_IMAGE -> if (data != null && data.data != null) {
+                 val imageUri = data.data
+                 val photo = Media.Photo(
+                     "",
+                     imageUri.toString()
+                 )
+                 submitPhotoToList(photo)
+             }
+             REQUEST_CODE_AUTOCOMPLETE -> if (data != null && data.data != null) {
+                 val feature = PlaceAutocomplete.getPlace(data)
+                 Timber.d("ADDRESS: ${feature.address()}, ${feature.geometry()}")
+                 submitAddress(feature)
+                 Toast.makeText(requireContext(), feature.text(), Toast.LENGTH_LONG).show()
              }
          }
+     }
 
-     }*/
+ }*/
 
 
     private fun getImageWithAuthority(uri: Uri) = ImageUtils.decodeUriStreamToSize(
@@ -426,10 +422,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     )
 
     private fun submitPhotoToList(photo: Media.Photo) {
-        photos.add(photo)
+        viewModel.addPhotoToPhotosList(photo)
         Timber.d("PHOTOS: ${photo.photoPath}")
-        recyclerView.adapter = adapter
-        adapter.submitList(photos)
     }
 
     private val selectImageFromGalleryResult =
@@ -440,6 +434,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                     uri.toString()
                 )
                 submitPhotoToList(photo)
+                setObserver()
             }
         }
     private val takeImageResult =
