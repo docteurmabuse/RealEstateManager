@@ -17,6 +17,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
 import com.mapbox.geojson.Point
@@ -85,16 +87,21 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         this.binding.viewModel = viewModel
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
         setupMenuValues(typeDropdown)
+        val onClickListener = View.OnClickListener { itemView ->
+            val item = itemView.tag as Media.Photo
+            photos.remove(item)
+            viewModel.addPhotos(photos)
+            adapter.submitList(photos)
 
-        setupRecyclerView()
+            Timber.d("PHOTO_DELETE: ${item.photoPath}")
+        }
+        setupRecyclerView(recyclerView, onClickListener)
         setFabListener()
         setupUploadImageListener()
         setupImageDialogListener()
         setupSellDateListener()
         retrieveArguments()
         setAddressListener()
-
-
     }
 
     private fun retrieveArguments() {
@@ -124,8 +131,17 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
     }
 
-    private fun setupRecyclerView() {
-        val adapter = PhotosAdapter()
+    private fun setupRecyclerView(
+        recyclerView: RecyclerView,
+        onClickListener: View.OnClickListener,
+    ) {
+        adapter = PhotosAdapter(onClickListener)
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                recyclerView.context,
+                (recyclerView.layoutManager as LinearLayoutManager).orientation
+            )
+        )
         recyclerView.adapter = adapter
         adapter.submitList(photos)
     }
@@ -393,7 +409,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun submitPhotoToList(photo: Media.Photo) {
         photos.add(photo)
         Timber.d("PHOTOS: ${photo.photoPath}")
-        val adapter = PhotosAdapter()
         recyclerView.adapter = adapter
         adapter.submitList(photos)
     }

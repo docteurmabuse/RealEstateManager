@@ -1,5 +1,8 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
+import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,6 +22,11 @@ class AddPropertyViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val addProperty: AddProperty
 ) : ViewModel() {
+    private val _photos: MutableLiveData<List<Media.Photo>>? = null
+    private val photosList: ArrayList<Media.Photo> = arrayListOf()
+    val photos: MutableLiveData<List<Media.Photo>>?
+        get() = _photos
+
     fun addPropertyToRoomDb(property: String) {
         Timber.tag("FabClick").d("It's ok FAB2: $property")
 
@@ -27,6 +36,21 @@ class AddPropertyViewModel @Inject constructor(
             // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
 
             // addProperty.invoke(property)
+        }
+    }
+
+    val onClickListener = View.OnClickListener { itemView ->
+        val item = itemView.tag as Property
+        val bundle = Bundle()
+        bundle.putParcelable(
+            PropertyDetailFragment.ARG_PROPERTY,
+            item
+        )
+    }
+
+    fun addPhotos(photos: List<Media.Photo>) {
+        viewModelScope.launch {
+            _photos?.postValue(photos)
         }
     }
 

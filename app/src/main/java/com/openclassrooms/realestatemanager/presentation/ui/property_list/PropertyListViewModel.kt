@@ -22,7 +22,7 @@ constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val _state = MutableStateFlow<DataState<List<Property>>>(DataState.loading(null))
+   private val _state = MutableStateFlow<DataState<List<Property>>>(DataState.loading(null))
     val state: StateFlow<DataState<List<Property>>>
         get() = _state
 

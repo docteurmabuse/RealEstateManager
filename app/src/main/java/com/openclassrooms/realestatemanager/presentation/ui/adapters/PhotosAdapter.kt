@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.presentation.ui.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -8,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.MediaItemContentBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 
-class PhotosAdapter :
+class PhotosAdapter(
+    private val onClickListener: View.OnClickListener,
+) :
     ListAdapter<Media.Photo, PhotosAdapter.PhotosViewHolder>(
         ITEM_COMPARATOR
     ) {
@@ -25,6 +28,10 @@ class PhotosAdapter :
     override fun onBindViewHolder(holder: PhotosAdapter.PhotosViewHolder, position: Int) {
         val item = getItem(position)
         holder.binding.photo = item
+        with(holder.binding.deleteButton) {
+            tag = item
+            setOnClickListener(onClickListener)
+        }
     }
 
     inner class PhotosViewHolder(
