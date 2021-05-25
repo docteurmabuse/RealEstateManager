@@ -69,5 +69,6 @@
     <string name="user_location_permission_explanation">You need to enable permission in order to use the app. The app will display properties around you.</string>
     <string name="user_location_permission_not_granted">Location permission is not granted</string>
     <string name="search_an_address">Search an address</string>
+    <string name="engine_init_error">Init error</string>
 
 </resources>

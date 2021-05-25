@@ -12,6 +12,10 @@ plugins {
 }
 apply plugin: 'kotlin-android'
 def mapboxApiToken = project.properties['MAPBOX_ACCESS_TOKEN'] ?: System.getenv('MAPBOX_ACCESS_TOKEN')
+def hereApiId = project.properties['SDK_APP_ID'] ?: System.getenv('SDK_APP_ID')
+def hereApiCode= project.properties['SDK_APP_CODE'] ?: System.getenv('SDK_APP_CODE')
+def hereLicenseKey= project.properties['SDK_LICENSE_KEY'] ?: System.getenv('SDK_LICENSE_KEY')
+
 if (mapboxApiToken == null) {
     throw new Exception("API token is not specified.")
 }
@@ -32,10 +36,25 @@ android {
         buildConfigField "String", "MAPBOX_API_TOKEN", "\"$mapboxApiToken\""
         resValue "string", "mapbox_access_token", mapboxApiToken
 
+        buildConfigField "String", "SDK_APP_ID", "\"$hereApiId\""
+        resValue "string", "com.here.android.maps.appid", hereApiId
+
+        buildConfigField "String", "SDK_APP_CODE", "\"$hereApiCode\""
+        resValue "string", "com.here.android.maps.apptoken", hereApiCode
+
+        buildConfigField "String", "SSDK_LICENSE_KEY", "\"$hereLicenseKey\""
+        resValue "string", "com.here.android.maps.license.key", hereLicenseKey
+
         kapt {
             arguments {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
         }
     }
 
@@ -216,11 +235,11 @@ dependencies {
 
     //Hilt
     // For Robolectric tests.
-      testImplementation 'com.google.dagger:hilt-android-testing:2.35'
+      testImplementation 'com.google.dagger:hilt-android-testing:2.35.1'
     // ...with Kotlin.
     kaptTest 'com.google.dagger:hilt-android-compiler:2.35'
     // For instrumented tests.
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35'
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35.1'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.35'
 
 
@@ -234,7 +253,9 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v9:0.12.0'
 
-
+    //Here Map
+    implementation(name:'HERE-sdk', ext:'aar')
+    implementation 'com.google.code.gson:gson:2.8.6'
 }
 secrets {
     // Optionally specify a different file name containing your secrets.
