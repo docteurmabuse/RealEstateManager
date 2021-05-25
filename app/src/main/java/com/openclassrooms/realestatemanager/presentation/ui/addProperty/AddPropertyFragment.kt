@@ -18,7 +18,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.geometry.LatLng
@@ -46,7 +45,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var videos: ArrayList<Media.Video> = arrayListOf()
     private val args: AddPropertyFragmentArgs by navArgs()
     private var newPropertyId: Long = 0
-    private lateinit var recyclerView: RecyclerView
     private lateinit var photoListAdapter: PhotoListAdapter
     private var address: String? = ""
     private var location: LatLng? = null
@@ -81,7 +79,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = binding.media!!.photoRecyclerView
         //  this.binding.handlers = Handlers()
         binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
@@ -138,7 +135,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun setupRecyclerView(
     ) {
-        recyclerView.apply {
+        binding.media!!.photoRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             photoListAdapter = PhotoListAdapter(this@AddPropertyFragment)
             adapter = photoListAdapter
@@ -445,7 +442,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     override fun onDestroyView() {
         _binding = null
-        recyclerView.adapter = null
+        binding.media!!.photoRecyclerView.adapter = null
         super.onDestroyView()
     }
 
