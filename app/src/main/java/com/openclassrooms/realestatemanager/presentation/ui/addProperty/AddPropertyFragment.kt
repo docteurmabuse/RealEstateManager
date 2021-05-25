@@ -31,8 +31,7 @@ import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBindi
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAdapter
-import com.openclassrooms.realestatemanager.utils.ImageUtils
-import com.openclassrooms.realestatemanager.utils.REQUEST_CODE_AUTOCOMPLETE
+import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.utils.Utils.isNetworkConnected
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -41,7 +40,7 @@ import java.util.*
 
 @AndroidEntryPoint
 class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property_fragment),
-    PhotoListAdapter.Interaction {
+    PhotoListAdapter.Interaction, OnStartDragListener {
     private val viewModel: AddPropertyViewModel by viewModels()
     private lateinit var photosRecyclerView: RecyclerView
     private var photoFile: File? = null
@@ -54,6 +53,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var location: LatLng? = null
     private var latestTmpUri: Uri? = null
     private var feature: CarmenFeature? = null
+    private var mItemTouchHelper: ItemTouchHelper? = null
+
     var address1: String? = ""
     var address2: String? = ""
     var city: String = "New York"
@@ -64,27 +65,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     var lat: String? = null
     var lng: String? = null
 
-    private val itemTouchHelper by lazy {
-        var simpleTouchCallbacks =
-            object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
-                override fun onMove(
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    target: RecyclerView.ViewHolder
-                ): Boolean {
-                    val adapter = photosRecyclerView.adapter as PhotoListAdapter
-                    val from = viewHolder.bindingAdapterPosition
-                    val to = target.bindingAdapterPosition
-                    adapter.notifyItemMoved(from, to)
-                    return true
-                }
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    TODO("Not yet implemented")
-                }
-
-            }
-    }
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -100,6 +80,9 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         savedInstanceState: Bundle?
     ): View {
         _binding = AddPropertyFragmentBinding.inflate(inflater, container, false)
+        if (::photoListAdapter.isInitialized) {
+            photoListAdapter.submitList(list = photos)
+        }
         return binding.root
     }
 
@@ -164,9 +147,26 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     ) {
         photosRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
-            photoListAdapter = PhotoListAdapter(this@AddPropertyFragment)
-            adapter = photoListAdapter
+            val topSpacingItemDecoration = TopSpacingItemDecoration(5)
+            addItemDecoration(topSpacingItemDecoration)
+            photoListAdapter = PhotoListAdapter(
+                this@AddPropertyFragment,
+                dragStartListener = this@AddPropertyFragment
+            ) {
+                Timber.d("REORDER: reorder completed")
+                photoListAdapter.submitList(photos)
+            }
+            binding.media?.photoRecyclerView?.adapter = photoListAdapter
+            val callback: ItemTouchHelper.Callback = ReorderHelperCallback(photoListAdapter)
+            mItemTouchHelper = ItemTouchHelper(callback)
+            mItemTouchHelper?.attachToRecyclerView(binding.media?.photoRecyclerView)
             photoListAdapter.submitList(photos)
+        }
+    }
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder?) {
+        viewHolder?.let {
+            mItemTouchHelper?.startDrag(it)
         }
     }
 
@@ -320,35 +320,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun onCaptureClick() {
-        /* photoFile = null
-         try {
-             photoFile = ImageUtils.createUniqueImageFile(requireContext())
-         } catch (ex: java.io.IOException) {
-             return
-         }
-         photoFile?.let { photoFile ->
-             val photoUri = FileProvider.getUriForFile(
-                 requireActivity(), "com.openclassrooms.realestatemanager.fileprovider",
-                 photoFile
-             )
-             val captureIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
-             captureIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, photoUri)
-             val intentActivities = requireActivity().packageManager.queryIntentActivities(
-                 captureIntent, PackageManager.MATCH_DEFAULT_ONLY
-             )
-             intentActivities.map {
-                 it.activityInfo.packageName
-             }
-                 .forEach {
-                     requireActivity().grantUriPermission(
-                         it,
-                         photoUri,
-                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                     )
-                 }
-             startActivityForResult(captureIntent, REQUEST_CAPTURE_IMAGE)
-         }*/
-
         lifecycleScope.launchWhenStarted {
             getTmpFileUri().let { uri ->
                 latestTmpUri = uri
@@ -369,53 +340,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             tmpFile
         )
     }
-
-    /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-         super.onActivityResult(requestCode, resultCode, data)
-         if (resultCode == Activity.RESULT_OK) {
-             when (requestCode) {
-                 REQUEST_CAPTURE_IMAGE -> {
-                     val photoFile = photoFile ?: return
-                     val uri = FileProvider.getUriForFile(
-                         requireContext(),
-                         "com.openclassrooms.realestatemanager.fileprovider",
-                         photoFile
-                     )
-                     requireContext().revokeUriPermission(
-                         uri,
-                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                     )
-                     val image = getImageWithPath(photoFile.absolutePath)
-                     val file = File(photoFile.absolutePath)
-                     MediaScannerConnection.scanFile(
-                         context, arrayOf(file.toString()),
-                         null, null
-                     )
-                     val photo = Media.Photo(
-                         "",
-                         uri.toString()
-                     )
-                     submitPhotoToList(photo)
-                 }
-                 REQUEST_GALLERY_IMAGE -> if (data != null && data.data != null) {
-                     val imageUri = data.data
-                     val photo = Media.Photo(
-                         "",
-                         imageUri.toString()
-                     )
-                     submitPhotoToList(photo)
-                 }
-                 REQUEST_CODE_AUTOCOMPLETE -> if (data != null && data.data != null) {
-                     val feature = PlaceAutocomplete.getPlace(data)
-                     Timber.d("ADDRESS: ${feature.address()}, ${feature.geometry()}")
-                     submitAddress(feature)
-                     Toast.makeText(requireContext(), feature.text(), Toast.LENGTH_LONG).show()
-                 }
-             }
-         }
-
-     }*/
-
 
     private fun getImageWithAuthority(uri: Uri) = ImageUtils.decodeUriStreamToSize(
         uri,
