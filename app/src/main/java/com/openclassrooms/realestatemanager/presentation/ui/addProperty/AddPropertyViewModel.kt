@@ -55,7 +55,6 @@ class AddPropertyViewModel @Inject constructor(
             Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
         }
     }
-
     fun removePhotoToPhotosList(photo: Media.Photo) {
         viewModelScope.launch {
             _statePhotos.value.remove(photo)

@@ -41,7 +41,7 @@ class PhotosAdapter(
 
 private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Media.Photo>() {
     override fun areItemsTheSame(oldItem: Media.Photo, newItem: Media.Photo): Boolean {
-        return oldItem.photoPath == newItem.photoPath
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: Media.Photo, newItem: Media.Photo): Boolean {

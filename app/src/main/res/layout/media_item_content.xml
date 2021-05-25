@@ -36,6 +36,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+            <TextView
+                android:id="@+id/mediaPath_EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/enter_media_title"
+                android:text="@={photo.photoPath}"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/delete_button"
+                app:layout_constraintStart_toEndOf="@+id/media_imageView"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/mediaTitle_EditText"
                 android:layout_width="0dp"
@@ -43,7 +57,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/enter_media_title"
-                android:text="@{photo.name.toString()}"
+                android:text="@={photo.name}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/delete_button"
                 app:layout_constraintStart_toEndOf="@+id/media_imageView"
