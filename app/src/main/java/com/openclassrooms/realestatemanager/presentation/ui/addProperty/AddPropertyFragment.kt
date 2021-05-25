@@ -54,6 +54,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var latestTmpUri: Uri? = null
     private var feature: CarmenFeature? = null
     private var mItemTouchHelper: ItemTouchHelper? = null
+    private var isConnected: Boolean = true
 
     var address1: String? = ""
     var address2: String? = ""
@@ -83,6 +84,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         if (::photoListAdapter.isInitialized) {
             photoListAdapter.submitList(list = photos)
         }
+        isConnected = isNetworkConnected(requireContext())
         return binding.root
     }
 
@@ -100,9 +102,27 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupImageDialogListener()
         setupSellDateListener()
         retrieveArguments()
-        setAddressListener()
+        setAddress()
     }
 
+    private fun setAddress() {
+        if (isConnected) {
+            setAddressListener()
+        } else {
+            binding.address?.addressTextInput?.visibility = View.GONE
+        }
+    }
+
+    private fun setAddressListener() {
+        binding.address?.addressTextInput?.setOnClickListener {
+            if (isNetworkConnected(requireContext())) {
+                Timber.d("INTERNET_CONNECTION: Internet is connected")
+            } else {
+                Timber.d("INTERNET_CONNECTION: Internet is not connected")
+            }
+            popupAutocomplete(it)
+        }
+    }
 
     private fun retrieveArguments() {
         newPropertyId = args.propertyId
@@ -202,16 +222,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
     }
 
-    private fun setAddressListener() {
-        binding.address?.addressTextInput?.setOnClickListener {
-            if (isNetworkConnected(requireContext())) {
-                Timber.d("INTERNET_CONNECTION: Internet is connected")
-            } else {
-                Timber.d("INTERNET_CONNECTION: Internet is not connected")
-            }
-            popupAutocomplete(it)
-        }
-    }
+
 
 
     private lateinit var intent: Intent
@@ -249,15 +260,13 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         binding.address?.addressTextInput?.setText(address)
         val point: Point = feature.geometry() as Point
         location = LatLng(point.coordinates()[0], point.coordinates()[1])
-
         var placename = address?.split(",")
-
+        binding.address?.address2TextInput?.setText(placename?.get(0))
         Timber.d(
             "ADDRESS:  ${location}, context:  ${
-                listOf(
-                    feature.context()?.component2()
-                )[1]
-            }, placename= $placename"
+
+                feature.context()?.map { it }?.filter { it.wikidata() contentEquals ("place") }
+            }, placename= $placename}"
         )
 
         //if ()
