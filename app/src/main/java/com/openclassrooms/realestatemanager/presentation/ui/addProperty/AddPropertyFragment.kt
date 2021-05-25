@@ -260,13 +260,18 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         binding.address?.addressTextInput?.setText(address)
         val point: Point = feature.geometry() as Point
         location = LatLng(point.coordinates()[0], point.coordinates()[1])
-        var placename = address?.split(",")
-        binding.address?.address2TextInput?.setText(placename?.get(0))
+        val placeName = address?.split(",")
+        val placeCity = placeName?.get(4)?.split(" ")
+        binding.address?.address2TextInput?.setText(placeName?.get(0))
+        binding.address?.stateTextInput?.setText(placeName?.get(1))
+        binding.address?.cityTextInput?.setText(placeCity?.get(0))
+        binding.address?.zipcodeTextInput?.setText(placeCity?.get(1))
+        binding.address?.countryTextInput?.setText(placeName?.get(4))
+
         Timber.d(
             "ADDRESS:  ${location}, context:  ${
-
                 feature.context()?.map { it }?.filter { it.wikidata() contentEquals ("place") }
-            }, placename= $placename}"
+            }, placename= $placeName}"
         )
 
         //if ()

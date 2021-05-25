@@ -14,7 +14,7 @@ data class Address(
     @get:Bindable
     var city: String = "New York",
     @get:Bindable
-    var zipCode: Int? = null,
+    var zipCode: Int?,
     @get:Bindable
     var state: String? = "NY",
     @get:Bindable

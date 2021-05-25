@@ -22,7 +22,7 @@
             android:layout_marginEnd="@dimen/marginEnd"
             android:hint="@string/price"
             android:inputType="number"
-            android:text=""
+            android:text="@={``+ property.price}"
             android:textSize="@dimen/textSize"
             app:endIconMode="clear_text"
             app:layout_constraintStart_toStartOf="@id/surface_text_input"
