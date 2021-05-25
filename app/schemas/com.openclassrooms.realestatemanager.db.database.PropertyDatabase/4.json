@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "a2b843b3f471d17907b6e5954259318b",
+    "identityHash": "70bfaef1147cdddefa09a8db95e46b3b",
     "entities": [
       {
         "tableName": "agent",
@@ -293,7 +293,7 @@
       },
       {
         "tableName": "estate_address",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `property_id` INTEGER NOT NULL, `address1` TEXT, `address_2` TEXT, `city` TEXT NOT NULL, `zip_code` INTEGER, `state` TEXT, `country` TEXT NOT NULL, `area` TEXT, `lat` TEXT, `lng` TEXT, FOREIGN KEY(`property_id`) REFERENCES `properties`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `property_id` INTEGER NOT NULL, `address1` TEXT, `address_2` TEXT, `city` TEXT, `zip_code` INTEGER, `state` TEXT, `country` TEXT, `area` TEXT, `lat` TEXT, `lng` TEXT, FOREIGN KEY(`property_id`) REFERENCES `properties`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "id",
@@ -323,7 +323,7 @@
             "fieldPath": "city",
             "columnName": "city",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "zipCode",
@@ -341,7 +341,7 @@
             "fieldPath": "country",
             "columnName": "country",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "area",
@@ -396,7 +396,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a2b843b3f471d17907b6e5954259318b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '70bfaef1147cdddefa09a8db95e46b3b')"
     ]
   }
 }

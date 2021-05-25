@@ -12,13 +12,13 @@ data class Address(
     @get:Bindable
     var address2: String? = "",
     @get:Bindable
-    var city: String = "New York",
+    var city: String? = "New York",
     @get:Bindable
     var zipCode: Int?,
     @get:Bindable
     var state: String? = "NY",
     @get:Bindable
-    var country: String = "United States",
+    var country: String? = "United States",
     @get:Bindable
     var area: String?,
     @get:Bindable

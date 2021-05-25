@@ -21,11 +21,11 @@ data class AddressEntity(
     var address1: String? = "",
     @ColumnInfo(name = "address_2")
     var address2: String? = "",
-    var city: String = "New York",
+    var city: String? = "New York",
     @ColumnInfo(name = "zip_code")
     var zipCode: Int? = null,
     var state: String? = "NY",
-    var country: String = "United States",
+    var country: String? = "United States",
     var area: String?,
     var lat: String?,
     var lng: String?
@@ -34,15 +34,15 @@ data class AddressEntity(
         fun fromDomain(propertyId: Long, address: Address?): AddressEntity {
             return AddressEntity(
                 property_id = propertyId,
-                address1 = address!!.address1,
-                address2 = address.address2,
-                city = address.city,
-                zipCode = address.zipCode,
-                state = address.state,
-                country = address.country,
-                area = address.area,
-                lat = address.lat,
-                lng = address.lng
+                address1 = address?.address1,
+                address2 = address?.address2,
+                city = address?.city,
+                zipCode = address?.zipCode,
+                state = address?.state,
+                country = address?.country,
+                area = address?.area,
+                lat = address?.lat,
+                lng = address?.lng
             )
         }
     }

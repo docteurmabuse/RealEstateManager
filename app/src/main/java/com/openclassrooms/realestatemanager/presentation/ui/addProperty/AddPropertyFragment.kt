@@ -65,15 +65,15 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var mItemTouchHelper: ItemTouchHelper? = null
     private var isConnected: Boolean = true
 
-    var address1: String? = ""
-    var address2: String? = ""
-    var city: String = "New York"
-    var zipCode: Int? = null
-    var state: String? = "NY"
-    var country: String = "United States"
-    var area: String? = null
-    var lat: String? = null
-    var lng: String? = null
+    private var address1: String? = ""
+    private var address2: String? = ""
+    private var city: String = "New York"
+    private var zipCode: Int? = null
+    private var state: String? = "NY"
+    private var country: String = "United States"
+    private var area: String? = ""
+    private var lat: String? = null
+    private var lng: String? = null
 
 
     companion object {
@@ -116,6 +116,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun setAddress() {
+
         if (isConnected) {
             setAddressListener()
         } else {
@@ -130,18 +131,19 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             } else {
                 Timber.d("INTERNET_CONNECTION: Internet is not connected")
             }
-            // popupAutocomplete(it)
-            triggerGeocodeRequest()
+            popupAutocomplete(it)
+            //triggerGeocodeRequest()
         }
     }
 
     private fun triggerGeocodeRequest() {
-        binding.address?.addressTextInput?.setText("")
+        binding.address?.addressTextInput?.text.toString()
         /*
          * Create a GeocodeRequest object with the desired query string, then set the search area by
          * providing a GeoCoordinate and radius before executing the request.
          */
-        val query = "4350 Still Creek Dr,Burnaby"
+        // val query = "4350 Still Creek Dr,Burnaby"
+        val query = "$address1, $city, $zipCode, $country"
         val geocodeRequest = GeocodeRequest(query)
         val coordinate = GeoCoordinate(49.266787, -123.056640)
         geocodeRequest.setSearchArea(coordinate, 5000)
@@ -159,7 +161,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                             sb.append(result?.location!!.coordinate.toString())
                             sb.append("\n")
                             Timber.d("RESULT_HERE: ${result}")
-
                         }
                     }
                     updateTextView(sb.toString())
@@ -178,6 +179,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
         })
     }
+
     private fun retrieveArguments() {
         newPropertyId = args.propertyId
         Timber.d("ADDPROPERTY: ${newPropertyId}")
@@ -277,8 +279,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
 
-
-
     private lateinit var intent: Intent
     private var placeOptions: PlaceOptions? = null
     private fun popupAutocomplete(it: View?) {
@@ -313,7 +313,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         address = feature.placeName()
         binding.address?.addressTextInput?.setText(address)
         val point: Point = feature.geometry() as Point
-        location = LatLng(point.coordinates()[0], point.coordinates()[1])
+        if (point.coordinates().size > 0)
+            location = LatLng(point.coordinates()[0], point.coordinates()[1])
         val placeName = address?.split(",")
         if (placeName?.size!! > 2) {
             var placeCity = placeName.get(2).split(" ")
@@ -338,6 +339,14 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun saveProperty() {
+        /* address1 = binding.address?.address1TextInput?.text.toString()
+         address2 = binding.address?.address2TextInput?.text.toString()
+         city = binding.address?.cityTextInput?.text.toString()
+         zipCode = binding.address?.zipcodeTextInput?.text.toString().toInt()
+         state = binding.address?.stateTextInput?.text.toString()
+         country = binding.address?.countryTextInput?.text.toString()
+         area = binding.address?.areaTextInput?.text.toString()*/
+
         val addPropertyView = AddPropertyViewModel.AddPropertyView(
             newPropertyId,
             binding.type!!.typeDropdown.text.toString(),
@@ -347,13 +356,13 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.characteristics!!.numberOfBathroomTextInput.text.toString(),
             binding.characteristics!!.numberOfBedroomTextInput.text.toString(),
             binding.type!!.descriptionTextInput.text.toString(),
-            address1,
+            binding.address?.address1TextInput?.text.toString(),
             binding.address?.address2TextInput?.text.toString(),
-            city,
-            zipCode.toString(),
-            state,
-            country,
-            area,
+            binding.address?.cityTextInput?.text.toString(),
+            binding.address?.zipcodeTextInput?.text.toString(),
+            binding.address?.stateTextInput?.text.toString(),
+            binding.address?.countryTextInput?.text.toString(),
+            binding.address?.areaTextInput?.text.toString(),
             binding.pointOfInterest!!.museum.isChecked,
             binding.pointOfInterest!!.schools.isChecked,
             binding.pointOfInterest!!.shops.isChecked,
@@ -421,6 +430,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         Timber.d("PHOTOS: ${photo.photoPath}")
         setupRecyclerView()
         photoListAdapter.submitList(photos)
+        triggerGeocodeRequest()
     }
 
     private val selectImageFromGalleryResult =
@@ -455,7 +465,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     override fun onDestroyView() {
         _binding = null
-        binding.media!!.photoRecyclerView.adapter = null
+        //binding.media!!.photoRecyclerView.adapter = null
         super.onDestroyView()
     }
 
