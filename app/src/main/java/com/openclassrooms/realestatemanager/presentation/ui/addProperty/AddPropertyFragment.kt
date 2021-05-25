@@ -17,7 +17,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mapbox.api.geocoding.v5.models.CarmenFeature
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.geometry.LatLng
@@ -40,6 +43,7 @@ import java.util.*
 class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property_fragment),
     PhotoListAdapter.Interaction {
     private val viewModel: AddPropertyViewModel by viewModels()
+    private lateinit var photosRecyclerView: RecyclerView
     private var photoFile: File? = null
     private var photos: ArrayList<Media.Photo> = arrayListOf()
     private var videos: ArrayList<Media.Video> = arrayListOf()
@@ -59,6 +63,28 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     var area: String? = null
     var lat: String? = null
     var lng: String? = null
+
+    private val itemTouchHelper by lazy {
+        var simpleTouchCallbacks =
+            object : ItemTouchHelper.SimpleCallback(UP or DOWN or START or END, 0) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    val adapter = photosRecyclerView.adapter as PhotoListAdapter
+                    val from = viewHolder.bindingAdapterPosition
+                    val to = target.bindingAdapterPosition
+                    adapter.notifyItemMoved(from, to)
+                    return true
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    TODO("Not yet implemented")
+                }
+
+            }
+    }
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -80,6 +106,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //  this.binding.handlers = Handlers()
+        photosRecyclerView = binding.media!!.photoRecyclerView
         binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
@@ -135,7 +162,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun setupRecyclerView(
     ) {
-        binding.media!!.photoRecyclerView.apply {
+        photosRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             photoListAdapter = PhotoListAdapter(this@AddPropertyFragment)
             adapter = photoListAdapter
