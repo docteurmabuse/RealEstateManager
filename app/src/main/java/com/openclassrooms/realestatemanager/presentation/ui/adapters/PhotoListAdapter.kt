@@ -29,7 +29,6 @@ class PhotoListAdapter(
         override fun areContentsTheSame(oldItem: Media.Photo, newItem: Media.Photo): Boolean {
             return oldItem.photoPath == newItem.photoPath && oldItem.name == newItem.name
         }
-
     }
     private val differ = AsyncListDiffer(this, DIFF_CALLBACK)
     var photoList: ArrayList<Media.Photo> = ArrayList()
@@ -85,6 +84,7 @@ class PhotoListAdapter(
                 }
                 false
             }
+
         }
     }
 

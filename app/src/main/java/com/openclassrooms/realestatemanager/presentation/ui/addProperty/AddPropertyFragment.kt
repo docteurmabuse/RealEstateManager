@@ -94,12 +94,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         this.binding.viewModel = viewModel
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
         setupMenuValues(typeDropdown)
-        val onClickListener = View.OnClickListener { itemView ->
-            val item = itemView.tag as Media.Photo
-            // viewModel.addPhotos(photos)
-            deletePhoto(item)
-        }
-        setupRecyclerView()
 
         setFabListener()
         setupUploadImageListener()
@@ -107,12 +101,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupSellDateListener()
         retrieveArguments()
         setAddressListener()
-    }
-
-    private fun deletePhoto(item: Media.Photo) {
-        photos.remove(item)
-        Timber.d("PHOTO_DELETE: ${item.photoPath}, newlist = $photos")
-        photoListAdapter.submitList(photos)
     }
 
 
@@ -169,6 +157,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             mItemTouchHelper?.startDrag(it)
         }
     }
+
 
     private fun setupImageDialogListener() {
         childFragmentManager.setFragmentResultListener("requestKey", this) { key, bundle ->
@@ -402,4 +391,23 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         Timber.d("PHOTO_DELETE: ${item.photoPath}, newlist = $photos")
         setupRecyclerView()
     }
+
+    /*private fun setRecyclerViewItemTouchListener() {
+        val itemTouchCallback = object :
+            ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                viewHolder1: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
+                val position = viewHolder.absoluteAdapterPosition
+                photos.removeAt(position)
+                photosRecyclerView.adapter?.notifyItemRemoved(position)
+            }
+        }
+    }*/
 }
