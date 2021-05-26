@@ -15,7 +15,6 @@ import coil.load
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -26,7 +25,7 @@ import timber.log.Timber
 
 
 @AndroidEntryPoint
-class PropertyDetailFragment : Fragment(R.layout.property_detail), OnMapReadyCallback {
+class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
     /**
      * The placeholder content this fragment is presenting.
@@ -139,14 +138,5 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail), OnMapReadyCal
         super.onDestroyView()
         _binding = null
         viewPager!!.adapter = null
-    }
-
-    override fun onMapReady(mapboxMap: MapboxMap) {
-        this.mapboxMap = mapboxMap
-        initViews()
-    }
-
-    private fun initViews() {
-        TODO("Not yet implemented")
     }
 }
