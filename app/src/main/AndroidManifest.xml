@@ -10,6 +10,8 @@
     -->
     <uses-feature android:name="android.hardware.camera" />
 
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -73,6 +75,16 @@
         <meta-data
             android:name="com.here.android.maps.license.key"
             android:value="${SDK_LICENSE_KEY}" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
+
     </application>
 
     <queries>

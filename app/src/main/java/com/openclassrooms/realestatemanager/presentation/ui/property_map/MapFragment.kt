@@ -1,40 +1,29 @@
 package com.openclassrooms.realestatemanager.presentation.ui.property_map
 
-import android.annotation.SuppressLint
+import android.content.IntentSender
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.mapbox.android.core.permissions.PermissionsListener
-import com.mapbox.android.core.permissions.PermissionsManager
-import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.location.LocationComponentActivationOptions
-import com.mapbox.mapboxsdk.location.LocationComponentOptions
-import com.mapbox.mapboxsdk.location.modes.CameraMode
-import com.mapbox.mapboxsdk.location.modes.RenderMode
-import com.mapbox.mapboxsdk.maps.MapView
-import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
-import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.plugins.annotation.Symbol
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
-import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
-import com.mapbox.mapboxsdk.utils.BitmapUtils
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
-import com.openclassrooms.realestatemanager.utils.MAKI_ICON_SQUARE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -43,44 +32,153 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class MapFragment constructor(private var properties: List<Property>) : Fragment(),
-    OnMapReadyCallback, PermissionsListener {
+    OnMapReadyCallback,
+    GoogleMap.OnMarkerClickListener {
 
-    private var permissionsManager: PermissionsManager = PermissionsManager(this)
-    private lateinit var mapboxMap: MapboxMap
-    private var mapView: MapView? = null
+    private lateinit var map: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var lastLocation: Location
+
+    private lateinit var locationCallback: LocationCallback
+    private lateinit var locationRequest: LocationRequest
+    private var locationUpdateState = false
+
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+        private const val REQUEST_CHECK_SETTINGS = 2
+        //private const val PLACE_PICKER_REQUEST = 3
+    }
+
+
     private val viewModel: PropertyListViewModel by viewModels()
-    private var symbolManager: SymbolManager? = null
-    private val symbol: Symbol? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Mapbox.getInstance(requireContext(), getString(R.string.mapbox_access_token))
         viewModel.fetchProperties()
         return inflater.inflate(R.layout.map_layout, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mapView = view.findViewById<MapView>(R.id.mapView)
-        mapView?.onCreate(savedInstanceState)
-        mapView?.getMapAsync(this)
 
+        // Get the SupportMapFragment and request notification when the map is ready to be used.
+        val mapFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.getMapAsync(this)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(p0: LocationResult) {
+                super.onLocationResult(p0)
+
+                lastLocation = p0.lastLocation
+                //placeMarkerOnMap(LatLng(lastLocation.latitude, lastLocation.longitude))
+            }
+        }
+        createLocationRequest()
+        setObserver()
     }
 
-    override fun onMapReady(mapboxMap: MapboxMap) {
-        this.mapboxMap = mapboxMap
-        mapboxMap.setStyle(Style.MAPBOX_STREETS) {
-            mapboxMap.uiSettings.isZoomGesturesEnabled = true
-            // Map is set up and the style has loaded. Now you can add data or make other map adjustments
-            enableLocationComponent(it)
-            initMarkerSymbolLayer(it)
-            setSymbolManger(it)
-            setObserver()
+    override fun onMapReady(googleMap: GoogleMap) {
+        map = googleMap
+
+        map.uiSettings.isZoomControlsEnabled = true
+        map.setOnMarkerClickListener(this)
+
+        setUpMap()
+    }
+
+    private fun setUpMap() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+            return
+        }
+
+        map.isMyLocationEnabled = true
+        map.mapType = GoogleMap.MAP_TYPE_NORMAL
+
+        fusedLocationClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    lastLocation = location
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    placeMarkerOnMap(currentLatLng)
+                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                }
+            }
+    }
+
+
+    private fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+            return
+        }
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+    }
+
+    private fun createLocationRequest() {
+        locationRequest = LocationRequest()
+        locationRequest.interval = 10000
+        locationRequest.fastestInterval = 5000
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+        val client = LocationServices.getSettingsClient(requireActivity())
+        val task = client.checkLocationSettings(builder.build())
+
+        task.addOnSuccessListener {
+            locationUpdateState = true
+            startLocationUpdates()
+        }
+        task.addOnFailureListener { e ->
+            if (e is ResolvableApiException) {
+                // Location settings are not satisfied, but this can be fixed
+                // by showing the user a dialog.
+                try {
+                    // Show the dialog by calling startResolutionForResult(),
+                    // and check the result in onActivityResult().
+                    e.startResolutionForResult(
+                        requireActivity(),
+                        REQUEST_CHECK_SETTINGS
+                    )
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    // Ignore the error.
+                }
+            }
         }
     }
+
+    private fun placeMarkerOnMap(location: LatLng) {
+        val markerOptions = MarkerOptions().position(location)
+
+        // val titleStr = getAddress(location)
+        // markerOptions.title(titleStr)
+
+        map.addMarker(markerOptions)
+    }
+
 
     private fun setObserver() {
         lifecycleScope.launch {
@@ -106,158 +204,26 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
     private fun renderList(list: List<Property>) {
         properties = list
         Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
-        var i = 0.002
-        var a = 40.76027
-        for (property in properties) {
+        properties.forEach { property ->
             if (property.address?.lat != null && property.address?.lng != null) {
 
-                var loc = LatLng(property.address?.lat!!, property.address?.lng!!)
-                Timber.tag("MAP").d("MAP_PROPERTIES2: ${loc}")
-
-// Create a symbol at the specified location.
-                var symbol = symbolManager!!.create(
-                    SymbolOptions()
-                        .withLatLng(loc)
-                        .withIconImage(MAKI_ICON_SQUARE)
-                        .withIconSize(1.2f)
-                )
+                /*  val marker = googleMap.addMarker(
+                      MarkerOptions()
+                          .title(property.address!!.address1)
+                          .position(LatLng(property.address?.lat!!, property.address?.lng!!))
+                  )*/
             }
         }
-
-
     }
 
-    private fun initMarkerSymbolLayer(style: Style) {
-        BitmapUtils.getBitmapFromDrawable(
-            AppCompatResources.getDrawable(
-                requireContext(),
-                R.drawable.ic_mapbox_marker_icon_pink
-            )
-        )
-            ?.let {
-                style.addImage(
-                    "marker_icon_pink-id",
-                    it
-                )
-            }
-        style.addSource(GeoJsonSource("source-id"))
-        style.addLayer(
-            SymbolLayer("layer-id", "source-id").withProperties(
-                iconImage("space-station-icon-id"),
-                iconIgnorePlacement(true),
-                iconAllowOverlap(true),
-                iconSize(.7f)
-            )
-        )
-    }
-
-    private fun setSymbolManger(style: Style) {
-// Create a SymbolManager.
-        symbolManager = mapView?.let { SymbolManager(it, mapboxMap, style) }
-
-// Set non-data-driven properties.
-        symbolManager!!.iconAllowOverlap = true
-        symbolManager!!.iconIgnorePlacement = true
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun enableLocationComponent(loadedMapStyle: Style) {
-        // Check if permissions are enabled and if not request
-        if (PermissionsManager.areLocationPermissionsGranted(requireContext())) {
-
-            // Create and customize the LocationComponent's options
-            val customLocationComponentOptions = LocationComponentOptions.builder(requireContext())
-                .trackingGesturesManagement(true)
-                .accuracyColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
-                .build()
-
-            val locationComponentActivationOptions =
-                LocationComponentActivationOptions.builder(requireContext(), loadedMapStyle)
-                    .locationComponentOptions(customLocationComponentOptions)
-                    .build()
-
-            // Get an instance of the LocationComponent and then adjust its settings
-            mapboxMap.locationComponent.apply {
-
-                // Activate the LocationComponent with options
-                activateLocationComponent(locationComponentActivationOptions)
-
-                // Enable to make the LocationComponent visible
-                isLocationComponentEnabled = true
-
-                // Set the LocationComponent's camera mode
-                cameraMode = CameraMode.TRACKING
-
-                // Set the LocationComponent's render mode
-                renderMode = RenderMode.COMPASS
-            }
-        } else {
-            permissionsManager = PermissionsManager(this)
-            permissionsManager.requestLocationPermissions(requireActivity())
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-    override fun onExplanationNeeded(permissionsToExplain: List<String>) {
-        Toast.makeText(
-            requireContext(),
-            R.string.user_location_permission_explanation,
-            Toast.LENGTH_LONG
-        ).show()
-    }
-
-    override fun onPermissionResult(granted: Boolean) {
-        if (granted) {
-            enableLocationComponent(mapboxMap.style!!)
-        } else {
-            Toast.makeText(
-                requireContext(),
-                R.string.user_location_permission_not_granted,
-                Toast.LENGTH_LONG
-            ).show()
-            requireActivity().finish()
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mapView?.onStart()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        mapView?.onResume()
-    }
 
     override fun onPause() {
         super.onPause()
-        mapView?.onPause()
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
-    override fun onStop() {
-        super.onStop()
-        mapView?.onStop()
+    override fun onMarkerClick(p0: Marker): Boolean {
+        TODO("Not yet implemented")
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        mapView?.onSaveInstanceState(outState)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView?.onDestroy()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView?.onLowMemory()
-    }
 }
