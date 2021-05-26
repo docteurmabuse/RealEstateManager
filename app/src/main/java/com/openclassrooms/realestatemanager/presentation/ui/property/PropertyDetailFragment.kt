@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
@@ -24,9 +26,6 @@ import timber.log.Timber
 @AndroidEntryPoint
 class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
-    /**
-     * The placeholder content this fragment is presenting.
-     */
     private var property: Property? = null
     private var viewPager: ViewPager2? = null
     private var dotsIndicator: DotsIndicator? = null
@@ -35,7 +34,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private var adapter = PropertyPagerAdapter()
     private var _binding: PropertyDetailBinding? = null
     private var map_key: String = ""
-    private lateinit var staticMap: AppCompatImageView
+    private lateinit var liteMap: GoogleMap
 
 
     // This property is only valid between onCreateView and
@@ -64,6 +63,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                 Timber.d("PROPERTY_DETAIL: $property")
             }
         }
+
     }
 
     private fun setupViewPager() {
@@ -82,6 +82,25 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 //        }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.lite_map_view) as SupportMapFragment?
+        mapFragment?.getMapAsync(callback)
+    }
+
+    private fun setupLiteMap() {
+
+    }
+
+    private val callback = OnMapReadyCallback { map ->
+        liteMap = map
+        MapsInitializer.initialize(requireContext())
+        map.uiSettings.isZoomControlsEnabled = true
+        addMarkers()
+        Timber.d("LITE_MAP_CALL: $property")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -89,12 +108,21 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
         _binding = PropertyDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
-        staticMap = binding.staticMapView!!
         toolbarLayout = binding.toolbarLayout
         setupViewPager()
         updateContent()
         rootView.setOnDragListener(dragListener)
         return rootView
+    }
+
+
+    private fun addMarkers() {
+        if (property?.address?.lat != null && property?.address?.lng != null) {
+            val location = LatLng(property?.address?.lat!!, property?.address?.lng!!)
+            liteMap.addMarker(MarkerOptions().position(location).title(property?.address?.address1))
+            liteMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+        }
+        Timber.d("LITE_MAP: $property")
     }
 
 
@@ -104,12 +132,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
             // Show the placeholder content as text in a TextView.
             property?.let {
                 binding.property = it
-                //itemDetailTextView.text = it.details
-                map_key = getString(R.string.mapbox_access_token)
-
-                val mapUrl =
-                    "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+D81B60(${it.address?.lat},${it.address?.lng})/${it.address?.lat},${it.address?.lng},12,0/500x500?access_token=$map_key"
-                Timber.d("STATIC_MAP:=$mapUrl")
                 adapter.submitList(it.media.photos)
             }
         }
