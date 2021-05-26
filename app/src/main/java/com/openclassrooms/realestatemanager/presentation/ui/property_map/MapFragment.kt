@@ -23,16 +23,18 @@ import com.mapbox.mapboxsdk.maps.MapView
 import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.maps.Style
-import com.mapbox.mapboxsdk.plugins.annotation.*
+import com.mapbox.mapboxsdk.plugins.annotation.Symbol
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolManager
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory.*
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer
-import com.mapbox.mapboxsdk.style.sources.GeoJsonOptions
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 import com.mapbox.mapboxsdk.utils.BitmapUtils
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
+import com.openclassrooms.realestatemanager.utils.MAKI_ICON_SQUARE
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -49,13 +51,6 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
     private val viewModel: PropertyListViewModel by viewModels()
     private var symbolManager: SymbolManager? = null
     private val symbol: Symbol? = null
-    private var symbolLayerIconPropertyList = arrayListOf<List<Property>>()
-    private val ID_ICON_AIRPORT = "airport"
-    private val MAKI_ICON_CAR = "car-15"
-    private val MAKI_ICON_CAFE = "cafe-15"
-    private val MAKI_ICON_CIRCLE = "fire-station-15"
-    private val ID_ICON_PINK = "pink-24"
-    private var symbolOptionsList: ArrayList<SymbolOptions> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,12 +76,10 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
             mapboxMap.uiSettings.isZoomGesturesEnabled = true
             // Map is set up and the style has loaded. Now you can add data or make other map adjustments
             enableLocationComponent(it)
-            addIconImageToStyle(it)
-            setSymbolManager(it)
-            //    initMarkerSymbolLayer(it)
+            initMarkerSymbolLayer(it)
+            setSymbolManger(it)
+            setObserver()
         }
-        setObserver()
-
     }
 
     private fun setObserver() {
@@ -112,92 +105,59 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
 
     private fun renderList(list: List<Property>) {
         properties = list
-
-        for (property in properties) {
-            addSymbol(property)
-        }
-        symbolManager?.create(symbolOptionsList)
         Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
-        Timber.d("MARKER: $symbolOptionsList")
-    }
+        var i = 0.002
+        var a = 40.76027
+        for (property in properties) {
+            if (property.address?.lat != null && property.address?.lng != null) {
 
-    private fun addSymbol(property: Property) {
+                var loc = LatLng(property.address?.lat!!, property.address?.lng!!)
+                Timber.tag("MAP").d("MAP_PROPERTIES2: ${loc}")
+
 // Create a symbol at the specified location.
-
-        var latitude = property.address?.lat
-        var longitude = property.address?.lng
-        if (latitude != null && longitude != null) {
-            symbolOptionsList.add(
-                SymbolOptions().withLatLng(LatLng(latitude, longitude))
-                    .withIconImage(ID_ICON_AIRPORT)
-            )
+                var symbol = symbolManager!!.create(
+                    SymbolOptions()
+                        .withLatLng(loc)
+                        .withIconImage(MAKI_ICON_SQUARE)
+                        .withIconSize(1.2f)
+                )
+            }
         }
+
+
     }
 
-    private fun addIconImageToStyle(style: Style) {
-        style.addImage(
-            ID_ICON_PINK,
-            BitmapUtils.getBitmapFromDrawable(
-                AppCompatResources.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_mapbox_marker_icon_pink
+    private fun initMarkerSymbolLayer(style: Style) {
+        BitmapUtils.getBitmapFromDrawable(
+            AppCompatResources.getDrawable(
+                requireContext(),
+                R.drawable.ic_mapbox_marker_icon_pink
+            )
+        )
+            ?.let {
+                style.addImage(
+                    "marker_icon_pink-id",
+                    it
                 )
-            )!!,
-            true
+            }
+        style.addSource(GeoJsonSource("source-id"))
+        style.addLayer(
+            SymbolLayer("layer-id", "source-id").withProperties(
+                iconImage("space-station-icon-id"),
+                iconIgnorePlacement(true),
+                iconAllowOverlap(true),
+                iconSize(.7f)
+            )
         )
     }
 
-    private fun initMarkerSymbolLayer(style: Style?) {
-        if (style != null) {
-            BitmapUtils.getBitmapFromDrawable(
-                AppCompatResources.getDrawable(
-                    requireContext(),
-                    R.drawable.ic_mapbox_marker_icon_pink
-                )
-            )
-                ?.let {
-                    style.addImage(
-                        "marker_icon_pink-id",
-                        it
-                    )
-                }
-            style.addSource(GeoJsonSource("source-id"))
-            style.addLayer(
-                SymbolLayer("layer-id", "source-id").withProperties(
-                    iconImage("marker_icon_pink-id"),
-                    iconIgnorePlacement(true),
-                    iconAllowOverlap(true),
-                    iconSize(.7f)
-                )
-            )
-        }
+    private fun setSymbolManger(style: Style) {
+// Create a SymbolManager.
+        symbolManager = mapView?.let { SymbolManager(it, mapboxMap, style) }
 
-    }
-
-    private fun setSymbolManager(style: Style) {// create symbol manager
-        // create symbol manager
-        val geoJsonOptions = GeoJsonOptions().withTolerance(0.4f)
-        symbolManager = SymbolManager(mapView!!, mapboxMap, style, null, geoJsonOptions)
-        symbolManager!!.addClickListener(OnSymbolClickListener { symbol: Symbol ->
-            Toast.makeText(
-                requireContext(), String.format("Symbol clicked %s", symbol.id),
-                Toast.LENGTH_SHORT
-            ).show()
-            false
-        })
-        symbolManager!!.addLongClickListener(OnSymbolLongClickListener { symbol: Symbol ->
-            Toast.makeText(
-                requireContext(), String.format("Symbol long clicked %s", symbol.id),
-                Toast.LENGTH_SHORT
-            ).show()
-            false
-        })
-
-        // set non data driven properties
-
-        // set non data driven properties
+// Set non-data-driven properties.
         symbolManager!!.iconAllowOverlap = true
-        symbolManager!!.textAllowOverlap = true
+        symbolManager!!.iconIgnorePlacement = true
     }
 
     @SuppressLint("MissingPermission")
