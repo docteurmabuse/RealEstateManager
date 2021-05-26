@@ -258,15 +258,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test:rules:1.3.0'
 
-    //Mapbox
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.6.1'
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-annotation-v9:0.9.0'
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v9:0.12.0'
-
-    //Here Map
-    implementation(name: 'HERE-sdk', ext: 'aar')
-    implementation 'com.google.code.gson:gson:2.8.6'
-
 
     //Easier Permission
     implementation 'com.karumi:dexter:6.2.2'

@@ -1,12 +1,9 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
@@ -16,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.viewModels
@@ -26,16 +22,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.here.android.mpa.common.*
-import com.here.android.mpa.search.ErrorCode
-import com.here.android.mpa.search.GeocodeRequest
-import com.here.android.mpa.search.GeocodeResult
-import com.here.android.mpa.search.ResultListener
-import com.mapbox.api.geocoding.v5.models.CarmenFeature
-import com.mapbox.geojson.Point
-import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions
+import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Address
@@ -64,7 +51,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var address: String? = ""
     private var location: LatLng? = null
     private var latestTmpUri: Uri? = null
-    private var feature: CarmenFeature? = null
     private var mItemTouchHelper: ItemTouchHelper? = null
     private var isConnected: Boolean = true
 
@@ -97,7 +83,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             photoListAdapter.submitList(list = photos)
         }
         isConnected = isNetworkConnected(requireContext())
-        initMapEngine()
         return binding.root
     }
 
@@ -134,54 +119,10 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             } else {
                 Timber.d("INTERNET_CONNECTION: Internet is not connected")
             }
-            popupAutocomplete(it)
-            //triggerGeocodeRequest()
         }
     }
 
-    private fun triggerGeocodeRequest() {
-        binding.address?.addressTextInput?.text.toString()
-        /*
-         * Create a GeocodeRequest object with the desired query string, then set the search area by
-         * providing a GeoCoordinate and radius before executing the request.
-         */
-        // val query = "4350 Still Creek Dr,Burnaby"
-        val query = "$address1, $city, $zipCode, $country"
-        val geocodeRequest = GeocodeRequest(query)
-        val coordinate = GeoCoordinate(49.266787, -123.056640)
-        geocodeRequest.setSearchArea(coordinate, 5000)
-        geocodeRequest.execute(object : ResultListener<List<GeocodeResult?>?> {
-            override fun onCompleted(p0: List<GeocodeResult?>?, errorCode: ErrorCode?) {
-                if (errorCode === ErrorCode.NONE) {
-                    /*
-                     * From the result object, we retrieve the location and its coordinate and
-                     * display to the screen. Please refer to HERE Android SDK doc for other
-                     * supported APIs.
-                     */
-                    val sb = StringBuilder()
-                    if (p0 != null) {
-                        for (result in p0) {
-                            sb.append(result?.location!!.coordinate.toString())
-                            sb.append("\n")
-                            Timber.d("RESULT_HERE: ${result}")
-                        }
-                    }
-                    updateTextView(sb.toString())
-                } else {
-                    updateTextView("ERROR:Geocode Request returned error code:$errorCode")
-                }
-            }
 
-            private fun updateTextView(txt: String) {
-                requireActivity().runOnUiThread(Runnable {
-                    binding.address?.addressTextInput?.setText(
-                        txt
-                    )
-                })
-            }
-
-        })
-    }
 
     private fun retrieveArguments() {
         newPropertyId = args.propertyId
@@ -286,33 +227,11 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
 
     private lateinit var intent: Intent
-    private var placeOptions: PlaceOptions? = null
-    private fun popupAutocomplete(it: View?) {
-        intent = PlaceAutocomplete.IntentBuilder()
-            .accessToken(
-                getString(R.string.mapbox_access_token)
-            )
-            .placeOptions(
-                PlaceOptions.builder()
-                    .backgroundColor(Color.parseColor("#FFFFFF"))
-                    .limit(5)
-                    .geocodingTypes("address")
-                    .country(Locale.US)
-                    .build()
-            )
-            .build(requireActivity())
-        Timber.tag("AddressClick").d("It's ok Addresspop")
-        startActivityForResult(
-            intent, REQUEST_CODE_AUTOCOMPLETE
-        )
-    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
-            val feature = PlaceAutocomplete.getPlace(data)
-            submitAddress(feature)
-        } else if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 REQUEST_CAPTURE_IMAGE -> {
                     val photoFile = photoFile ?: return
@@ -345,45 +264,13 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                     )
                     submitPhotoToList(photo)
                 }
-                REQUEST_CODE_AUTOCOMPLETE -> if (data != null && data.data != null) {
-                    val feature = PlaceAutocomplete.getPlace(data)
-                    Timber.d("ADDRESS: ${feature.address()}, ${feature.geometry()}")
-                    submitAddress(feature)
-                    Toast.makeText(requireContext(), feature.text(), Toast.LENGTH_LONG).show()
-                }
+
             }
         }
 
     }
 
-    private fun submitAddress(feature: CarmenFeature) {
-        address = feature.placeName()
-        binding.address?.addressTextInput?.setText(address)
-        val point: Point = feature.geometry() as Point
-        if (point.coordinates().size > 0)
-            location = LatLng(point.coordinates()[0], point.coordinates()[1])
-        val placeName = address?.split(",")
-        if (placeName?.size!! > 2) {
-            var placeCity = placeName.get(2).split(" ")
-            binding.address?.cityTextInput?.setText(placeCity.get(0))
-            binding.address?.zipcodeTextInput?.setText(placeCity.get(1))
-        } else {
-            binding.address?.cityTextInput?.setText(placeName.get(2))
-            binding.address?.zipcodeTextInput?.setText(placeName.get(2))
-        }
-        binding.address?.address1TextInput?.setText(feature.text())
-        binding.address?.stateTextInput?.setText(placeName.get(1))
-        binding.address?.countryTextInput?.setText(placeName.get(3))
 
-        Timber.d(
-            "ADDRESS:  ${location}, context:  ${
-                feature.context()?.map { it }?.filter { it.wikidata() contentEquals ("place") }
-            }, placename= $placeName}"
-        )
-
-        //if ()
-        // city = feature.context()
-    }
 
     private fun saveProperty() {
         /* address1 = binding.address?.address1TextInput?.text.toString()
@@ -569,7 +456,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         Timber.d("PHOTOS: ${photo.photoPath}")
         setupRecyclerView()
         photoListAdapter.submitList(photos)
-        triggerGeocodeRequest()
     }
 
     private val selectImageFromGalleryResult =
@@ -633,40 +519,4 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
     }*/
 
-
-    private fun initMapEngine() {
-        // This will use external storage to save map cache data, it is also possible to set
-        // private app's path
-        val path: String = File(requireActivity().getExternalFilesDir(null), ".here-map-data")
-            .absolutePath
-        // This method will throw IllegalArgumentException if provided path is not writable
-        MapSettings.setDiskCacheRootPath(path)
-
-        /*
-         * Even though we don't display a map view in this application, in order to access any
-         * services that HERE Android SDK provides, the MapEngine must be initialized as the
-         * prerequisite.
-         */MapEngine.getInstance().init(
-            ApplicationContext(requireContext())
-        ) { error ->
-            if (error != OnEngineInitListener.Error.NONE) {
-                AlertDialog.Builder(requireActivity()).setMessage(
-                    """
-                         Error : ${error.name}
-                         
-                         ${error.details}
-                         """.trimIndent()
-                )
-                    .setTitle(R.string.engine_init_error)
-                    .setNegativeButton(android.R.string.cancel,
-                        DialogInterface.OnClickListener { dialog, which -> requireActivity().finish() })
-                    .create().show()
-            } else {
-                Toast.makeText(
-                    requireActivity(), "Map Engine initialized without error",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
 }

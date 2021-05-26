@@ -11,10 +11,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import coil.load
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import com.mapbox.mapboxsdk.maps.MapView
-import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -39,8 +36,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private var _binding: PropertyDetailBinding? = null
     private var map_key: String = ""
     private lateinit var staticMap: AppCompatImageView
-    private var mapView: MapView? = null
-    private lateinit var mapboxMap: MapboxMap
 
 
     // This property is only valid between onCreateView and
@@ -115,10 +110,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                 val mapUrl =
                     "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-s+D81B60(${it.address?.lat},${it.address?.lng})/${it.address?.lat},${it.address?.lng},12,0/500x500?access_token=$map_key"
                 Timber.d("STATIC_MAP:=$mapUrl")
-                staticMap.load(
-                    //"https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/geojson(%7B%22type%22%3A%22FeatureCollection%22%2C%22features%22%3A%5B%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%22marker-color%22%3A%22%23462eff%22%2C%22marker-size%22%3A%22medium%22%2C%22marker-symbol%22%3A%22bus%22%7D%2C%22geometry%22%3A%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B-122.25993633270264,37.80988566878777%5D%7D%7D%2C%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%22marker-color%22%3A%22%23e99401%22%2C%22marker-size%22%3A%22medium%22%2C%22marker-symbol%22%3A%22park%22%7D%2C%22geometry%22%3A%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B-122.25916385650635,37.80629162635318%5D%7D%7D%2C%7B%22type%22%3A%22Feature%22%2C%22properties%22%3A%7B%22marker-color%22%3A%22%23d505ff%22%2C%22marker-size%22%3A%22medium%22%2C%22marker-symbol%22%3A%22music%22%7D%2C%22geometry%22%3A%7B%22type%22%3A%22Point%22%2C%22coordinates%22%3A%5B-122.25650310516359,37.8063933469406%5D%7D%7D%5D%7D)/${it.address?.lat},${it.address?.lng}/500x300?access_token=$map_key"
-                    mapUrl
-                )
                 adapter.submitList(it.media.photos)
             }
         }
