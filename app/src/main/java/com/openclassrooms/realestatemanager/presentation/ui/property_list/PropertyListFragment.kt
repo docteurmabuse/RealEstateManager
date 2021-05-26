@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.presentation.ui.property_list
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
@@ -23,6 +28,7 @@ import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+
 
 /**
  * A fragment representing a list of Items.
@@ -45,6 +51,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
+        setUpMedia()
     }
 
     override fun onCreateView(
@@ -52,6 +59,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         savedInstanceState: Bundle?
     ): View {
         _binding = PropertyListBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
@@ -152,6 +160,45 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
                 }
             }
         }
+    }
+
+    private fun setUpMedia() {
+        Dexter.withContext(requireContext())
+            .withPermissions(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                    report?.let {
+                        if (report.areAllPermissionsGranted()) {
+                            Timber.d("PERMISSIONS OK")
+                        }
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+                    token?.continuePermissionRequest()
+                }
+            })
+            .withErrorListener {
+                Timber.d(it.name)
+            }
+            .check()
+
+        /* if (haveStoragePermission()) {
+             showImages()
+         } else {
+             requestPermission()
+         }*/
     }
 
     private fun renderList(list: List<Property>) {

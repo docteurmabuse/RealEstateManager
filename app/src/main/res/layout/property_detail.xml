@@ -327,7 +327,7 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/static_map_view"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="500dp"
                     android:paddingStart="@dimen/marginEnd"
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
