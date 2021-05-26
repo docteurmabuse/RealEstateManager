@@ -1,12 +1,18 @@
 package com.openclassrooms.realestatemanager.presentation.ui.property_map
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -26,8 +32,9 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MapFragment constructor(private var properties: List<Property>) : Fragment() {
 
+    private lateinit var lastLocation: Location
     private lateinit var googleMap: GoogleMap
-
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val viewModel: PropertyListViewModel by viewModels()
 
     override fun onCreateView(
@@ -36,6 +43,8 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
         savedInstanceState: Bundle?
     ): View? {
         viewModel.fetchProperties()
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
         return inflater.inflate(R.layout.map_layout, container, false)
     }
 
@@ -45,9 +54,36 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
         mapFragment?.getMapAsync(callback)
     }
 
+    private fun getLastKnownLocation() {
+        Timber.d("getLastKnown Location called")
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            return
+        }
+        googleMap.isMyLocationEnabled = true
+        fusedLocationProviderClient.lastLocation
+            .addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    lastLocation = location
+                    val currentLatLng = LatLng(location.latitude, location.longitude)
+                    // placeMarkerOnMap(currentLatLng)
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+                }
+            }
+    }
+
     private val callback = OnMapReadyCallback { map ->
         googleMap = map
+        getLastKnownLocation()
         setObserver()
+
     }
 
 
