@@ -85,7 +85,7 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
 
     private val callback = OnMapReadyCallback { map ->
         googleMap = map
-        map.uiSettings.isZoomControlsEnabled
+        map.uiSettings.isZoomControlsEnabled = true
         getLastKnownLocation()
         if (lastLocation != null) {
             googleMap.animateCamera(
