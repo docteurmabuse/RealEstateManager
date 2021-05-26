@@ -48,6 +48,9 @@
             android:name="propertyId"
             android:defaultValue="0L"
             app:argType="long" />
+        <action
+            android:id="@+id/action_addPropertyFragment_to_propertyListFragment"
+            app:destination="@id/propertyListFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"

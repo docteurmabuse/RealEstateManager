@@ -27,8 +27,8 @@ data class AddressEntity(
     var state: String? = "NY",
     var country: String? = "United States",
     var area: String?,
-    var lat: String?,
-    var lng: String?
+    var lat: Double?,
+    var lng: Double?
 ) {
     companion object {
         fun fromDomain(propertyId: Long, address: Address?): AddressEntity {

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
+import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
@@ -55,6 +56,7 @@ class AddPropertyViewModel @Inject constructor(
             Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
         }
     }
+
     fun removePhotoToPhotosList(photo: Media.Photo) {
         viewModelScope.launch {
             _statePhotos.value.remove(photo)
@@ -66,6 +68,8 @@ class AddPropertyViewModel @Inject constructor(
     fun saveProperty(addPropertyView: AddPropertyView) {
         viewModelScope.launch {
             val property: Property = addPropertyViewToProperty(addPropertyView)
+            Timber.tag("SAVE_PROPERTY").d("SAVE_PROPERTY: $property")
+
             property.let { addProperty.invoke(it) }
         }
     }
@@ -100,17 +104,6 @@ class AddPropertyViewModel @Inject constructor(
             property.bedroomNumber = 0
         }
         property.description = addPropertyView.description
-        property.address?.address1 = addPropertyView.address1
-        property.address?.address2 = addPropertyView.address2
-        property.address?.city = addPropertyView.city
-        if (addPropertyView.zipcode!!.isNotEmpty()) {
-            property.address?.zipCode = addPropertyView.zipcode!!.toInt()
-        } else {
-            property.address?.zipCode = 10000
-        }
-        property.address?.state = addPropertyView.state
-        property.address?.country = addPropertyView.country
-        property.address?.area = addPropertyView.area
         property.schools = addPropertyView.schools
         property.shops = addPropertyView.shops
         property.park = addPropertyView.parcs
@@ -122,6 +115,7 @@ class AddPropertyViewModel @Inject constructor(
         property.soldDate = addPropertyView.soldDate
         property.media = addPropertyView.media
         property.agentId = addPropertyView.agentId
+        property.address = addPropertyView.address
         return property
     }
 
@@ -134,13 +128,6 @@ class AddPropertyViewModel @Inject constructor(
         var bathroomNumber: String? = "",
         var bedroomNumber: String? = "",
         var description: String? = "",
-        var address1: String? = "",
-        var address2: String? = "",
-        var city: String = "New York",
-        var zipcode: String? = "",
-        var state: String? = "NY",
-        var country: String = "United States",
-        var area: String? = "",
         var schools: Boolean = false,
         var shops: Boolean = false,
         var parcs: Boolean = false,
@@ -151,7 +138,9 @@ class AddPropertyViewModel @Inject constructor(
         var sellDate: Date? = null,
         var soldDate: Date? = null,
         var media: Media = Media(arrayListOf(), arrayListOf()),
-        var agentId: String = "1"
+        var agentId: String = "Marlon Brando",
+        var address: Address?
+
     )
 }
 

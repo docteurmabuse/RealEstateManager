@@ -16,6 +16,10 @@
             type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
 
         <variable
+            name="address"
+            type="com.openclassrooms.realestatemanager.domain.model.property.Address" />
+
+        <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
     </data>

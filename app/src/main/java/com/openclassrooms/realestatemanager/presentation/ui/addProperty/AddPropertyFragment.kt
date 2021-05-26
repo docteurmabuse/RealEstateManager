@@ -36,6 +36,7 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
+import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAdapter
@@ -72,8 +73,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var state: String? = "NY"
     private var country: String = "United States"
     private var area: String? = ""
-    private var lat: String? = null
-    private var lng: String? = null
+    private var lat: Double? = null
+    private var lng: Double? = null
 
 
     companion object {
@@ -273,8 +274,12 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
             val navHostFragment = findNavController()
-            navHostFragment.navigate(R.id.propertyListFragment)
             saveProperty()
+            val action =
+                AddPropertyFragmentDirections.actionAddPropertyFragmentToPropertyListFragment()
+            navHostFragment.navigate(action)
+            //navHostFragment.navigate(R.id.propertyListFragment)
+            requireActivity().finish()
         }
     }
 
@@ -346,7 +351,29 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
          state = binding.address?.stateTextInput?.text.toString()
          country = binding.address?.countryTextInput?.text.toString()
          area = binding.address?.areaTextInput?.text.toString()*/
-
+        if (location != null) {
+            lat = location!!.latitude
+            lng = location!!.longitude
+        } else {
+            lat = 0.0
+            lng = 0.0
+        }
+        zipCode = if (binding.address?.zipcodeTextInput?.text?.toString()?.toIntOrNull() != null) {
+            binding.address?.zipcodeTextInput?.text.toString().toInt()
+        } else {
+            10000
+        }
+        val address = Address(
+            address1 = binding.address?.address1TextInput?.text.toString(),
+            address2 = binding.address?.address2TextInput?.text.toString(),
+            city = binding.address?.cityTextInput?.text.toString(),
+            zipCode,
+            state = binding.address?.stateTextInput?.text.toString(),
+            country = binding.address?.countryTextInput?.text.toString(),
+            area = binding.address?.areaTextInput?.text.toString(),
+            lat,
+            lng
+        )
         val addPropertyView = AddPropertyViewModel.AddPropertyView(
             newPropertyId,
             binding.type!!.typeDropdown.text.toString(),
@@ -356,13 +383,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.characteristics!!.numberOfBathroomTextInput.text.toString(),
             binding.characteristics!!.numberOfBedroomTextInput.text.toString(),
             binding.type!!.descriptionTextInput.text.toString(),
-            binding.address?.address1TextInput?.text.toString(),
-            binding.address?.address2TextInput?.text.toString(),
-            binding.address?.cityTextInput?.text.toString(),
-            binding.address?.zipcodeTextInput?.text.toString(),
-            binding.address?.stateTextInput?.text.toString(),
-            binding.address?.countryTextInput?.text.toString(),
-            binding.address?.areaTextInput?.text.toString(),
             binding.pointOfInterest!!.museum.isChecked,
             binding.pointOfInterest!!.schools.isChecked,
             binding.pointOfInterest!!.shops.isChecked,
@@ -374,7 +394,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             //  DateUtil.stringToDate(binding.dates!!.soldDateDropdown.text.toString()),
             null, null,
             Media(photos, videos),
-            "Maurice Chevalier"
+            "Maurice Chevalier",
+            address
         )
         Timber.tag("FabClick")
             .d("It's ok FABSAVE: ${addPropertyView.type}, $addPropertyView!!.price, $addPropertyView!!.surface, $addPropertyView!!.roomNumber, $addPropertyView!!.bathroomNumber, $addPropertyView!!.bedroomNumber")

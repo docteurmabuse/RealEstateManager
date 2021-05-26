@@ -22,7 +22,7 @@ data class Address(
     @get:Bindable
     var area: String?,
     @get:Bindable
-    var lat: String?,
+    var lat: Double?,
     @get:Bindable
-    var lng: String?
+    var lng: Double?
 ) : Parcelable, BaseObservable()
