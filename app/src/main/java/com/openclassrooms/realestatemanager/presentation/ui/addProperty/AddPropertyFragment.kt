@@ -276,10 +276,9 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             val navHostFragment = findNavController()
             saveProperty()
             val action =
-                AddPropertyFragmentDirections.actionAddPropertyFragmentToPropertyListFragment()
+                AddPropertyFragmentDirections.actionAddPropertyFragmentToItemTabsFragment2()
             navHostFragment.navigate(action)
-            //navHostFragment.navigate(R.id.propertyListFragment)
-            requireActivity().finish()
+            // navHostFragment.navigate(R.id.propertyListFragment)
         }
     }
 
