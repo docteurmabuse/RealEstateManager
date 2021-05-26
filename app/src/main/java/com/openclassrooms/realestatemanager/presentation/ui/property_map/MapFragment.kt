@@ -11,7 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -24,7 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
-import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
+import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -33,7 +33,8 @@ import timber.log.Timber
 
 
 @AndroidEntryPoint
-class MapFragment constructor(private var properties: List<Property>) : Fragment() {
+class MapFragment constructor(private var properties: List<Property>) : Fragment(),
+    GoogleMap.OnInfoWindowClickListener {
 
     private var lastLocation: Location? = null
     private lateinit var googleMap: GoogleMap
@@ -98,21 +99,17 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
             )
         }
         setObserver()
-        googleMap.setOnInfoWindowClickListener { marker ->
-            viewPropertyDetail(marker.tag as Property?)
-        }
+        googleMap.setOnInfoWindowClickListener(this)
+
     }
 
-    private fun viewPropertyDetail(tag: Property?) {
-        val bundle = Bundle()
-        bundle.putParcelable(
-            PropertyDetailFragment.ARG_PROPERTY,
-            tag
+
+    private fun viewPropertyDetail(property: Property) {
+        val navHostFragment = findNavController()
+        val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToPropertyDetailFragment(
+            property
         )
-        val itemDetailFragmentContainer: View? =
-            view?.findViewById(R.id.item_detail_nav_container)
-        itemDetailFragmentContainer?.findNavController()
-            ?.navigate(R.id.propertyDetailFragmentWide, bundle)
+        navHostFragment.navigate(action)
     }
 
 
@@ -162,6 +159,11 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
                 .title(property.address?.address1)
         )
         marker?.tag = property
+    }
+
+    override fun onInfoWindowClick(marker: Marker) {
+        Timber.d("MARKER_CLICK ok")
+        viewPropertyDetail(marker.tag as Property)
     }
 
 }

@@ -85,6 +85,14 @@
         <action
             android:id="@+id/action_itemTabsFragment2_to_addPropertyFragment"
             app:destination="@id/addPropertyFragment" />
+        <action
+            android:id="@+id/action_itemTabsFragment2_to_propertyDetailFragment"
+            app:destination="@id/propertyDetailFragment" />
+        <argument
+            android:name="property"
+            android:defaultValue="@null"
+            app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/masterHostFragment"
