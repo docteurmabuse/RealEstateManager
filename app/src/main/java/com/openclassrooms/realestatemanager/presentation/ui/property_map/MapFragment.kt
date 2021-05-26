@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -18,10 +19,12 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -32,7 +35,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class MapFragment constructor(private var properties: List<Property>) : Fragment() {
 
-    private lateinit var lastLocation: Location
+    private var lastLocation: Location? = null
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val viewModel: PropertyListViewModel by viewModels()
@@ -52,6 +55,7 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+
     }
 
     private fun getLastKnownLocation() {
@@ -81,9 +85,34 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
 
     private val callback = OnMapReadyCallback { map ->
         googleMap = map
+        map.uiSettings.isZoomControlsEnabled
         getLastKnownLocation()
+        if (lastLocation != null) {
+            googleMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(
+                        lastLocation!!.latitude,
+                        lastLocation!!.longitude
+                    ), 12f
+                )
+            )
+        }
         setObserver()
+        googleMap.setOnInfoWindowClickListener { marker ->
+            viewPropertyDetail(marker.tag as Property?)
+        }
+    }
 
+    private fun viewPropertyDetail(tag: Property?) {
+        val bundle = Bundle()
+        bundle.putParcelable(
+            PropertyDetailFragment.ARG_PROPERTY,
+            tag
+        )
+        val itemDetailFragmentContainer: View? =
+            view?.findViewById(R.id.item_detail_nav_container)
+        itemDetailFragmentContainer?.findNavController()
+            ?.navigate(R.id.propertyDetailFragmentWide, bundle)
     }
 
 
@@ -116,7 +145,7 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
         properties.forEach { property ->
             if (property.address?.lat != null && property.address?.lng != null) {
                 var location: LatLng = LatLng(property.address?.lat!!, property.address?.lng!!)
-                addMarkers(googleMap, location)
+                addMarkers(googleMap, location, property)
                 /*  val marker = googleMap.addMarker(
                       MarkerOptions()
                           .title(property.address!!.address1)
@@ -126,10 +155,13 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
         }
     }
 
-    private fun addMarkers(googleMap: GoogleMap, location: LatLng) {
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(location).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    private fun addMarkers(googleMap: GoogleMap, location: LatLng, property: Property) {
+        val marker: Marker? = googleMap.addMarker(
+            MarkerOptions()
+                .position(location)
+                .title(property.address?.address1)
+        )
+        marker?.tag = property
     }
 
 }

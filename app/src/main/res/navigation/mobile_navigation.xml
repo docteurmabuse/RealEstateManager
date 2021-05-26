@@ -59,7 +59,16 @@
         android:id="@+id/mapFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.property_map.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/map_layout" />
+        tools:layout="@layout/map_layout">
+        <action
+            android:id="@+id/action_mapFragment_to_propertyDetailFragment"
+            app:destination="@id/propertyDetailFragment" />
+        <argument
+            android:name="property"
+            android:defaultValue="@null"
+            app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
+            app:nullable="true" />
+    </fragment>
     <activity
         android:id="@+id/mainActivity"
         android:name="com.openclassrooms.realestatemanager.presentation.MainActivity"
