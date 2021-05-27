@@ -35,6 +35,10 @@
             android:name="item_id"
             android:defaultValue=""
             app:argType="string" />
+        <argument
+            android:name="EDIT_PROPERTY_VIEW"
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/addPropertyFragment"
