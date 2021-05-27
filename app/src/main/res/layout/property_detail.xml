@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -326,16 +325,13 @@
                     app:layout_constraintTop_toBottomOf="@id/nearby" />
 
                 <fragment
+                    class="com.google.android.gms.maps.SupportMapFragment"
                     android:id="@+id/lite_map_view"
-                    android:name="com.google.android.gms.maps.MapFragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="400dp"
-                    android:layout_marginBottom="60dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/location_text"
-                    map:cameraZoom="13"
-                    map:liteMode="true"
-                    map:mapType="normal" />
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

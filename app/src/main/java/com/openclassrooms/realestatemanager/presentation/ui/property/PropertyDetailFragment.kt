@@ -6,7 +6,6 @@ import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
@@ -29,12 +28,10 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private var property: Property? = null
     private var viewPager: ViewPager2? = null
     private var dotsIndicator: DotsIndicator? = null
-    private lateinit var itemDetailTextView: TextView
     private var toolbarLayout: CollapsingToolbarLayout? = null
     private var adapter = PropertyPagerAdapter()
     private var _binding: PropertyDetailBinding? = null
-    private var map_key: String = ""
-    private lateinit var liteMap: GoogleMap
+    private var liteMap: GoogleMap? = null
 
 
     // This property is only valid between onCreateView and
@@ -84,11 +81,20 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val mapFragment =
-            childFragmentManager.findFragmentById(R.id.lite_map_view) as SupportMapFragment?
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
     }
 
+    /*override fun onMapReady(googleMap: GoogleMap) {
+        liteMap = googleMap ?: return
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(LatLng(40.0, 40.0))
+                .title("Marker")
+        )
+        Timber.d("LITE_MAP_CALL: $property")
+
+    }*/
     private fun setupLiteMap() {
 
     }
@@ -97,7 +103,10 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         liteMap = map
         MapsInitializer.initialize(requireContext())
         map.uiSettings.isZoomControlsEnabled = true
-        addMarkers()
+        //addMarkers()
+        val sydney = LatLng(-34.0, 151.0)
+        map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         Timber.d("LITE_MAP_CALL: $property")
     }
 
@@ -112,6 +121,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         setupViewPager()
         updateContent()
         rootView.setOnDragListener(dragListener)
+
         return rootView
     }
 
@@ -119,8 +129,10 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private fun addMarkers() {
         if (property?.address?.lat != null && property?.address?.lng != null) {
             val location = LatLng(property?.address?.lat!!, property?.address?.lng!!)
-            liteMap.addMarker(MarkerOptions().position(location).title(property?.address?.address1))
-            liteMap.moveCamera(CameraUpdateFactory.newLatLng(location))
+            liteMap?.addMarker(
+                MarkerOptions().position(location).title(property?.address?.address1)
+            )
+            liteMap?.moveCamera(CameraUpdateFactory.newLatLng(location))
         }
         Timber.d("LITE_MAP: $property")
     }
