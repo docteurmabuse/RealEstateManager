@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginStart"
-            android:checked="@{property.sold}"
+            android:checked="@={property.sold}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switch_title" />
 
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginStart"
             android:layout_marginEnd="@dimen/marginEnd"
-            android:visibility="@{property.sold ? View.VISIBLE: View.GONE}"
+            android:visibility="@={property.sold ? View.VISIBLE: View.GONE}"
             app:layout_constraintStart_toEndOf="@id/sold_switch"
             app:layout_constraintTop_toBottomOf="@id/sold_title"
             app:layout_goneMarginEnd="@dimen/marginEnd">
