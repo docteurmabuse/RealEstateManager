@@ -31,6 +31,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAdapter
 import com.openclassrooms.realestatemanager.utils.*
+import com.openclassrooms.realestatemanager.utils.DateUtil.dateToString
 import com.openclassrooms.realestatemanager.utils.DateUtil.getDate
 import com.openclassrooms.realestatemanager.utils.DateUtil.longToDate
 import com.openclassrooms.realestatemanager.utils.Utils.isNetworkConnected
@@ -116,6 +117,12 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.dates!!.soldInputLayout.isVisible = isChecked
             Timber.d("SWITCH: $isChecked")
         }
+        if (!EDIT_PROPERTY_VIEW) {
+            binding.dates!!.soldInputLayout.visibility = View.GONE
+            binding.dates!!.soldDateDropdown.visibility = View.GONE
+            binding.dates!!.switchTitle.visibility = View.GONE
+            binding.dates!!.soldSwitch.visibility = View.GONE
+        }
     }
 
     private fun setAddress() {
@@ -152,10 +159,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             val picker = DatePickerDialog(
                 requireContext(),
                 { _, year, monthOfYear, dayOfMonth ->
-                    val calendar = Calendar.getInstance()
-                    binding.dates!!.sellDateDropdown.setText(
-                        "$dayOfMonth / $monthOfYear + 1/ $year"
-                    )
                 },
                 year,
                 month,
@@ -163,8 +166,10 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             )
             picker.show()
 
-            var dateOnMarket: Date = picker.datePicker.getDate()
+            val dateOnMarket: Date = picker.datePicker.getDate()
             binding.dates!!.property?.sellDate = dateOnMarket
+            binding.dates!!.sellDateDropdown.setText(longToDate(date)?.let { it1 -> dateToString(it1) })
+
             Timber.d("DATE_PICKER : $date, {${longToDate(date)}}")
         }
     }
