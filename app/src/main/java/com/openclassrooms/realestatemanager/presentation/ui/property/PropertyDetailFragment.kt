@@ -9,14 +9,20 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.appbar.CollapsingToolbarLayout
+import com.google.maps.android.ktx.awaitMap
+import com.google.maps.android.ktx.awaitMapLoad
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyPagerAdapter
+import com.openclassrooms.realestatemanager.utils.MAPVIEW_BUNDLE_KEY
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -25,6 +31,7 @@ import timber.log.Timber
 @AndroidEntryPoint
 class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
+
     private var property: Property? = null
     private var viewPager: ViewPager2? = null
     private var dotsIndicator: DotsIndicator? = null
@@ -32,6 +39,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private var adapter = PropertyPagerAdapter()
     private var _binding: PropertyDetailBinding? = null
     private var liteMap: GoogleMap? = null
+    private lateinit var mapView: MapView
 
 
     // This property is only valid between onCreateView and
@@ -61,53 +69,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
             }
         }
 
-    }
 
-    private fun setupViewPager() {
-        viewPager = binding.viewPager
-        dotsIndicator = binding.dotsIndicator
-        viewPager!!.adapter = adapter
-        dotsIndicator!!.setViewPager2(viewPager!!)
-
-        //tabLayout = binding.tabLayout
-        // tabLayout!!.setupr(viewPager, true)
-
-//        tabLayout?.let {
-//            TabLayoutMediator(it, viewPager!!) { tab, position ->
-//                tab.text = "OBJECT ${(position + 1)}"
-//            }.attach()
-//        }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
-    }
-
-    /*override fun onMapReady(googleMap: GoogleMap) {
-        liteMap = googleMap ?: return
-        googleMap.addMarker(
-            MarkerOptions()
-                .position(LatLng(40.0, 40.0))
-                .title("Marker")
-        )
-        Timber.d("LITE_MAP_CALL: $property")
-
-    }*/
-    private fun setupLiteMap() {
-
-    }
-
-    private val callback = OnMapReadyCallback { map ->
-        liteMap = map
-        MapsInitializer.initialize(requireContext())
-        map.uiSettings.isZoomControlsEnabled = true
-        //addMarkers()
-        val sydney = LatLng(-34.0, 151.0)
-        map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        map.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-        Timber.d("LITE_MAP_CALL: $property")
     }
 
     override fun onCreateView(
@@ -125,18 +87,48 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         return rootView
     }
 
-
-    private fun addMarkers() {
-        if (property?.address?.lat != null && property?.address?.lng != null) {
-            val location = LatLng(property?.address?.lat!!, property?.address?.lng!!)
-            liteMap?.addMarker(
-                MarkerOptions().position(location).title(property?.address?.address1)
-            )
-            liteMap?.moveCamera(CameraUpdateFactory.newLatLng(location))
-        }
-        Timber.d("LITE_MAP: $property")
+    private fun setupViewPager() {
+        viewPager = binding.viewPager
+        dotsIndicator = binding.dotsIndicator
+        viewPager!!.adapter = adapter
+        dotsIndicator!!.setViewPager2(viewPager!!)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mapView = view.findViewById<MapView>(R.id.lite_map_view)
+        initGoogleMap(savedInstanceState)
+    }
+
+    private fun initGoogleMap(savedInstanceState: Bundle?) {
+        var mapViewBundle: Bundle? = null
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY)
+        }
+
+        mapView.onCreate(mapViewBundle)
+        lifecycleScope.launchWhenCreated {
+            // Get map
+            liteMap = mapView.awaitMap()
+            // Get map
+            liteMap!!.awaitMapLoad()
+            liteMap!!.uiSettings.isZoomControlsEnabled = true
+            if (property?.address?.lat != null && property?.address?.lng != null) {
+                val location = LatLng(property!!.address?.lat!!, property!!.address?.lng!!)
+                liteMap!!.moveCamera(CameraUpdateFactory.newLatLng(location))
+                addMarker(liteMap, location)
+            }
+        }
+    }
+
+    private fun addMarker(googleMap: GoogleMap?, location: LatLng) {
+        googleMap?.addMarker(
+            MarkerOptions()
+                .position(location)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
+                .title(property?.address?.address1)
+        )
+    }
 
     private fun updateContent() {
         //toolbarLayout?.title = property?.content
@@ -157,6 +149,31 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         const val ARG_ITEM_ID = "item_id"
         const val ARG_PROPERTY = "property"
 
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mapView.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mapView.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
     }
 
     override fun onDestroyView() {
