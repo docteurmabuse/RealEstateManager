@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -41,6 +42,7 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val viewModel: PropertyListViewModel by viewModels()
+    private var isRestore = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +52,7 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
         viewModel.fetchProperties()
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
+        isRestore = savedInstanceState != null
         return inflater.inflate(R.layout.map_layout, container, false)
     }
 
@@ -64,9 +67,19 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
 
             // Wait for map to finish loading
             googleMap.awaitMapLoad()
-
+            googleMap.setOnInfoWindowClickListener { marker ->
+                onInfoWindowClick(marker)
+            }
             googleMap.uiSettings.isZoomControlsEnabled = true
             getLastKnownLocation()
+            if (!isRestore) {
+                googleMap.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(40.714327, -73.869851),
+                        10f
+                    )
+                )
+            }
             if (lastLocation != null) {
                 googleMap.moveCamera(
                     CameraUpdateFactory.newLatLngZoom(
@@ -86,8 +99,6 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
                 )
             }
             setObserver()
-            //  googleMap.setOnInfoWindowClickListener(this.)
-
         }
     }
 
@@ -152,13 +163,8 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
         Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
         properties.forEach { property ->
             if (property.address?.lat != null && property.address?.lng != null) {
-                var location: LatLng = LatLng(property.address?.lat!!, property.address?.lng!!)
+                val location = LatLng(property.address?.lat!!, property.address?.lng!!)
                 addMarkers(googleMap, location, property)
-                /*  val marker = googleMap.addMarker(
-                      MarkerOptions()
-                          .title(property.address!!.address1)
-                          .position()
-                  )*/
             }
         }
     }
@@ -167,6 +173,7 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
         val marker: Marker? = googleMap.addMarker(
             MarkerOptions()
                 .position(location)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE))
                 .title(property.address?.address1)
         )
         marker?.tag = property
