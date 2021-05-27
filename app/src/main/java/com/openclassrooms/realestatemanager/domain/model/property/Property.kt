@@ -198,6 +198,4 @@ data class Property(
         Manor,
         Loft
     }
-
-
 }

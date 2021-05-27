@@ -1,11 +1,13 @@
 package com.openclassrooms.realestatemanager.presentation.ui.binding
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import coil.load
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.property.Media
+import com.openclassrooms.realestatemanager.utils.DateUtil.dateToString
 import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
@@ -54,6 +56,26 @@ class ViewBinding {
             price?.let {
                 Timber.d("PRICE: $it")
                 textView.text = NumberFormat.getCurrencyInstance(Locale.US).format(price)
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("isVisible")
+        fun bindVisibilityView(view: View, isVisible: Boolean?) {
+            isVisible?.let {
+                if (isVisible) {
+                    view.visibility = View.VISIBLE
+                } else {
+                    view.visibility = View.GONE
+                }
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("dateToText")
+        fun bindDateText(textView: TextView, date: Date?) {
+            date?.let {
+                textView.text = dateToString(it)
             }
         }
     }

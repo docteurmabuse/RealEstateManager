@@ -14,29 +14,29 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
         address: Address
     ): Property {
         return Property(
-            id = model.id,
-            type = model.type,
-            price = model.price,
-            surface = model.surface,
-            roomNumber = model.roomNumber,
-            bathroomNumber = model.bathroomNumber,
-            bedroomNumber = model.bedroomNumber,
-            description = model.description,
-            schools = model.schools,
-            shops = model.shops,
-            park = model.park,
-            stations = model.stations,
-            hospital = model.hospital,
-            museum = model.museum,
-            sold = model.sold,
-            sellDate = DateUtil.longToDate(model.soldDate),
-            soldDate = DateUtil.longToDate(model.soldDate),
+            _id = model.id,
+            _type = model.type,
+            _price = model.price,
+            _surface = model.surface,
+            _roomNumber = model.roomNumber,
+            _bathroomNumber = model.bathroomNumber,
+            _bedroomNumber = model.bedroomNumber,
+            _description = model.description,
+            _schools = model.schools,
+            _shops = model.shops,
+            _park = model.park,
+            _stations = model.stations,
+            _hospital = model.hospital,
+            _museum = model.museum,
+            _sold = model.sold,
+            _sellDate = DateUtil.longToDate(model.soldDate),
+            _soldDate = DateUtil.longToDate(model.soldDate),
             Media(
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
             ),
-            agentId = model.agent_id,
-            address = address
+            _agentId = model.agent_id,
+            _address = address
         )
     }
 

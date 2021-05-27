@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -30,6 +31,8 @@ import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAdapter
 import com.openclassrooms.realestatemanager.utils.*
+import com.openclassrooms.realestatemanager.utils.DateUtil.getDate
+import com.openclassrooms.realestatemanager.utils.DateUtil.longToDate
 import com.openclassrooms.realestatemanager.utils.Utils.isNetworkConnected
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -53,7 +56,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var latestTmpUri: Uri? = null
     private var mItemTouchHelper: ItemTouchHelper? = null
     private var isConnected: Boolean = true
-
+    private var property: Property? = null
     private var address1: String? = ""
     private var address2: String? = ""
     private var city: String = "New York"
@@ -94,17 +97,28 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         this.binding.viewModel = viewModel
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
         setupMenuValues(typeDropdown)
-
         setFabListener()
         setupUploadImageListener()
         setupImageDialogListener()
         setupSellDateListener()
         retrieveArguments()
         setAddress()
+        setPropertyInLayout()
+    }
+
+    private fun setPropertyInLayout() {
+        binding.address?.property = property
+        binding.characteristics?.property = property
+        binding.dates?.property = property
+        binding.pointOfInterest?.property = property
+        binding.dates?.soldSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.dates!!.property?.sold = isChecked
+            binding.dates!!.soldInputLayout.isVisible = isChecked
+            Timber.d("SWITCH: $isChecked")
+        }
     }
 
     private fun setAddress() {
-
         if (isConnected) {
             setAddressListener()
         } else {
@@ -123,7 +137,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
 
-
     private fun retrieveArguments() {
         newPropertyId = args.propertyId
         Timber.d("ADDPROPERTY: ${newPropertyId}")
@@ -138,9 +151,10 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             val year: Int = cldr.get(Calendar.YEAR)
             val picker = DatePickerDialog(
                 requireContext(),
-                { view, year, monthOfYear, dayOfMonth ->
+                { _, year, monthOfYear, dayOfMonth ->
+                    val calendar = Calendar.getInstance()
                     binding.dates!!.sellDateDropdown.setText(
-                        "$dayOfMonth / $monthOfYear + 1)/ $year"
+                        "$dayOfMonth / $monthOfYear + 1/ $year"
                     )
                 },
                 year,
@@ -148,8 +162,13 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                 day
             )
             picker.show()
+
+            var dateOnMarket: Date = picker.datePicker.getDate()
+            binding.dates!!.property?.sellDate = dateOnMarket
+            Timber.d("DATE_PICKER : $date, {${longToDate(date)}}")
         }
     }
+
 
     private fun setupRecyclerView(
     ) {
@@ -269,7 +288,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
 
     }
-
 
 
     private fun saveProperty() {

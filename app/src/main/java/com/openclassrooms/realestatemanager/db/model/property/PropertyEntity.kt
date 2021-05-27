@@ -77,29 +77,29 @@ data class PropertyEntity(
         address: AddressEntity
     ): Property {
         return Property(
-            id = id,
-            type = type,
-            price = price,
-            surface = surface,
-            roomNumber = roomNumber,
-            bathroomNumber = bathroomNumber,
-            bedroomNumber = bedroomNumber,
-            description = description,
-            schools = schools,
-            shops = shops,
-            park = park,
-            stations = stations,
-            hospital = hospital,
-            museum = museum,
-            sold = sold,
-            sellDate = DateUtil.longToDate(soldDate),
-            soldDate = DateUtil.longToDate(soldDate),
+            _id = id,
+            _type = type,
+            _price = price,
+            _surface = surface,
+            _roomNumber = roomNumber,
+            _bathroomNumber = bathroomNumber,
+            _bedroomNumber = bedroomNumber,
+            _description = description,
+            _schools = schools,
+            _shops = shops,
+            _park = park,
+            _stations = stations,
+            _hospital = hospital,
+            _museum = museum,
+            _sold = sold,
+            _sellDate = DateUtil.longToDate(soldDate),
+            _soldDate = DateUtil.longToDate(soldDate),
             Media(
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
             ),
-            agentId = agent_id,
-            address = address.toDomain()
+            _agentId = agent_id,
+            _address = address.toDomain()
         )
     }
 }

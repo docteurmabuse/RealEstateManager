@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.utils
 
+import android.widget.DatePicker
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,14 +19,14 @@ object DateUtil {
         }
 
     fun longToDate(long: Long?): Date? {
-        if (long != null) return Date(long)
-        else return null
+        return if (long != null) Date(long)
+        else null
     }
 
     fun dateToLong(date: Date?): Long? {
-        if (date != null)
-            return date.time / 1000
-        else return null
+        return if (date != null)
+            date.time / 1000
+        else null
     }
 
     fun dateToString(date: Date): String {
@@ -39,6 +40,12 @@ object DateUtil {
 
     fun createTimestamp(): Date {
         return Date()
+    }
+
+    fun DatePicker.getDate(): Date {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, dayOfMonth)
+        return calendar.time
     }
 
 }
