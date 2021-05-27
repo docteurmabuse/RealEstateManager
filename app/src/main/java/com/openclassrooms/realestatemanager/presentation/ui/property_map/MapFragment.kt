@@ -16,11 +16,12 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.ktx.awaitMap
+import com.google.maps.android.ktx.awaitMapLoad
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -55,8 +56,39 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)
+        lifecycleScope.launchWhenCreated {
+            // Get map
+            if (mapFragment != null) {
+                googleMap = mapFragment.awaitMap()
+            }
 
+            // Wait for map to finish loading
+            googleMap.awaitMapLoad()
+
+            googleMap.uiSettings.isZoomControlsEnabled = true
+            getLastKnownLocation()
+            if (lastLocation != null) {
+                googleMap.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(
+                            lastLocation!!.latitude,
+                            lastLocation!!.longitude
+                        ), 12f
+                    )
+                )
+            } else {
+                googleMap.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        LatLng(
+                            40.714327, -73.869851
+                        ), 12f
+                    )
+                )
+            }
+            setObserver()
+            //  googleMap.setOnInfoWindowClickListener(this.)
+
+        }
     }
 
     private fun getLastKnownLocation() {
@@ -78,31 +110,10 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
                 if (location != null) {
                     lastLocation = location
                     val currentLatLng = LatLng(location.latitude, location.longitude)
-                    // placeMarkerOnMap(currentLatLng)
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
                 }
             }
     }
-
-    private val callback = OnMapReadyCallback { map ->
-        googleMap = map
-        map.uiSettings.isZoomControlsEnabled = true
-        getLastKnownLocation()
-        if (lastLocation != null) {
-            googleMap.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    LatLng(
-                        lastLocation!!.latitude,
-                        lastLocation!!.longitude
-                    ), 12f
-                )
-            )
-        }
-        setObserver()
-        googleMap.setOnInfoWindowClickListener(this)
-
-    }
-
 
     private fun viewPropertyDetail(property: Property) {
         val navHostFragment = findNavController()
