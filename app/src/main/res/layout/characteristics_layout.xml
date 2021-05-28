@@ -51,6 +51,7 @@
                 android:hint="@string/rooms"
                 android:inputType="number"
                 android:textSize="@dimen/textSize"
+                android:text="@={Converter.intToString(surfaceTextInput,property.roomNumber,property.roomNumber)}"
                 app:drawableTopCompat="@drawable/ic_room_24dp"
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toStartOf="@id/number_of_bedroom_text_input"
@@ -68,6 +69,7 @@
                 android:textSize="@dimen/textSize"
                 app:drawableTopCompat="@drawable/ic_bedroom_parent_24dp"
                 app:endIconMode="clear_text"
+                android:text="@={Converter.intToString(surfaceTextInput,property.bedroomNumber,property.bedroomNumber)}"
                 app:layout_constraintEnd_toStartOf="@id/number_of_bathroom_text_input"
                 app:layout_constraintStart_toEndOf="@id/number_of_room_text_input"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -82,6 +84,7 @@
                 android:hint="@string/bathroom"
                 android:inputType="number"
                 android:textSize="@dimen/textSize"
+                android:text="@={Converter.intToString(surfaceTextInput,property.bathroomNumber,property.bathroomNumber)}"
                 app:drawableTopCompat="@drawable/ic_bathroom_24dp"
                 app:endIconMode="clear_text"
                 app:layout_constraintEnd_toEndOf="parent"
