@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.openclassrooms.realestatemanager.utils.converter.Converter" />
 
         <import type="android.view.View" />
-
         <variable
             name="property"
             type="com.openclassrooms.realestatemanager.domain.model.property.Property" />

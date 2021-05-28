@@ -79,12 +79,12 @@ class ViewBinding {
             }
         }
 
-        @JvmStatic
+      /*  @JvmStatic
         @BindingAdapter("intToText")
         fun bindIntText(textView: TextView, int: Int?) {
             int?.let {
                 textView.text = it.toString()
             }
-        }
+        }*/
     }
 }

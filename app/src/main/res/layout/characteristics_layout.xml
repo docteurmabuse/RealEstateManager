@@ -4,6 +4,10 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="com.openclassrooms.realestatemanager.utils.converter.Converter" />
+
         <variable
             name="property"
             type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
@@ -13,13 +17,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/surface_text_input"
+            android:id="@+id/surfaceTextInput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginStart"
             android:layout_marginTop="@dimen/marginTop"
             android:hint="@string/surface"
-            intToText="@={property.surface}"
+            android:text="@={Converter.intToString(surfaceTextInput,property.surface,property.surface)}"
             android:inputType="number"
             android:maxLength="4"
             android:textSize="@dimen/textSize"
