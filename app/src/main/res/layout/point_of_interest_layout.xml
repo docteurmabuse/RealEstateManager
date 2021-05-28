@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/station"
+            android:checked="@={property.stations}"
             app:layout_constraintStart_toStartOf="@+id/schools"
             app:layout_constraintTop_toBottomOf="@+id/schools" />
 
@@ -27,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/museum"
+            android:checked="@={property.museum}"
             app:layout_constraintEnd_toStartOf="@+id/schools"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/schools"
+            android:checked="@={property.schools}"
             app:layout_constraintEnd_toStartOf="@+id/shops"
             app:layout_constraintStart_toEndOf="@+id/museum"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@string/shops"
+            android:checked="@={property.shops}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/schools"
             app:layout_constraintTop_toTopOf="parent" />
@@ -54,7 +58,8 @@
             android:id="@+id/parcs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/parcs"
+            android:checked="@={property.park}"
+            android:text="@string/park"
             app:layout_constraintStart_toStartOf="@+id/shops"
             app:layout_constraintTop_toBottomOf="@+id/shops" />
 
@@ -63,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hospital"
+            android:checked="@={property.hospital}"
             app:layout_constraintStart_toStartOf="@+id/museum"
             app:layout_constraintTop_toBottomOf="@+id/museum" />
     </androidx.constraintlayout.widget.ConstraintLayout>

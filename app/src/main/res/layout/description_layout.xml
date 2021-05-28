@@ -22,7 +22,7 @@
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginEnd="@dimen/marginEnd"
             android:hint="@string/description"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:maxLength="512"
             android:text="@={property.description}"
             android:textSize="@dimen/textSize"
