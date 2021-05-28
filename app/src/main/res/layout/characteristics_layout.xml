@@ -19,6 +19,7 @@
             android:layout_marginStart="@dimen/marginStart"
             android:layout_marginTop="@dimen/marginTop"
             android:hint="@string/surface"
+            intToText="@={property.surface}"
             android:inputType="number"
             android:maxLength="4"
             android:textSize="@dimen/textSize"

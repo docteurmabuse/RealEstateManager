@@ -23,6 +23,10 @@ object DateUtil {
         else null
     }
 
+    fun longDateToString(long: Long?): String? {
+        return longToDate(long)?.let { dateToString(it) }
+    }
+
     fun dateToLong(date: Date?): Long? {
         return if (date != null)
             date.time / 1000
