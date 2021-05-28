@@ -247,6 +247,9 @@ dependencies {
     //Easier Permission
     implementation 'com.karumi:dexter:6.2.2'
 
+    //Google Guava
+    implementation("com.google.guava:guava:30.1.1-jre")
+
 
 
 }

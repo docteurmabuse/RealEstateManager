@@ -4,6 +4,10 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <import type="com.openclassrooms.realestatemanager.utils.converter.Converter" />
+
         <variable
             name="property"
             type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
@@ -15,7 +19,6 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/price_text_input"
-            price="@{property.price}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginStart"
@@ -23,6 +26,7 @@
             android:layout_marginEnd="@dimen/marginEnd"
             android:hint="@string/price"
             android:inputType="number"
+            android:text="@={Converter.localPriceToString(priceTextInput,property.price,property.price)}"
             android:textSize="@dimen/textSize"
             app:endIconMode="clear_text"
             app:layout_constraintStart_toStartOf="parent"
