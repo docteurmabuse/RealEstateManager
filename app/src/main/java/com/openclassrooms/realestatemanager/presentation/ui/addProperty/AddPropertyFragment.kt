@@ -114,7 +114,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupImageDialogListener()
         setupSellDateListener()
         retrieveArguments()
-        setAddress()
     }
 
     private fun retreiveArguments() {
@@ -132,10 +131,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun setPropertyInLayout(property: Property) {
         Timber.d("PROPERTY_DETAIL layout: $property")
 
-        binding.address?.property = property
-        binding.characteristics?.property = property
-        binding.dates?.property = property
-        binding.pointOfInterest?.property = property
+        binding.property = property
         binding.dates?.soldSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
             binding.dates!!.property?.sold = isChecked
             binding.dates!!.soldInputLayout.isVisible = isChecked
@@ -148,25 +144,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.dates!!.soldSwitch.visibility = View.GONE
         }
     }
-
-    private fun setAddress() {
-        if (isConnected) {
-            setAddressListener()
-        } else {
-            binding.address?.addressTextInput?.visibility = View.GONE
-        }
-    }
-
-    private fun setAddressListener() {
-        binding.address?.addressTextInput?.setOnClickListener {
-            if (isNetworkConnected(requireContext())) {
-                Timber.d("INTERNET_CONNECTION: Internet is connected")
-            } else {
-                Timber.d("INTERNET_CONNECTION: Internet is not connected")
-            }
-        }
-    }
-
 
     private fun retrieveArguments() {
         newPropertyId = args.propertyId
