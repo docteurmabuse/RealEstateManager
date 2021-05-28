@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,6 +23,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyPagerAdapter
+import com.openclassrooms.realestatemanager.utils.EDIT_PROPERTY_VIEW
 import com.openclassrooms.realestatemanager.utils.MAPVIEW_BUNDLE_KEY
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,17 +61,14 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            if (it.containsKey(ARG_ITEM_ID)) {
-                // Load the placeholder content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader
-                // to load content from a content provider.
-                property = it.getParcelable(ARG_PROPERTY)
-                Timber.d("PROPERTY_DETAIL: $property")
-            }
+        val bundle = arguments
+        if (bundle == null) {
+            Timber.d("PropertyDetailFragment did not received arguments")
+            return
         }
-
-
+        val args = PropertyDetailFragmentArgs.fromBundle(bundle)
+        property = args.property
+        Timber.d("PROPERTY_DETAIL: $property")
     }
 
     override fun onCreateView(
@@ -83,7 +82,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         setupViewPager()
         updateContent()
         rootView.setOnDragListener(dragListener)
-
+        setFabListener()
         return rootView
     }
 
@@ -98,6 +97,24 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         super.onViewCreated(view, savedInstanceState)
         mapView = view.findViewById<MapView>(R.id.lite_map_view)
         initGoogleMap(savedInstanceState)
+    }
+
+    private fun setFabListener() {
+        binding.addPropertyFAB?.setOnClickListener {
+            val navHostFragment = findNavController()
+            val action = property?.let { it ->
+                PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
+                    EDIT_PROPERTY_VIEW,
+                    it,
+                    it.id
+                )
+            }
+
+            if (action != null) {
+                navHostFragment.navigate(action)
+            }
+            Timber.tag("PROPERTY").d("PROPERTY_ID:")
+        }
     }
 
     private fun initGoogleMap(savedInstanceState: Bundle?) {

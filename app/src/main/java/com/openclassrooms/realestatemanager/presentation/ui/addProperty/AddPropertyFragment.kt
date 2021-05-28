@@ -30,6 +30,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAdapter
+import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragmentArgs
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.utils.DateUtil.dateToString
 import com.openclassrooms.realestatemanager.utils.DateUtil.getDate
@@ -46,18 +47,26 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     PhotoListAdapter.Interaction, OnStartDragListener {
     private val viewModel: AddPropertyViewModel by viewModels()
     private lateinit var photosRecyclerView: RecyclerView
+
+
+    //Nav Arguments
+    private val args: AddPropertyFragmentArgs by navArgs()
+    private var newPropertyId: Long = 0
+    private var property: Property? = null
+    private var isEditPropertyView: Boolean = false
+
+    //Adapter
+    private lateinit var photoListAdapter: PhotoListAdapter
+
+    //Arguments
     private var photoFile: File? = null
     private var photos: ArrayList<Media.Photo> = arrayListOf()
     private var videos: ArrayList<Media.Video> = arrayListOf()
-    private val args: AddPropertyFragmentArgs by navArgs()
-    private var newPropertyId: Long = 0
-    private lateinit var photoListAdapter: PhotoListAdapter
     private var address: String? = ""
     private var location: LatLng? = null
     private var latestTmpUri: Uri? = null
     private var mItemTouchHelper: ItemTouchHelper? = null
     private var isConnected: Boolean = true
-    private var property: Property? = null
     private var address1: String? = ""
     private var address2: String? = ""
     private var city: String = "New York"
@@ -87,8 +96,10 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             photoListAdapter.submitList(list = photos)
         }
         isConnected = isNetworkConnected(requireContext())
+        retreiveArguments()
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -104,10 +115,23 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupSellDateListener()
         retrieveArguments()
         setAddress()
-        setPropertyInLayout()
     }
 
-    private fun setPropertyInLayout() {
+    private fun retreiveArguments() {
+        val bundle = arguments
+        if (bundle == null) {
+            Timber.d("PropertyDetailFragment did not received arguments")
+            return
+        }
+        val args = PropertyDetailFragmentArgs.fromBundle(bundle)
+        property = args.property
+        isEditPropertyView = args.editPropertyView
+        property?.let { setPropertyInLayout(it) }
+    }
+
+    private fun setPropertyInLayout(property: Property) {
+        Timber.d("PROPERTY_DETAIL layout: $property")
+
         binding.address?.property = property
         binding.characteristics?.property = property
         binding.dates?.property = property
@@ -146,6 +170,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun retrieveArguments() {
         newPropertyId = args.propertyId
+
         Timber.d("ADDPROPERTY: ${newPropertyId}")
     }
 

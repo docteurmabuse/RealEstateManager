@@ -135,7 +135,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
             val navHostFragment = findNavController()
             val newPropertyId = properties.size.toLong() + 1
             val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
-                newPropertyId
+                newPropertyId, false, null
             )
 
             navHostFragment.navigate(action)

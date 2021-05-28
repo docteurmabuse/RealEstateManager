@@ -129,7 +129,7 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
     private fun viewPropertyDetail(property: Property) {
         val navHostFragment = findNavController()
         val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToPropertyDetailFragment(
-            property
+            true, property
         )
         navHostFragment.navigate(action)
     }

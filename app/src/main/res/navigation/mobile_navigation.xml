@@ -28,6 +28,10 @@
         android:label="property_detail"
         tools:layout="@layout/property_list_content">
         <argument
+            android:name="edit_property_view"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
             android:name="property"
             app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
             app:nullable="true" />
@@ -35,10 +39,26 @@
             android:name="item_id"
             android:defaultValue=""
             app:argType="string" />
-        <argument
-            android:name="EDIT_PROPERTY_VIEW"
-            android:defaultValue="false"
-            app:argType="boolean" />
+
+        <action
+            android:id="@+id/action_propertyDetailFragment_to_addPropertyFragment"
+            app:destination="@id/addPropertyFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right">
+
+            <argument
+                android:name="EDIT_PROPERTY_VIEW"
+                android:defaultValue="false"
+                app:argType="boolean" />
+            <argument
+                android:name="property"
+                app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
+                app:nullable="true" />
+            <argument
+                android:name="propertyId"
+                android:defaultValue="0L"
+                app:argType="long" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/addPropertyFragment"
@@ -52,6 +72,14 @@
             android:name="propertyId"
             android:defaultValue="0L"
             app:argType="long" />
+        <argument
+            android:name="EDIT_PROPERTY_VIEW"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="property"
+            app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
+            app:nullable="true" />
         <action
             android:id="@+id/action_addPropertyFragment_to_propertyListFragment"
             app:destination="@id/propertyListFragment" />
@@ -88,10 +116,14 @@
         android:label="ItemTabsFragment">
         <action
             android:id="@+id/action_itemTabsFragment2_to_addPropertyFragment"
-            app:destination="@id/addPropertyFragment" />
+            app:destination="@id/addPropertyFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
         <action
             android:id="@+id/action_itemTabsFragment2_to_propertyDetailFragment"
-            app:destination="@id/propertyDetailFragment" />
+            app:destination="@id/propertyDetailFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="property"
             android:defaultValue="@null"
