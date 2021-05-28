@@ -29,7 +29,7 @@
             android:maxLines="3"
             android:minLines="2"
             android:scrollbars="vertical"
-            android:text="@{property.address.address1}"
+            android:text="@={property.address.address1}"
             android:textSize="@dimen/textSize"
             app:endIconMode="clear_text"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,11 +43,25 @@
             android:layout_marginTop="@dimen/marginTop"
             android:hint="@string/address2"
             android:inputType="textPostalAddress"
-            android:text="@{property.address.address2}"
+            android:text="@={property.address.address2}"
             android:textSize="@dimen/textSize"
             app:endIconMode="clear_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/address1_text_input" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/area_text_input"
+            android:layout_width="@dimen/formWidth"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:hint="@string/area"
+            android:inputType="text"
+            android:text="@={property.address.area}"
+            android:textSize="@dimen/textSize"
+            app:endIconMode="clear_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/address2_text_input" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/city_text_input"
@@ -57,11 +71,11 @@
             android:layout_marginTop="@dimen/marginTop"
             android:hint="@string/city"
             android:inputType="text"
-            android:text="@{property.address.city}"
+            android:text="@={property.address.city}"
             android:textSize="@dimen/textSize"
             app:endIconMode="clear_text"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address2_text_input" />
+            app:layout_constraintTop_toBottomOf="@id/area_text_input" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/state_text_input"
@@ -71,7 +85,7 @@
             android:layout_marginTop="@dimen/marginTop"
             android:hint="@string/state"
             android:inputType="textPostalAddress"
-            android:text="@{property.address.state}"
+            android:text="@={property.address.state}"
             android:textSize="@dimen/textSize"
             app:endIconMode="clear_text"
             app:layout_constraintStart_toStartOf="parent"
@@ -99,26 +113,13 @@
             android:layout_marginTop="@dimen/marginTop"
             android:hint="@string/country"
             android:inputType="text"
-            android:text="@{property.address.country}"
+            android:text="@={property.address.country}"
             android:textSize="@dimen/textSize"
             android:visibility="gone"
             app:endIconMode="clear_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/state_text_input" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/area_text_input"
-            android:layout_width="@dimen/formWidth"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/marginStart"
-            android:layout_marginTop="@dimen/marginTop"
-            android:hint="@string/area"
-            android:inputType="text"
-            android:text="@{property.address.area}"
-            android:textSize="@dimen/textSize"
-            app:endIconMode="clear_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/country_text_input" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
