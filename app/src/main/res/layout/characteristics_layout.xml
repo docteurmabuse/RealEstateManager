@@ -12,22 +12,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/price_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/marginStart"
-            android:layout_marginTop="@dimen/marginTop"
-            android:layout_marginEnd="@dimen/marginEnd"
-            android:hint="@string/price"
-            android:inputType="number"
-            price="@{property.price}"
-            android:textSize="@dimen/textSize"
-            app:endIconMode="clear_text"
-            app:layout_constraintStart_toStartOf="@id/surface_text_input"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/surface_text_input"
             android:layout_width="wrap_content"
@@ -41,7 +25,7 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toStartOf="@id/number_of_room_text_input"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/price_text_input" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/number_of_room_text_input"
@@ -55,7 +39,7 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toStartOf="@id/number_of_bedroom_text_input"
             app:layout_constraintStart_toEndOf="@id/surface_text_input"
-            app:layout_constraintTop_toBottomOf="@id/price_text_input" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/number_of_bedroom_text_input"
@@ -69,7 +53,7 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toStartOf="@id/number_of_bathroom_text_input"
             app:layout_constraintStart_toEndOf="@id/number_of_room_text_input"
-            app:layout_constraintTop_toBottomOf="@id/price_text_input" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/number_of_bathroom_text_input"
@@ -84,7 +68,7 @@
             app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/number_of_bedroom_text_input"
-            app:layout_constraintTop_toBottomOf="@id/price_text_input" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

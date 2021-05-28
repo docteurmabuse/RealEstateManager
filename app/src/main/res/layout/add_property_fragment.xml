@@ -78,6 +78,27 @@
                     app:property="@{property}" />
 
                 <TextView
+                    android:id="@+id/textViewDescription"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:text="@string/description"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/address" />
+
+                <include
+                    android:id="@+id/description"
+                    layout="@layout/description_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewDescription"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:property="@{property}" />
+
+                <TextView
                     android:id="@+id/textViewPrice"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
@@ -86,11 +107,11 @@
                     android:text="@string/price"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/address" />
+                    app:layout_constraintTop_toBottomOf="@id/description" />
 
                 <include
-                    android:id="@+id/characteristics"
-                    layout="@layout/characteristics_layout"
+                    android:id="@+id/price"
+                    layout="@layout/price_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
@@ -98,14 +119,35 @@
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:property="@{property}" />
 
-
                 <TextView
-                    android:id="@+id/textViewDescription"
+                    android:id="@+id/textViewCharacteristics"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
-                    android:text="@string/address"
+                    android:text="@string/characteristics"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/price" />
+
+                <include
+                    android:id="@+id/characteristics"
+                    layout="@layout/characteristics_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewCharacteristics"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:property="@{property}" />
+
+
+                <TextView
+                    android:id="@+id/textNearBy"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:text="@string/nearby"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/characteristics" />
@@ -116,12 +158,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textViewDescription"
+                    app:layout_constraintTop_toBottomOf="@id/textNearBy"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:property="@{property}" />
 
                 <TextView
-                    android:id="@+id/textViewCharacteristics"
+                    android:id="@+id/textViewDates"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,7 +180,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textViewCharacteristics"
+                    app:layout_constraintTop_toBottomOf="@id/textViewDates"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:property="@{property}" />
 

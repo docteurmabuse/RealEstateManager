@@ -36,21 +36,5 @@
                 android:text="@{property.type.toString()}" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/description_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="@dimen/marginStart"
-            android:layout_marginTop="@dimen/marginTop"
-            android:layout_marginEnd="@dimen/marginEnd"
-            android:hint="@string/description"
-            android:inputType="text"
-            android:maxLength="512"
-            android:text="@={property.description}"
-            android:textSize="@dimen/textSize"
-            app:endIconMode="clear_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/type_input_layout" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
