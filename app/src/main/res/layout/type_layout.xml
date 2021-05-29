@@ -33,9 +33,9 @@
             <AutoCompleteTextView
                 android:id="@+id/type_dropdown"
                 android:layout_width="match_parent"
+                android:labelFor="@id/type_dropdown"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
-                android:labelFor="@id/type_input_layout"
                 android:text="@{property.type.toString()}" />
         </com.google.android.material.textfield.TextInputLayout>
 
