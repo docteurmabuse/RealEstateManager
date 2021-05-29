@@ -18,6 +18,7 @@
     <string name="select_a_property_type">Select property type</string>
     <string name="property_type">Type</string>
     <string name="address">Address</string>
+    <string name="address1">Address1</string>
     <string name="address2">Address2</string>
     <string name="description">Description</string>
     <string name="united_state">United State</string>
