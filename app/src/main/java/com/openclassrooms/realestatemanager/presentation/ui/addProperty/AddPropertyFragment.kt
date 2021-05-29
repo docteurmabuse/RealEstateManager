@@ -127,6 +127,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         property = args.property
         isEditPropertyView = args.editPropertyView
         property?.let { setPropertyInLayout(it) }
+        photos = property?.media?.photos as ArrayList<Media.Photo>
     }
 
     private fun setPropertyInLayout(property: Property) {
