@@ -26,7 +26,7 @@
             android:layout_marginEnd="@dimen/marginEnd"
             android:hint="@string/price"
             android:inputType="number"
-            android:text="@={Converter.localPriceToString(priceTextInput,property.price,property.price)}"
+            android:text="@={``+property.price}"
             android:textSize="@dimen/textSize"
             app:endIconMode="clear_text"
             app:layout_constraintStart_toStartOf="parent"

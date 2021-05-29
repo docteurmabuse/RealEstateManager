@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.presentation.ui.binding
 
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -52,7 +53,16 @@ class ViewBinding {
 
         @JvmStatic
         @BindingAdapter("price")
-        fun bindPriceText(textView: TextView, price: Int?) {
+        fun bindGetPriceText(textView: TextView, price: Int?) {
+            price?.let {
+                Timber.d("PRICE: $it")
+                textView.text = NumberFormat.getCurrencyInstance(Locale.US).format(price)
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("price")
+        fun bindSetPriceText(textView: TextView, price: Int?) {
             price?.let {
                 Timber.d("PRICE: $it")
                 textView.text = NumberFormat.getCurrencyInstance(Locale.US).format(price)
@@ -79,12 +89,32 @@ class ViewBinding {
             }
         }
 
-      /*  @JvmStatic
-        @BindingAdapter("intToText")
-        fun bindIntText(textView: TextView, int: Int?) {
-            int?.let {
-                textView.text = it.toString()
+        @BindingAdapter("clearOnFocusAndDispatch")
+        @JvmStatic
+        fun clearOnFocusAndDispatch(view: EditText, listener: View.OnFocusChangeListener?) {
+            view.onFocusChangeListener = View.OnFocusChangeListener { focusedView, hasFocus ->
+                val textView = focusedView as TextView
+                if (hasFocus) {
+                    // Delete contents of the EditText if the focus entered.
+                    view.setTag(R.id.previous_value, textView.text)
+                    textView.text = ""
+                } else {
+                    if (textView.text.isEmpty()) {
+                        val tag: CharSequence? =
+                            textView.getTag(R.id.previous_value) as CharSequence
+                        textView.text = tag ?: ""
+                    }
+                    // If the focus left, update the listener
+                    listener?.onFocusChange(focusedView, hasFocus)
+                }
             }
-        }*/
+        }
+        /*  @JvmStatic
+          @BindingAdapter("intToText")
+          fun bindIntText(textView: TextView, int: Int?) {
+              int?.let {
+                  textView.text = it.toString()
+              }
+          }*/
     }
 }

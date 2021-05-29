@@ -29,7 +29,7 @@
     <string name="bedrooms">Bedrooms</string>
     <string name="bathroom">Bathroom</string>
     <string name="rooms">Rooms</string>
-    <string name="surface">Surface</string>
+    <string name="surface">Surface (m²)</string>
     <string name="park">Park</string>
     <string name="hospital">Hospital</string>
     <string name="shops">Shop</string>
