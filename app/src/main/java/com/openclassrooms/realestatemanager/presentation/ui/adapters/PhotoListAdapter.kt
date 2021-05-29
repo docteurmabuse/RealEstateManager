@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.openclassrooms.realestatemanager.databinding.MediaItemContentBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Media
+import com.openclassrooms.realestatemanager.presentation.ui.binding.BindableAdapter
 import com.openclassrooms.realestatemanager.utils.ItemTouchHelperAdapter
 import com.openclassrooms.realestatemanager.utils.OnStartDragListener
 import java.util.*
@@ -18,7 +19,8 @@ class PhotoListAdapter(
     private val dragStartListener: OnStartDragListener,
     val onSwiped: () -> Unit
 ) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemTouchHelperAdapter,
+    BindableAdapter<Media.Photo> {
 
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Media.Photo>() {
 
@@ -56,9 +58,9 @@ class PhotoListAdapter(
         return differ.currentList.size
     }
 
-    fun submitList(list: ArrayList<Media.Photo>) {
+    override fun submitList(list: List<Media.Photo>) {
         differ.submitList(list)
-        photoList = list
+        photoList = list as ArrayList<Media.Photo>
     }
 
     class PhotoViewHolder
