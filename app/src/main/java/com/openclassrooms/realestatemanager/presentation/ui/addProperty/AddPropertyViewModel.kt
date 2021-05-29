@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -28,6 +29,11 @@ class AddPropertyViewModel @Inject constructor(
         MutableStateFlow<ArrayList<Media.Photo>>(arrayListOf())
     val statePhotos: StateFlow<List<Media.Photo>>
         get() = _statePhotos
+
+    private val _state =
+        MutableStateFlow<DataState<ArrayList<Media.Photo>>>(DataState.loading(null))
+    val state: StateFlow<DataState<ArrayList<Media.Photo>>>
+        get() = _state
 
     fun addPropertyToRoomDb(property: String) {
         Timber.tag("FabClick").d("It's ok FAB2: $property")

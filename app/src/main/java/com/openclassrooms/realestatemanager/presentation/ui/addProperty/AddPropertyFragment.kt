@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -37,6 +39,8 @@ import com.openclassrooms.realestatemanager.utils.DateUtil.getDate
 import com.openclassrooms.realestatemanager.utils.DateUtil.longToDate
 import com.openclassrooms.realestatemanager.utils.Utils.isNetworkConnected
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
 import java.util.*
@@ -144,12 +148,48 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.dates!!.switchTitle.visibility = View.GONE
             binding.dates!!.soldSwitch.visibility = View.GONE
         }
+        setPhotosObserver()
+
         setupRecyclerView()
     }
 
     private fun retrieveArguments() {
         newPropertyId = args.propertyId
         Timber.d("ADDPROPERTY: ${newPropertyId}")
+    }
+
+    private fun setPhotosObserver() {
+        lifecycleScope.launch {
+            val value = viewModel.statePhotos
+            value.collect {
+                photoList(it as ArrayList<Media.Photo>)
+                Timber.d("PHOTOS_VIEWMODEL: ${photos}")
+            }
+        }
+        lifecycleScope.launchWhenResumed {
+            val value = viewModel.state
+            value.collect {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+                        it.data?.let { photoList -> photoList(photoList) }
+                        Timber.d("PHOTOS_VIEWMODEL8resumed: ${photos}")
+
+                    }
+                    DataState.Status.LOADING -> {
+
+                    }
+                    DataState.Status.ERROR -> {
+                        Timber.d("LIST_OBSERVER: ${it.message}")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun photoList(photoList: ArrayList<Media.Photo>) {
+        photos = photoList
+        Timber.d("PHOTOS_VIEWMODEL: ${photos}")
+        setupRecyclerView()
     }
 
     private fun setupSellDateListener() {
@@ -477,10 +517,14 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     )
 
     private fun submitPhotoToList(photo: Media.Photo) {
-        photos.add(photo)
+        //photos.add(photo)
+
         Timber.d("PHOTOS: ${photo.photoPath}")
-        setupRecyclerView()
-        photoListAdapter.submitList(photos)
+        viewModel.addPhotoToPhotosList(photo)
+        setPhotosObserver()
+
+        // setupRecyclerView()
+        //  photoListAdapter.submitList(photos)
     }
 
     private val selectImageFromGalleryResult =
