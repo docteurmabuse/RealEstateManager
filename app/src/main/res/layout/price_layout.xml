@@ -20,7 +20,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/priceLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginStart"
             android:layout_marginTop="@dimen/marginTop"
@@ -30,6 +30,7 @@
             android:hint="@string/price"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
