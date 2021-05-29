@@ -12,12 +12,6 @@
         <variable
             name="viewModel"
             type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyViewModel" />
-
-        <variable
-            name="photo"
-            type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
-
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +19,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/photo_recyclerView"
+            android:id="@+id/photosRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:layout_marginTop="16dp"
@@ -33,6 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button_photo"
             tools:layoutManager="LinearLayoutManager"
+            app:items="@{property.media.photos}"
             tools:listitem="@layout/media_item_content" />
 
         <Button

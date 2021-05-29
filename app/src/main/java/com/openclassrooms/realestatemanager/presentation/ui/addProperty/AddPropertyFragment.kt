@@ -20,8 +20,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.*
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
@@ -30,6 +28,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAdapter
+import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotosAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragmentArgs
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.utils.DateUtil.dateToString
@@ -56,7 +55,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var isEditPropertyView: Boolean = false
 
     //Adapter
-    private lateinit var photoListAdapter: PhotoListAdapter
+    private lateinit var photoListAdapter: PhotosAdapter
 
     //Arguments
     private var photoFile: File? = null
@@ -84,44 +83,46 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private var _binding: AddPropertyFragmentBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = AddPropertyFragmentBinding.inflate(inflater, container, false)
-        if (::photoListAdapter.isInitialized) {
-            photoListAdapter.submitList(list = photos)
+        _binding = AddPropertyFragmentBinding.inflate(inflater, container, false).apply {
+            viewModel = viewModel
+            property = property
         }
+        retrievesArguments()
         isConnected = isNetworkConnected(requireContext())
-        retreiveArguments()
-        return binding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        //  this.binding.handlers = Handlers()
-        photosRecyclerView = binding.media!!.photoRecyclerView
-        binding.lifecycleOwner = this
-        this.binding.viewModel = viewModel
+        binding.lifecycleOwner = this.viewLifecycleOwner
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
+
         setupMenuValues(typeDropdown)
         setFabListener()
         setupUploadImageListener()
         setupImageDialogListener()
         setupSellDateListener()
-        retrieveArguments()
+        retrievesArguments()
+        setupRecyclerView()
+        return binding.root
     }
 
-    private fun retreiveArguments() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //  this.binding.handlers = Handlers()
+        photosRecyclerView = binding.media!!.photosRecyclerView
+        binding.lifecycleOwner = this
+
+    }
+
+    private fun retrievesArguments() {
         val bundle = arguments
         if (bundle == null) {
             Timber.d("PropertyDetailFragment did not received arguments")
             return
         }
+        newPropertyId = args.propertyId
         val args = PropertyDetailFragmentArgs.fromBundle(bundle)
         property = args.property
         isEditPropertyView = args.editPropertyView
@@ -142,13 +143,9 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.dates!!.soldDateDropdown.visibility = View.GONE
             binding.dates!!.switchTitle.visibility = View.GONE
             binding.dates!!.soldSwitch.visibility = View.GONE
+        } else {
+
         }
-    }
-
-    private fun retrieveArguments() {
-        newPropertyId = args.propertyId
-
-        Timber.d("ADDPROPERTY: ${newPropertyId}")
     }
 
     private fun setupSellDateListener() {
@@ -179,23 +176,29 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun setupRecyclerView(
     ) {
-        photosRecyclerView.apply {
-            layoutManager = LinearLayoutManager(activity)
-            val topSpacingItemDecoration = TopSpacingItemDecoration(5)
-            addItemDecoration(topSpacingItemDecoration)
-            photoListAdapter = PhotoListAdapter(
-                this@AddPropertyFragment,
-                dragStartListener = this@AddPropertyFragment
-            ) {
-                Timber.d("REORDER: reorder completed")
-                photoListAdapter.submitList(photos)
-            }
-            binding.media?.photoRecyclerView?.adapter = photoListAdapter
-            val callback: ItemTouchHelper.Callback = ReorderHelperCallback(photoListAdapter)
-            mItemTouchHelper = ItemTouchHelper(callback)
-            mItemTouchHelper?.attachToRecyclerView(binding.media?.photoRecyclerView)
-            photoListAdapter.submitList(photos)
+        if (property != null) {
+            photoListAdapter = PhotosAdapter()
+            binding.media?.photosRecyclerView?.adapter = photoListAdapter
+        } else {
+            Timber.w("ViewModel not initialized when attempting to set up adapter.")
         }
+        /*   photosRecyclerView.apply {
+               layoutManager = LinearLayoutManager(activity)
+               val topSpacingItemDecoration = TopSpacingItemDecoration(5)
+               addItemDecoration(topSpacingItemDecoration)
+               photoListAdapter = PhotoListAdapter(
+                   this@AddPropertyFragment,
+                   dragStartListener = this@AddPropertyFragment
+               ) {
+                   Timber.d("REORDER: reorder completed")
+                   photoListAdapter.submitList(photos)
+               }
+               binding.media?.photoRecyclerView?.adapter = photoListAdapter
+               val callback: ItemTouchHelper.Callback = ReorderHelperCallback(photoListAdapter)
+               mItemTouchHelper = ItemTouchHelper(callback)
+               mItemTouchHelper?.attachToRecyclerView(binding.media?.photoRecyclerView)
+               photoListAdapter.submitList(photos)
+           }*/
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder?) {
@@ -479,7 +482,12 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun submitPhotoToList(photo: Media.Photo) {
         photos.add(photo)
         Timber.d("PHOTOS: ${photo.photoPath}")
-        setupRecyclerView()
+        if (property != null) {
+            photoListAdapter = PhotosAdapter()
+            binding.media?.photosRecyclerView?.adapter = photoListAdapter
+        } else {
+            Timber.w("ViewModel not initialized when attempting to set up adapter.")
+        }
         photoListAdapter.submitList(photos)
     }
 

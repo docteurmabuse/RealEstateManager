@@ -5,9 +5,11 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.property.Media
+import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotosAdapter
 import com.openclassrooms.realestatemanager.utils.DateUtil.dateToString
 import timber.log.Timber
 import java.text.NumberFormat
@@ -109,12 +111,14 @@ class ViewBinding {
                 }
             }
         }
-        /*  @JvmStatic
-          @BindingAdapter("intToText")
-          fun bindIntText(textView: TextView, int: Int?) {
-              int?.let {
-                  textView.text = it.toString()
-              }
-          }*/
+
+        @BindingAdapter("app:items")
+        @JvmStatic
+        fun setItems(listView: RecyclerView, items: List<Media.Photo>?) {
+            items?.let {
+                if (listView.adapter != null)
+                    (listView.adapter as PhotosAdapter).submitList(items)
+            }
+        }
     }
 }
