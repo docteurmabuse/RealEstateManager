@@ -44,6 +44,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
+
                     android:text="@string/address"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -59,16 +61,29 @@
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:property="@{property}" />
 
+                <View
+                    android:id="@+id/dividerAddress"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="70dp"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintBottom_toTopOf="@+id/textViewDescription"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/address" />
+
                 <TextView
                     android:id="@+id/textViewDescription"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
                     android:text="@string/description"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/address" />
+                    app:layout_constraintTop_toBottomOf="@id/dividerAddress" />
 
                 <include
                     android:id="@+id/description"
@@ -85,6 +100,7 @@
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="@dimen/marginStart"
                     android:text="@string/property_type"
                     android:textStyle="bold"
@@ -107,6 +123,7 @@
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="@dimen/marginStart"
                     android:text="@string/price"
                     android:textStyle="bold"
@@ -128,6 +145,7 @@
                     android:id="@+id/textViewCharacteristics"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
                     android:text="@string/characteristics"
@@ -152,6 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
                     android:text="@string/nearby"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -173,6 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
                     android:text="@string/characteristics"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -195,6 +215,7 @@
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:layout_marginStart="@dimen/marginStart"
                     android:text="@string/characteristics"
                     android:textStyle="bold"
@@ -211,6 +232,7 @@
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:photo="@{photo}"
                     app:property="@{property}" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
