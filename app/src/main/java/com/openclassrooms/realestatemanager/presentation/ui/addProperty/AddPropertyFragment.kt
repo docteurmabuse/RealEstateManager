@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -28,6 +29,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.util.CollectionUtils
 import com.google.android.gms.maps.model.LatLng
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -296,7 +298,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
 
-
     private fun setupUploadImageListener() {
         binding.media!!.buttonPhoto.setOnClickListener {
             chooseImage()
@@ -342,13 +343,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun saveProperty() {
 
-        if (location != null) {
-            lat = location!!.latitude
-            lng = location!!.longitude
-        } else {
-            lat = 0.0
-            lng = 0.0
-        }
+
         zipCode = if (binding.address?.zipcodeTextInput?.text?.toString()?.toIntOrNull() != null) {
             binding.address?.zipcodeTextInput?.text.toString().toInt()
         } else {
@@ -365,6 +360,22 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             lat,
             lng
         )
+        if (location != null) {
+            val geocoder = Geocoder(context, Locale.US)
+            var addressResult: List<android.location.Address>? = null
+            addressResult = geocoder.getFromLocationName("$address1 , $city, $zipCode, $country", 1)
+            if (!CollectionUtils.isEmpty(addressResult)) {
+                val fetchedAddress: android.location.Address = addressResult[0]
+                if (fetchedAddress.maxAddressLineIndex > -1) {
+                    location = LatLng(fetchedAddress.latitude, fetchedAddress.longitude)
+                    lat = location!!.latitude
+                    lng = location!!.longitude
+                } else {
+                    lat = 0.0
+                    lng = 0.0
+                }
+            }
+        }
         val addPropertyView = AddPropertyViewModel.AddPropertyView(
             newPropertyId,
             binding.type!!.typeDropdown.text.toString(),
