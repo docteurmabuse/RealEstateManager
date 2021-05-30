@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
-import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -137,6 +136,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         Timber.d("PROPERTY_DETAIL layout: $property")
 
         binding.property = property
+        photos = property.media.photos as ArrayList<Media.Photo>
         binding.dates?.soldSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
             binding.dates!!.property?.sold = isChecked
             binding.dates!!.soldInputLayout.isVisible = isChecked
@@ -148,9 +148,10 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.dates!!.switchTitle.visibility = View.GONE
             binding.dates!!.soldSwitch.visibility = View.GONE
         }
-        setPhotosObserver()
+        viewModel.initPhotosList(photos)
 
         setupRecyclerView()
+        setPhotosObserver()
     }
 
     private fun retrieveArguments() {
@@ -166,29 +167,14 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                 Timber.d("PHOTOS_VIEWMODEL: ${photos}")
             }
         }
-        lifecycleScope.launchWhenResumed {
-            val value = viewModel.state
-            value.collect {
-                when (it.status) {
-                    DataState.Status.SUCCESS -> {
-                        it.data?.let { photoList -> photoList(photoList) }
-                        Timber.d("PHOTOS_VIEWMODEL8resumed: ${photos}")
-
-                    }
-                    DataState.Status.LOADING -> {
-
-                    }
-                    DataState.Status.ERROR -> {
-                        Timber.d("LIST_OBSERVER: ${it.message}")
-                    }
-                }
-            }
-        }
     }
 
     private fun photoList(photoList: ArrayList<Media.Photo>) {
-        photos = photoList
-        Timber.d("PHOTOS_VIEWMODEL: ${photos}")
+        Timber.d("PHOTOS_VIEWMODEL1: ${this.photos}")
+        this.photos.clear()
+        this.photos.addAll(photoList)
+        // photos.addAll(photoList)
+        Timber.d("PHOTOS_VIEWMODEL2: ${photos}")
         setupRecyclerView()
     }
 
@@ -518,13 +504,9 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun submitPhotoToList(photo: Media.Photo) {
         //photos.add(photo)
-
         Timber.d("PHOTOS: ${photo.photoPath}")
         viewModel.addPhotoToPhotosList(photo)
         setPhotosObserver()
-
-        // setupRecyclerView()
-        //  photoListAdapter.submitList(photos)
     }
 
     private val selectImageFromGalleryResult =

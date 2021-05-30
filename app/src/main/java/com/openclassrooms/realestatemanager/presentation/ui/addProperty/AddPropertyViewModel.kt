@@ -25,7 +25,7 @@ class AddPropertyViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val addProperty: AddProperty
 ) : ViewModel() {
-    private val _statePhotos =
+    private var _statePhotos =
         MutableStateFlow<ArrayList<Media.Photo>>(arrayListOf())
     val statePhotos: StateFlow<List<Media.Photo>>
         get() = _statePhotos
@@ -34,6 +34,7 @@ class AddPropertyViewModel @Inject constructor(
         MutableStateFlow<DataState<ArrayList<Media.Photo>>>(DataState.loading(null))
     val state: StateFlow<DataState<ArrayList<Media.Photo>>>
         get() = _state
+
 
     fun addPropertyToRoomDb(property: String) {
         Timber.tag("FabClick").d("It's ok FAB2: $property")
@@ -54,6 +55,13 @@ class AddPropertyViewModel @Inject constructor(
             PropertyDetailFragment.ARG_PROPERTY,
             item
         )
+    }
+
+    fun initPhotosList(photos: ArrayList<Media.Photo>) {
+        viewModelScope.launch {
+            _statePhotos.value.addAll(photos)
+            Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
+        }
     }
 
     fun addPhotoToPhotosList(photo: Media.Photo) {
