@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
-    <external-path
+    <!--<external-path
         name="real_estate_manager_image"
         path="Android/data/com.openclassrooms.realestatemanager/files/Pictures" />
     <cache-path
@@ -8,5 +8,15 @@
         path="." />
     <files-path
         name="images"
+        path="." />-->
+
+    <external-cache-path
+        name="external_cache_files"
+        path="." />
+    <external-files-path
+        name="external_files_files"
+        path="." />
+    <external-path
+        name="external_files"
         path="." />
 </paths>

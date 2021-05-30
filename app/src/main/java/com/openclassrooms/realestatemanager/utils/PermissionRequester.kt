@@ -25,4 +25,5 @@ class PermissionRequester(
         this.onGranted = onGranted
         launcher.launch(permission)
     }
+
 }

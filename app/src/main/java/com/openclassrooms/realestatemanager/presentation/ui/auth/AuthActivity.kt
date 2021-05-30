@@ -43,13 +43,6 @@ class AuthActivity : BaseActivity() {
         firebaseAuthContract.launch(RC_SIGN_IN)
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (this.isCurrentUserLogged()) {
-            startMainActivity()
-        }
-    }
-
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)

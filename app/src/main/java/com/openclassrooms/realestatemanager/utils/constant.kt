@@ -11,6 +11,9 @@ const val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
 const val READ_INTERNAL_STORAGE_REQUEST = 0x1046
 const val MAPVIEW_BUNDLE_KEY = "MapViewBundleKey"
 const val EDIT_PROPERTY_VIEW = false
+const val REQ_CAPTURE = 100
+const val RES_IMAGE = 100
+
 
 
 

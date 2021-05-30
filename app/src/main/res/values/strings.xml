@@ -71,5 +71,9 @@
     <string name="user_location_permission_not_granted">Location permission is not granted</string>
     <string name="search_an_address">Search an address</string>
     <string name="engine_init_error">Init error</string>
+    <string name="file_provider_name">.fileprovider</string>
+    <string name="select_capture_image"><![CDATA[>Please select or capture image]]></string>
+    <string name="permission_not_granted">Permission not granted</string>
+    <string name="some_err">some error</string>
 
 </resources>

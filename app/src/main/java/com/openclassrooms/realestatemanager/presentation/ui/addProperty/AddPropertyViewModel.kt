@@ -5,7 +5,6 @@ import android.view.View
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseAuth
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Address
@@ -23,7 +22,9 @@ import javax.inject.Inject
 @HiltViewModel
 class AddPropertyViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val addProperty: AddProperty
+    private val addProperty: AddProperty,
+    private val updateProperty: AddProperty
+
 ) : ViewModel() {
     private var _statePhotos =
         MutableStateFlow<ArrayList<Media.Photo>>(arrayListOf())
@@ -36,15 +37,25 @@ class AddPropertyViewModel @Inject constructor(
         get() = _state
 
 
-    fun addPropertyToRoomDb(property: String) {
+    fun addPropertyToRoomDb(property: Property) {
         Timber.tag("FabClick").d("It's ok FAB2: $property")
 
         viewModelScope.launch {
-            val currentAgentId = FirebaseAuth.getInstance().currentUser.uid
             // property.agentId = currentAgentId
             // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
 
-            // addProperty.invoke(property)
+            addProperty.invoke(property)
+        }
+    }
+
+    fun updatePropertyToRoomDb(property: Property) {
+        Timber.tag("UPDATE_FabClick").d("UPDATE_FabClick: $property")
+
+        viewModelScope.launch {
+            // property.agentId = currentAgentId
+            // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
+
+            updateProperty.invoke(property)
         }
     }
 
