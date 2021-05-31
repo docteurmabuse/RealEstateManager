@@ -75,5 +75,7 @@
     <string name="select_capture_image"><![CDATA[>Please select or capture image]]></string>
     <string name="permission_not_granted">Permission not granted</string>
     <string name="some_err">some error</string>
+    <string name="agent_picture">AgentPicture</string>
+    <string name="name">Name</string>
 
 </resources>

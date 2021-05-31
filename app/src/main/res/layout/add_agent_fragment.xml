@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="agent"
+            type="com.openclassrooms.realestatemanager.domain.model.agent.Agent" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.ui.addAgent.AddAgentFragment">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/agentCardView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:cardCornerRadius="100dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/agentPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:contentDescription="@string/agent_picture"
+                android:scaleType="fitCenter"
+                tools:src="@tools:sample/avatars" />
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/agentNameLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginTop"
+            android:hint="@string/name"
+            android:inputType="textPostalAddress"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/agentCardView">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/agentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{agent.name}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/agentEmailLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginTop"
+            android:hint="@string/name"
+            android:inputType="textPostalAddress"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/agentNameLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/agentEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{agent.email}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/agentPhoneLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginTop"
+            android:hint="@string/name"
+            android:inputType="textPostalAddress"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/agentEmailLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/agentPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{agent.Phone}" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
