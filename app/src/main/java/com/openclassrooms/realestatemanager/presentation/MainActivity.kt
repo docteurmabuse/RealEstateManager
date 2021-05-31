@@ -79,7 +79,8 @@ class MainActivity constructor(
         setContentView(binding.root)
         setupActionBarWithNavController(navController, appBarConfiguration)
         setObserver()
-        setFabListener()
+        setAddPropertyFabListener()
+        setAddAgentFabListener()
     }
 
 
@@ -104,7 +105,18 @@ class MainActivity constructor(
         viewModel.fetchProperties()
     }
 
-    private fun setFabListener() {
+    private fun setAddAgentFabListener() {
+        binding.fabAddAgent.setOnClickListener {
+            val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
+            val isAddAgentView = true
+            val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddAgentFragment(
+                isAddAgentView
+            )
+            navHostFragment.navigate(action)
+        }
+    }
+
+    private fun setAddPropertyFabListener() {
         binding.fabAddProperty.setOnClickListener {
             val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
             val newPropertyId = UUID.randomUUID().toString()
