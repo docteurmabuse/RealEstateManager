@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -29,7 +28,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.common.util.CollectionUtils
 import com.google.android.gms.maps.model.LatLng
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -349,33 +347,27 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         } else {
             10000
         }
+        val addressLine = "$address1, $city, $state $zipCode, $country"
+        location = GeocodeUtils.getLatLngFromAddress(addressLine, requireContext())
+        address1 = binding.address?.address1TextInput?.text.toString()
+        address2 = binding.address?.address2TextInput?.text.toString()
+        city = binding.address?.cityTextInput?.text.toString()
+        state = binding.address?.stateTextInput?.text.toString()
+        country = binding.address?.countryTextInput?.text.toString()
+        area = binding.address?.areaTextInput?.text.toString()
         val address = Address(
-            address1 = binding.address?.address1TextInput?.text.toString(),
-            address2 = binding.address?.address2TextInput?.text.toString(),
-            city = binding.address?.cityTextInput?.text.toString(),
+            address1,
+            address2,
+            city,
             zipCode,
-            state = binding.address?.stateTextInput?.text.toString(),
-            country = binding.address?.countryTextInput?.text.toString(),
-            area = binding.address?.areaTextInput?.text.toString(),
+            state,
+            country,
+            area,
             lat,
             lng
         )
-        if (location != null) {
-            val geocoder = Geocoder(context, Locale.US)
-            var addressResult: List<android.location.Address>? = null
-            addressResult = geocoder.getFromLocationName("$address1 , $city, $zipCode, $country", 1)
-            if (!CollectionUtils.isEmpty(addressResult)) {
-                val fetchedAddress: android.location.Address = addressResult[0]
-                if (fetchedAddress.maxAddressLineIndex > -1) {
-                    location = LatLng(fetchedAddress.latitude, fetchedAddress.longitude)
-                    lat = location!!.latitude
-                    lng = location!!.longitude
-                } else {
-                    lat = 0.0
-                    lng = 0.0
-                }
-            }
-        }
+
+
         val addPropertyView = AddPropertyViewModel.AddPropertyView(
             newPropertyId,
             binding.type!!.typeDropdown.text.toString(),
