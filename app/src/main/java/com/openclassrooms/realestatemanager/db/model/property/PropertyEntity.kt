@@ -3,7 +3,9 @@ package com.openclassrooms.realestatemanager.db.model.property
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.utils.DateUtil
@@ -12,12 +14,11 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(
     tableName = "properties",
-//    foreignKeys = [ForeignKey(
-//        entity = AgentEntity::class,
-//        parentColumns = ["id"]
-//        ,
-//        childColumns = ["agent_id"]
-//    )],
+    foreignKeys = [ForeignKey(
+        entity = AgentEntity::class,
+        parentColumns = ["id"],
+        childColumns = ["agent_id"]
+    )],
 )
 data class PropertyEntity(
     @PrimaryKey(autoGenerate = true)
