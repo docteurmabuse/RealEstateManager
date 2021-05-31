@@ -24,8 +24,6 @@
             android:layout_marginEnd="@dimen/marginEnd"
             android:hint="@string/select_a_property_type"
             android:inputType="textAutoComplete"
-            app:endIconMode="clear_text"
-            app:endIconTint="@color/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_goneMarginEnd="@dimen/marginEnd">

@@ -23,7 +23,7 @@ data class AddressEntity(
     var address2: String? = "",
     var city: String? = "New York",
     @ColumnInfo(name = "zip_code")
-    var zipCode: Int? = null,
+    var zipCode: String? = "",
     var state: String? = "NY",
     var country: String? = "United States",
     var area: String?,

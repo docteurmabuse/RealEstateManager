@@ -184,7 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@={Converter.intToString(zipcodeTextInput,property.address.zipCode,property.address.zipCode) }"
+                android:text="@={property.address.zipCode }"
                 android:textSize="@dimen/textSize"
                 app:layout_constraintTop_toBottomOf="@id/city_text_input" />
 

@@ -87,7 +87,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var address1: String? = ""
     private var address2: String? = ""
     private var city: String = "New York"
-    private var zipCode: Int? = null
+    private var zipCode: String? = ""
     private var state: String? = "NY"
     private var country: String = "United States"
     private var area: String? = ""
@@ -342,19 +342,18 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun saveProperty() {
 
 
-        zipCode = if (binding.address?.zipcodeTextInput?.text?.toString()?.toIntOrNull() != null) {
-            binding.address?.zipcodeTextInput?.text.toString().toInt()
-        } else {
-            10000
-        }
-        val addressLine = "$address1, $city, $state $zipCode, $country"
-        location = GeocodeUtils.getLatLngFromAddress(addressLine, requireContext())
+        zipCode =
+            binding.address?.zipcodeTextInput?.text.toString()
+
         address1 = binding.address?.address1TextInput?.text.toString()
         address2 = binding.address?.address2TextInput?.text.toString()
         city = binding.address?.cityTextInput?.text.toString()
         state = binding.address?.stateTextInput?.text.toString()
         country = binding.address?.countryTextInput?.text.toString()
         area = binding.address?.areaTextInput?.text.toString()
+        val addressLine = "$address1, $city, $state $zipCode, $country"
+        location = GeocodeUtils.getLatLngFromAddress(addressLine, requireContext())
+
         val address = Address(
             address1,
             address2,
