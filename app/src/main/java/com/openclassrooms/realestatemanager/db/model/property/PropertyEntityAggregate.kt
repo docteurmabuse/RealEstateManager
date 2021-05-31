@@ -31,12 +31,12 @@ class PropertyEntityAggregate(
             return PropertyEntityAggregate(
                 property = PropertyEntity.fromDomain(property),
                 photos = property.media.photos.map {
-                    PhotoEntity.fromDomain(property.id, it)
+                    PhotoEntity.fromDomain(property.id!!, it)
                 },
                 videos = property.media.videos.map {
-                    VideoEntity.fromDomain(property.id, it)
+                    VideoEntity.fromDomain(property.id!!, it)
                 },
-                address = AddressEntity.fromDomain(property.id, property.address)
+                address = AddressEntity.fromDomain(property.id!!, property.address)
             )
         }
     }

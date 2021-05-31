@@ -71,7 +71,7 @@
         <argument
             android:name="propertyId"
             android:defaultValue=""
-            app:argType="String" />
+            app:argType="string" />
         <argument
             android:name="EDIT_PROPERTY_VIEW"
             android:defaultValue="false"

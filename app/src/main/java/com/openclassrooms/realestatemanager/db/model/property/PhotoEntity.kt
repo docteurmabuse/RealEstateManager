@@ -17,13 +17,13 @@ data class PhotoEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
     @ColumnInfo(name = "property_id", index = true)
-    var property_id: Long,
+    var property_id: String,
     var name: String?,
     @ColumnInfo(name = " photo_path")
     var photoPath: String
 ) {
     companion object {
-        fun fromDomain(propertyId: Long, photo: Media.Photo): PhotoEntity {
+        fun fromDomain(propertyId: String, photo: Media.Photo): PhotoEntity {
             return PhotoEntity(
                 property_id = propertyId,
                 name = photo.name,

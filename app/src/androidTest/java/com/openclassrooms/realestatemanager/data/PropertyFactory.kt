@@ -71,7 +71,7 @@ object PropertyFactory {
             makeRandomString(),
             makeRandomString(),
             makeRandomString(),
-            makeRandomInt(),
+            makeRandomString(),
             makeRandomString(),
             makeRandomString(),
             makeRandomString(),

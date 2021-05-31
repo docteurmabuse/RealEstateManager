@@ -10,7 +10,7 @@ import java.util.*
 
 @Parcelize
 data class Property(
-    var _id: Long = 0,
+    var _id: String? = "",
     var _type: String? = "",
     var _price: Int? = null,
     var _surface: Int? = null,

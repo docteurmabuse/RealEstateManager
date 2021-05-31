@@ -30,7 +30,7 @@ class RoomPersistence @Inject constructor(
         return propertyDao.insertProperty(property)
     }
 
-    override suspend fun getPropertyById(propertyId: Int): PropertyWithAgentEntity {
+    override suspend fun getPropertyById(propertyId: String): PropertyWithAgentEntity {
         return propertyDao.getPropertyById(propertyId)
     }
 

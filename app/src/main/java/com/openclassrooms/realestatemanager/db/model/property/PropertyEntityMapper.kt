@@ -43,7 +43,7 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
 
     override fun mapFromDomainModel(domainModel: Property): PropertyEntity {
         return PropertyEntity(
-            id = domainModel.id,
+            id = domainModel.id!!,
             type = domainModel.type.toString(),
             price = domainModel.price,
             surface = domainModel.surface,

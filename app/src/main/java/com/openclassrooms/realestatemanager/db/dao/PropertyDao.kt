@@ -31,7 +31,7 @@ interface PropertyDao {
     @Transaction
     //Get PropertyEntity by Id
     @Query("SELECT * FROM properties WHERE id = :id")
-    suspend fun getPropertyById(id: Int): PropertyWithAgentEntity
+    suspend fun getPropertyById(id: String): PropertyWithAgentEntity
 
     @Transaction
     //Get PropertiesEntity List

@@ -10,6 +10,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.utils.DateUtil
 import kotlinx.parcelize.Parcelize
+import java.util.*
 
 @Parcelize
 @Entity(
@@ -23,8 +24,8 @@ import kotlinx.parcelize.Parcelize
 //indices = [Index("agent_id")]
 )
 data class PropertyEntity(
-    @PrimaryKey(autoGenerate = true)
-    var id: Long = 0,
+    @PrimaryKey(autoGenerate = false)
+    var id: String = UUID.randomUUID().toString(),
     var type: String?,
     var price: Int?,
     var surface: Int?,
@@ -52,7 +53,7 @@ data class PropertyEntity(
     companion object {
         fun fromDomain(domainModel: Property): PropertyEntity {
             return PropertyEntity(
-                id = domainModel.id,
+                id = domainModel.id!!,
                 type = domainModel.type.toString(),
                 price = domainModel.price,
                 surface = domainModel.surface,

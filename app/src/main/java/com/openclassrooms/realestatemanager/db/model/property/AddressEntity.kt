@@ -17,7 +17,7 @@ data class AddressEntity(
     @PrimaryKey(autoGenerate = true)
     var id: Long? = null,
     @ColumnInfo(name = "property_id", index = true)
-    var property_id: Long,
+    var property_id: String,
     var address1: String? = "",
     @ColumnInfo(name = "address_2")
     var address2: String? = "",
@@ -31,7 +31,7 @@ data class AddressEntity(
     var lng: Double?
 ) {
     companion object {
-        fun fromDomain(propertyId: Long, address: Address?): AddressEntity {
+        fun fromDomain(propertyId: String, address: Address?): AddressEntity {
             return AddressEntity(
                 property_id = propertyId,
                 address1 = address?.address1,

@@ -106,7 +106,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                 PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
                     EDIT_PROPERTY_VIEW,
                     it,
-                    it.id
+                    it.id!!
                 )
             }
 

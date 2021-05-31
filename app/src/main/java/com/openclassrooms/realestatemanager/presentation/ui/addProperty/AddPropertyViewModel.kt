@@ -102,7 +102,7 @@ class AddPropertyViewModel @Inject constructor(
 
     private fun addPropertyViewToProperty(addPropertyView: AddPropertyView): Property {
         val property = Property()
-        property.id = addPropertyView.id
+        property.id = UUID.randomUUID().toString()
         property.type = addPropertyView.type
         if (addPropertyView.price!!.isNotEmpty()) {
             property.price = addPropertyView.price!!.toInt()
@@ -146,7 +146,7 @@ class AddPropertyViewModel @Inject constructor(
     }
 
     data class AddPropertyView(
-        var id: Long = 0,
+        var id: String = UUID.randomUUID().toString(),
         var type: String? = "",
         var price: String? = "",
         var surface: String? = "",

@@ -31,6 +31,7 @@ import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+import java.util.*
 
 
 /**
@@ -155,7 +156,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
     private fun setFabListener() {
         binding.addPropertyFAB?.setOnClickListener {
             val navHostFragment = findNavController()
-            val newPropertyId = properties.size.toLong() + 1
+            val newPropertyId = UUID.randomUUID().toString()
             val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
                 newPropertyId, false, null
             )
