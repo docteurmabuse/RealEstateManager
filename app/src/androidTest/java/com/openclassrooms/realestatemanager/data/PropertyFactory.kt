@@ -75,8 +75,8 @@ object PropertyFactory {
             makeRandomString(),
             makeRandomString(),
             makeRandomString(),
-            makeRandomString(),
-            makeRandomString(),
+            makeRandomDouble(),
+            makeRandomDouble(),
         )
     }
 
@@ -84,6 +84,9 @@ object PropertyFactory {
 
     private fun makeRandomInt() =
         ThreadLocalRandom.current().nextInt(0, 1000 + 1)
+
+    private fun makeRandomDouble() =
+        ThreadLocalRandom.current().nextDouble(0.0, 1000.0 + 1.0)
 
     private fun makeRandomLong() =
         ThreadLocalRandom.current().nextLong(1619155158, 1619155158 + 1)

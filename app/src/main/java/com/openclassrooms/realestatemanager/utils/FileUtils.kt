@@ -5,9 +5,9 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -30,8 +30,8 @@ suspend fun Activity.compressImageFile(
             val (hgt, wdt) = getImageHgtWdt(uri)
             try {
                 val bm = getBitmapFromUri(uri)
-                Log.d(tag, "original bitmap height${bm?.height} width${bm?.width}")
-                Log.d(tag, "Dynamic height$hgt width$wdt")
+                Timber.d("original bitmap height${bm?.height} width${bm?.width}")
+                Timber.d("Dynamic height$hgt width$wdt")
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -77,8 +77,8 @@ suspend fun Activity.compressImageFile(
                 if (shouldOverride) {
                     val srcFile = File(path)
                     val result = tmpFile.copyTo(srcFile, true)
-                    Log.d(tag, "copied file ${result.absolutePath}")
-                    Log.d(tag, "Delete temp file ${tmpFile.delete()}")
+                    Timber.d("copied file ${result.absolutePath}")
+                    Timber.d("Delete temp file ${tmpFile.delete()}")
                 }
             }
 
