@@ -77,5 +77,6 @@
     <string name="some_err">some error</string>
     <string name="agent_picture">AgentPicture</string>
     <string name="name">Name</string>
+    <string name="email">Email</string>
 
 </resources>

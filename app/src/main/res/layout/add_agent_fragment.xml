@@ -31,8 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:contentDescription="@string/agent_picture"
-                android:scaleType="fitCenter"
-                tools:src="@tools:sample/avatars" />
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_baseline_account_circle_24" />
         </androidx.cardview.widget.CardView>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -45,10 +45,11 @@
             android:layout_marginEnd="@dimen/marginEnd"
             android:layout_marginBottom="@dimen/marginTop"
             android:hint="@string/name"
-            android:inputType="textPostalAddress"
+            android:inputType="textPersonName"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/agentCardView">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -67,11 +68,12 @@
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginEnd="@dimen/marginEnd"
             android:layout_marginBottom="@dimen/marginTop"
-            android:hint="@string/name"
-            android:inputType="textPostalAddress"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/agentNameLayout">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -90,11 +92,13 @@
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginEnd="@dimen/marginEnd"
             android:layout_marginBottom="@dimen/marginTop"
-            android:hint="@string/name"
-            android:inputType="textPostalAddress"
+            android:hint="Phone"
+            android:inputType="phone"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
             app:layout_constraintTop_toBottomOf="@id/agentEmailLayout">
 
             <com.google.android.material.textfield.TextInputEditText

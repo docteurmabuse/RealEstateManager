@@ -37,6 +37,8 @@ class MainActivity constructor(
     private lateinit var binding: ActivityMainBinding
     private val viewModel: PropertyListViewModel by viewModels()
     private val addPropertyViewModel: AddPropertyViewModel by viewModels()
+    private var isAddAgentView = false
+    private var isAddPropertyView = false
 
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment }
     private val navController by lazy { navHostFragment.navController }
@@ -108,7 +110,7 @@ class MainActivity constructor(
     private fun setAddAgentFabListener() {
         binding.fabAddAgent.setOnClickListener {
             val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
-            val isAddAgentView = true
+            isAddAgentView = true
             val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddAgentFragment(
                 isAddAgentView
             )
@@ -123,7 +125,7 @@ class MainActivity constructor(
             val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
                 newPropertyId, false, null
             )
-
+            isAddPropertyView = true
             navHostFragment.navigate(action)
             Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
         }
