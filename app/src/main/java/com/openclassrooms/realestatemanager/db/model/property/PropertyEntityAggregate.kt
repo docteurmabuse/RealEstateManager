@@ -1,10 +1,11 @@
 package com.openclassrooms.realestatemanager.db.model.property
 
 import androidx.room.Embedded
+import androidx.room.Entity
 import androidx.room.Relation
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 
-
+@Entity
 class PropertyEntityAggregate(
     @Embedded
     val property: PropertyEntity,
@@ -22,8 +23,9 @@ class PropertyEntityAggregate(
         parentColumn = "id",
         entityColumn = "property_id"
     )
-    val address: AddressEntity
-) {
+    val address: AddressEntity,
+
+    ) {
     companion object {
         fun fromDomain(property: Property): PropertyEntityAggregate {
             return PropertyEntityAggregate(

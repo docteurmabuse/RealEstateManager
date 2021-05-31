@@ -9,11 +9,14 @@ interface AgentDao {
 
     //Insert AgentEntity
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAgent(agent: AgentEntity): Long
+    suspend fun insertAgent(
+        agent: AgentEntity,
+    ): Long
+
 
     //Get All AgentEntity
     @Query("SELECT * FROM agent ORDER BY name DESC")
-    fun getAllAgent(): Flow<List<AgentEntity>>
+    fun getAllAgents(): Flow<List<AgentEntity>>
 
     //Get AgentEntity by Id
     @Query("SELECT * FROM agent WHERE id = :id")
@@ -21,5 +24,7 @@ interface AgentDao {
 
     //Update AgentEntity
     @Update
-    suspend fun updateAgent(agent: AgentEntity)
+    suspend fun updateAgent(agent: AgentEntity) {
+
+    }
 }

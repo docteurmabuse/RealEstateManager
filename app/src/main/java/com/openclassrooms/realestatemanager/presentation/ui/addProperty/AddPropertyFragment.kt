@@ -36,6 +36,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
+import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -93,11 +94,11 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var area: String? = ""
     private var lat: Double? = null
     private var lng: Double? = null
-
     private var queryImageUrl: String = ""
     private var imgPath: String = ""
     private var imageUri: Uri? = null
     private var isPermissionsAllowed: Boolean = false
+    private var agent: Agent? = null
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -387,7 +388,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             //  DateUtil.stringToDate(binding.dates!!.soldDateDropdown.text.toString()),
             null, null,
             Media(photos, videos),
-            "Maurice Chevalier",
+            agent,
             address
         )
         Timber.tag("FabClick")

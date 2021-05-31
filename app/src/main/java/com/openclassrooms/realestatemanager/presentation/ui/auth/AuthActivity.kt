@@ -7,7 +7,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityAuthBinding
-import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.presentation.MainActivity
 import com.openclassrooms.realestatemanager.presentation.ui.BaseActivity
 import com.openclassrooms.realestatemanager.utils.FirebaseAuthContract
@@ -26,9 +25,9 @@ class AuthActivity : BaseActivity() {
                 Timber.d("auth: start MainActivity")
                 startMainActivity()
                 showSnackBar(binding.root, getString(R.string.connection_succeed))
-                val agent =
+             /*   val agent =
                     Agent(result.uid, result.email, result.email, result.photoUrl.toString())
-                authViewModel.addAgentToRoomDb(agent)
+                authViewModel.addAgentToRoomDb(agent)*/
 
             } else {
                 Timber.e("auth: authentication error")

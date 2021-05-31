@@ -6,6 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
+import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
@@ -139,7 +140,7 @@ class AddPropertyViewModel @Inject constructor(
         property.sellDate = addPropertyView.sellDate
         property.soldDate = addPropertyView.soldDate
         property.media = addPropertyView.media
-        property.agentId = addPropertyView.agentId
+        property.agent = addPropertyView.agent
         property.address = addPropertyView.address
         return property
     }
@@ -163,7 +164,7 @@ class AddPropertyViewModel @Inject constructor(
         var sellDate: Date? = null,
         var soldDate: Date? = null,
         var media: Media = Media(arrayListOf(), arrayListOf()),
-        var agentId: String = "Marlon Brando",
+        var agent: Agent? = null,
         var address: Address?
 
     )

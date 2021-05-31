@@ -17,8 +17,10 @@ import kotlinx.parcelize.Parcelize
     foreignKeys = [ForeignKey(
         entity = AgentEntity::class,
         parentColumns = ["id"],
-        childColumns = ["agent_id"]
-    )],
+        childColumns = ["agent_id"],
+        onDelete = ForeignKey.NO_ACTION
+    )]
+//indices = [Index("agent_id")]
 )
 data class PropertyEntity(
     @PrimaryKey(autoGenerate = true)
@@ -45,7 +47,7 @@ data class PropertyEntity(
     @ColumnInfo(name = "sold_date")
     var soldDate: Long? = null,
     @ColumnInfo(name = "agent_id", index = true)
-    var agent_id: String = ""
+    var agent_id: String? = ""
 ) : Parcelable {
     companion object {
         fun fromDomain(domainModel: Property): PropertyEntity {
@@ -67,7 +69,7 @@ data class PropertyEntity(
                 sold = domainModel.sold,
                 sellDate = DateUtil.dateToLong(domainModel.soldDate),
                 soldDate = DateUtil.dateToLong(domainModel.soldDate),
-                agent_id = domainModel.agentId
+                agent_id = domainModel.agent?.id
             )
         }
     }
@@ -75,7 +77,8 @@ data class PropertyEntity(
     fun toDomain(
         photos: List<PhotoEntity>,
         videos: List<VideoEntity>,
-        address: AddressEntity
+        address: AddressEntity,
+        agent: AgentEntity
     ): Property {
         return Property(
             _id = id,
@@ -99,7 +102,7 @@ data class PropertyEntity(
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
             ),
-            _agentId = agent_id,
+            _agent = agent.toDomain(),
             _address = address.toDomain()
         )
     }

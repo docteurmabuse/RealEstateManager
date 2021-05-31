@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.openclassrooms.realestatemanager.BR
+import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
@@ -27,7 +28,7 @@ data class Property(
     var _sellDate: Date? = null,
     var _soldDate: Date? = null,
     var _media: Media = Media(arrayListOf(), arrayListOf()),
-    var _agentId: String = "",
+    var _agent: Agent? = null,
     var _address: Address? = null
 ) : Parcelable, BaseObservable() {
     @get:Bindable
@@ -175,11 +176,11 @@ data class Property(
         }
 
     @get:Bindable
-    var agentId
-        get() = _agentId
+    var agent
+        get() = _agent
         set(value) {
-            _agentId = value
-            notifyPropertyChanged(BR.agentId)
+            _agent = value
+            notifyPropertyChanged(BR.agent)
         }
 
     @get:Bindable

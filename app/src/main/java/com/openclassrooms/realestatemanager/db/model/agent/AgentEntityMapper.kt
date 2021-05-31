@@ -4,11 +4,13 @@ import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper
 
 class AgentEntityMapper : DomainMapper<AgentEntity, Agent> {
+
     override fun mapToDomainModel(model: AgentEntity): Agent {
         return Agent(
             id = model.id,
             name = model.name,
             email = model.email,
+            phone = model.phone,
             photoUrl = model.photoUrl
         )
     }
@@ -18,6 +20,7 @@ class AgentEntityMapper : DomainMapper<AgentEntity, Agent> {
             id = domainModel.id,
             name = domainModel.name,
             email = domainModel.email,
+            phone = domainModel.phone,
             photoUrl = domainModel.photoUrl
         )
     }

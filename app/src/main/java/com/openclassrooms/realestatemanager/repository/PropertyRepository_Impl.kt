@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.repository
 
 import com.openclassrooms.realestatemanager.db.Persistence
-import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
+import com.openclassrooms.realestatemanager.db.model.property.PropertyWithAgentEntity
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.utils.DispatchersProvider
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -17,7 +17,7 @@ class PropertyRepository_Impl @Inject constructor(
 ) : PropertyRepository {
 
     override suspend fun addProperty(property: Property) {
-        persistence.storeProperty(PropertyEntityAggregate.fromDomain(property))
+        persistence.storeProperty(PropertyWithAgentEntity.fromDomain(property))
     }
 
     override suspend fun searchProperty(query: String): List<Property> {
@@ -28,7 +28,15 @@ class PropertyRepository_Impl @Inject constructor(
         return persistence.getAllProperties()
             .distinctUntilChanged()
             .map { propertyList ->
-                propertyList.map { it.property.toDomain(it.photos, it.videos, it.address) }
+                propertyList.map {
+                    it.propertyEntityAggregate.property.toDomain(
+                        it.propertyEntityAggregate.photos,
+                        it.propertyEntityAggregate.videos,
+                        it.propertyEntityAggregate.address,
+                        it.agent
+                    )
+                }
+                // propertyList.map { it.property.toDomain(it.photos, it.videos, it.address) }
             }
     }
 
@@ -42,7 +50,7 @@ class PropertyRepository_Impl @Inject constructor(
     }
 
     override suspend fun updateProperty(property: Property) {
-        persistence.updateProperty(PropertyEntityAggregate.fromDomain(property))
+        persistence.updateProperty(PropertyWithAgentEntity.fromDomain(property))
     }
 
 

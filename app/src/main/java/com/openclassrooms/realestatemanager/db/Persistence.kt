@@ -1,19 +1,21 @@
 package com.openclassrooms.realestatemanager.db
 
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
-import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
+import com.openclassrooms.realestatemanager.db.model.property.PropertyWithAgentEntity
 import kotlinx.coroutines.flow.Flow
 
 interface Persistence {
     suspend fun storeAgent(agent: AgentEntity): Long
 
-    suspend fun getAllProperties(): Flow<List<PropertyEntityAggregate>>
+    suspend fun getAllAgents(): Flow<List<AgentEntity>>
 
-    suspend fun getPropertyById(propertyId: Int): PropertyEntityAggregate
+    suspend fun getAllProperties(): Flow<List<PropertyWithAgentEntity>>
+
+    suspend fun getPropertyById(propertyId: Int): PropertyWithAgentEntity
 
     suspend fun storeProperty(
-        property: PropertyEntityAggregate
+        property: PropertyWithAgentEntity
     )
 
-    suspend fun updateProperty(property: PropertyEntityAggregate)
+    suspend fun updateProperty(property: PropertyWithAgentEntity)
 }
