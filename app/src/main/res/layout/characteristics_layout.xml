@@ -38,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="4"
-                android:text="@{`` + property.surface}"
+                android:inputType="number"
+                android:text="@{property.surface == null ? `` : property.surface}"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_square_foot_24dp"
                 app:endIconMode="clear_text" />
@@ -66,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:inputType="number"
-                android:text="@{`` + property.roomNumber}"
+                android:text="@{property.roomNumber == null ? `` : property.roomNumber}"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_room_24dp"
                 app:endIconMode="clear_text" />
@@ -96,7 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@{`` + property.bedroomNumber}"
+                android:text="@{property.bedroomNumber == null ? `` : property.bedroomNumber}"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_bedroom_parent_24dp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -126,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:inputType="number"
-                android:text="@{`` + property.bathroomNumber}"
+                android:text="@{property.bathroomNumber == null ? `` : property.bathroomNumber}"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_bathroom_24dp" />
         </com.google.android.material.textfield.TextInputLayout>

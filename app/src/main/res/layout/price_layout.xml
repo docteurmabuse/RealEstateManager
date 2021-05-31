@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:inputType="number"
-                android:text="@{``+property.price}"
+                android:text="@{property.price == null ? `` : property.price }"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/baseline_attach_money_24" />
         </com.google.android.material.textfield.TextInputLayout>
