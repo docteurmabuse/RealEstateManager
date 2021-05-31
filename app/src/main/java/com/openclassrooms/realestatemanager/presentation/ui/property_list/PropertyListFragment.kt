@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -14,10 +15,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.nambimobile.widgets.efab.ExpandableFab
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
@@ -90,6 +93,25 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
             } else {
                 itemView.findNavController().navigate(R.id.propertyDetailFragment, bundle)
             }
+
+
+            val expandableFabPortrait =
+                view.findViewById<ExpandableFab>(R.id.expandable_fab_portrait)
+            val expandableFabLandscape =
+                view.findViewById<ExpandableFab>(R.id.expandable_fab_landscape)
+            val bottomAppBar = view.findViewById<BottomAppBar>(R.id.bottomAppBar)
+
+            if (expandableFabPortrait.visibility == View.VISIBLE) {
+                (expandableFabPortrait.layoutParams as CoordinatorLayout.LayoutParams).anchorId =
+                    bottomAppBar.id
+                (expandableFabLandscape.layoutParams as CoordinatorLayout.LayoutParams).anchorId =
+                    View.NO_ID
+            } else {
+                (expandableFabPortrait.layoutParams as CoordinatorLayout.LayoutParams).anchorId =
+                    View.NO_ID
+                (expandableFabLandscape.layoutParams as CoordinatorLayout.LayoutParams).anchorId =
+                    bottomAppBar.id
+            }
         }
 
         /**
@@ -131,7 +153,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
     }
 
     private fun setFabListener() {
-        binding.addPropertyFAB.setOnClickListener {
+        binding.addPropertyFAB?.setOnClickListener {
             val navHostFragment = findNavController()
             val newPropertyId = properties.size.toLong() + 1
             val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(

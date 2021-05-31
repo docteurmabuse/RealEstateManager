@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom
 
 object PropertyFactory {
 
-    private val propertyId: Long = 1
+    private val propertyId: String = UUID.randomUUID().toString()
 
     private val makeRandomPhotoList =
         listOf(makeRandomPhoto(), makeRandomPhoto(), makeRandomPhoto())

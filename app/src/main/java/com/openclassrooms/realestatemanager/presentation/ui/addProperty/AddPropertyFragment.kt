@@ -69,7 +69,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     //Nav Arguments
     private val args: AddPropertyFragmentArgs by navArgs()
-    private var newPropertyId: Long = 0
+    private var newPropertyId: String = ""
     private var property: Property? = null
     private var isEditPropertyView: Boolean = false
 

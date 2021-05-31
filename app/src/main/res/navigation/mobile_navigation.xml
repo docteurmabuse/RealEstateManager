@@ -56,8 +56,8 @@
                 app:nullable="true" />
             <argument
                 android:name="propertyId"
-                android:defaultValue="0L"
-                app:argType="long" />
+                android:defaultValue=""
+                app:argType="string" />
         </action>
     </fragment>
     <fragment
@@ -70,8 +70,8 @@
             app:destination="@id/photoOptionDialogFragment" />
         <argument
             android:name="propertyId"
-            android:defaultValue="0L"
-            app:argType="long" />
+            android:defaultValue=""
+            app:argType="String" />
         <argument
             android:name="EDIT_PROPERTY_VIEW"
             android:defaultValue="false"
@@ -129,9 +129,21 @@
             android:defaultValue="@null"
             app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
             app:nullable="true" />
+        <action
+            android:id="@+id/action_itemTabsFragment2_to_addAgentFragment"
+            app:destination="@id/addAgentFragment" />
     </fragment>
     <fragment
         android:id="@+id/masterHostFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.MasterHostFragment"
         android:label="MasterHostFragment" />
+    <fragment
+        android:id="@+id/addAgentFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.addAgent.AddAgentFragment"
+        android:label="AddAgentFragment">
+        <argument
+            android:name="AddAgentView"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
 </navigation>

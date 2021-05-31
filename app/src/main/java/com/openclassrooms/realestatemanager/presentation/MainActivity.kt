@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.presentation
 
 import android.os.Bundle
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -13,6 +15,7 @@ import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.BaseActivity
+import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
@@ -21,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 
@@ -38,6 +42,36 @@ class MainActivity constructor(
     private val navController by lazy { navHostFragment.navController }
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
 
+    // creating variable that handles Animations loading
+    // and initializing it with animation files that we have created
+    private val rotateOpen: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            this,
+            R.anim.rotate_open_anim
+        )
+    }
+    private val rotateClose: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            this,
+            R.anim.rotate_close_anim
+        )
+    }
+    private val fromBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            this,
+            R.anim.from_bottom_anim
+        )
+    }
+    private val toBottom: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            this,
+            R.anim.to_bottom_anim
+        )
+    }
+
+    //used to check if fab menu are opened or closed
+    private var closed = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +79,7 @@ class MainActivity constructor(
         setContentView(binding.root)
         setupActionBarWithNavController(navController, appBarConfiguration)
         setObserver()
+        setFabListener()
     }
 
 
@@ -67,6 +102,19 @@ class MainActivity constructor(
 
     private fun showImages() {
         viewModel.fetchProperties()
+    }
+
+    private fun setFabListener() {
+        binding.fabAddProperty.setOnClickListener {
+            val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
+            val newPropertyId = UUID.randomUUID().toString()
+            val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
+                newPropertyId, false, null
+            )
+
+            navHostFragment.navigate(action)
+            Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
+        }
     }
 
     private fun setObserver() {
