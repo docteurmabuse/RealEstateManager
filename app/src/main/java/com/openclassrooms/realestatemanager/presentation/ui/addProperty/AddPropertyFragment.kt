@@ -129,7 +129,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         isConnected = isNetworkConnected(requireContext())
         retrievedArguments()
         agentViewModel.fetchAgents()
-        setObserver()
         return binding.root
     }
 
@@ -139,14 +138,12 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         //  this.binding.handlers = Handlers()
         binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
-        this.binding.agentViewModel = agentViewModel
 
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
-        val agentDropdown: AutoCompleteTextView = binding.agent!!.agentDropdown
+        setObserver()
 
         setUpPermissions()
         setupTypeValues(typeDropdown)
-        setupAgentMenuValues(agentDropdown)
         setFabListener()
         setupSellDateListener()
         retrieveArguments()
@@ -154,8 +151,12 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupUploadImageListener()
     }
 
-    private fun setupAgentMenuValues(dropdown: AutoCompleteTextView) {
+    private fun setupAgentMenuValues(agents: List<Agent>) {
+        val agentDropdown: AutoCompleteTextView = binding.agent!!.agentDropdown
+
         val items = agentList
+        Timber.d("AGENT_LIST: $agentList")
+
         val dropdownAdapter =
 
             ArrayAdapter(
@@ -164,7 +165,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                 items ?: emptyList()
             )
 
-        dropdown.setAdapter(dropdownAdapter)
+        agentDropdown.setAdapter(dropdownAdapter)
     }
 
     private fun setObserver() {
@@ -189,6 +190,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun renderList(agents: List<Agent>) {
         agentList = agents
         Timber.d("AGENTS: $agents")
+        this.binding.agentViewModel = agentViewModel
+        setupAgentMenuValues(agents)
 
     }
 

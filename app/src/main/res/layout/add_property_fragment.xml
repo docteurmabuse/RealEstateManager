@@ -281,6 +281,7 @@
             android:background="@color/colorAccent"
             android:baselineAlignBottom="true"
             android:contentDescription="@string/add_property_button"
+            android:onClick="@{(view) -> viewModel.saveProperty() }"
             app:backgroundTint="@color/colorAccent"
             app:layout_anchor="@id/bottomAppBar"
             app:srcCompat="@drawable/ic_check_24dp" />
