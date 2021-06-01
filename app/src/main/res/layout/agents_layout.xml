@@ -26,7 +26,7 @@
             android:layout_marginStart="@dimen/marginStart"
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginEnd="@dimen/marginEnd"
-            android:hint="@string/select_a_property_type"
+            android:hint="@string/select_agent_in_charge"
             android:inputType="textAutoComplete"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

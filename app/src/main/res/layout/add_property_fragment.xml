@@ -19,7 +19,7 @@
 
         <variable
             name="viewModel"
-            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyViewModel" />
+            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -187,16 +187,39 @@
                     app:property="@{property}" />
 
                 <TextView
+                    android:id="@+id/textViewAgent"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/agent_in_charge"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/point_of_interest" />
+
+                <include
+                    android:id="@+id/agent"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    layout="@layout/agents_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewAgent"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:property="@{property}" />
+
+                <TextView
                     android:id="@+id/textViewDates"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
                     android:layout_marginTop="20dp"
-                    android:text="@string/characteristics"
+                    android:text="@string/dates"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/point_of_interest" />
+                    app:layout_constraintTop_toBottomOf="@id/agent" />
 
                 <include
                     android:id="@+id/dates"
