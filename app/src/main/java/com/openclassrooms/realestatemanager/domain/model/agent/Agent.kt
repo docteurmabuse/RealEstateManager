@@ -56,4 +56,8 @@ data class Agent(
 
     val isEmpty
         get() = name!!.isEmpty() || email!!.isEmpty() || phone!!.isEmpty()
+
+    override fun toString(): String {
+        return name!!
+    }
 }

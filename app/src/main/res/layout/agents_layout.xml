@@ -35,15 +35,13 @@
             android:inputType="textAutoComplete"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:labelFor="@id/agent_dropdown"
             app:layout_goneMarginEnd="@dimen/marginEnd">
 
             <AutoCompleteTextView
                 android:id="@+id/agent_dropdown"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:inputType="textAutoComplete"
-                android:labelFor="@id/type_dropdown" />
+                android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

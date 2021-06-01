@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
@@ -106,6 +107,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var isPermissionsAllowed: Boolean = false
     private var agent: Agent? = null
     private var agentList: List<Agent>? = arrayListOf()
+    private var selectedAgent: Agent = Agent("", "", "")
+    private var _agentId = ""
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -128,7 +131,9 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
         isConnected = isNetworkConnected(requireContext())
         retrievedArguments()
-        agentViewModel.fetchAgents()
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        binding.agentViewModel = agentViewModel
         return binding.root
     }
 
@@ -136,8 +141,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //  this.binding.handlers = Handlers()
-        binding.lifecycleOwner = this
-        this.binding.viewModel = viewModel
+
 
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
         setObserver()
@@ -149,6 +153,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         retrieveArguments()
         setPhotosObserver()
         setupUploadImageListener()
+
     }
 
     private fun setupAgentMenuValues(agents: List<Agent>) {
@@ -157,15 +162,39 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         val items = agentList
         Timber.d("AGENT_LIST: $agentList")
 
-        val dropdownAdapter =
 
-            ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                items ?: emptyList()
-            )
+        agentDropdown.setOnItemClickListener { parent, view, position, id ->
+            selectedAgent = parent.getItemAtPosition(position) as Agent
+            _agentId = selectedAgent.id.toString()
+        }
 
-        agentDropdown.setAdapter(dropdownAdapter)
+        agentDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                selectedAgent = Agent("", "", "")
+            }
+
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                selectedAgent = parent!!.getItemAtPosition(position) as Agent
+                _agentId = selectedAgent.id.toString()
+                Timber.d("AGENT_SELECTED: $selectedAgent")
+
+            }
+        }
+        agentDropdown.setOnFocusChangeListener { view, hasFocus ->
+            var enteredAgent = agentDropdown.text.toString()
+            if (selectedAgent != null && enteredAgent.isNotEmpty() && !enteredAgent.equals(
+                    selectedAgent.toString()
+                )
+            ) {
+
+            }
+        }
     }
 
     private fun setObserver() {
@@ -188,9 +217,18 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun renderList(agents: List<Agent>) {
+        val agentDropdown: AutoCompleteTextView = binding.agent!!.agentDropdown
+
+        binding.agent!!.agentDropdown.setAdapter(
+            ArrayAdapter(
+                requireContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                agents
+            )
+        )
         agentList = agents
         Timber.d("AGENTS: $agents")
-        this.binding.agentViewModel = agentViewModel
+        binding.agentViewModel = agentViewModel
         setupAgentMenuValues(agents)
 
     }

@@ -24,6 +24,14 @@ class AgentsViewModel @Inject constructor(
     private val _items: MutableLiveData<List<Agent>> = MutableLiveData<List<Agent>>()
     val items: LiveData<List<Agent>> = _items
 
+    private val _item: MutableLiveData<Agent> = MutableLiveData<Agent>()
+    val item: LiveData<Agent> = _item
+
+
+    init {
+        fetchAgents()
+    }
+
     fun fetchAgents() {
         viewModelScope.launch {
             getAllAgents.invoke()
@@ -34,7 +42,6 @@ class AgentsViewModel @Inject constructor(
                     _state.value = DataState.success(it)
                     _items.value = it
                     Timber.d("AGENT_VIEWMODEL: ${it}")
-
                 }
         }
     }
