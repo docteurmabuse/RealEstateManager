@@ -20,6 +20,16 @@ class AgentRepository_Impl @Inject constructor(
         persistence.storeAgent(agentEntityMapper.mapFromDomainModel(agent))
     }
 
+    override suspend fun getAllAgents(): Flow<List<Agent>> {
+        return persistence.getAllAgents()
+            .distinctUntilChanged()
+            .map { agentList ->
+                agentList.map {
+                    it.toDomain()
+                }
+            }
+    }
+
     override suspend fun getAgentById(id: String): Flow<Agent> {
         return persistence.getAgentById(id)
             .distinctUntilChanged()
