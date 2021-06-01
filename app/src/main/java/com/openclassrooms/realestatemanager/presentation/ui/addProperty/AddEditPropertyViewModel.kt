@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
 import androidx.lifecycle.*
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.property.Address
@@ -41,22 +40,34 @@ class AddEditPropertyViewModel @Inject constructor(
     var sold = MutableLiveData<Boolean>()
     var sellDate = MutableLiveData<Date>()
     var soldDate = MutableLiveData<Date>()
-    var media = MutableLiveData<Media>()
     var agent = MutableLiveData<Agent>()
     var address = MutableLiveData<Address>()
+
+    var address1 = MutableLiveData<String>()
+    var address2 = MutableLiveData<String>()
+    var city = MutableLiveData<String>()
+    var zipCode = MutableLiveData<String>()
+    var state = MutableLiveData<String>()
+    var area = MutableLiveData<String>()
+    var country = MutableLiveData<String>()
+    var lat = MutableLiveData<Double>()
+    var long = MutableLiveData<Double>()
+
+    var photos: ArrayList<Media.Photo> = arrayListOf()
+    var videos: ArrayList<Media.Video> = arrayListOf()
 
     //Snackbar with message to user if a field is empty
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarText: LiveData<Event<Int>> = _snackbarText
 
-    private val isNewProperty: Boolean = false
+    private val isNewProperty: Boolean = true
     private var _statePhotos =
         MutableStateFlow<ArrayList<Media.Photo>>(arrayListOf())
     val statePhotos: StateFlow<List<Media.Photo>>
         get() = _statePhotos
 
     fun saveProperty() {
-        val currentId = id.value
+        val currentId = UUID.randomUUID().toString()
         val currentType = type.value
         val currentPrice = price.value
         val currentSurface = surface.value
@@ -73,10 +84,32 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentSold = sold.value
         val currentSellDate = sellDate.value
         val currentSoldDate = soldDate.value
-        val currentMedia = media.value
+        var media = Media(photos, videos)
+        val currentMedia = media
         val currentAgent = agent.value
-        val currentAddress = address.value
+        val currentAddress1 = address1.value
+        val currentAddress2 = address2.value
+        val currentCity = city.value
+        val currentZipcode = zipCode.value
+        val currentArea = area.value
+        val currentState = state.value
+        val currentCountry = country.value
+        val currentLat = lat.value
+        val currentLong = long.value
+        val currentAddress = Address(
+            currentAddress1,
+            currentAddress2,
+            currentCity,
+            currentZipcode,
+            currentState,
+            currentCountry,
+            currentArea,
+            currentLat,
+            currentLong
+        )
 
+
+/*
         if (currentType == null || currentPrice == null || currentSurface == null ||
             currentRoomNumber == null || currentBathroomNumber == null || currentBedroomNumber == null ||
             currentDescription == null || currentMedia == null || currentAgent == null || currentAddress == null
@@ -111,33 +144,58 @@ class AddEditPropertyViewModel @Inject constructor(
         ) {
             _snackbarText.value = Event(R.string.empty_property_message)
             return
-        }
-        if (isNewProperty || currentId == null) {
-            createProperty(
-                Property(
-                    currentId,
-                    currentType,
-                    currentPrice,
-                    currentSurface,
-                    currentRoomNumber,
-                    currentBathroomNumber,
-                    currentBedroomNumber,
-                    currentDescription,
-                    currentSchools,
-                    currentShops,
-                    currentPark,
-                    currentStations,
-                    currentHospital,
-                    currentMuseum,
-                    currentSold,
-                    currentSellDate,
-                    currentSoldDate,
-                    currentMedia,
-                    currentAgent,
-                    currentAddress
-                )
+        }*/
+        createProperty(
+            Property(
+                currentId,
+                currentType,
+                currentPrice,
+                currentSurface,
+                currentRoomNumber,
+                currentBathroomNumber,
+                currentBedroomNumber,
+                currentDescription,
+                currentSchools,
+                currentShops,
+                currentPark,
+                currentStations,
+                currentHospital,
+                currentMuseum,
+                currentSold,
+                currentSellDate,
+                currentSoldDate,
+                currentMedia,
+                currentAgent,
+                currentAddress
             )
-        }
+        )
+//        if (isNewProperty || currentId == null) {
+//
+//        }
+        var myTestProperty = Property(
+            currentId,
+            currentType,
+            currentPrice,
+            currentSurface,
+            currentRoomNumber,
+            currentBathroomNumber,
+            currentBedroomNumber,
+            currentDescription,
+            currentSchools,
+            currentShops,
+            currentPark,
+            currentStations,
+            currentHospital,
+            currentMuseum,
+            currentSold,
+            currentSellDate,
+            currentSoldDate,
+            currentMedia,
+            currentAgent,
+            currentAddress
+        )
+        Timber.d("PROPERTY_VIEWMODEL3: $myTestProperty")
+
     }
 
     private fun createProperty(property: Property) {

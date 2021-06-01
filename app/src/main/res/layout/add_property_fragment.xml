@@ -14,6 +14,14 @@
             type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
 
         <variable
+            name="agent"
+            type="com.openclassrooms.realestatemanager.domain.model.agent.Agent" />
+
+        <variable
+            name="agent"
+            type="com.openclassrooms.realestatemanager.domain.model.property.Address" />
+
+        <variable
             name="photo"
             type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
 
@@ -203,7 +211,7 @@
                     app:layout_constraintTop_toBottomOf="@id/point_of_interest" />
 
                 <include
-                    android:id="@+id/agent"
+                    android:id="@+id/agentLayout"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     layout="@layout/agents_layout"
                     android:layout_width="match_parent"
@@ -211,6 +219,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewAgent"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:agentViewModel="@{agentViewModel}"
                     app:viewModel="@{viewModel}" />
 
                 <TextView
@@ -223,7 +232,7 @@
                     android:text="@string/dates"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/agent" />
+                    app:layout_constraintTop_toBottomOf="@id/agentLayout" />
 
                 <include
                     android:id="@+id/dates"

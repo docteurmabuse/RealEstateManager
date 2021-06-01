@@ -10,7 +10,6 @@ import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.utils.DateUtil
 import kotlinx.parcelize.Parcelize
-import java.util.*
 
 @Parcelize
 @Entity(
@@ -25,7 +24,7 @@ import java.util.*
 )
 data class PropertyEntity(
     @PrimaryKey(autoGenerate = false)
-    var id: String = UUID.randomUUID().toString(),
+    var id: String = "",
     var type: String?,
     var price: Int?,
     var surface: Int?,

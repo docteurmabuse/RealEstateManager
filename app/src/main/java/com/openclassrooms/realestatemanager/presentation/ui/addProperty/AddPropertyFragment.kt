@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -134,6 +135,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.agentViewModel = agentViewModel
+        binding.agent = selectedAgent
         return binding.root
     }
 
@@ -153,11 +155,15 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         retrieveArguments()
         setPhotosObserver()
         setupUploadImageListener()
+        setupSnackbar()
+    }
 
+    private fun setupSnackbar() {
+        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 
     private fun setupAgentMenuValues(agents: List<Agent>) {
-        val agentDropdown: AutoCompleteTextView = binding.agent!!.agentDropdown
+        val agentDropdown: AutoCompleteTextView = binding.agentLayout!!.agentDropdown
 
         val items = agentList
         Timber.d("AGENT_LIST: $agentList")
@@ -217,9 +223,9 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun renderList(agents: List<Agent>) {
-        val agentDropdown: AutoCompleteTextView = binding.agent!!.agentDropdown
+        val agentDropdown: AutoCompleteTextView = binding.agentLayout!!.agentDropdown
 
-        binding.agent!!.agentDropdown.setAdapter(
+        binding.agentLayout!!.agentDropdown.setAdapter(
             ArrayAdapter(
                 requireContext(),
                 R.layout.support_simple_spinner_dropdown_item,
@@ -228,7 +234,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         )
         agentList = agents
         Timber.d("AGENTS: $agents")
-        binding.agentViewModel = agentViewModel
+        binding.agentLayout!!.agentViewModel = agentViewModel
         setupAgentMenuValues(agents)
 
     }
