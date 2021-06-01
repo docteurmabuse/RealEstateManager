@@ -20,6 +20,10 @@ class RoomPersistence @Inject constructor(
         return agentDao.getAllAgents()
     }
 
+    override suspend fun getAgentById(agentId: String): Flow<AgentEntity> {
+        return agentDao.getAgentById(agentId)
+    }
+
     override suspend fun getAllProperties(): Flow<List<PropertyWithAgentEntity>> {
         return propertyDao.getAllProperties()
     }
@@ -30,7 +34,7 @@ class RoomPersistence @Inject constructor(
         return propertyDao.insertProperty(property)
     }
 
-    override suspend fun getPropertyById(propertyId: String): PropertyWithAgentEntity {
+    override suspend fun getPropertyById(propertyId: String): Flow<PropertyWithAgentEntity> {
         return propertyDao.getPropertyById(propertyId)
     }
 

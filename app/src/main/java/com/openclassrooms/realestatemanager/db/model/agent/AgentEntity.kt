@@ -10,7 +10,7 @@ import java.util.*
 )
 data class AgentEntity(
     @PrimaryKey(autoGenerate = false)
-    var id: String = UUID.randomUUID().toString(),
+    var id: String? = UUID.randomUUID().toString(),
     var name: String?,
     var email: String?,
     var phone: String?,

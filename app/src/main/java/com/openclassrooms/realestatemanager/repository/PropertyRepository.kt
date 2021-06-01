@@ -6,13 +6,13 @@ import kotlinx.coroutines.flow.Flow
 interface PropertyRepository {
     suspend fun addProperty(property: Property)
 
-    suspend fun searchProperty(query: String): List<Property>
+    suspend fun searchProperty(query: String): Flow<List<Property>>
 
     suspend fun getAllProperties(): Flow<List<Property>>
 
     fun getPropertyTypes(): List<Property.PropertyType>
 
-    suspend fun getPropertyById(id: Long): Property
+    suspend fun getPropertyById(id: String): Flow<Property>
 
     suspend fun updateProperty(property: Property)
 }

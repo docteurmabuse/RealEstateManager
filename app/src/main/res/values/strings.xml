@@ -78,5 +78,6 @@
     <string name="agent_picture">AgentPicture</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
+    <string name="empty_task_message">Agents cannot be empty</string>
 
 </resources>

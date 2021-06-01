@@ -20,7 +20,7 @@ class PropertyRepository_Impl @Inject constructor(
         persistence.storeProperty(PropertyWithAgentEntity.fromDomain(property))
     }
 
-    override suspend fun searchProperty(query: String): List<Property> {
+    override suspend fun searchProperty(query: String): Flow<List<Property>> {
         TODO("Not yet implemented")
     }
 
@@ -44,9 +44,17 @@ class PropertyRepository_Impl @Inject constructor(
         return getPropertyTypes()
     }
 
-    override suspend fun getPropertyById(propertyId: Long): Property {
-        TODO("Not yet implemented")
-        //return persistence.getPropertyById(propertyId)
+    override suspend fun getPropertyById(id: String): Flow<Property> {
+        return persistence.getPropertyById(id)
+            .distinctUntilChanged()
+            .map { it ->
+                it.propertyEntityAggregate.property.toDomain(
+                    it.propertyEntityAggregate.photos,
+                    it.propertyEntityAggregate.videos,
+                    it.propertyEntityAggregate.address,
+                    it.agent
+                )
+            }
     }
 
     override suspend fun updateProperty(property: Property) {

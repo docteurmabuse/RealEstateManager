@@ -117,6 +117,7 @@ class MainActivity constructor(
     override fun onBackPressed() {
         //Execute your code here
         binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+
         val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
         navHostFragment.navigate(R.id.mainActivity)
     }
@@ -137,13 +138,13 @@ class MainActivity constructor(
             if (isAddAgentView) {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
                 binding.expandableFabLayout.removeAllViews()
-
+/*
                 binding.expandableFabLayout.addViews(
                     binding.expandableFabPortrait,
                     binding.bottomAppBar
                 )
 
-                binding.expandableFabPortrait.setImageResource(R.drawable.ic_check_24dp)
+                binding.expandableFabPortrait.setImageResource(R.drawable.ic_check_24dp)*/
 
             } else {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER

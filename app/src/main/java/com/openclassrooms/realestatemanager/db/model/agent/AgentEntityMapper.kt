@@ -7,11 +7,11 @@ class AgentEntityMapper : DomainMapper<AgentEntity, Agent> {
 
     override fun mapToDomainModel(model: AgentEntity): Agent {
         return Agent(
-            id = model.id,
-            name = model.name,
-            email = model.email,
-            phone = model.phone,
-            photoUrl = model.photoUrl
+            _id = model.id,
+            _name = model.name,
+            _email = model.email,
+            _phone = model.phone,
+            _photoUrl = model.photoUrl
         )
     }
 

@@ -5,28 +5,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.AddAgentFragmentBinding
+import com.openclassrooms.realestatemanager.domain.model.agent.Agent
+import dagger.hilt.android.AndroidEntryPoint
 
-class AddAgentFragment : Fragment() {
+@AndroidEntryPoint
+
+class AddAgentFragment : Fragment(R.layout.add_agent_fragment) {
+    private val viewModel: AddAgentViewModel by viewModels()
+    private var _binding: AddAgentFragmentBinding? = null
+    private val binding get() = _binding!!
+    private var agent: Agent? = null
 
     companion object {
         fun newInstance() = AddAgentFragment()
     }
 
-    private lateinit var viewModel: AddAgentViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.add_agent_fragment, container, false)
+        _binding = AddAgentFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AddAgentViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.viewmodel = viewModel
+        binding.agent = agent
     }
-
 }

@@ -9,9 +9,11 @@ interface Persistence {
 
     suspend fun getAllAgents(): Flow<List<AgentEntity>>
 
+    suspend fun getAgentById(agentId: String): Flow<AgentEntity>
+
     suspend fun getAllProperties(): Flow<List<PropertyWithAgentEntity>>
 
-    suspend fun getPropertyById(propertyId: String): PropertyWithAgentEntity
+    suspend fun getPropertyById(propertyId: String): Flow<PropertyWithAgentEntity>
 
     suspend fun storeProperty(
         property: PropertyWithAgentEntity
