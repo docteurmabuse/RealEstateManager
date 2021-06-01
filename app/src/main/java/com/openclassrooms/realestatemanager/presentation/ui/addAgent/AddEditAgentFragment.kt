@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddAgentFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
+import com.openclassrooms.realestatemanager.utils.setupSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,6 +30,8 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
         savedInstanceState: Bundle?
     ): View? {
         _binding = AddAgentFragmentBinding.inflate(inflater, container, false)
+        // Set the lifecycle owner to the lifecycle of the view
+        binding.lifecycleOwner = this.viewLifecycleOwner
         return binding.root
     }
 
@@ -35,5 +39,10 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewmodel = viewModelEdit
         binding.agent = agent
+        setupSnackbar()
+    }
+
+    private fun setupSnackbar() {
+        view?.setupSnackbar(this, viewModelEdit.snackbarText, Snackbar.LENGTH_SHORT)
     }
 }
