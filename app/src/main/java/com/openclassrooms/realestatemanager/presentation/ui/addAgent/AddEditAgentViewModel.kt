@@ -6,17 +6,22 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.interactors.agent.AddAgent
+import com.openclassrooms.realestatemanager.domain.interactors.agent.GetAgentById
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.presentation.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 
-class AddAgentViewModel @Inject constructor(
-    val addAgent: AddAgent
+class AddEditAgentViewModel @Inject constructor(
+    val addAgent: AddAgent,
+    val getAgentById: GetAgentById
 ) : ViewModel() {
 
     // Two-way databinding, exposing MutableLiveData
@@ -25,6 +30,10 @@ class AddAgentViewModel @Inject constructor(
     val phone = MutableLiveData<String>()
     val imageUrl = MutableLiveData<String>()
 
+    private val _state =
+        MutableStateFlow<DataState<Agent>>(DataState.loading(null))
+    val state: StateFlow<DataState<Agent>>
+        get() = _state
 
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
@@ -60,7 +69,9 @@ class AddAgentViewModel @Inject constructor(
         isNewAgent = false
         _dataLoading.value = true
         viewModelScope.launch {
+            getAgentById.invoke(agentId).let {
 
+            }
         }
     }
 
@@ -73,6 +84,7 @@ class AddAgentViewModel @Inject constructor(
 
         if (currentEmail == null || currentName == null || currentPhone == null) {
             _snackbarText.value = Event(R.string.empty_task_message)
+            return
         }
         if (Agent(
                 currentAgentId,
@@ -83,16 +95,27 @@ class AddAgentViewModel @Inject constructor(
             ).isEmpty
         ) {
             _snackbarText.value = Event(R.string.empty_task_message)
+            return
+        }
+        if (isNewAgent || currentAgentId == null) {
+            createAgent(
+                Agent(
+                    currentAgentId,
+                    currentName,
+                    currentPhone,
+                    currentEmail,
+                    currentImageUrl
+                )
+            )
         }
     }
 
-    fun addAgentToRoomDb(agent: Agent?) {
-
+    private fun createAgent(agent: Agent) {
         viewModelScope.launch {
             Timber.tag("FabClick").d("It's ok AGENT: $agent")
-            if (agent != null) {
-                addAgent.invoke(agent)
-            }
+            addAgent.invoke(agent)
+            _agentUpdatedEvent.value = Event(Unit)
         }
     }
+
 }

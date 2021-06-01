@@ -10,7 +10,7 @@ import java.util.*
 )
 data class AgentEntity(
     @PrimaryKey(autoGenerate = false)
-    var id: String? = UUID.randomUUID().toString(),
+    var id: String = UUID.randomUUID().toString(),
     var name: String?,
     var email: String?,
     var phone: String?,
@@ -19,7 +19,7 @@ data class AgentEntity(
     companion object {
         fun fromDomain(domainModel: Agent): AgentEntity {
             return AgentEntity(
-                id = domainModel.id,
+                "",
                 name = domainModel.name,
                 email = domainModel.email,
                 phone = domainModel.phone,

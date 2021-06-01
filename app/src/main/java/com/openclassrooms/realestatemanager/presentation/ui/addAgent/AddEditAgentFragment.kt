@@ -13,14 +13,14 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 
-class AddAgentFragment : Fragment(R.layout.add_agent_fragment) {
-    private val viewModel: AddAgentViewModel by viewModels()
+class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
+    private val viewModelEdit: AddEditAgentViewModel by viewModels()
     private var _binding: AddAgentFragmentBinding? = null
     private val binding get() = _binding!!
     private var agent: Agent? = null
 
     companion object {
-        fun newInstance() = AddAgentFragment()
+        fun newInstance() = AddEditAgentFragment()
     }
 
     override fun onCreateView(
@@ -33,7 +33,7 @@ class AddAgentFragment : Fragment(R.layout.add_agent_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewmodel = viewModel
+        binding.viewmodel = viewModelEdit
         binding.agent = agent
     }
 }

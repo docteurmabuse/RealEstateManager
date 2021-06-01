@@ -14,13 +14,13 @@
 
         <variable
             name="viewmodel"
-            type="com.openclassrooms.realestatemanager.presentation.ui.addAgent.AddAgentViewModel" />
+            type="com.openclassrooms.realestatemanager.presentation.ui.addAgent.AddEditAgentViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.addAgent.AddAgentFragment">
+        tools:context=".presentation.ui.addAgent.AddEditAgentFragment">
 
 
         <androidx.cardview.widget.CardView
@@ -62,7 +62,7 @@
                 android:id="@+id/agentName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={agent.name}" />
+                android:text="@={viewmodel.name}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -86,7 +86,7 @@
                 android:id="@+id/agentEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={agent.email}" />
+                android:text="@={viewmodel.email}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -111,7 +111,7 @@
                 android:id="@+id/agentPhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={agent.Phone}" />
+                android:text="@={viewmodel.Phone}" />
         </com.google.android.material.textfield.TextInputLayout>
         <!-- <com.nambimobile.widgets.efab.ExpandableFabLayout
              android:id="@+id/expandable_fab_layout"
@@ -172,7 +172,7 @@
                 android:baselineAlignBottom="true"
                 android:contentDescription="@string/add_property_button"
 
-                android:onClick="@{(view) -> viewmodel.addAgentToRoomDb(agent) }"
+                android:onClick="@{(view) -> viewmodel.saveAgent() }"
                 app:backgroundTint="@color/colorAccent"
                 app:layout_anchor="@id/bottomAppBar"
                 app:srcCompat="@drawable/ic_check_24dp" />

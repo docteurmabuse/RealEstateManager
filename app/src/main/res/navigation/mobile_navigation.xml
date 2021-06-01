@@ -131,15 +131,15 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_itemTabsFragment2_to_addAgentFragment"
-            app:destination="@id/addAgentFragment" />
+            app:destination="@id/addEditAgentFragment" />
     </fragment>
     <fragment
         android:id="@+id/masterHostFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.MasterHostFragment"
         android:label="MasterHostFragment" />
     <fragment
-        android:id="@+id/addAgentFragment"
-        android:name="com.openclassrooms.realestatemanager.presentation.ui.addAgent.AddAgentFragment"
+        android:id="@+id/addEditAgentFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.addAgent.AddEditAgentFragment"
         android:label="AddAgentFragment">
         <argument
             android:name="AddAgentView"

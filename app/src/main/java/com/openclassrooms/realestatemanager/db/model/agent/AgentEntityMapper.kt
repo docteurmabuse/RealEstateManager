@@ -17,7 +17,7 @@ class AgentEntityMapper : DomainMapper<AgentEntity, Agent> {
 
     override fun mapFromDomainModel(domainModel: Agent): AgentEntity {
         return AgentEntity(
-            id = domainModel.id,
+            "",
             name = domainModel.name,
             email = domainModel.email,
             phone = domainModel.phone,
