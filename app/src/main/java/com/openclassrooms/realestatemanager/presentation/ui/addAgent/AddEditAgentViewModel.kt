@@ -89,8 +89,8 @@ class AddEditAgentViewModel @Inject constructor(
         if (Agent(
                 currentAgentId,
                 currentName,
-                currentPhone,
                 currentEmail,
+                currentPhone,
                 currentImageUrl
             ).isEmpty
         ) {
@@ -102,8 +102,8 @@ class AddEditAgentViewModel @Inject constructor(
                 Agent(
                     currentAgentId,
                     currentName,
-                    currentPhone,
                     currentEmail,
+                    currentPhone,
                     currentImageUrl
                 )
             )

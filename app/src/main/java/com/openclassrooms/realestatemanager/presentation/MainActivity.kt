@@ -132,6 +132,8 @@ class MainActivity constructor(
         binding.fabAddAgent.setOnClickListener {
             val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
             isAddAgentView = true
+            isAddPropertyView = false
+
             val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddAgentFragment(
                 isAddAgentView
             )
@@ -148,7 +150,7 @@ class MainActivity constructor(
 
             } else {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-                binding.expandableFabPortrait.setImageResource(R.drawable.ic_check_24dp)
+                binding.expandableFabLayout.removeAllViews()
             }
 
 
@@ -167,6 +169,9 @@ class MainActivity constructor(
             binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
 
             isAddPropertyView = true
+            isAddAgentView = false
+            binding.expandableFabLayout.removeAllViews()
+
             navHostFragment.navigate(action)
             Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
         }

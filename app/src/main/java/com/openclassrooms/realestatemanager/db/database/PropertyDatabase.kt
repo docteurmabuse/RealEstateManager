@@ -17,7 +17,7 @@ import com.openclassrooms.realestatemanager.db.model.property.VideoEntity
         PhotoEntity::class,
         VideoEntity::class,
         AddressEntity::class],
-    version = 8
+    version = 9
 )
 abstract class PropertyDatabase : RoomDatabase() {
     abstract fun propertyDao(): PropertyDao

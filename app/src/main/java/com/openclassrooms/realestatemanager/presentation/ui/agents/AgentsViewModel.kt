@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,6 +33,8 @@ class AgentsViewModel @Inject constructor(
                 .collectLatest {
                     _state.value = DataState.success(it)
                     _items.value = it
+                    Timber.d("AGENT_VIEWMODEL: ${it}")
+
                 }
         }
     }

@@ -129,6 +129,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         isConnected = isNetworkConnected(requireContext())
         retrievedArguments()
         agentViewModel.fetchAgents()
+        setObserver()
         return binding.root
     }
 
@@ -144,7 +145,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         val agentDropdown: AutoCompleteTextView = binding.agent!!.agentDropdown
 
         setUpPermissions()
-        setObserver()
         setupTypeValues(typeDropdown)
         setupAgentMenuValues(agentDropdown)
         setFabListener()
@@ -188,6 +188,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun renderList(agents: List<Agent>) {
         agentList = agents
+        Timber.d("AGENTS: $agents")
+
     }
 
     private fun setUpPermissions() {

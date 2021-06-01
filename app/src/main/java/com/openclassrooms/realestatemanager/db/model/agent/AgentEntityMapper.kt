@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.db.model.agent
 
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper
+import java.util.*
 
 class AgentEntityMapper : DomainMapper<AgentEntity, Agent> {
 
@@ -17,7 +18,7 @@ class AgentEntityMapper : DomainMapper<AgentEntity, Agent> {
 
     override fun mapFromDomainModel(domainModel: Agent): AgentEntity {
         return AgentEntity(
-            "",
+            UUID.randomUUID().toString(),
             name = domainModel.name,
             email = domainModel.email,
             phone = domainModel.phone,

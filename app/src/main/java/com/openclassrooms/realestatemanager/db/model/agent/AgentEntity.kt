@@ -19,7 +19,7 @@ data class AgentEntity(
     companion object {
         fun fromDomain(domainModel: Agent): AgentEntity {
             return AgentEntity(
-                "",
+                UUID.randomUUID().toString(),
                 name = domainModel.name,
                 email = domainModel.email,
                 phone = domainModel.phone,
