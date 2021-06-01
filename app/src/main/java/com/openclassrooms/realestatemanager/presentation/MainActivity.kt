@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.presentation
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
@@ -104,6 +105,22 @@ class MainActivity constructor(
     }
 
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home ->             //finish();
+                onBackPressed()
+        }
+        return true
+    }
+
+
+    override fun onBackPressed() {
+        //Execute your code here
+        binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+        val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
+        navHostFragment.navigate(R.id.mainActivity)
+    }
+
     private fun showImages() {
         viewModel.fetchProperties()
     }
@@ -131,8 +148,6 @@ class MainActivity constructor(
             } else {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
                 binding.expandableFabPortrait.setImageResource(R.drawable.ic_check_24dp)
-                expandableFab.efabEnabled = !expandableFab.efabEnabled
-
             }
 
 
