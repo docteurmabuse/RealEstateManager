@@ -4,9 +4,10 @@
 
     <data>
 
+
         <variable
-            name="property"
-            type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
+            name="viewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyViewModel" />
 
     </data>
 
@@ -19,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/station"
-            android:checked="@={property.stations}"
+            android:checked="@={viewModel.stations}"
             app:layout_constraintStart_toStartOf="@+id/schools"
             app:layout_constraintTop_toBottomOf="@+id/schools" />
 
@@ -28,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/museum"
-            android:checked="@={property.museum}"
+            android:checked="@={viewModel.museum}"
             app:layout_constraintEnd_toStartOf="@+id/schools"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/schools"
-            android:checked="@={property.schools}"
+            android:checked="@={viewModel.schools}"
             app:layout_constraintEnd_toStartOf="@+id/shops"
             app:layout_constraintStart_toEndOf="@+id/museum"
             app:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@string/shops"
-            android:checked="@={property.shops}"
+            android:checked="@={viewModel.shops}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/schools"
             app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +59,7 @@
             android:id="@+id/parcs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@={property.park}"
+            android:checked="@={viewModel.park}"
             android:text="@string/park"
             app:layout_constraintStart_toStartOf="@+id/shops"
             app:layout_constraintTop_toBottomOf="@+id/shops" />
@@ -68,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hospital"
-            android:checked="@={property.hospital}"
+            android:checked="@={viewModel.hospital}"
             app:layout_constraintStart_toStartOf="@+id/museum"
             app:layout_constraintTop_toBottomOf="@+id/museum" />
     </androidx.constraintlayout.widget.ConstraintLayout>
