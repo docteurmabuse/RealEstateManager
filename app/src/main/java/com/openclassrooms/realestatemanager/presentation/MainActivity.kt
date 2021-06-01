@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
@@ -83,8 +84,8 @@ class MainActivity constructor(
         setObserver()
         setAddPropertyFabListener()
         setAddAgentFabListener()
-    }
 
+    }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
@@ -108,15 +109,35 @@ class MainActivity constructor(
     }
 
     private fun setAddAgentFabListener() {
+        val expandableFab = binding.expandableFabPortrait
+
         binding.fabAddAgent.setOnClickListener {
             val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
             isAddAgentView = true
             val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddAgentFragment(
                 isAddAgentView
             )
+            if (isAddAgentView) {
+                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+                binding.expandableFabPortrait.setImageResource(R.drawable.ic_check_24dp)
+                binding.expandableFabLayout.removeAllViews()
+                binding.expandableFabLayout.addViews(
+                    binding.expandableFabPortrait,
+                    binding.bottomAppBar
+
+                )
+            } else {
+                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                binding.expandableFabPortrait.setImageResource(R.drawable.ic_check_24dp)
+                expandableFab.efabEnabled = !expandableFab.efabEnabled
+
+            }
+
+
             navHostFragment.navigate(action)
         }
     }
+
 
     private fun setAddPropertyFabListener() {
         binding.fabAddProperty.setOnClickListener {
@@ -125,6 +146,8 @@ class MainActivity constructor(
             val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
                 newPropertyId, false, null
             )
+            binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+
             isAddPropertyView = true
             navHostFragment.navigate(action)
             Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
