@@ -59,7 +59,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewAddress"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:property="@{property}" />
+                    app:viewModel="@{viewModel}" />
 
                 <View
                     android:id="@+id/dividerAddress"
@@ -93,7 +93,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewDescription"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:property="@{property}" />
+                    app:viewModel="@{viewModel}" />
 
                 <TextView
                     android:id="@+id/textViewType"
@@ -116,7 +116,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewType"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:property="@{property}" />
+                    app:viewModel="@{viewModel}" />
 
                 <TextView
                     android:id="@+id/textViewPrice"
@@ -139,7 +139,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewPrice"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:property="@{property}" />
+                    app:viewModel="@{viewModel}" />
 
                 <TextView
                     android:id="@+id/textViewCharacteristics"
@@ -161,7 +161,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewCharacteristics"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:property="@{property}" />
+                    app:viewModel="@{viewModel}" />
 
 
                 <TextView
@@ -184,7 +184,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textNearBy"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:property="@{property}" />
+                    app:viewModel="@{viewModel}" />
 
                 <TextView
                     android:id="@+id/textViewAgent"
@@ -207,7 +207,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewAgent"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:property="@{property}" />
+                    app:viewModel="@{viewModel}" />
 
                 <TextView
                     android:id="@+id/textViewDates"
@@ -230,7 +230,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewDates"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:property="@{property}" />
+                    app:viewModel="@{viewModel}" />
 
 
                 <TextView
@@ -253,7 +253,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/textViewMedia"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:property="@{property}" />
+                    app:viewModel="@{viewModel}" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
