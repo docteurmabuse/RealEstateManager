@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="property"
-            type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
+            name="viewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyViewModel" />
 
         <import type="android.view.View" />
 
@@ -43,7 +43,7 @@
                 android:maxLines="3"
                 android:minLines="2"
                 android:scrollbars="vertical"
-                android:text="@={property.address.address1}"
+                android:text="@={viewModel.address.address1}"
                 android:textSize="@dimen/textSize"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -72,7 +72,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/address2"
-                android:text="@={property.address.address2}"
+                android:text="@={viewModel.address.address2}"
                 android:textSize="@dimen/textSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:text="@={property.address.area}"
+                android:text="@={viewModel.address.area}"
                 android:textSize="@dimen/textSize"
                 app:endIconMode="clear_text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -126,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:text="@={property.address.city}"
+                android:text="@={viewModel.address.city}"
                 android:textSize="@dimen/textSize"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/area_text_input" />
@@ -157,7 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPostalAddress"
-                android:text="@={property.address.state}"
+                android:text="@={viewModel.address.state}"
                 android:textSize="@dimen/textSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,7 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@={property.address.zipCode }"
+                android:text="@={viewModel.address.zipCode }"
                 android:textSize="@dimen/textSize"
                 app:layout_constraintTop_toBottomOf="@id/city_text_input" />
 
@@ -214,7 +214,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:text="@={property.address.country}"
+                android:text="@={viewModel.address.country}"
                 android:textSize="@dimen/textSize" />
 
         </com.google.android.material.textfield.TextInputLayout>
