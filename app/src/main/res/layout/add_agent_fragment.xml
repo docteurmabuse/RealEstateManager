@@ -84,6 +84,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/agentEmail"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@={viewmodel.email}" />
@@ -98,7 +99,7 @@
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginEnd="@dimen/marginEnd"
             android:layout_marginBottom="@dimen/marginTop"
-            android:hint="Phone"
+            android:hint="@string/phone"
             android:inputType="phone"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
