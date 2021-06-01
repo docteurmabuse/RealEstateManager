@@ -167,4 +167,6 @@ class AddEditPropertyViewModel @Inject constructor(
             Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
         }
     }
+
+
 }

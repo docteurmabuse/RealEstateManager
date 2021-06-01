@@ -1,10 +1,12 @@
 package com.openclassrooms.realestatemanager.presentation.ui.binding
 
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.openclassrooms.realestatemanager.R
@@ -120,5 +122,65 @@ class ViewBinding {
                 }
             }
         }
+
+
+        @JvmStatic
+        @BindingAdapter("valueAttrChanged")
+        fun AutoCompleteTextView.setListener(listener: InverseBindingListener?) {
+            this.onItemSelectedListener = if (listener != null) {
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                        listener.onChange()
+                    }
+
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        listener.onChange()
+                    }
+                }
+            } else {
+                null
+            }
+        }
+
+        @JvmStatic
+        @get:InverseBindingAdapter(attribute = "value")
+        @set:BindingAdapter("value")
+        var AutoCompleteTextView.selectedValue: Any?
+            get() = if (listSelection != ListView.INVALID_POSITION) adapter.getItem(listSelection) else null
+            set(value) {
+                val newValue = value ?: adapter.getItem(0)
+                setText(newValue.toString(), true)
+                if (adapter is ArrayAdapter<*>) {
+                    val position = (adapter as ArrayAdapter<Any?>).getPosition(newValue)
+                    listSelection = position
+                }
+            }
+
+        @JvmStatic
+        @BindingAdapter("entries", "itemLayout", "textViewId", requireAll = false)
+        fun AutoCompleteTextView.bindAdapter(
+            entries: Array<Any?>,
+            @LayoutRes itemLayout: Int?,
+            @IdRes textViewId: Int?
+        ) {
+            val adapter = when {
+                itemLayout == null -> {
+                    ArrayAdapter(context, R.layout.item_dropdown, R.id.dropdownText, entries)
+                }
+                textViewId == null -> {
+                    ArrayAdapter(context, itemLayout, entries)
+                }
+                else -> {
+                    ArrayAdapter(context, itemLayout, textViewId, entries)
+                }
+            }
+            setAdapter(adapter)
+        }
+
     }
 }
