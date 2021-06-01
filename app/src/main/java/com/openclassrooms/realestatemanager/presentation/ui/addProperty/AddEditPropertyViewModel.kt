@@ -1,9 +1,6 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
@@ -12,6 +9,10 @@ import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -47,6 +48,12 @@ class AddEditPropertyViewModel @Inject constructor(
     //Snackbar with message to user if a field is empty
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarText: LiveData<Event<Int>> = _snackbarText
+
+    private val isNewProperty: Boolean = false
+    private var _statePhotos =
+        MutableStateFlow<ArrayList<Media.Photo>>(arrayListOf())
+    val statePhotos: StateFlow<List<Media.Photo>>
+        get() = _statePhotos
 
     fun saveProperty() {
         val currentId = id.value
@@ -105,6 +112,59 @@ class AddEditPropertyViewModel @Inject constructor(
             _snackbarText.value = Event(R.string.empty_property_message)
             return
         }
+        if (isNewProperty || currentId == null) {
+            createProperty(
+                Property(
+                    currentId,
+                    currentType,
+                    currentPrice,
+                    currentSurface,
+                    currentRoomNumber,
+                    currentBathroomNumber,
+                    currentBedroomNumber,
+                    currentDescription,
+                    currentSchools,
+                    currentShops,
+                    currentPark,
+                    currentStations,
+                    currentHospital,
+                    currentMuseum,
+                    currentSold,
+                    currentSellDate,
+                    currentSoldDate,
+                    currentMedia,
+                    currentAgent,
+                    currentAddress
+                )
+            )
+        }
     }
 
+    private fun createProperty(property: Property) {
+        viewModelScope.launch {
+            Timber.d("PROPERTY: ${property.agent}, ${property.address}")
+            addProperty.invoke(property)
+        }
+    }
+
+    fun initPhotosList(photos: ArrayList<Media.Photo>) {
+        viewModelScope.launch {
+            _statePhotos.value.addAll(photos)
+            Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
+        }
+    }
+
+    fun addPhotoToPhotosList(photo: Media.Photo) {
+        viewModelScope.launch {
+            _statePhotos.value.add(photo)
+            Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
+        }
+    }
+
+    fun removePhotoToPhotosList(photo: Media.Photo) {
+        viewModelScope.launch {
+            _statePhotos.value.remove(photo)
+            Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
+        }
+    }
 }
