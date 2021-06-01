@@ -119,13 +119,15 @@ class MainActivity constructor(
             )
             if (isAddAgentView) {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-                binding.expandableFabPortrait.setImageResource(R.drawable.ic_check_24dp)
                 binding.expandableFabLayout.removeAllViews()
+
                 binding.expandableFabLayout.addViews(
                     binding.expandableFabPortrait,
                     binding.bottomAppBar
-
                 )
+
+                binding.expandableFabPortrait.setImageResource(R.drawable.ic_check_24dp)
+
             } else {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
                 binding.expandableFabPortrait.setImageResource(R.drawable.ic_check_24dp)
