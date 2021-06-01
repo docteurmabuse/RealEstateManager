@@ -83,7 +83,7 @@ class AddEditAgentViewModel @Inject constructor(
         val currentAgentId = agentId
 
         if (currentEmail == null || currentName == null || currentPhone == null) {
-            _snackbarText.value = Event(R.string.empty_task_message)
+            _snackbarText.value = Event(R.string.empty_agent_message)
             return
         }
         if (Agent(
@@ -94,7 +94,7 @@ class AddEditAgentViewModel @Inject constructor(
                 currentImageUrl
             ).isEmpty
         ) {
-            _snackbarText.value = Event(R.string.empty_task_message)
+            _snackbarText.value = Event(R.string.empty_agent_message)
             return
         }
         if (isNewAgent || currentAgentId == null) {

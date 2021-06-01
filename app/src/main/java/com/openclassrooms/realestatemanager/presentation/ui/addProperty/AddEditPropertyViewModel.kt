@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
+import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -54,12 +56,12 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentRoomNumber = roomNumber.value
         val currentBathroomNumber = bathroomNumber.value
         val currentBedroomNumber = bedroomNumber.value
-        val currentDescrition = description.value
+        val currentDescription = description.value
         val currentSchools = schools.value
         val currentShops = shops.value
         val currentPark = park.value
         val currentStations = stations.value
-        val currentHopsital = hospital.value
+        val currentHospital = hospital.value
         val currentMuseum = museum.value
         val currentSold = sold.value
         val currentSellDate = sellDate.value
@@ -67,5 +69,42 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentMedia = media.value
         val currentAgent = agent.value
         val currentAddress = address.value
+
+        if (currentType == null || currentPrice == null || currentSurface == null ||
+            currentRoomNumber == null || currentBathroomNumber == null || currentBedroomNumber == null ||
+            currentDescription == null || currentMedia == null || currentAgent == null || currentAddress == null
+            || currentSellDate == null
+        ) {
+            _snackbarText.value = Event(R.string.empty_property_message)
+            return
+        }
+
+        if (Property(
+                currentId,
+                currentType,
+                currentPrice,
+                currentSurface,
+                currentRoomNumber,
+                currentBathroomNumber,
+                currentBedroomNumber,
+                currentDescription,
+                currentSchools,
+                currentShops,
+                currentPark,
+                currentStations,
+                currentHospital,
+                currentMuseum,
+                currentSold,
+                currentSellDate,
+                currentSoldDate,
+                currentMedia,
+                currentAgent,
+                currentAddress
+            ).isEmpty
+        ) {
+            _snackbarText.value = Event(R.string.empty_property_message)
+            return
+        }
     }
+
 }

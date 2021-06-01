@@ -18,13 +18,13 @@ data class Property(
     var _bathroomNumber: Int? = null,
     var _bedroomNumber: Int? = null,
     var _description: String? = "",
-    var _schools: Boolean = false,
-    var _shops: Boolean = false,
-    var _park: Boolean = false,
-    var _stations: Boolean = false,
-    var _hospital: Boolean = false,
-    var _museum: Boolean = false,
-    var _sold: Boolean = false,
+    var _schools: Boolean? = false,
+    var _shops: Boolean? = false,
+    var _park: Boolean? = false,
+    var _stations: Boolean? = false,
+    var _hospital: Boolean? = false,
+    var _museum: Boolean? = false,
+    var _sold: Boolean? = false,
     var _sellDate: Date? = null,
     var _soldDate: Date? = null,
     var _media: Media = Media(arrayListOf(), arrayListOf()),
@@ -190,6 +190,10 @@ data class Property(
             _address = value
             notifyPropertyChanged(BR.address)
         }
+
+    val isEmpty
+        get() = type!!.isEmpty() || price != 0 || surface != 0 || roomNumber != 0 || bathroomNumber != 0 || bedroomNumber != 0 || description!!.isEmpty()
+                || media.photos.isEmpty() || agent!!.isEmpty || address != null || sellDate != null
 
     enum class PropertyType {
         House,
