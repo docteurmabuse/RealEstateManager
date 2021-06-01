@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyViewModel" />
+            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyViewModel" />
 
         <variable
             name="photo"

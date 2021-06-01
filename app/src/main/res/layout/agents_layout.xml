@@ -10,6 +10,10 @@
             type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyViewModel" />
 
         <variable
+            name="agentViewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel" />
+
+        <variable
             name="agent"
             type="com.openclassrooms.realestatemanager.domain.model.agent.Agent" />
 
@@ -38,9 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
-                android:labelFor="@id/type_dropdown"
-                entries="@=viewModel"
-                android:text="@{viewModel.agents}" />
+                android:labelFor="@id/type_dropdown" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

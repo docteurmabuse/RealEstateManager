@@ -26,6 +26,7 @@ constructor(
     val state: StateFlow<DataState<List<Property>>>
         get() = _state
 
+
     fun fetchProperties() {
         viewModelScope.launch {
             getProperties.invoke()

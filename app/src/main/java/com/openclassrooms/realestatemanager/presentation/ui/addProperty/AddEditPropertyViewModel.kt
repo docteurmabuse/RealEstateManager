@@ -168,5 +168,16 @@ class AddEditPropertyViewModel @Inject constructor(
         }
     }
 
+    fun updatePropertyToRoomDb(property: Property) {
+        Timber.tag("UPDATE_FabClick").d("UPDATE_FabClick: $property")
+
+        viewModelScope.launch {
+            // property.agentId = currentAgentId
+            // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
+
+            updateProperty.invoke(property)
+        }
+    }
+
 
 }

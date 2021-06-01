@@ -7,8 +7,8 @@
         <import type="android.view.View" />
 
         <variable
-            name="property"
-            type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
+            name="viewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyViewModel" />
 
     </data>
 
@@ -43,7 +43,7 @@
                 android:id="@+id/sell_date_dropdown"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                dateToText="@{viewModel.soldDate}"
                 android:hint="@string/on_market_since"
                 android:inputType="textAutoComplete"
                 android:labelFor="@id/type_input_layout" />
@@ -65,7 +65,7 @@
             android:id="@+id/sold_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="@{property.sold}"
+            android:checked="@{viewModel.sold}"
             android:layout_marginStart="@dimen/marginStart"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switch_title" />
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
             android:text="@string/sold_since"
-            isVisible="@{property.sold}"
+            isVisible="@{viewModel.sold}"
             app:layout_constraintStart_toStartOf="@id/sold_input_layout"
             app:layout_constraintTop_toBottomOf="@+id/sell_input_layout" />
 
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/marginStart"
             android:layout_marginEnd="@dimen/marginEnd"
-            isVisible="@{property.sold}"
+            isVisible="@{viewModel.sold}"
             app:layout_constraintStart_toEndOf="@id/sold_switch"
             app:layout_constraintTop_toBottomOf="@id/sold_title"
             app:layout_goneMarginEnd="@dimen/marginEnd">
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sold_date"
-                dateToText="@{property.soldDate}"
+                dateToText="@{viewModel.soldDate}"
                 android:inputType="textAutoComplete"
                 android:labelFor="@id/sold_input_layout" />
         </com.google.android.material.textfield.TextInputLayout>

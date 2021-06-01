@@ -20,6 +20,10 @@
         <variable
             name="viewModel"
             type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyViewModel" />
+
+        <variable
+            name="agentViewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

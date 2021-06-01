@@ -20,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
 import androidx.navigation.fragment.findNavController
@@ -37,10 +38,12 @@ import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAdapter
+import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragmentArgs
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.utils.DateUtil.dateToString
@@ -62,7 +65,10 @@ private const val RES_IMAGE = 100
 @AndroidEntryPoint
 class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property_fragment),
     PhotoListAdapter.Interaction, OnStartDragListener {
-    private val viewModel: AddPropertyViewModel by viewModels()
+    //ViewModels
+    private val viewModel: AddEditPropertyViewModel by viewModels()
+    private val agentViewModel: AgentsViewModel by viewModels()
+
     private lateinit var photosRecyclerView: RecyclerView
     private val permissions = arrayOf(Manifest.permission.CAMERA)
 
@@ -99,6 +105,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var imageUri: Uri? = null
     private var isPermissionsAllowed: Boolean = false
     private var agent: Agent? = null
+    private var agentList: List<Agent>? = arrayListOf()
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -121,6 +128,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
         isConnected = isNetworkConnected(requireContext())
         retrievedArguments()
+        agentViewModel.fetchAgents()
         return binding.root
     }
 
@@ -130,14 +138,56 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         //  this.binding.handlers = Handlers()
         binding.lifecycleOwner = this
         this.binding.viewModel = viewModel
+        this.binding.agentViewModel = agentViewModel
+
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
+        val agentDropdown: AutoCompleteTextView = binding.agent!!.agentDropdown
+
         setUpPermissions()
-        setupMenuValues(typeDropdown)
+        setObserver()
+        setupTypeValues(typeDropdown)
+        setupAgentMenuValues(agentDropdown)
         setFabListener()
         setupSellDateListener()
         retrieveArguments()
         setPhotosObserver()
         setupUploadImageListener()
+    }
+
+    private fun setupAgentMenuValues(dropdown: AutoCompleteTextView) {
+        val items = agentList
+        val dropdownAdapter =
+
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                items ?: emptyList()
+            )
+
+        dropdown.setAdapter(dropdownAdapter)
+    }
+
+    private fun setObserver() {
+        lifecycleScope.launchWhenResumed {
+            val value = agentViewModel.state
+            value.collect {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+                        it.data?.let { agents -> renderList(agents) }
+                    }
+                    DataState.Status.LOADING -> {
+
+                    }
+                    DataState.Status.ERROR -> {
+                        Timber.d("LIST_OBSERVER: ${it.message}")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun renderList(agents: List<Agent>) {
+        agentList = agents
     }
 
     private fun setUpPermissions() {
@@ -202,7 +252,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         binding.property = property
         photos = property.media.photos as ArrayList<Media.Photo>
         binding.dates?.soldSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
-            binding.dates!!.property?.sold = isChecked
+            binding.dates!!.viewModel?.sold = MutableLiveData<Boolean>(isChecked)
             binding.dates!!.soldInputLayout.isVisible = isChecked
             Timber.d("SWITCH: $isChecked")
         }
@@ -262,7 +312,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             picker.show()
 
             val dateOnMarket: Date = picker.datePicker.getDate()
-            binding.dates!!.property?.sellDate = dateOnMarket
+            binding.dates!!.viewModel?.sellDate = MutableLiveData(dateOnMarket)
             binding.dates!!.sellDateDropdown.setText(longToDate(date)?.let { it1 -> dateToString(it1) })
 
             Timber.d("DATE_PICKER : $date, {${longToDate(date)}}")
@@ -306,7 +356,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
     }
 
-    private fun setupMenuValues(dropdown: AutoCompleteTextView) {
+    private fun setupTypeValues(dropdown: AutoCompleteTextView) {
         val items = Property.PropertyType.values()
         val dropdownAdapter =
             ArrayAdapter(
@@ -394,7 +444,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         Timber.tag("FabClick")
             .d("It's ok FABSAVE: ${addPropertyView.type}, $addPropertyView!!.price, $addPropertyView!!.surface, $addPropertyView!!.roomNumber, $addPropertyView!!.bathroomNumber, $addPropertyView!!.bedroomNumber")
 
-        viewModel.saveProperty(addPropertyView)
+        // viewModel.saveProperty(addPropertyView)
     }
 
     class Handlers {
