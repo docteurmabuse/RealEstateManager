@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.*
-import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.interactors.property.GetPropertyById
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
@@ -225,42 +224,43 @@ class AddEditPropertyViewModel @Inject constructor(
         )
         Timber.d("PROPERTY_VIEWMODEL_TEST: $myTestProperty")
         Timber.d("PROPERTY_VIEWMODEL3: $location , $context")
-
-        if (currentType == null || currentPrice == null || currentSurface == null ||
+        Timber.d("PROPERTY_ID: $currentId")
+        /*if (currentType == null || currentPrice == null || currentSurface == null ||
             currentRoomNumber == null || currentBathroomNumber == null || currentBedroomNumber == null ||
-            currentDescription == null || currentMedia == null || currentAgentId == null || currentAddress == null
+            currentDescription == null || currentPhotos.isNullOrEmpty() || currentAgentId == null || currentAddress1 == null
+            || currentCity == null || currentState == null || currentZipcode == null || currentCountry == null
             || currentSellDate == null
         ) {
             _snackbarText.value = Event(R.string.empty_property_message)
             return
-        }
+        }*/
 
-        if (Property(
-                currentId,
-                currentType,
-                currentPrice,
-                currentSurface,
-                currentRoomNumber,
-                currentBathroomNumber,
-                currentBedroomNumber,
-                currentDescription,
-                currentSchools,
-                currentShops,
-                currentPark,
-                currentStations,
-                currentHospital,
-                currentMuseum,
-                currentSold,
-                currentSellDate,
-                currentSoldDate,
-                currentMedia,
-                currentAgentId,
-                currentAddress
-            ).isEmpty
-        ) {
-            _snackbarText.value = Event(R.string.empty_property_message)
-            return
-        }
+        /* if (Property(
+                 currentId,
+                 currentType,
+                 currentPrice,
+                 currentSurface,
+                 currentRoomNumber,
+                 currentBathroomNumber,
+                 currentBedroomNumber,
+                 currentDescription,
+                 currentSchools,
+                 currentShops,
+                 currentPark,
+                 currentStations,
+                 currentHospital,
+                 currentMuseum,
+                 currentSold,
+                 currentSellDate,
+                 currentSoldDate,
+                 currentMedia,
+                 currentAgentId,
+                 currentAddress
+             ).isEmpty
+         ) {
+             _snackbarText.value = Event(R.string.empty_property_message)
+             return
+         }*/
 
 
         if (isNewProperty || currentId == null) {

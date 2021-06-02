@@ -134,7 +134,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         isConnected = isNetworkConnected(requireContext())
 
         retrievedArguments()
-        viewModel.start(args.propertyId)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -316,6 +315,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         val args = PropertyDetailFragmentArgs.fromBundle(bundle)
         property = args.property
         isEditPropertyView = args.editPropertyView
+        args.property?.let { it.id?.let { it1 -> viewModel.start(it1) } }
+
         property?.let { setPropertyInLayout(it) }
     }
 
