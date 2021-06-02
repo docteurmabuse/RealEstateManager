@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.interactors.property.GetPropertyById
+import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
@@ -56,7 +57,8 @@ class AddEditPropertyViewModel @Inject constructor(
     var soldDate = MutableLiveData<Date>()
     var photos = MutableLiveData<List<Media.Photo>>(arrayListOf())
     var videos = MutableLiveData<List<Media.Video>>(arrayListOf())
-    var agent = MutableLiveData<String>()
+    var agent = MutableLiveData<Agent>()
+    var agentId = MutableLiveData<String>()
     var address = MutableLiveData<Address>()
     var address1 = MutableLiveData<String>()
     var address2 = MutableLiveData<String>()
@@ -129,7 +131,7 @@ class AddEditPropertyViewModel @Inject constructor(
         soldDate.value = property.soldDate
         photos.value = property.media.photos
         videos.value = property.media.videos
-        agent.value = property.agent
+        agentId.value = property.agent
         address.value = property.address
         address1.value = property.address?.address1!!
         address2.value = property.address?.address2!!
@@ -162,7 +164,7 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentSoldDate = soldDate.value
         var currentPhotos = photos.value
         val currentVideos = videos.value
-        val currentAgentId = agent.value
+        val currentAgentId = agentId.value
         val currentAddress1 = address1.value
         val currentAddress2 = address2.value
         val currentCity = city.value

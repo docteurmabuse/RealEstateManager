@@ -134,6 +134,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         isConnected = isNetworkConnected(requireContext())
 
         retrievedArguments()
+        viewModel.start(args.propertyId)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
