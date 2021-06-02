@@ -5,7 +5,8 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
-import com.openclassrooms.realestatemanager.domain.model.agent.Agent
+import com.openclassrooms.realestatemanager.domain.interactors.property.GetPropertyById
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -14,6 +15,8 @@ import com.openclassrooms.realestatemanager.utils.GeocodeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
@@ -24,16 +27,17 @@ class AddEditPropertyViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val addProperty: AddProperty,
     private val updateProperty: AddProperty,
+    private val getPropertyById: GetPropertyById,
     application: Application,
 ) : AndroidViewModel(application) {
 
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
-    var test: String = ""
+
+    // For Type dropdown
     var propertyType = Property.PropertyType.values()
 
     // Two-way databinding, exposing MutableLiveData
-    var propertyId = MutableLiveData<String>()
     var type = MutableLiveData<String>()
     var price = MutableLiveData<Int>(0)
     var surface = MutableLiveData<Int>(0)
@@ -52,7 +56,7 @@ class AddEditPropertyViewModel @Inject constructor(
     var soldDate = MutableLiveData<Date>()
     var photos = MutableLiveData<List<Media.Photo>>(arrayListOf())
     var videos = MutableLiveData<List<Media.Video>>(arrayListOf())
-    var agent = MutableLiveData<Agent>()
+    var agent = MutableLiveData<String>()
     var address = MutableLiveData<Address>()
     var address1 = MutableLiveData<String>()
     var address2 = MutableLiveData<String>()
@@ -64,19 +68,82 @@ class AddEditPropertyViewModel @Inject constructor(
     var lat = MutableLiveData<Double>()
     var long = MutableLiveData<Double>()
 
+    private var propertyId: String? = null
+
+    private var isNewProperty: Boolean = false
 
     //Snackbar with message to user if a field is empty
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarText: LiveData<Event<Int>> = _snackbarText
 
-    private val isNewProperty: Boolean = true
     private var _statePhotos =
         MutableStateFlow<ArrayList<Media.Photo>>(arrayListOf())
     val statePhotos: StateFlow<List<Media.Photo>>
         get() = _statePhotos
 
+
+    private val _state = MutableStateFlow<DataState<Property>>(DataState.loading(null))
+    val propertyState: StateFlow<DataState<Property>>
+        get() = _state
+
+
+    fun start(propertyId: String) {
+        this.propertyId = propertyId
+        if (propertyId == null) {
+            isNewProperty = true
+            return
+        }
+
+        isNewProperty = false
+
+        viewModelScope.launch {
+            getPropertyById.invoke(propertyId)
+                .catch { e ->
+                    _state.value = (DataState.error(e.toString(), null))
+                }
+                .collectLatest {
+                    _state.value = DataState.success(it)
+                    onPropertyLoad(it)
+                }
+        }
+    }
+
+    private fun onPropertyLoad(property: Property) {
+
+        // Two-way databinding, exposing MutableLiveData
+        type.value = property.type
+        price.value = property.price
+        surface.value = property.surface
+        roomNumber.value = property.roomNumber
+        bathroomNumber.value = property.bathroomNumber
+        bedroomNumber.value = property.bedroomNumber
+        description.value = property.description
+        schools.value = property.schools
+        shops.value = property.shops
+        park.value = property.park
+        stations.value = property.stations
+        hospital.value = property.hospital
+        museum.value = property.museum
+        sold.value = property.sold
+        sellDate.value = property.sellDate
+        soldDate.value = property.soldDate
+        photos.value = property.media.photos
+        videos.value = property.media.videos
+        agent.value = property.agent
+        address.value = property.address
+        address1.value = property.address?.address1!!
+        address2.value = property.address?.address2!!
+        city.value = property.address?.city!!
+        zipCode.value = property.address?.zipCode!!
+        state.value = property.address?.state!!
+        area.value = property.address?.area!!
+        country.value = property.address?.country!!
+        lat.value = property.address?.lat!!
+        long.value = property.address?.lng!!
+    }
+
     fun saveProperty() {
-        val currentId = propertyId.value
+        val currentId = propertyId
         val currentType = type.value
         val currentPrice = price.value
         val currentSurface = surface.value
@@ -95,7 +162,7 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentSoldDate = soldDate.value
         var currentPhotos = photos.value
         val currentVideos = videos.value
-        val currentAgentId = agent.value?.id
+        val currentAgentId = agent.value
         val currentAddress1 = address1.value
         val currentAddress2 = address2.value
         val currentCity = city.value
