@@ -35,7 +35,7 @@
                 android:labelFor="@id/type_dropdown"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
-                android:text="@{viewModel.type.toString()}" />
+                android:text="@={viewModel.type}" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

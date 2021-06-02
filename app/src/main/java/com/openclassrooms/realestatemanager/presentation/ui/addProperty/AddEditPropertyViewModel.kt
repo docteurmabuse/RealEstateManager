@@ -33,7 +33,7 @@ class AddEditPropertyViewModel @Inject constructor(
     // Two-way databinding, exposing MutableLiveData
     var propertyId = MutableLiveData<String>()
     var type = MutableLiveData<String>()
-    var price = MutableLiveData<Int>()
+    var price = MutableLiveData<Int>(0)
     var surface = MutableLiveData<Int>(0)
     var roomNumber = MutableLiveData<Int>(0)
     var bathroomNumber = MutableLiveData<Int>(0)
@@ -48,8 +48,8 @@ class AddEditPropertyViewModel @Inject constructor(
     var sold = MutableLiveData<Boolean>(false)
     var sellDate = MutableLiveData<Date>()
     var soldDate = MutableLiveData<Date>()
-    var photoList = MutableLiveData<List<Media.Photo>>()
-    var videoList = MutableLiveData<List<Media.Photo>>()
+    var photos = MutableLiveData<List<Media.Photo>>(arrayListOf())
+    var videos = MutableLiveData<List<Media.Video>>(arrayListOf())
     var agent = MutableLiveData<Agent>()
     var address = MutableLiveData<Address>()
     var address1 = MutableLiveData<String>()
@@ -62,8 +62,6 @@ class AddEditPropertyViewModel @Inject constructor(
     var lat = MutableLiveData<Double>()
     var long = MutableLiveData<Double>()
 
-    var photos = MutableLiveData<ArrayList<Media.Photo>>(arrayListOf())
-    var videos = MutableLiveData<ArrayList<Media.Video>>(arrayListOf())
 
     //Snackbar with message to user if a field is empty
     private val _snackbarText = MutableLiveData<Event<Int>>()
@@ -93,7 +91,7 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentSold = sold.value
         val currentSellDate = sellDate.value
         val currentSoldDate = soldDate.value
-        val currentPhotos = photos.value
+        var currentPhotos = photos.value
         val currentVideos = videos.value
         val currentAgentId = agent.value?.id
         val currentAddress1 = address1.value
@@ -104,7 +102,14 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentState = state.value
         val currentCountry = country.value
 
+
+        viewModelScope.launch {
+            currentPhotos = statePhotos.value
+            Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
+        }
+
         val currentMedia = Media(currentPhotos!!, currentVideos!!)
+
 
         val addressLine =
             "$currentAddress1, $currentCity, $currentState, $currentZipcode, $currentCountry"
@@ -158,8 +163,6 @@ class AddEditPropertyViewModel @Inject constructor(
             _snackbarText.value = Event(R.string.empty_property_message)
             return
         }
-
-
 
         if (Property(
                 currentId,
