@@ -40,6 +40,7 @@
                 android:layout_height="wrap_content"
                 android:maxLength="4"
                 android:inputType="number"
+                android:textAlignment="center"
                 android:text="@={Converter.intToString(surfaceTextInput, viewModel.surface, viewModel.surface) }"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_square_foot_24dp"
@@ -67,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
+                android:textAlignment="center"
                 android:inputType="number"
                 android:text="@={Converter.intToString(numberOfRoomTextInput, viewModel.roomNumber, viewModel.roomNumber) }"
                 android:textSize="@dimen/textSize"
@@ -98,6 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
+                android:textAlignment="center"
                 android:text="@={Converter.intToString(numberOfBedroomTextInput, viewModel.bedroomNumber, viewModel.bedroomNumber) }"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_bedroom_parent_24dp" />
@@ -128,6 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:inputType="number"
+                android:textAlignment="center"
                 android:text="@={Converter.intToString(numberOfBathroomTextInput, viewModel.bathroomNumber, viewModel.bathroomNumber) }"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_bathroom_24dp" />

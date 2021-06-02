@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.awaitMapLoad
+import com.nambimobile.widgets.efab.ExpandableFabLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -69,6 +70,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         val args = PropertyDetailFragmentArgs.fromBundle(bundle)
         property = args.property
         Timber.d("PROPERTY_DETAIL: $property")
+
     }
 
     override fun onCreateView(
@@ -83,6 +85,9 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         updateContent()
         rootView.setOnDragListener(dragListener)
         setFabListener()
+
+        requireActivity().findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout)
+            .removeAllViews()
         return rootView
     }
 
