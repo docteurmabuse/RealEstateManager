@@ -29,10 +29,12 @@ class AddEditPropertyViewModel @Inject constructor(
 
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
+    var test: String = ""
+    var propertyType = Property.PropertyType.values()
 
     // Two-way databinding, exposing MutableLiveData
     var propertyId = MutableLiveData<String>()
-    var type = MutableLiveData<String>()
+    var type = MutableLiveData<String>("")
     var price = MutableLiveData<Int>(0)
     var surface = MutableLiveData<Int>(0)
     var roomNumber = MutableLiveData<Int>(0)

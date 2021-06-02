@@ -170,11 +170,11 @@ class ViewBinding {
         @JvmStatic
         @BindingAdapter("entries", "itemLayout", "textViewId", requireAll = false)
         fun AutoCompleteTextView.bindAdapter(
-            entries: List<Any?>,
+            entries: Array<Any?>,
             @LayoutRes itemLayout: Int?,
             @IdRes textViewId: Int?
         ) {
-            var newArray = entries.toTypedArray()
+            var newArray = entries
             val adapter = when {
                 itemLayout == null -> {
                     ArrayAdapter(context, R.layout.item_dropdown, newArray)

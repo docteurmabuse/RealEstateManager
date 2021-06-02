@@ -165,6 +165,17 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 
+    private fun setupTypeValues(dropdown: AutoCompleteTextView) {
+        val items = Property.PropertyType.values()
+        /* val dropdownAdapter =
+             ArrayAdapter(
+                 requireContext(),
+                 android.R.layout.simple_spinner_dropdown_item,
+                 items
+             )
+         dropdown.setAdapter(dropdownAdapter)*/
+    }
+
     private fun setupAgentMenuValues(agents: List<Agent>) {
         val agentDropdown: AutoCompleteTextView = binding.agentLayout!!.agentDropdown
 
@@ -411,16 +422,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
     }
 
-    private fun setupTypeValues(dropdown: AutoCompleteTextView) {
-        val items = Property.PropertyType.values()
-        val dropdownAdapter =
-            ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
-                items
-            )
-        dropdown.setAdapter(dropdownAdapter)
-    }
 
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
