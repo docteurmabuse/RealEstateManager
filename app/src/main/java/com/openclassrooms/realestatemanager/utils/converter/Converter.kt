@@ -110,12 +110,12 @@ object Converter {
     fun intToString(v: EditText, old: Int, new: Int): String {
         val result: String
         return try {
-            result = if (old != new) {
+            /*result = if (old != new) {
                 v.text.toString()
             } else {
                 v.text.toString()
-            }
-            result
+            }*/
+            v.text.toString()
         } catch (e: IOException) {
             Timber.e("Error")
             old.toString()

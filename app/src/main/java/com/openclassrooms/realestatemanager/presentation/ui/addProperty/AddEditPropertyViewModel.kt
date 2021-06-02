@@ -5,6 +5,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.interactors.property.GetPropertyById
+import com.openclassrooms.realestatemanager.domain.interactors.property.UpdateProperty
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Address
@@ -26,7 +27,7 @@ import javax.inject.Inject
 class AddEditPropertyViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val addProperty: AddProperty,
-    private val updateProperty: AddProperty,
+    private val updateProperty: UpdateProperty,
     private val getPropertyById: GetPropertyById,
     application: Application,
 ) : AndroidViewModel(application) {
@@ -39,11 +40,11 @@ class AddEditPropertyViewModel @Inject constructor(
 
     // Two-way databinding, exposing MutableLiveData
     var type = MutableLiveData<String>()
-    var price = MutableLiveData<Int>(0)
-    var surface = MutableLiveData<Int>(0)
-    var roomNumber = MutableLiveData<Int>(0)
-    var bathroomNumber = MutableLiveData<Int>(0)
-    var bedroomNumber = MutableLiveData<Int>(0)
+    var price = MutableLiveData<String>()
+    var surface = MutableLiveData<String>()
+    var roomNumber = MutableLiveData<String>()
+    var bathroomNumber = MutableLiveData<String>()
+    var bedroomNumber = MutableLiveData<String>()
     var description = MutableLiveData<String>()
     var schools = MutableLiveData<Boolean>(false)
     var shops = MutableLiveData<Boolean>(false)
@@ -113,11 +114,11 @@ class AddEditPropertyViewModel @Inject constructor(
 
         // Two-way databinding, exposing MutableLiveData
         type.value = property.type
-        price.value = property.price
-        surface.value = property.surface
-        roomNumber.value = property.roomNumber
-        bathroomNumber.value = property.bathroomNumber
-        bedroomNumber.value = property.bedroomNumber
+        price.value = property.price.toString()
+        surface.value = property.surface.toString()
+        roomNumber.value = property.roomNumber.toString()
+        bathroomNumber.value = property.bathroomNumber.toString()
+        bedroomNumber.value = property.bedroomNumber.toString()
         description.value = property.description
         schools.value = property.schools
         shops.value = property.shops
@@ -146,11 +147,11 @@ class AddEditPropertyViewModel @Inject constructor(
     fun saveProperty() {
         val currentId = propertyId
         val currentType = type.value
-        val currentPrice = price.value
-        val currentSurface = surface.value
-        val currentRoomNumber = roomNumber.value
-        val currentBathroomNumber = bathroomNumber.value
-        val currentBedroomNumber = bedroomNumber.value
+        val currentPrice = price.value?.toInt()
+        val currentSurface = surface.value?.toInt()
+        val currentRoomNumber = roomNumber.value?.toInt()
+        val currentBathroomNumber = bathroomNumber.value?.toInt()
+        val currentBedroomNumber = bedroomNumber.value?.toInt()
         val currentDescription = description.value
         val currentSchools = schools.value
         val currentShops = shops.value
@@ -179,7 +180,6 @@ class AddEditPropertyViewModel @Inject constructor(
         }
 
         val currentMedia = Media(currentPhotos!!, currentVideos!!)
-
 
         val addressLine =
             "$currentAddress1, $currentCity, $currentState, $currentZipcode, $currentCountry"
@@ -288,9 +288,43 @@ class AddEditPropertyViewModel @Inject constructor(
                     currentAddress
                 )
             )
+        } else {
+            updatePropertyToRoomDb(
+                Property(
+                    currentId,
+                    currentType,
+                    currentPrice,
+                    currentSurface,
+                    currentRoomNumber,
+                    currentBathroomNumber,
+                    currentBedroomNumber,
+                    currentDescription,
+                    currentSchools,
+                    currentShops,
+                    currentPark,
+                    currentStations,
+                    currentHospital,
+                    currentMuseum,
+                    currentSold,
+                    currentSellDate,
+                    currentSoldDate,
+                    currentMedia,
+                    currentAgentId,
+                    currentAddress
+                )
+            )
+            Timber.d("UPDATE: $currentSurface")
         }
+    }
 
+    fun updatePropertyToRoomDb(property: Property) {
+        Timber.tag("UPDATE_FabClick").d("UPDATE_FabClick: $property")
 
+        viewModelScope.launch {
+            // property.agentId = currentAgentId
+            // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
+            updateProperty.invoke(property)
+        }
     }
 
     private fun createProperty(property: Property) {
@@ -320,17 +354,4 @@ class AddEditPropertyViewModel @Inject constructor(
             Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
         }
     }
-
-    fun updatePropertyToRoomDb(property: Property) {
-        Timber.tag("UPDATE_FabClick").d("UPDATE_FabClick: $property")
-
-        viewModelScope.launch {
-            // property.agentId = currentAgentId
-            // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
-
-            updateProperty.invoke(property)
-        }
-    }
-
-
 }

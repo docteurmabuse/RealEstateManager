@@ -157,7 +157,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setFabListener()
         setupSellDateListener()
         retrieveArguments()
-        setPhotosObserver()
+      //  setPhotosObserver()
         setupUploadImageListener()
         setupSnackbar()
     }
@@ -296,13 +296,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                 Timber.d(it.name)
             }
             .check()
-
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        setPhotosObserver()
     }
 
 
@@ -336,10 +329,10 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.dates!!.switchTitle.visibility = View.GONE
             binding.dates!!.soldSwitch.visibility = View.GONE
         }
-        viewModel.initPhotosList(photos)
+        //viewModel.initPhotosList(photos)
 
         setupRecyclerView()
-        setPhotosObserver()
+        // setPhotosObserver()
     }
 
     private fun retrieveArguments() {

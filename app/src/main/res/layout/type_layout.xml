@@ -40,6 +40,7 @@
                 android:labelFor="@id/type_dropdown"
                 android:layout_height="wrap_content"
                 android:inputType="textAutoComplete"
+                android:text="@={viewModel.type"
                 entries="@{viewModel.propertyType}"
                 itemLayout="@{layout.simple_spinner_dropdown_item}"
                 textViewId="@{@android:id/text1}"
