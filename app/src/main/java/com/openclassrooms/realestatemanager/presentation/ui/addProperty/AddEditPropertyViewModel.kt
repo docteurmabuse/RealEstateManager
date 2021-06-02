@@ -2,8 +2,8 @@ package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.location.Geocoder
 import androidx.lifecycle.*
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.property.Address
@@ -34,7 +34,7 @@ class AddEditPropertyViewModel @Inject constructor(
     var id = MutableLiveData<String>()
     var type = MutableLiveData<String>()
     var price = MutableLiveData<Int>()
-    var surface = MutableLiveData<Int>()
+    var surface = MutableLiveData<Int>(0)
     var roomNumber = MutableLiveData<Int>()
     var bathroomNumber = MutableLiveData<Int>()
     var bedroomNumber = MutableLiveData<Int>()
@@ -64,8 +64,6 @@ class AddEditPropertyViewModel @Inject constructor(
 
     var photos: ArrayList<Media.Photo> = arrayListOf()
     var videos: ArrayList<Media.Video> = arrayListOf()
-    var geocoder: Geocoder? = null
-
 
     //Snackbar with message to user if a field is empty
     private val _snackbarText = MutableLiveData<Event<Int>>()
@@ -95,7 +93,7 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentSold = sold.value
         val currentSellDate = sellDate.value
         val currentSoldDate = soldDate.value
-        val media = Media(photos, videos)
+        val currentMedia = Media(photos, videos)
         val currentAgent = agent.value
         val currentAddress1 = address1.value
         val currentAddress2 = address2.value
@@ -111,6 +109,7 @@ class AddEditPropertyViewModel @Inject constructor(
 
         val location = GeocodeUtils.getLatLngFromAddress(addressLine, context)
         Timber.d("PROPERTY_VIEWMODEL3: $location , $context")
+        Timber.d("PROPERTY_SURFACE: $currentSurface")
 
         val currentLat = location?.latitude
         val currentLong = location?.longitude
@@ -128,7 +127,7 @@ class AddEditPropertyViewModel @Inject constructor(
         )
 
 
-/*
+
         if (currentType == null || currentPrice == null || currentSurface == null ||
             currentRoomNumber == null || currentBathroomNumber == null || currentBedroomNumber == null ||
             currentDescription == null || currentMedia == null || currentAgent == null || currentAddress == null
@@ -163,34 +162,35 @@ class AddEditPropertyViewModel @Inject constructor(
         ) {
             _snackbarText.value = Event(R.string.empty_property_message)
             return
-        }*/
-        createProperty(
-            Property(
-                currentId,
-                currentType,
-                currentPrice,
-                currentSurface,
-                currentRoomNumber,
-                currentBathroomNumber,
-                currentBedroomNumber,
-                currentDescription,
-                currentSchools,
-                currentShops,
-                currentPark,
-                currentStations,
-                currentHospital,
-                currentMuseum,
-                currentSold,
-                currentSellDate,
-                currentSoldDate,
-                media,
-                currentAgent,
-                currentAddress
+        }
+
+
+        if (isNewProperty || currentId == null) {
+            createProperty(
+                Property(
+                    currentId,
+                    currentType,
+                    currentPrice,
+                    currentSurface,
+                    currentRoomNumber,
+                    currentBathroomNumber,
+                    currentBedroomNumber,
+                    currentDescription,
+                    currentSchools,
+                    currentShops,
+                    currentPark,
+                    currentStations,
+                    currentHospital,
+                    currentMuseum,
+                    currentSold,
+                    currentSellDate,
+                    currentSoldDate,
+                    currentMedia,
+                    currentAgent,
+                    currentAddress
+                )
             )
-        )
-//        if (isNewProperty || currentId == null) {
-//
-//        }
+        }
         var myTestProperty = Property(
             currentId,
             currentType,
@@ -209,7 +209,7 @@ class AddEditPropertyViewModel @Inject constructor(
             currentSold,
             currentSellDate,
             currentSoldDate,
-            media,
+            currentMedia,
             currentAgent,
             currentAddress
         )

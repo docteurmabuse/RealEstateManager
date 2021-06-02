@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:maxLength="4"
                 android:inputType="number"
-                android:text="@{viewModel.surface == null ? `` : viewModel.surface}"
+                android:text="@={Converter.intToString(surfaceTextInput, viewModel.surface, viewModel.surface) }"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_square_foot_24dp"
                 app:endIconMode="clear_text" />
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:inputType="number"
-                android:text="@{viewModel.roomNumber == null ? `` : viewModel.roomNumber}"
+                android:text="@={Converter.intToString(surfaceTextInput, viewModel.roomNumber, viewModel.roomNumber) }"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_room_24dp"
                 app:endIconMode="clear_text" />
@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:text="@{viewModel.bedroomNumber == null ? `` : viewModel.bedroomNumber}"
+                android:text="@={Converter.intToString(surfaceTextInput, viewModel.bedroomNumber, viewModel.bedroomNumber) }"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_bedroom_parent_24dp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -128,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:inputType="number"
-                android:text="@{viewModel.bathroomNumber == null ? `` : viewModel.bathroomNumber}"
+                android:text="@={Converter.intToString(surfaceTextInput, viewModel.bathroomNumber, viewModel.bathroomNumber) }"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_bathroom_24dp" />
         </com.google.android.material.textfield.TextInputLayout>

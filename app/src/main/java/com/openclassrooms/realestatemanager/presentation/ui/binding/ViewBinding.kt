@@ -64,11 +64,17 @@ class ViewBinding {
         }
 
         @JvmStatic
-        @BindingAdapter("price")
-        fun bindSetPriceText(textView: TextView, price: Int?) {
-            price?.let {
+        @BindingAdapter("int")
+        fun bindSetIntText(textView: TextView, int: Int?) {
+            int?.let { it ->
                 Timber.d("PRICE: $it")
-                textView.text = NumberFormat.getCurrencyInstance(Locale.US).format(price)
+                @Suppress("SENSELESS_COMPARISON")
+                if (it != null) {
+                    textView.text = it.toString()
+
+                } else {
+                    textView.text = ""
+                }
             }
         }
 

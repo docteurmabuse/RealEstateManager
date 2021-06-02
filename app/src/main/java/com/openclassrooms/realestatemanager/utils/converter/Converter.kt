@@ -2,12 +2,19 @@
 
 package com.openclassrooms.realestatemanager.utils.converter
 
+import android.content.res.Resources
+import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import androidx.databinding.InverseMethod
 import com.google.common.primitives.Ints
+import timber.log.Timber
+import java.io.IOException
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParseException
 import java.util.*
+
 
 object Converter {
 
@@ -31,22 +38,89 @@ object Converter {
              DateUtil.stringToLongDate(value)
          } else DateUtil.stringToLongDate(oldValue)
      }*/
-
-
     @JvmStatic
-    @InverseMethod("intToString")
-    fun stringToInt(v: EditText, old: Int, new: String): Int {
-
-        return if (old.toString() != new) {
-            new.toInt()
-        } else old.toInt()
+    @InverseMethod("toDouble")
+    fun toString(
+        view: TextView, oldValue: Int,
+        value: Int
+    ): String? {
+        val numberFormat = getNumberFormat(view)
+        try {
+            // Don't return a different value if the parsed value
+            // doesn't change
+            val inView = view.text.toString()
+            val parsed = numberFormat.parse(inView).toInt()
+            if (parsed == value) {
+                return view.text.toString()
+            }
+        } catch (e: ParseException) {
+            // Old number was broken
+        }
+        return numberFormat.format(value)
     }
 
     @JvmStatic
+    fun toDouble(
+        view: TextView, oldValue: Int,
+        value: String?
+    ): Int {
+        val numberFormat = getNumberFormat(view)
+        return try {
+            numberFormat.parse(value).toInt()
+        } catch (e: ParseException) {
+            val resources: Resources = view.resources
+            val errStr: String = "Bad Number"
+            view.error = errStr
+            return oldValue
+        }
+    }
+
+    private fun getNumberFormat(view: View): NumberFormat {
+        val resources: Resources = view.resources
+        val locale: Locale = resources.configuration.locale
+        val format = NumberFormat.getNumberInstance(locale)
+        if (format is DecimalFormat) {
+            val decimalFormat: DecimalFormat = format
+            decimalFormat.isGroupingUsed = false
+        }
+        return format
+    }
+
+    @JvmStatic
+    fun stringToInt(v: EditText, old: Int, new: String): Int {
+        return try {
+            if (old.toString() != new) {
+                if (new == "") {
+                    0
+                } else {
+                    new.toInt()
+                }
+            } else {
+                0
+            }
+        } catch (e: IOException) {
+            val errStr: String = "error"
+            v.error = errStr
+            old
+        }
+    }
+
+    @InverseMethod("stringToInt")
+    @JvmStatic
     fun intToString(v: EditText, old: Int, new: Int): String {
-        return if (old != new) {
-            new.toString()
-        } else old.toString()
+        val result: String
+        return try {
+            result = if (old != new) {
+                v.text.toString()
+            } else {
+                v.text.toString()
+            }
+            result
+        } catch (e: IOException) {
+            Timber.e("Error")
+            old.toString()
+        }
+
     }
 
     @JvmStatic

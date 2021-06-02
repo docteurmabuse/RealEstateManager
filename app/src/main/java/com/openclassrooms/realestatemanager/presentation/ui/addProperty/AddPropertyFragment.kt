@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
-import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -132,13 +131,14 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             photoListAdapter.submitList(list = photos)
         }
         isConnected = isNetworkConnected(requireContext())
+
         retrievedArguments()
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.agentViewModel = agentViewModel
         binding.agent = selectedAgent
 
-        viewModel.geocoder = Geocoder(context)
         return binding.root
     }
 
