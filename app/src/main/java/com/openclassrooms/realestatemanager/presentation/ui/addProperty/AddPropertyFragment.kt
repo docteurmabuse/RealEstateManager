@@ -109,6 +109,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var agent: String? = null
     private var agentList: List<Agent>? = arrayListOf()
     private var selectedAgent: Agent = Agent("", "", "")
+    private var selectedType: String = ""
     private var _agentId = ""
 
     companion object {
@@ -167,13 +168,19 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun setupTypeValues(dropdown: AutoCompleteTextView) {
         val items = Property.PropertyType.values()
-        /* val dropdownAdapter =
-             ArrayAdapter(
-                 requireContext(),
-                 android.R.layout.simple_spinner_dropdown_item,
-                 items
-             )
-         dropdown.setAdapter(dropdownAdapter)*/
+        val dropdownAdapter =
+            ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                items
+            )
+        dropdown.setAdapter(dropdownAdapter)
+
+        dropdown.setOnItemClickListener { parent, view, position, id ->
+            selectedType = (parent.getItemAtPosition(position) as Property.PropertyType).toString()
+            Timber.d("AGENT_SELECTED: $selectedType")
+            viewModel.type.value = selectedType
+        }
     }
 
     private fun setupAgentMenuValues(agents: List<Agent>) {

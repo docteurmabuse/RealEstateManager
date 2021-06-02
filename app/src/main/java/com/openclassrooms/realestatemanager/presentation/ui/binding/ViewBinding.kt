@@ -130,26 +130,13 @@ class ViewBinding {
         }
 
 
-        @JvmStatic
         @BindingAdapter("valueAttrChanged")
         fun AutoCompleteTextView.setListener(listener: InverseBindingListener?) {
-            this.onItemSelectedListener = if (listener != null) {
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                        listener.onChange()
-                    }
-
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        listener.onChange()
-                    }
+            onItemClickListener = listener?.let {
+                AdapterView.OnItemClickListener { _, _, position, _ ->
+                    setTag(R.id.type_dropdown, position)
+                    it.onChange()
                 }
-            } else {
-                null
             }
         }
 
@@ -174,16 +161,15 @@ class ViewBinding {
             @LayoutRes itemLayout: Int?,
             @IdRes textViewId: Int?
         ) {
-            var newArray = entries
             val adapter = when {
                 itemLayout == null -> {
-                    ArrayAdapter(context, R.layout.item_dropdown, newArray)
+                    ArrayAdapter(context, R.layout.item_dropdown, entries)
                 }
                 textViewId == null -> {
-                    ArrayAdapter(context, itemLayout, newArray)
+                    ArrayAdapter(context, itemLayout, entries)
                 }
                 else -> {
-                    ArrayAdapter(context, itemLayout, textViewId, newArray)
+                    ArrayAdapter(context, itemLayout, textViewId, entries)
                 }
             }
             setAdapter(adapter)

@@ -34,7 +34,7 @@ class AddEditPropertyViewModel @Inject constructor(
 
     // Two-way databinding, exposing MutableLiveData
     var propertyId = MutableLiveData<String>()
-    var type = MutableLiveData<String>("")
+    var type = MutableLiveData<String>()
     var price = MutableLiveData<Int>(0)
     var surface = MutableLiveData<Int>(0)
     var roomNumber = MutableLiveData<Int>(0)
