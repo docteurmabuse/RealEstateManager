@@ -31,6 +31,7 @@ class AddEditPropertyViewModel @Inject constructor(
     private val context = getApplication<Application>().applicationContext
 
     // Two-way databinding, exposing MutableLiveData
+    var propertyId = MutableLiveData<String>()
     var type = MutableLiveData<String>()
     var price = MutableLiveData<Int>()
     var surface = MutableLiveData<Int>(0)
@@ -61,8 +62,8 @@ class AddEditPropertyViewModel @Inject constructor(
     var lat = MutableLiveData<Double>()
     var long = MutableLiveData<Double>()
 
-    var photos: ArrayList<Media.Photo> = arrayListOf()
-    var videos: ArrayList<Media.Video> = arrayListOf()
+    var photos = MutableLiveData<ArrayList<Media.Photo>>(arrayListOf())
+    var videos = MutableLiveData<ArrayList<Media.Video>>(arrayListOf())
 
     //Snackbar with message to user if a field is empty
     private val _snackbarText = MutableLiveData<Event<Int>>()
@@ -75,7 +76,7 @@ class AddEditPropertyViewModel @Inject constructor(
         get() = _statePhotos
 
     fun saveProperty() {
-        val currentId = UUID.randomUUID().toString()
+        val currentId = propertyId.value
         val currentType = type.value
         val currentPrice = price.value
         val currentSurface = surface.value
@@ -92,7 +93,8 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentSold = sold.value
         val currentSellDate = sellDate.value
         val currentSoldDate = soldDate.value
-        val currentMedia = Media(photos, videos)
+        val currentPhotos = photos.value
+        val currentVideos = videos.value
         val currentAgentId = agent.value?.id
         val currentAddress1 = address1.value
         val currentAddress2 = address2.value
@@ -102,13 +104,12 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentState = state.value
         val currentCountry = country.value
 
+        val currentMedia = Media(currentPhotos!!, currentVideos!!)
 
         val addressLine =
             "$currentAddress1, $currentCity, $currentState, $currentZipcode, $currentCountry"
 
         val location = GeocodeUtils.getLatLngFromAddress(addressLine, context)
-        Timber.d("PROPERTY_VIEWMODEL3: $location , $context")
-        Timber.d("PROPERTY_SURFACE: $currentSurface")
 
         val currentLat = location?.latitude
         val currentLong = location?.longitude
@@ -124,7 +125,30 @@ class AddEditPropertyViewModel @Inject constructor(
             currentLat,
             currentLong
         )
-
+        val myTestProperty = Property(
+            currentId,
+            currentType,
+            currentPrice,
+            currentSurface,
+            currentRoomNumber,
+            currentBathroomNumber,
+            currentBedroomNumber,
+            currentDescription,
+            currentSchools,
+            currentShops,
+            currentPark,
+            currentStations,
+            currentHospital,
+            currentMuseum,
+            currentSold,
+            currentSellDate,
+            currentSoldDate,
+            currentMedia,
+            currentAgentId,
+            currentAddress
+        )
+        Timber.d("PROPERTY_VIEWMODEL_TEST: $myTestProperty")
+        Timber.d("PROPERTY_VIEWMODEL3: $location , $context")
 
         if (currentType == null || currentPrice == null || currentSurface == null ||
             currentRoomNumber == null || currentBathroomNumber == null || currentBedroomNumber == null ||
@@ -134,6 +158,8 @@ class AddEditPropertyViewModel @Inject constructor(
             _snackbarText.value = Event(R.string.empty_property_message)
             return
         }
+
+
 
         if (Property(
                 currentId,
@@ -166,7 +192,7 @@ class AddEditPropertyViewModel @Inject constructor(
         if (isNewProperty || currentId == null) {
             createProperty(
                 Property(
-                    currentId,
+                    UUID.randomUUID().toString(),
                     currentType,
                     currentPrice,
                     currentSurface,
@@ -189,29 +215,7 @@ class AddEditPropertyViewModel @Inject constructor(
                 )
             )
         }
-        var myTestProperty = Property(
-            currentId,
-            currentType,
-            currentPrice,
-            currentSurface,
-            currentRoomNumber,
-            currentBathroomNumber,
-            currentBedroomNumber,
-            currentDescription,
-            currentSchools,
-            currentShops,
-            currentPark,
-            currentStations,
-            currentHospital,
-            currentMuseum,
-            currentSold,
-            currentSellDate,
-            currentSoldDate,
-            currentMedia,
-            currentAgentId,
-            currentAddress
-        )
-        Timber.d("PROPERTY_VIEWMODEL3: $myTestProperty")
+
 
     }
 

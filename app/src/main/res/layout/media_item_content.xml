@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyViewModel" />
+
+        <variable
             name="photo"
             type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
     </data>
@@ -44,7 +48,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 android:hint="@string/enter_media_title"
-                android:text="@={photo.photoPath}"
+                android:text="@={photo.name}"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/delete_button"

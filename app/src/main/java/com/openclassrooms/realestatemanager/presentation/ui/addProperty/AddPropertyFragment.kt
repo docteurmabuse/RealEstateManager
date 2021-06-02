@@ -328,6 +328,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun setPhotosObserver() {
+
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {
                 val value = viewModel.statePhotos
@@ -511,6 +512,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun submitPhotoToList(photo: Media.Photo) {
         //photos.add(photo)
         Timber.d("PHOTOS: ${photo.photoPath}")
+        //viewModel.photos.value?.add(photo)
+
         viewModel.addPhotoToPhotosList(photo)
         setPhotosObserver()
     }

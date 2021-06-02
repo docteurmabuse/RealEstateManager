@@ -129,6 +129,4 @@ class AddEditAgentViewModel @Inject constructor(
             _agentUpdatedEvent.value = Event(Unit)
         }
     }
-
-
 }
