@@ -106,7 +106,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var imgPath: String = ""
     private var imageUri: Uri? = null
     private var isPermissionsAllowed: Boolean = false
-    private var agent: Agent? = null
+    private var agent: String? = null
     private var agentList: List<Agent>? = arrayListOf()
     private var selectedAgent: Agent = Agent("", "", "")
     private var _agentId = ""

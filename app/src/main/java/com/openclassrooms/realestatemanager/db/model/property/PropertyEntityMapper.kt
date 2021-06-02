@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.db.model.property
 
-import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper
@@ -12,7 +11,6 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
         photos: List<PhotoEntity>,
         videos: List<VideoEntity>,
         address: AddressEntity,
-        agent: Agent
     ): Property {
         return Property(
             _id = model.id,
@@ -36,7 +34,7 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
             ),
-            _agent = agent,
+            _agent = model.agent_id,
             _address = address.toDomain()
         )
     }
@@ -60,7 +58,7 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
             sold = domainModel.sold,
             sellDate = DateUtil.dateToLong(domainModel.soldDate),
             soldDate = DateUtil.dateToLong(domainModel.soldDate),
-            agent_id = domainModel.agent?.id
+            agent_id = domainModel.agent
         )
     }
 

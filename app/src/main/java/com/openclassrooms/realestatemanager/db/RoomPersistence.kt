@@ -3,7 +3,7 @@ package com.openclassrooms.realestatemanager.db
 import com.openclassrooms.realestatemanager.db.dao.AgentDao
 import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
-import com.openclassrooms.realestatemanager.db.model.property.PropertyWithAgentEntity
+import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -24,21 +24,21 @@ class RoomPersistence @Inject constructor(
         return agentDao.getAgentById(agentId)
     }
 
-    override suspend fun getAllProperties(): Flow<List<PropertyWithAgentEntity>> {
+    override suspend fun getAllProperties(): Flow<List<PropertyEntityAggregate>> {
         return propertyDao.getAllProperties()
     }
 
     override suspend fun storeProperty(
-        property: PropertyWithAgentEntity,
+        property: PropertyEntityAggregate,
     ) {
         return propertyDao.insertProperty(property)
     }
 
-    override suspend fun getPropertyById(propertyId: String): Flow<PropertyWithAgentEntity> {
+    override suspend fun getPropertyById(propertyId: String): Flow<PropertyEntityAggregate> {
         return propertyDao.getPropertyById(propertyId)
     }
 
-    override suspend fun updateProperty(property: PropertyWithAgentEntity) {
+    override suspend fun updateProperty(property: PropertyEntityAggregate) {
         return propertyDao.updateProperty(property)
     }
 

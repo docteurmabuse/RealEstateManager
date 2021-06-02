@@ -12,10 +12,12 @@ import com.openclassrooms.realestatemanager.databinding.AddAgentFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.utils.setupSnackbar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 
 class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
+    private var isEditAgentView: Boolean = false
     private val viewModelEdit: AddEditAgentViewModel by viewModels()
     private var _binding: AddAgentFragmentBinding? = null
     private val binding get() = _binding!!
@@ -40,9 +42,26 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
         binding.viewmodel = viewModelEdit
         binding.agent = agent
         setupSnackbar()
+        retrievedArguments()
     }
 
     private fun setupSnackbar() {
         view?.setupSnackbar(this, viewModelEdit.snackbarText, Snackbar.LENGTH_SHORT)
+    }
+
+    private fun retrievedArguments() {
+        val bundle = arguments
+        if (bundle == null) {
+            Timber.d("PropertyDetailFragment did not received arguments")
+            return
+        }
+        //  val args = PropertyDetailFragmentArgs.fromBundle(bundle)
+        // agent = args.agent
+        // isEditAgentView = args.editAgentView
+        // agent?.let { setAgentInLayout(it) }
+    }
+
+    private fun setAgentInLayout(agent: Agent) {
+        TODO("Not yet implemented")
     }
 }

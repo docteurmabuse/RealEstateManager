@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -100,6 +101,16 @@ class AddEditAgentViewModel @Inject constructor(
         if (isNewAgent || currentAgentId == null) {
             createAgent(
                 Agent(
+                    UUID.randomUUID().toString(),
+                    currentName,
+                    currentEmail,
+                    currentPhone,
+                    currentImageUrl
+                )
+            )
+        } else {
+            createAgent(
+                Agent(
                     currentAgentId,
                     currentName,
                     currentEmail,
@@ -107,6 +118,7 @@ class AddEditAgentViewModel @Inject constructor(
                     currentImageUrl
                 )
             )
+
         }
     }
 

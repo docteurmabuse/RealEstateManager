@@ -69,7 +69,7 @@ data class PropertyEntity(
                 sold = domainModel.sold,
                 sellDate = DateUtil.dateToLong(domainModel.soldDate),
                 soldDate = DateUtil.dateToLong(domainModel.soldDate),
-                agent_id = domainModel.agent?.id
+                agent_id = domainModel.agent
             )
         }
     }
@@ -77,8 +77,7 @@ data class PropertyEntity(
     fun toDomain(
         photos: List<PhotoEntity>,
         videos: List<VideoEntity>,
-        address: AddressEntity,
-        agent: AgentEntity
+        address: AddressEntity
     ): Property {
         return Property(
             _id = id,
@@ -102,7 +101,7 @@ data class PropertyEntity(
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
             ),
-            _agent = agent.toDomain(),
+            _agent = agent_id,
             _address = address.toDomain()
         )
     }

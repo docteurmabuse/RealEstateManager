@@ -29,6 +29,7 @@ class PropertyEntityAggregate(
     companion object {
         fun fromDomain(property: Property): PropertyEntityAggregate {
             return PropertyEntityAggregate(
+
                 property = PropertyEntity.fromDomain(property),
                 photos = property.media.photos.map {
                     PhotoEntity.fromDomain(property.id!!, it)
@@ -37,6 +38,7 @@ class PropertyEntityAggregate(
                     VideoEntity.fromDomain(property.id!!, it)
                 },
                 address = AddressEntity.fromDomain(property.id!!, property.address)
+
             )
         }
     }

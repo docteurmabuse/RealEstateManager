@@ -4,7 +4,6 @@ import android.os.Parcelable
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.openclassrooms.realestatemanager.BR
-import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import kotlinx.parcelize.Parcelize
 import java.util.*
 
@@ -28,7 +27,7 @@ data class Property(
     var _sellDate: Date? = null,
     var _soldDate: Date? = null,
     var _media: Media = Media(arrayListOf(), arrayListOf()),
-    var _agent: Agent? = null,
+    var _agent: String? = null,
     var _address: Address? = null
 ) : Parcelable, BaseObservable() {
     @get:Bindable
@@ -193,7 +192,7 @@ data class Property(
 
     val isEmpty
         get() = type!!.isEmpty() || price != 0 || surface != 0 || roomNumber != 0 || bathroomNumber != 0 || bedroomNumber != 0 || description!!.isEmpty()
-                || media.photos.isEmpty() || agent!!.isEmpty || address != null || sellDate != null
+                || media.photos.isEmpty() || agent!!.isNotBlank() || address != null || sellDate != null
 
     enum class PropertyType {
         House,

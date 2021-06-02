@@ -3,22 +3,20 @@ package com.openclassrooms.realestatemanager.db.model.property
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
-import com.openclassrooms.realestatemanager.domain.model.property.Property
 
 class PropertyWithAgentEntity(
+    @Relation(parentColumn = "id", entityColumn = "agent_id")
+    val propertyEntity: PropertyEntity,
     @Embedded
-    val propertyEntityAggregate: PropertyEntityAggregate,
-
-    @Relation(parentColumn = "agent_id", entityColumn = "id")
     val agent: AgentEntity
 
 ) {
-    companion object {
+    /*companion object {
         fun fromDomain(property: Property): PropertyWithAgentEntity {
             return PropertyWithAgentEntity(
-                propertyEntityAggregate = PropertyEntityAggregate.fromDomain(property),
+                propertyEntity = PropertyEntity.fromDomain(property),
                 agent = AgentEntity.fromDomain(property.agent!!)
             )
         }
-    }
+    }*/
 }

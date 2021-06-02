@@ -31,26 +31,25 @@ class AddEditPropertyViewModel @Inject constructor(
     private val context = getApplication<Application>().applicationContext
 
     // Two-way databinding, exposing MutableLiveData
-    var id = MutableLiveData<String>()
     var type = MutableLiveData<String>()
     var price = MutableLiveData<Int>()
     var surface = MutableLiveData<Int>(0)
-    var roomNumber = MutableLiveData<Int>()
-    var bathroomNumber = MutableLiveData<Int>()
-    var bedroomNumber = MutableLiveData<Int>()
+    var roomNumber = MutableLiveData<Int>(0)
+    var bathroomNumber = MutableLiveData<Int>(0)
+    var bedroomNumber = MutableLiveData<Int>(0)
     var description = MutableLiveData<String>()
-    var schools = MutableLiveData<Boolean>()
-    var shops = MutableLiveData<Boolean>()
-    var park = MutableLiveData<Boolean>()
-    var stations = MutableLiveData<Boolean>()
-    var hospital = MutableLiveData<Boolean>()
-    var museum = MutableLiveData<Boolean>()
-    var sold = MutableLiveData<Boolean>()
+    var schools = MutableLiveData<Boolean>(false)
+    var shops = MutableLiveData<Boolean>(false)
+    var park = MutableLiveData<Boolean>(false)
+    var stations = MutableLiveData<Boolean>(false)
+    var hospital = MutableLiveData<Boolean>(false)
+    var museum = MutableLiveData<Boolean>(false)
+    var sold = MutableLiveData<Boolean>(false)
     var sellDate = MutableLiveData<Date>()
     var soldDate = MutableLiveData<Date>()
-
+    var photoList = MutableLiveData<List<Media.Photo>>()
+    var videoList = MutableLiveData<List<Media.Photo>>()
     var agent = MutableLiveData<Agent>()
-
     var address = MutableLiveData<Address>()
     var address1 = MutableLiveData<String>()
     var address2 = MutableLiveData<String>()
@@ -94,7 +93,7 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentSellDate = sellDate.value
         val currentSoldDate = soldDate.value
         val currentMedia = Media(photos, videos)
-        val currentAgent = agent.value
+        val currentAgentId = agent.value?.id
         val currentAddress1 = address1.value
         val currentAddress2 = address2.value
         val currentCity = city.value
@@ -127,10 +126,9 @@ class AddEditPropertyViewModel @Inject constructor(
         )
 
 
-
         if (currentType == null || currentPrice == null || currentSurface == null ||
             currentRoomNumber == null || currentBathroomNumber == null || currentBedroomNumber == null ||
-            currentDescription == null || currentMedia == null || currentAgent == null || currentAddress == null
+            currentDescription == null || currentMedia == null || currentAgentId == null || currentAddress == null
             || currentSellDate == null
         ) {
             _snackbarText.value = Event(R.string.empty_property_message)
@@ -156,7 +154,7 @@ class AddEditPropertyViewModel @Inject constructor(
                 currentSellDate,
                 currentSoldDate,
                 currentMedia,
-                currentAgent,
+                currentAgentId,
                 currentAddress
             ).isEmpty
         ) {
@@ -186,7 +184,7 @@ class AddEditPropertyViewModel @Inject constructor(
                     currentSellDate,
                     currentSoldDate,
                     currentMedia,
-                    currentAgent,
+                    currentAgentId,
                     currentAddress
                 )
             )
@@ -210,7 +208,7 @@ class AddEditPropertyViewModel @Inject constructor(
             currentSellDate,
             currentSoldDate,
             currentMedia,
-            currentAgent,
+            currentAgentId,
             currentAddress
         )
         Timber.d("PROPERTY_VIEWMODEL3: $myTestProperty")

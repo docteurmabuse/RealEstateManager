@@ -1,7 +1,7 @@
 package com.openclassrooms.realestatemanager.db
 
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
-import com.openclassrooms.realestatemanager.db.model.property.PropertyWithAgentEntity
+import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
 import kotlinx.coroutines.flow.Flow
 
 interface Persistence {
@@ -11,13 +11,13 @@ interface Persistence {
 
     suspend fun getAgentById(agentId: String): Flow<AgentEntity>
 
-    suspend fun getAllProperties(): Flow<List<PropertyWithAgentEntity>>
+    suspend fun getAllProperties(): Flow<List<PropertyEntityAggregate>>
 
-    suspend fun getPropertyById(propertyId: String): Flow<PropertyWithAgentEntity>
+    suspend fun getPropertyById(propertyId: String): Flow<PropertyEntityAggregate>
 
     suspend fun storeProperty(
-        property: PropertyWithAgentEntity
+        property: PropertyEntityAggregate
     )
 
-    suspend fun updateProperty(property: PropertyWithAgentEntity)
+    suspend fun updateProperty(property: PropertyEntityAggregate)
 }

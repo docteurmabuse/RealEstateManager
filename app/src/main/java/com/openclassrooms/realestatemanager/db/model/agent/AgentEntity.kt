@@ -3,14 +3,13 @@ package com.openclassrooms.realestatemanager.db.model.agent
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
-import java.util.*
 
 @Entity(
     tableName = "agent"
 )
 data class AgentEntity(
-    @PrimaryKey(autoGenerate = false)
-    var id: String = UUID.randomUUID().toString(),
+    @PrimaryKey
+    var id: String,
     var name: String?,
     var email: String?,
     var phone: String?,
@@ -19,7 +18,7 @@ data class AgentEntity(
     companion object {
         fun fromDomain(domainModel: Agent): AgentEntity {
             return AgentEntity(
-                UUID.randomUUID().toString(),
+                id = domainModel.id!!,
                 name = domainModel.name,
                 email = domainModel.email,
                 phone = domainModel.phone,
