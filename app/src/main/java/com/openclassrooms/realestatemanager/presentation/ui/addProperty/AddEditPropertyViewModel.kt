@@ -1,5 +1,8 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
+import android.annotation.SuppressLint
+import android.app.Application
+import android.location.Geocoder
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
@@ -7,6 +10,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.Event
+import com.openclassrooms.realestatemanager.utils.GeocodeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,8 +23,12 @@ import javax.inject.Inject
 class AddEditPropertyViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val addProperty: AddProperty,
-    private val updateProperty: AddProperty
-) : ViewModel() {
+    private val updateProperty: AddProperty,
+    application: Application,
+) : AndroidViewModel(application) {
+
+    @SuppressLint("StaticFieldLeak")
+    private val context = getApplication<Application>().applicationContext
 
     // Two-way databinding, exposing MutableLiveData
     var id = MutableLiveData<String>()
@@ -40,9 +48,10 @@ class AddEditPropertyViewModel @Inject constructor(
     var sold = MutableLiveData<Boolean>()
     var sellDate = MutableLiveData<Date>()
     var soldDate = MutableLiveData<Date>()
-    var agent = MutableLiveData<Agent>()
-    var address = MutableLiveData<Address>()
 
+    var agent = MutableLiveData<Agent>()
+
+    var address = MutableLiveData<Address>()
     var address1 = MutableLiveData<String>()
     var address2 = MutableLiveData<String>()
     var city = MutableLiveData<String>()
@@ -55,6 +64,8 @@ class AddEditPropertyViewModel @Inject constructor(
 
     var photos: ArrayList<Media.Photo> = arrayListOf()
     var videos: ArrayList<Media.Video> = arrayListOf()
+    var geocoder: Geocoder? = null
+
 
     //Snackbar with message to user if a field is empty
     private val _snackbarText = MutableLiveData<Event<Int>>()
@@ -84,8 +95,7 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentSold = sold.value
         val currentSellDate = sellDate.value
         val currentSoldDate = soldDate.value
-        var media = Media(photos, videos)
-        val currentMedia = media
+        val media = Media(photos, videos)
         val currentAgent = agent.value
         val currentAddress1 = address1.value
         val currentAddress2 = address2.value
@@ -94,8 +104,17 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentArea = area.value
         val currentState = state.value
         val currentCountry = country.value
-        val currentLat = lat.value
-        val currentLong = long.value
+
+
+        val addressLine =
+            "$currentAddress1, $currentCity, $currentState, $currentZipcode, $currentCountry"
+
+        val location = GeocodeUtils.getLatLngFromAddress(addressLine, context)
+        Timber.d("PROPERTY_VIEWMODEL3: $location , $context")
+
+        val currentLat = location?.latitude
+        val currentLong = location?.longitude
+
         val currentAddress = Address(
             currentAddress1,
             currentAddress2,
@@ -164,7 +183,7 @@ class AddEditPropertyViewModel @Inject constructor(
                 currentSold,
                 currentSellDate,
                 currentSoldDate,
-                currentMedia,
+                media,
                 currentAgent,
                 currentAddress
             )
@@ -190,7 +209,7 @@ class AddEditPropertyViewModel @Inject constructor(
             currentSold,
             currentSellDate,
             currentSoldDate,
-            currentMedia,
+            media,
             currentAgent,
             currentAddress
         )

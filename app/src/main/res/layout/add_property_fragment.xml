@@ -17,9 +17,6 @@
             name="agent"
             type="com.openclassrooms.realestatemanager.domain.model.agent.Agent" />
 
-        <variable
-            name="agent"
-            type="com.openclassrooms.realestatemanager.domain.model.property.Address" />
 
         <variable
             name="photo"
