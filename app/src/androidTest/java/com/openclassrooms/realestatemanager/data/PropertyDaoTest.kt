@@ -8,6 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.openclassrooms.realestatemanager.db.dao.AgentDao
 import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.database.PropertyDatabase
+import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -23,11 +24,11 @@ class PropertyDaoTest {
     private lateinit var propertyDatabase: PropertyDatabase
     private lateinit var propertyDao: PropertyDao
     private lateinit var agentDao: AgentDao
-    private val agent1 = AgentFactory.makeAgent()
 
     //Create fake property
     private val property1 = PropertyFactory.makeProperty()
     private val property2 = PropertyFactory.makeProperty()
+    private val agent = AgentEntity("1", "John Wayne", "kjjk", "121221", "ddd")
 
 
     @Before
@@ -41,7 +42,7 @@ class PropertyDaoTest {
 
         runBlocking {
             //Insert fake agents before the Property for Foreign Key purpose
-            agentDao.insertAgent(agent1)
+            agentDao.insertAgent(agent)
         }
     }
 

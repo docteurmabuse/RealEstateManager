@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom
 
 object PropertyFactory {
 
-    private val propertyId: String = UUID.randomUUID().toString()
+    private val propertyId: String = "1"
 
     private val makeRandomPhotoList =
         listOf(makeRandomPhoto(), makeRandomPhoto(), makeRandomPhoto())
@@ -14,6 +14,7 @@ object PropertyFactory {
     private val makeRandomVideoList: List<VideoEntity> =
         listOf(makeRandomVideo(), makeRandomVideo(), makeRandomVideo())
 
+    private val agentId = "1"
     fun makeProperty(): PropertyEntityAggregate {
         return PropertyEntityAggregate(
             makeRandomProperty(),
@@ -42,7 +43,7 @@ object PropertyFactory {
             makeRandomBoolean(),
             makeRandomLong(),
             makeRandomLong(),
-            "Marlon Brando",
+            agentId,
         )
     }
 
