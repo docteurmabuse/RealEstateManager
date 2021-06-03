@@ -37,11 +37,7 @@ interface PropertyDao {
     @Query("SELECT * FROM properties ORDER BY sell_date DESC")
     fun getAllProperties(): Flow<List<PropertyEntityAggregate>>
 
-    // Retrieve PropertiesEntity List form a query
-    @Query("SELECT * FROM properties WHERE surface BETWEEN 200 AND 300 OR price  BETWEEN 1500000 AND 2000000  || :query || '%' ORDER BY sell_date DESC")
-    suspend fun searchProperties(
-        query: String
-    ): List<PropertyEntityAggregate>
+
 
     //Update PropertyEntity
     @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -65,4 +61,10 @@ interface PropertyDao {
             .d("UPDATE_FabClick2: ${propertyEntityAggregate.photos}s,\n")
 
     }
+
+    // Retrieve PropertiesEntity List form a query
+    //@Query("SELECT * FROM properties WHERE surface BETWEEN 200 AND 300 OR price  BETWEEN 1500000 AND 2000000  || :query || '%' ORDER BY sell_date DESC")
+    //   suspend fun searchProperties(
+    //   query: String
+//    ): List<PropertyEntityAggregate>
 }

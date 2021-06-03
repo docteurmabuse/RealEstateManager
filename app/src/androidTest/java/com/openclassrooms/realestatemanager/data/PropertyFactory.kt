@@ -34,10 +34,40 @@ object PropertyFactory {
         )
     }
 
+    fun makeOneUpdateProperty(): PropertyEntityAggregate {
+        return PropertyEntityAggregate(
+            propertyUpdate,
+            makeRandomPhotoList,
+            makeRandomVideoList,
+            makeRandomAddress()
+        )
+    }
+
     val property = PropertyEntity(
         propertyId,
         type = "Manor",
         price = 450000,
+        surface = 250,
+        roomNumber = 5,
+        bathroomNumber = 6,
+        bedroomNumber = 6,
+        description = "Nice manor except ghost at night",
+        schools = true,
+        shops = true,
+        park = false,
+        stations = true,
+        hospital = false,
+        museum = false,
+        sold = false,
+        sellDate = null,
+        soldDate = null,
+        agentId
+    )
+
+    val propertyUpdate = PropertyEntity(
+        propertyId,
+        type = "House",
+        price = 10000,
         surface = 250,
         roomNumber = 5,
         bathroomNumber = 6,

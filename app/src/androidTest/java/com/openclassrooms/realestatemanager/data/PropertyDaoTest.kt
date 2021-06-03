@@ -31,6 +31,8 @@ class PropertyDaoTest {
     private val property1 = PropertyFactory.makeProperty()
     private val property2 = PropertyFactory.makeProperty()
     private val property = PropertyFactory.makeOneProperty()
+    private val propertyUpdate = PropertyFactory.makeOneUpdateProperty()
+
     private val agent = AgentEntity("1", "John Wayne", "kjjk", "121221", "ddd")
 
 
@@ -90,7 +92,7 @@ class PropertyDaoTest {
         propertyDao.insertProperty(property)
 
         //First Property in database
-        val firstProperty = propertyDao.getAllProperties().first()[0]
+        var firstProperty = propertyDao.getAllProperties().first()[0]
 
         //Fake Property 1 should be equal to first agent in database
         assertEquals(property.property.price, firstProperty.property.price)
@@ -101,9 +103,11 @@ class PropertyDaoTest {
         //Update  Property 1 zipcode
         property.property.price = 10000
         assertEquals(10000, property.property.price)
-        propertyDao.updateProperty(property)
+        propertyDao.updateProperty(propertyUpdate)
         Timber.tag("TEST_PROPERTY")
             .d("TEST_PROPERTY: $property,$firstProperty ")
+        firstProperty = propertyDao.getAllProperties().first()[0]
+
         Assert.assertEquals(property.property.price, firstProperty.property.price)
         closeDb()
     }
