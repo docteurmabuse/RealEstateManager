@@ -10,7 +10,8 @@ import com.openclassrooms.realestatemanager.domain.model.property.Address
     tableName = "estate_address", foreignKeys = [ForeignKey(
         entity = PropertyEntity::class,
         parentColumns = ["id"],
-        childColumns = ["property_id"]
+        childColumns = ["property_id"],
+        onDelete = ForeignKey.CASCADE
     )]
 )
 data class AddressEntity(
