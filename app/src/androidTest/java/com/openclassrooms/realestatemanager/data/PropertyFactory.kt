@@ -37,13 +37,13 @@ object PropertyFactory {
     fun makeOneUpdateProperty(): PropertyEntityAggregate {
         return PropertyEntityAggregate(
             propertyUpdate,
-            makeRandomPhotoList,
+            makeUpdatePhotoList(),
             makeRandomVideoList,
             makeRandomAddress()
         )
     }
 
-    val property = PropertyEntity(
+    private val property = PropertyEntity(
         propertyId,
         type = "Manor",
         price = 450000,
@@ -64,7 +64,7 @@ object PropertyFactory {
         agentId
     )
 
-    val propertyUpdate = PropertyEntity(
+    private val propertyUpdate = PropertyEntity(
         propertyId,
         type = "House",
         price = 10000,
@@ -114,6 +114,23 @@ object PropertyFactory {
             propertyId,
             makeRandomString(),
             makeRandomString(),
+        )
+    }
+
+    private fun makeUpdatePhotoList(): List<PhotoEntity> {
+        return arrayListOf<PhotoEntity>(
+            PhotoEntity(
+                makeRandomLong(),
+                propertyId,
+                "sejour",
+                makeRandomString(),
+            ),
+            PhotoEntity(
+                makeRandomLong(),
+                propertyId,
+                "salle de bain",
+                makeRandomString(),
+            )
         )
     }
 

@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.*
 import org.junit.runner.RunWith
-import timber.log.Timber
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
@@ -96,19 +95,23 @@ class PropertyDaoTest {
 
         //Fake Property 1 should be equal to first agent in database
         assertEquals(property.property.price, firstProperty.property.price)
+        //Fake Property 1 should be equal to first agent in database
         assertEquals(property.property.id, firstProperty.property.id)
         assertEquals("1", firstProperty.property.id)
 
         assertNotSame(10000, firstProperty.property.price)
-        //Update  Property 1 zipcode
+        //Update  Property price
         property.property.price = 10000
         assertEquals(10000, property.property.price)
+        propertyDao.updateProperty(property)
+        firstProperty = propertyDao.getAllProperties().first()[0]
+        Assert.assertEquals(propertyUpdate.property.price, firstProperty.property.price)
+
+        // Test if update all property is working
         propertyDao.updateProperty(propertyUpdate)
-        Timber.tag("TEST_PROPERTY")
-            .d("TEST_PROPERTY: $property,$firstProperty ")
         firstProperty = propertyDao.getAllProperties().first()[0]
 
-        Assert.assertEquals(property.property.price, firstProperty.property.price)
+        Assert.assertEquals(propertyUpdate.property, firstProperty.property)
         closeDb()
     }
 }
