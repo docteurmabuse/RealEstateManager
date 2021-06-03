@@ -253,6 +253,10 @@ dependencies {
     //Expandable Fab
     implementation "com.nambimobile.widgets:expandable-fab:1.0.2"
 
+    //Faker for fake data
+    implementation 'com.github.javafaker:javafaker:1.0.2'
+
+
 
 }
 secrets {

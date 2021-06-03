@@ -10,10 +10,12 @@ import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import junit.framework.Assert.assertEquals
+import junit.framework.Assert.assertNotSame
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.*
 import org.junit.runner.RunWith
+import timber.log.Timber
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
@@ -28,6 +30,7 @@ class PropertyDaoTest {
     //Create fake property
     private val property1 = PropertyFactory.makeProperty()
     private val property2 = PropertyFactory.makeProperty()
+    private val property = PropertyFactory.makeOneProperty()
     private val agent = AgentEntity("1", "John Wayne", "kjjk", "121221", "ddd")
 
 
@@ -77,6 +80,31 @@ class PropertyDaoTest {
         assertEquals(property1.address.zipCode, firstProperty.address.zipCode)
         //Fake Property 2 should not be equal to first agent in database
         Assert.assertNotEquals(property2.address.zipCode, firstProperty.address.zipCode)
+        closeDb()
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun insertAndGetAndUpdatePropertyAggregate() = runBlocking {
+        //Insert fake properties
+        propertyDao.insertProperty(property)
+
+        //First Property in database
+        val firstProperty = propertyDao.getAllProperties().first()[0]
+
+        //Fake Property 1 should be equal to first agent in database
+        assertEquals(property.property.price, firstProperty.property.price)
+        assertEquals(property.property.id, firstProperty.property.id)
+        assertEquals("1", firstProperty.property.id)
+
+        assertNotSame(10000, firstProperty.property.price)
+        //Update  Property 1 zipcode
+        property.property.price = 10000
+        assertEquals(10000, property.property.price)
+        propertyDao.updateProperty(property)
+        Timber.tag("TEST_PROPERTY")
+            .d("TEST_PROPERTY: $property,$firstProperty ")
+        Assert.assertEquals(property.property.price, firstProperty.property.price)
         closeDb()
     }
 }

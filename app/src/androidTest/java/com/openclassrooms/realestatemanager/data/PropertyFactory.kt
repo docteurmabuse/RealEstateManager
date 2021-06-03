@@ -1,13 +1,14 @@
 package com.openclassrooms.realestatemanager.data
 
+import com.github.javafaker.Faker
 import com.openclassrooms.realestatemanager.db.model.property.*
 import java.util.*
 import java.util.concurrent.ThreadLocalRandom
 
 object PropertyFactory {
 
-    private val propertyId: String = "1"
-
+    private const val propertyId: String = "1"
+    private val faker: Faker = Faker()
     private val makeRandomPhotoList =
         listOf(makeRandomPhoto(), makeRandomPhoto(), makeRandomPhoto())
 
@@ -23,6 +24,36 @@ object PropertyFactory {
             makeRandomAddress()
         )
     }
+
+    fun makeOneProperty(): PropertyEntityAggregate {
+        return PropertyEntityAggregate(
+            property,
+            makeRandomPhotoList,
+            makeRandomVideoList,
+            makeRandomAddress()
+        )
+    }
+
+    val property = PropertyEntity(
+        propertyId,
+        type = "Manor",
+        price = 450000,
+        surface = 250,
+        roomNumber = 5,
+        bathroomNumber = 6,
+        bedroomNumber = 6,
+        description = "Nice manor except ghost at night",
+        schools = true,
+        shops = true,
+        park = false,
+        stations = true,
+        hospital = false,
+        museum = false,
+        sold = false,
+        sellDate = null,
+        soldDate = null,
+        agentId
+    )
 
     private fun makeRandomProperty(): PropertyEntity {
         return PropertyEntity(

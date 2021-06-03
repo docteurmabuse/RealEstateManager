@@ -44,7 +44,7 @@ interface PropertyDao {
     ): List<PropertyEntityAggregate>
 
     //Update PropertyEntity
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updatePropertyAggregate(
         property: PropertyEntity,
         photos: List<PhotoEntity>,
