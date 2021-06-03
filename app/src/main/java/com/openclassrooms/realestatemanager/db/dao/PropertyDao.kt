@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.db.dao
 import androidx.room.*
 import com.openclassrooms.realestatemanager.db.model.property.*
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 
 @Dao
 interface PropertyDao {
@@ -60,5 +61,8 @@ interface PropertyDao {
             propertyEntityAggregate.videos,
             propertyEntityAggregate.address
         )
+        Timber.tag("UPDATE_FabClick")
+            .d("UPDATE_FabClick2: ${propertyEntityAggregate.photos}s,\n")
+
     }
 }

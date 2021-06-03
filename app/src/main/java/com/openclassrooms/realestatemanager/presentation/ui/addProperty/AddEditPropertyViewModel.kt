@@ -129,7 +129,7 @@ class AddEditPropertyViewModel @Inject constructor(
         sold.value = property.sold
         sellDate.value = property.sellDate
         soldDate.value = property.soldDate
-        photos.value = property.media.photos
+        //photos.value = property.media.photos
         videos.value = property.media.videos
         agentId.value = property.agent
         address.value = property.address
@@ -142,12 +142,14 @@ class AddEditPropertyViewModel @Inject constructor(
         country.value = property.address?.country!!
         lat.value = property.address?.lat!!
         long.value = property.address?.lng!!
+        _statePhotos.value = property.media.photos as ArrayList<Media.Photo>
+        photos.value = _statePhotos.value
     }
 
     fun saveProperty() {
         val currentId = propertyId
         val currentType = type.value
-        val currentPrice = price.value?.toInt()
+        val currentPrice = price.value?.toIntOrNull()
         val currentSurface = surface.value?.toInt()
         val currentRoomNumber = roomNumber.value?.toInt()
         val currentBathroomNumber = bathroomNumber.value?.toInt()
@@ -162,7 +164,7 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentSold = sold.value
         val currentSellDate = sellDate.value
         val currentSoldDate = soldDate.value
-        var currentPhotos = photos.value
+        var currentPhotos = statePhotos.value
         val currentVideos = videos.value
         val currentAgentId = agentId.value
         val currentAddress1 = address1.value
@@ -175,11 +177,12 @@ class AddEditPropertyViewModel @Inject constructor(
 
 
         viewModelScope.launch {
-            currentPhotos = statePhotos.value
             Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
+            Timber.tag("CURRENT_PHOTOS").d("CURRENT_PHOTOS: ${_statePhotos.value}")
         }
+        currentPhotos = statePhotos.value
 
-        val currentMedia = Media(currentPhotos!!, currentVideos!!)
+        var currentMedia = Media(statePhotos.value, currentVideos!!)
 
         val addressLine =
             "$currentAddress1, $currentCity, $currentState, $currentZipcode, $currentCountry"
@@ -200,29 +203,7 @@ class AddEditPropertyViewModel @Inject constructor(
             currentLat,
             currentLong
         )
-        val myTestProperty = Property(
-            currentId,
-            currentType,
-            currentPrice,
-            currentSurface,
-            currentRoomNumber,
-            currentBathroomNumber,
-            currentBedroomNumber,
-            currentDescription,
-            currentSchools,
-            currentShops,
-            currentPark,
-            currentStations,
-            currentHospital,
-            currentMuseum,
-            currentSold,
-            currentSellDate,
-            currentSoldDate,
-            currentMedia,
-            currentAgentId,
-            currentAddress
-        )
-        Timber.d("PROPERTY_VIEWMODEL_TEST: $myTestProperty")
+
         Timber.d("PROPERTY_VIEWMODEL3: $location , $context")
         Timber.d("PROPERTY_ID: $currentId")
         /*if (currentType == null || currentPrice == null || currentSurface == null ||
@@ -318,10 +299,9 @@ class AddEditPropertyViewModel @Inject constructor(
     }
 
     fun updatePropertyToRoomDb(property: Property) {
-        Timber.tag("UPDATE_FabClick").d("UPDATE_FabClick: $property")
+        Timber.tag("UPDATE_FabClick").d("UPDATE_FabClick: $property.media")
 
         viewModelScope.launch {
-            // property.agentId = currentAgentId
             // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
             updateProperty.invoke(property)
         }
@@ -329,7 +309,7 @@ class AddEditPropertyViewModel @Inject constructor(
 
     private fun createProperty(property: Property) {
         viewModelScope.launch {
-            Timber.d("PROPERTY: ${property.agent}, ${property.address}")
+            Timber.d("PROPERTY: ${property.agent}, ${property.media}")
             addProperty.invoke(property)
         }
     }
@@ -350,8 +330,13 @@ class AddEditPropertyViewModel @Inject constructor(
 
     fun removePhotoToPhotosList(photo: Media.Photo) {
         viewModelScope.launch {
+            Timber.tag("STATE_PHOTO").d("REMOVE_PHOTO1: ${photos.value?.size}")
+            Timber.tag("STATE_PHOTO").d("REMOVE_PHOTO1: ${_statePhotos.value.size}")
+
             _statePhotos.value.remove(photo)
-            Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
+            photos.value?.toMutableList()?.remove(photo)
+            Timber.tag("STATE_PHOTO").d("REMOVE_PHOTO: ${photos.value?.size}")
+            Timber.tag("STATE_PHOTO").d("REMOVE_PHOTO: ${_statePhotos.value.size}")
         }
     }
 }

@@ -387,7 +387,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
     }
 
-
     private fun setupRecyclerView() {
         photosRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -558,7 +557,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     override fun onItemSelected(position: Int, item: Media.Photo) {
-        photos.remove(item)
+        viewModel.removePhotoToPhotosList(item)
+
         Timber.d("PHOTO_DELETE: ${item.photoPath}, newlist = $photos")
         setupRecyclerView()
     }

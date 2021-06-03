@@ -9,11 +9,13 @@ import androidx.test.filters.SmallTest
 import androidx.test.platform.app.InstrumentationRegistry
 import com.openclassrooms.realestatemanager.db.dao.AgentDao
 import com.openclassrooms.realestatemanager.db.database.PropertyDatabase
+import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.produceIn
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotEquals
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -52,13 +54,14 @@ class AgentDaoTest {
         // The list is empty
 
         //Get first agent in the list
-        val firstAgent = agentDao.getAllAgent().first()
+        val firstAgent = agentDao.getAllAgents().first()
         //First agent size should be 0
         assertEquals(0, firstAgent.size)
         closeDb()
     }
 
 
+    @FlowPreview
     @Test
     @Throws(Exception::class)
     fun insertAndGetAgent() = runBlocking {
@@ -66,16 +69,20 @@ class AgentDaoTest {
         val agent1 = AgentFactory.makeAgent()
         val agent2 = AgentFactory.makeAgent()
 
-        //Insert fake agents
-        agentDao.insertAgent(agent1)
-        agentDao.insertAgent(agent2)
+        val agent3 = AgentEntity("1", "John Wayne", "kjjk", "121221", "ddd")
+        val agent4 = AgentEntity("2", "Clark Gable", "hhhj", "12125421", "")
 
-        //First Agent in database
-        val firstAgent = agentDao.getAllAgent().first()[0]
-        //Fake agent 1 should be equal to first agent in database
-        assertEquals(agent1, firstAgent)
-        //Fake agent 2 should not be equal to first agent in database
-        assertNotEquals(agent2, firstAgent)
+        //Insert fake agents
+        agentDao.insertAgent(agent3)
+        agentDao.insertAgent(agent4)
+
+        val fakeAgentList = mutableListOf<AgentEntity>(agent3, agent4)
+
+        val channelFlow = agentDao.getAllAgents().produceIn(this)
+        assertEquals(channelFlow.receive(), fakeAgentList)
+        assertTrue(channelFlow.isEmpty)
+        channelFlow.cancel()
+
         closeDb()
     }
 

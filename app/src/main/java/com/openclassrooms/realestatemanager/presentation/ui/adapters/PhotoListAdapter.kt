@@ -72,6 +72,7 @@ class PhotoListAdapter(
         binding.root,
     ) {
 
+        var removedPosition: Int? = null
 
         @SuppressLint("ClickableViewAccessibility")
         fun bind(item: Media.Photo) = with(binding.root) {
