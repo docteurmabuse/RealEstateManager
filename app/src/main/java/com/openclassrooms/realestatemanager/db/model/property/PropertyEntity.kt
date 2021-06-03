@@ -18,7 +18,7 @@ import kotlinx.parcelize.Parcelize
         entity = AgentEntity::class,
         parentColumns = ["id"],
         childColumns = ["agent_id"],
-        onDelete = ForeignKey.NO_ACTION
+        onDelete = ForeignKey.CASCADE
     )]
 //indices = [Index("agent_id")]
 )

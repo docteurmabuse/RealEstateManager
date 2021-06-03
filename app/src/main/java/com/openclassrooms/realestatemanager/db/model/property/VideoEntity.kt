@@ -10,7 +10,8 @@ import com.openclassrooms.realestatemanager.domain.model.property.Media
     tableName = "estate_videos", foreignKeys = [ForeignKey(
         entity = PropertyEntity::class,
         parentColumns = ["id"],
-        childColumns = ["property_id"]
+        childColumns = ["property_id"],
+        onDelete = ForeignKey.CASCADE
     )]
 )
 data class VideoEntity(

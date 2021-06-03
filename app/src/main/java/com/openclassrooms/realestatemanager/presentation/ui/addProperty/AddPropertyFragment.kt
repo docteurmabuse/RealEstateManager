@@ -427,15 +427,15 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
             val navHostFragment = findNavController()
-            if (isEditPropertyView) {
+           /* if (isEditPropertyView) {
                 updateProperty()
             } else {
                 saveProperty()
-            }
+            }*/
             val action =
                 AddPropertyFragmentDirections.actionAddPropertyFragmentToItemTabsFragment2()
             navHostFragment.navigate(action)
-            // navHostFragment.navigate(R.id.propertyListFragment)
+            navHostFragment.navigate(R.id.propertyListFragment)
         }
     }
 

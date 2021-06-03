@@ -8,7 +8,7 @@ import timber.log.Timber
 @Dao
 interface PropertyDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPropertyAggregate(
         property: PropertyEntity,
         photos: List<PhotoEntity>,

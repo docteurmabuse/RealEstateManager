@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.presentation.ui.property_list
 
-import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
@@ -45,7 +41,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
     private val viewModel: PropertyListViewModel by viewModels()
     private lateinit var adapter: PropertyAdapter
     private var recyclerView: RecyclerView? = null
-
+    private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +49,6 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
-        setUpMedia()
     }
 
     override fun onCreateView(
@@ -68,8 +63,12 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = binding.propertyList
+        swipeRefreshLayout = binding.swiperefresh
+        swipeRefreshLayout?.setOnRefreshListener {
+            setObserver()
+        }
         setObserver()
-        viewModel.fetchProperties()
+        //       viewModel.fetchProperties()
         // Leaving this not using view binding as it relies on if the view is visible the current
         // layout configuration (layout, layout-sw600dp)
         val itemDetailFragmentContainer: View? =
@@ -152,12 +151,15 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
             value.collect {
                 when (it.status) {
                     DataState.Status.SUCCESS -> {
+                        displayLoading(false)
                         it.data?.let { properties -> renderList(properties) }
                     }
                     DataState.Status.LOADING -> {
-
+                        displayLoading(true)
                     }
                     DataState.Status.ERROR -> {
+                        displayLoading(false)
+                        displayError(it.message)
                         Timber.d("LIST_OBSERVER: ${it.message}")
                     }
                 }
@@ -165,44 +167,20 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         }
     }
 
-    private fun setUpMedia() {
-        Dexter.withContext(requireContext())
-            .withPermissions(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            .withListener(object : MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                    report?.let {
-                        if (report.areAllPermissionsGranted()) {
-                            Timber.d("PERMISSIONS OK")
-                        }
-                    }
-                }
-
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?,
-                    token: PermissionToken?
-                ) {
-                    token?.continuePermissionRequest()
-                }
-            })
-            .withErrorListener {
-                Timber.d(it.name)
-            }
-            .check()
-
-        /* if (haveStoragePermission()) {
-             showImages()
-         } else {
-             requestPermission()
-         }*/
+    private fun displayError(message: String?) {
+        if (message != null) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(requireContext(), "Unknown error", Toast.LENGTH_LONG).show()
+        }
     }
+
+    private fun displayLoading(isLoading: Boolean) {
+        if (isLoading) binding.progressBar?.visibility = View.VISIBLE
+        else binding.progressBar?.visibility = View.GONE
+        swipeRefreshLayout?.isRefreshing = isLoading
+    }
+
 
     private fun renderList(list: List<Property>) {
         adapter.submitList(list)

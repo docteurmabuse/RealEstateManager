@@ -105,12 +105,12 @@ class AddEditPropertyViewModel @Inject constructor(
                 }
                 .collectLatest {
                     _state.value = DataState.success(it)
-                    onPropertyLoad(it)
+                    onPropertyLoaded(it)
                 }
         }
     }
 
-    private fun onPropertyLoad(property: Property) {
+    private fun onPropertyLoaded(property: Property) {
 
         // Two-way databinding, exposing MutableLiveData
         type.value = property.type
@@ -140,8 +140,8 @@ class AddEditPropertyViewModel @Inject constructor(
         state.value = property.address?.state!!
         area.value = property.address?.area!!
         country.value = property.address?.country!!
-        lat.value = property.address?.lat!!
-        long.value = property.address?.lng!!
+        lat.value = property.address?.lat.toString().toDoubleOrNull()
+        long.value = property.address?.lng.toString().toDoubleOrNull()
         _statePhotos.value = property.media.photos as ArrayList<Media.Photo>
         photos.value = _statePhotos.value
     }
@@ -150,10 +150,10 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentId = propertyId
         val currentType = type.value
         val currentPrice = price.value?.toIntOrNull()
-        val currentSurface = surface.value?.toInt()
-        val currentRoomNumber = roomNumber.value?.toInt()
-        val currentBathroomNumber = bathroomNumber.value?.toInt()
-        val currentBedroomNumber = bedroomNumber.value?.toInt()
+        val currentSurface = surface.value?.toIntOrNull()
+        val currentRoomNumber = roomNumber.value?.toIntOrNull()
+        val currentBathroomNumber = bathroomNumber.value?.toIntOrNull()
+        val currentBedroomNumber = bedroomNumber.value?.toIntOrNull()
         val currentDescription = description.value
         val currentSchools = schools.value
         val currentShops = shops.value
@@ -177,20 +177,19 @@ class AddEditPropertyViewModel @Inject constructor(
 
 
         viewModelScope.launch {
+            currentPhotos = statePhotos.value
             Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
             Timber.tag("CURRENT_PHOTOS").d("CURRENT_PHOTOS: ${_statePhotos.value}")
         }
-        currentPhotos = statePhotos.value
 
         var currentMedia = Media(statePhotos.value, currentVideos!!)
 
         val addressLine =
             "$currentAddress1, $currentCity, $currentState, $currentZipcode, $currentCountry"
-
         val location = GeocodeUtils.getLatLngFromAddress(addressLine, context)
 
-        val currentLat = location?.latitude
-        val currentLong = location?.longitude
+        val currentLat = location?.latitude.toString().toDoubleOrNull()
+        val currentLong = location?.longitude.toString().toDoubleOrNull()
 
         val currentAddress = Address(
             currentAddress1,
@@ -245,7 +244,7 @@ class AddEditPropertyViewModel @Inject constructor(
 
 
         if (isNewProperty || currentId == null) {
-            createProperty(
+            saveProperty(
                 Property(
                     UUID.randomUUID().toString(),
                     currentType,
@@ -300,14 +299,16 @@ class AddEditPropertyViewModel @Inject constructor(
 
     fun updatePropertyToRoomDb(property: Property) {
         Timber.tag("UPDATE_FabClick").d("UPDATE_FabClick: $property.media")
-
+        if (isNewProperty) {
+            throw RuntimeException("updateProperty() was called but property is new.")
+        }
         viewModelScope.launch {
             // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
-            updateProperty.invoke(property)
+            addProperty.invoke(property)
         }
     }
 
-    private fun createProperty(property: Property) {
+    private fun saveProperty(property: Property) {
         viewModelScope.launch {
             Timber.d("PROPERTY: ${property.agent}, ${property.media}")
             addProperty.invoke(property)
