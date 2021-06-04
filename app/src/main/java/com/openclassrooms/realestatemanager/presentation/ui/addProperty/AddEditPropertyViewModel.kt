@@ -54,8 +54,8 @@ class AddEditPropertyViewModel @Inject constructor(
     var hospital = MutableLiveData<Boolean>(false)
     var museum = MutableLiveData<Boolean>(false)
     var sold = MutableLiveData<Boolean>(false)
-    var sellDate = MutableLiveData<Date>()
-    var soldDate = MutableLiveData<Date>()
+    var sellDate = MutableLiveData<String>()
+    var soldDate = MutableLiveData<String>()
     var photos = MutableLiveData<List<Media.Photo>>(arrayListOf())
     var videos = MutableLiveData<List<Media.Video>>(arrayListOf())
     var agent = MutableLiveData<Agent>()
@@ -63,16 +63,16 @@ class AddEditPropertyViewModel @Inject constructor(
     var address = MutableLiveData<Address>()
     var address1 = MutableLiveData<String>()
     var address2 = MutableLiveData<String>()
-    var city = MutableLiveData<String>()
+    var city = MutableLiveData<String>("New York")
     var zipCode = MutableLiveData<String>()
-    var state = MutableLiveData<String>()
+    var state = MutableLiveData<String>("NY")
     var area = MutableLiveData<String>()
-    var country = MutableLiveData<String>()
+    var country = MutableLiveData<String>("United States")
     var lat = MutableLiveData<Double>()
     var long = MutableLiveData<Double>()
 
 
-    private var isNewProperty: Boolean = false
+    var isNewProperty = MutableLiveData<Boolean>(false)
 
     //Snackbar with message to user if a field is empty
     private val _snackbarText = MutableLiveData<Event<Int>>()
@@ -97,11 +97,11 @@ class AddEditPropertyViewModel @Inject constructor(
     fun start(propertyId: String) {
         this.propertyId = propertyId
         if (propertyId == null) {
-            isNewProperty = true
+            isNewProperty.value = true
             return
         }
 
-        isNewProperty = false
+        isNewProperty.value = false
 
         viewModelScope.launch {
             getPropertyById.invoke(propertyId)
@@ -116,7 +116,6 @@ class AddEditPropertyViewModel @Inject constructor(
     }
 
     private fun onPropertyLoaded(property: Property) {
-
         // Two-way databinding, exposing MutableLiveData
         type.value = property.type
         price.value = property.price.toString()
@@ -132,8 +131,8 @@ class AddEditPropertyViewModel @Inject constructor(
         hospital.value = property.hospital
         museum.value = property.museum
         sold.value = property.sold
-        sellDate.value = property.sellDate
-        soldDate.value = property.soldDate
+        sellDate.value = property.sellDate.toString()
+        soldDate.value = property.soldDate.toString()
         //photos.value = property.media.photos
         videos.value = property.media.videos
         agentId.value = property.agent
@@ -248,7 +247,7 @@ class AddEditPropertyViewModel @Inject constructor(
          }*/
 
 
-        if (isNewProperty || currentId == null) {
+        if (isNewProperty.value == true || currentId == null) {
             saveProperty(
                 Property(
                     UUID.randomUUID().toString(),
@@ -266,8 +265,8 @@ class AddEditPropertyViewModel @Inject constructor(
                     currentHospital,
                     currentMuseum,
                     currentSold,
-                    currentSellDate,
-                    currentSoldDate,
+                    currentSellDate?.toLong(),
+                    currentSoldDate?.toLong(),
                     currentMedia,
                     currentAgentId,
                     currentAddress
@@ -291,26 +290,27 @@ class AddEditPropertyViewModel @Inject constructor(
                     currentHospital,
                     currentMuseum,
                     currentSold,
-                    currentSellDate,
-                    currentSoldDate,
+                    currentSellDate?.toLong(),
+                    currentSoldDate?.toLong(),
                     currentMedia,
                     currentAgentId,
                     currentAddress
                 )
             )
-            Timber.d("UPDATE: $currentSurface")
+            Timber.d("UPDATE: $currentSellDate")
         }
     }
 
     fun updatePropertyToRoomDb(property: Property) {
         Timber.tag("UPDATE_FabClick").d("UPDATE_FabClick: $property.media")
-        if (isNewProperty) {
+        if (isNewProperty.value == true) {
             throw RuntimeException("updateProperty() was called but property is new.")
         }
         viewModelScope.launch {
             // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
             addProperty.invoke(property)
         }
+
     }
 
     private fun saveProperty(property: Property) {

@@ -5,7 +5,6 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import com.openclassrooms.realestatemanager.BR
 import kotlinx.parcelize.Parcelize
-import java.util.*
 
 @Parcelize
 data class Property(
@@ -24,8 +23,8 @@ data class Property(
     var _hospital: Boolean? = false,
     var _museum: Boolean? = false,
     var _sold: Boolean? = false,
-    var _sellDate: Date? = null,
-    var _soldDate: Date? = null,
+    var _sellDate: Long? = null,
+    var _soldDate: Long? = null,
     var _media: Media = Media(arrayListOf(), arrayListOf()),
     var _agent: String? = null,
     var _address: Address? = null

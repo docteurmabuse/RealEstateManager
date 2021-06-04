@@ -17,27 +17,28 @@ import java.util.*
 
 
 object Converter {
+/*
+    @InverseMethod("stringTextViewToDate")
+    @JvmStatic
+    fun dateToTextViewString(
+        view: EditText, oldValue: Long,
+        value: Long
+    ): String? {
+        return if (oldValue != value) {
+            DateUtil.longDateToString(value)
+        } else DateUtil.longDateToString(oldValue)
+    }
 
-    /* @InverseMethod("stringToDate")
-     @JvmStatic
-     fun dateToString(
-         view: EditText, oldValue: Long,
-         value: Long
-     ): String? {
-         return if (oldValue != value) {
-             DateUtil.longDateToString(value)
-         } else DateUtil.longDateToString(oldValue)
-     }
+    @JvmStatic
+    fun stringTextViewToDate(
+        view: EditText, oldValue: String,
+        value: String
+    ): Long? {
+        return if (oldValue != value) {
+            DateUtil.stringToLongDate(value)
+        } else DateUtil.stringToLongDate(oldValue)
+    }*/
 
-     @JvmStatic
-     fun stringToDate(
-         view: EditText, oldValue: String,
-         value: String
-     ): Long? {
-         return if (oldValue != value) {
-             DateUtil.stringToLongDate(value)
-         } else DateUtil.stringToLongDate(oldValue)
-     }*/
     @JvmStatic
     @InverseMethod("toDouble")
     fun toString(

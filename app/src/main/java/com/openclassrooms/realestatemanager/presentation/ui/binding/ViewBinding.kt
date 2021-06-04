@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.property.Media
-import com.openclassrooms.realestatemanager.utils.DateUtil.dateToString
+import com.openclassrooms.realestatemanager.utils.DateUtil.longDateToString
+import com.openclassrooms.realestatemanager.utils.DateUtil.stringToLongDate
 import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
@@ -92,9 +93,21 @@ class ViewBinding {
 
         @JvmStatic
         @BindingAdapter("dateToText")
-        fun bindDateText(textView: TextView, date: Date?) {
-            date?.let {
-                textView.text = dateToString(it)
+        fun bindLongToText(textView: TextView, long: Long?) {
+            long?.let {
+                textView.text = longDateToString(it)
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("textToDate")
+        fun bindTextToDate(textView: TextView, string: String?) {
+            string?.let {
+                if (it.isNotEmpty())
+                    textView.text = stringToLongDate(it).toString()
+                else {
+                    textView.text = ""
+                }
             }
         }
 

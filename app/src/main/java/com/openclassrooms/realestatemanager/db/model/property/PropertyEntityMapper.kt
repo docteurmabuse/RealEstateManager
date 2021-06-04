@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.db.model.property
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.domain.model.util.DomainMapper
-import com.openclassrooms.realestatemanager.utils.DateUtil
 
 class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
     fun mapToDomainModel(
@@ -28,8 +27,8 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
             _hospital = model.hospital,
             _museum = model.museum,
             _sold = model.sold,
-            _sellDate = DateUtil.longToDate(model.soldDate),
-            _soldDate = DateUtil.longToDate(model.soldDate),
+            _sellDate = model.soldDate,
+            _soldDate = model.soldDate,
             Media(
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
@@ -56,8 +55,8 @@ class PropertyEntityMapper : DomainMapper<PropertyEntity, Property> {
             hospital = domainModel.hospital,
             museum = domainModel.museum,
             sold = domainModel.sold,
-            sellDate = DateUtil.dateToLong(domainModel.soldDate),
-            soldDate = DateUtil.dateToLong(domainModel.soldDate),
+            sellDate = domainModel.soldDate,
+            soldDate = domainModel.soldDate,
             agent_id = domainModel.agent
         )
     }

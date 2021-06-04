@@ -136,8 +136,8 @@ class AddPropertyViewModel @Inject constructor(
         property.hospital = addPropertyView.hospital
         property.museum = addPropertyView.museum
         property.sold = addPropertyView.sold
-        property.sellDate = addPropertyView.sellDate
-        property.soldDate = addPropertyView.soldDate
+        //  property.sellDate = addPropertyView.sellDate
+        // property.soldDate = addPropertyView.soldDate
         property.media = addPropertyView.media
         property.agent = addPropertyView.agent
         property.address = addPropertyView.address
@@ -165,7 +165,6 @@ class AddPropertyViewModel @Inject constructor(
         var media: Media = Media(arrayListOf(), arrayListOf()),
         var agent: String? = null,
         var address: Address?
-
     )
 }
 

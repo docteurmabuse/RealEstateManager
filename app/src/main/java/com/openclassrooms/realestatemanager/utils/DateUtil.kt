@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.utils
 
 import android.widget.DatePicker
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,11 +25,14 @@ object DateUtil {
     }
 
     fun longDateToString(long: Long?): String? {
+
         return longToDate(long)?.let { dateToString(it) }
     }
 
     fun stringToLongDate(string: String?): Long? {
-        return string?.let { dateToLong(stringToDate(it)) }
+        return if (string != "null" || string != "")
+            string?.let { dateToLong(stringToDate(it)) }
+        else return 0L
     }
 
     fun dateToLong(date: Date?): Long? {
@@ -38,12 +42,22 @@ object DateUtil {
     }
 
     fun dateToString(date: Date): String {
-        return sdf.format(date)
+        return try {
+            sdf.format(date)
+        } catch (e: NumberFormatException) {
+            return ""
+        }
     }
 
-    fun stringToDate(string: String): Date {
-        return sdf.parse(string)
-            ?: throw NullPointerException("Could not convert date string to Date object.")
+    fun stringToDate(string: String): Date? {
+        return try {
+            string.let {
+                sdf.parse(string)
+                    ?: throw NullPointerException("Could not convert date string to Date object.")
+            }
+        } catch (e: ParseException) {
+            null
+        }
     }
 
     fun createTimestamp(): Date {

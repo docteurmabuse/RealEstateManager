@@ -380,9 +380,34 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             picker.show()
 
             val dateOnMarket: Date = picker.datePicker.getDate()
-            binding.dates!!.viewModel?.sellDate = MutableLiveData(dateOnMarket)
+            binding.dates!!.viewModel?.sellDate = MutableLiveData(date.toString())
             binding.dates!!.sellDateDropdown.setText(longToDate(date)?.let { it1 -> dateToString(it1) })
+            viewModel.sellDate = MutableLiveData(date.toString())
+            Timber.d("DATE_PICKER : $date, {${longToDate(date)}}")
+        }
+    }
 
+    private fun setupSoldDateListener() {
+        binding.dates!!.sellDateDropdown.setOnClickListener {
+            val cldr: Calendar = Calendar.getInstance()
+            var date: Long = cldr.timeInMillis
+            val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
+            val month: Int = cldr.get(Calendar.MONTH)
+            val year: Int = cldr.get(Calendar.YEAR)
+            val picker = DatePickerDialog(
+                requireContext(),
+                { _, year, monthOfYear, dayOfMonth ->
+                },
+                year,
+                month,
+                day
+            )
+            picker.show()
+
+            val dateOnMarket: Date = picker.datePicker.getDate()
+            binding.dates!!.viewModel?.soldDate = MutableLiveData(date.toString())
+            binding.dates!!.sellDateDropdown.setText(longToDate(date)?.let { it1 -> dateToString(it1) })
+            viewModel.soldDate = MutableLiveData(date.toString())
             Timber.d("DATE_PICKER : $date, {${longToDate(date)}}")
         }
     }

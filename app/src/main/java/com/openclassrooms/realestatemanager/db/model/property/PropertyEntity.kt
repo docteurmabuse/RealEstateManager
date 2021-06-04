@@ -8,7 +8,6 @@ import androidx.room.PrimaryKey
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
-import com.openclassrooms.realestatemanager.utils.DateUtil
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -67,8 +66,8 @@ data class PropertyEntity(
                 hospital = domainModel.hospital,
                 museum = domainModel.museum,
                 sold = domainModel.sold,
-                sellDate = DateUtil.dateToLong(domainModel.soldDate),
-                soldDate = DateUtil.dateToLong(domainModel.soldDate),
+                sellDate = domainModel.soldDate,
+                soldDate = domainModel.soldDate,
                 agent_id = domainModel.agent
             )
         }
@@ -95,8 +94,8 @@ data class PropertyEntity(
             _hospital = hospital,
             _museum = museum,
             _sold = sold,
-            _sellDate = DateUtil.longToDate(soldDate),
-            _soldDate = DateUtil.longToDate(soldDate),
+            _sellDate = soldDate,
+            _soldDate = soldDate,
             Media(
                 photos = photos.map { it.toDomain() },
                 videos = videos.map { it.toDomain() }
