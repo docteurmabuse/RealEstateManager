@@ -1,7 +1,10 @@
 package com.openclassrooms.realestatemanager.presentation
 
 import android.app.Application
+import androidx.core.app.NotificationManagerCompat
 import com.openclassrooms.realestatemanager.BuildConfig
+import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.notif.NotificationHelper
 import dagger.hilt.android.HiltAndroidApp
 import leakcanary.AppWatcher
 import timber.log.Timber
@@ -14,6 +17,12 @@ class BaseApplication : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+
+        NotificationHelper.createNotificationChannel(
+            this,
+            NotificationManagerCompat.IMPORTANCE_DEFAULT, false,
+            getString(R.string.app_name), "App notification channel."
+        )
     }
 
 }

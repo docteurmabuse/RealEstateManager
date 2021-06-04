@@ -51,8 +51,6 @@ class AddEditAgentViewModel @Inject constructor(
 
     private var isDataLoaded = false
 
-    private var addAgentCompleted = false
-
     fun start(agentId: String?) {
         if (_dataLoading.value == true) {
             return
@@ -71,7 +69,6 @@ class AddEditAgentViewModel @Inject constructor(
         _dataLoading.value = true
         viewModelScope.launch {
             getAgentById.invoke(agentId).let {
-
             }
         }
     }
