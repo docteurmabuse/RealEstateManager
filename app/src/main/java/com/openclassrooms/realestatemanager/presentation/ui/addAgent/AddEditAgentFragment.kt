@@ -79,7 +79,5 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
         // agent?.let { setAgentInLayout(it) }
     }
 
-    private fun setAgentInLayout(agent: Agent) {
-        TODO("Not yet implemented")
-    }
+
 }
