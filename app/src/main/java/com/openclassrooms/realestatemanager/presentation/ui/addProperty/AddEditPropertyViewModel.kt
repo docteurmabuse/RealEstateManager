@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.*
+import com.openclassrooms.realestatemanager.domain.interactors.agent.GetAgentById
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.interactors.property.GetPropertyById
 import com.openclassrooms.realestatemanager.domain.interactors.property.UpdateProperty
@@ -29,6 +30,7 @@ class AddEditPropertyViewModel @Inject constructor(
     private val addProperty: AddProperty,
     private val updateProperty: UpdateProperty,
     private val getPropertyById: GetPropertyById,
+    private val getAgentById: GetAgentById,
     application: Application,
 ) : AndroidViewModel(application) {
 
@@ -88,6 +90,10 @@ class AddEditPropertyViewModel @Inject constructor(
     val propertyState: StateFlow<DataState<Property>>
         get() = _state
 
+    private val _stateAgent = MutableStateFlow<DataState<Agent>>(DataState.loading(null))
+    val agentState: StateFlow<DataState<Agent>>
+        get() = _stateAgent
+
     private val _stateEvent = MutableStateFlow<DataState<Long>>(DataState.loading(null))
     private val _taskUpdatedEvent = MutableLiveData<Event<Unit>>()
 
@@ -112,6 +118,7 @@ class AddEditPropertyViewModel @Inject constructor(
                     _state.value = DataState.success(it)
                     onPropertyLoaded(it)
                 }
+
         }
     }
 
@@ -148,6 +155,24 @@ class AddEditPropertyViewModel @Inject constructor(
         long.value = property.address?.lng.toString().toDoubleOrNull()
         _statePhotos.value = property.media.photos as ArrayList<Media.Photo>
         photos.value = _statePhotos.value
+
+        viewModelScope.launch {
+            agentId.value?.let { it ->
+                getAgentById.invoke(it).catch { e ->
+                    _stateAgent.value = (DataState.error(e.toString(), null))
+                }
+                    .collectLatest {
+                        _stateAgent.value = DataState.success(it)
+                        onAgentLoaded(it)
+                    }
+            }
+        }
+    }
+
+    private fun onAgentLoaded(it: Agent) {
+        agent.value = it
+        Timber.d("PROPERTY_AGENT: ${agent.value}")
+
     }
 
     fun saveProperty() {

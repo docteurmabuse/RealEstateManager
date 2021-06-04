@@ -227,7 +227,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun setObserver() {
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launchWhenStarted {
             val value = agentViewModel.state
             value.collect {
                 when (it.status) {
