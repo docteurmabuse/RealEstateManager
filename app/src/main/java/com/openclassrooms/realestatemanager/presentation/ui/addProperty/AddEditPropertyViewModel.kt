@@ -170,7 +170,7 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentSoldDate = soldDate.value
         var currentPhotos = statePhotos.value
         val currentVideos = videos.value
-        val currentAgentId = agentId.value
+        val currentAgentId = agent.value?.id
         val currentAddress1 = address1.value
         val currentAddress2 = address2.value
         val currentCity = city.value

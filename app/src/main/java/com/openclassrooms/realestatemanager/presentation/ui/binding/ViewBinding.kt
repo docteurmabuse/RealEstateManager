@@ -104,6 +104,19 @@ class ViewBinding {
         fun bindTextToDate(textView: TextView, string: String?) {
             string?.let {
                 if (it.isNotEmpty())
+                    textView.text = longDateToString(it.toLong())
+                else {
+                    textView.text = ""
+                }
+            }
+        }
+
+
+        @JvmStatic
+        @BindingAdapter("textLongToDate")
+        fun bindLongTextToDate(textView: TextView, string: String?) {
+            string?.let {
+                if (it.isNotEmpty())
                     textView.text = stringToLongDate(it).toString()
                 else {
                     textView.text = ""

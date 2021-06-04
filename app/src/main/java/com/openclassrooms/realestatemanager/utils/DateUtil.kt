@@ -35,7 +35,7 @@ object DateUtil {
         else return 0L
     }
 
-    fun dateToLong(date: Date?): Long? {
+    private fun dateToLong(date: Date?): Long? {
         return if (date != null)
             date.time / 1000
         else null
