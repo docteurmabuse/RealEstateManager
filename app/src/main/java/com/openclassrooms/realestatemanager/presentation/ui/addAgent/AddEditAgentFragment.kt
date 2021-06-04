@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddAgentFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
+import com.openclassrooms.realestatemanager.notif.NotificationHelper
 import com.openclassrooms.realestatemanager.presentation.EventObserver
 import com.openclassrooms.realestatemanager.utils.setupSnackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,6 +53,13 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
         viewModelEdit.agentUpdatedEvent.observe(viewLifecycleOwner, EventObserver {
             val action = AddEditAgentFragmentDirections.actionAddAgentFragmentToItemTabsFragment2()
             findNavController().navigate(action)
+            NotificationHelper.createNotification(
+                requireContext(),
+                "New agent created",
+                "",
+                "",
+                autoCancel = false
+            )
         })
     }
 
