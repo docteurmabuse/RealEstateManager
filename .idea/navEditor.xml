@@ -30,14 +30,23 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="addAgentFragment">
+                  <entry key="addEditAgentFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="744" />
-                            <option name="y" value="800" />
+                            <option name="y" value="809" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_addAgentFragment_to_itemTabsFragment2">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

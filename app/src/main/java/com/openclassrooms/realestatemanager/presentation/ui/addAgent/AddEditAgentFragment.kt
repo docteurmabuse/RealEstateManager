@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddAgentFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
+import com.openclassrooms.realestatemanager.presentation.EventObserver
 import com.openclassrooms.realestatemanager.utils.setupSnackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -42,7 +44,15 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
         binding.viewmodel = viewModelEdit
         binding.agent = agent
         setupSnackbar()
+        setupNavigation()
         retrievedArguments()
+    }
+
+    private fun setupNavigation() {
+        viewModelEdit.agentUpdatedEvent.observe(viewLifecycleOwner, EventObserver {
+            val action = AddEditAgentFragmentDirections.actionAddAgentFragmentToItemTabsFragment2()
+            findNavController().navigate(action)
+        })
     }
 
     private fun setupSnackbar() {

@@ -1,5 +1,8 @@
 package com.openclassrooms.realestatemanager.utils
 
+import android.app.Activity
+
+
 const val TAG = "AppDebug"
 const val RC_SIGN_IN: Int = 915
 const val USD_PRICE_EURO: Double = 0.827
@@ -13,6 +16,7 @@ const val MAPVIEW_BUNDLE_KEY = "MapViewBundleKey"
 const val EDIT_PROPERTY_VIEW = false
 const val REQ_CAPTURE = 100
 const val RES_IMAGE = 100
+const val ADD_EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 1
 
 
 

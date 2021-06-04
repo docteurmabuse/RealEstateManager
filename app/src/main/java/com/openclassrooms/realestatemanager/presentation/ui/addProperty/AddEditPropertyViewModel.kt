@@ -39,6 +39,7 @@ class AddEditPropertyViewModel @Inject constructor(
     var propertyType = Property.PropertyType.values()
 
     // Two-way databinding, exposing MutableLiveData
+    private var propertyId: String? = null
     var type = MutableLiveData<String>()
     var price = MutableLiveData<String>()
     var surface = MutableLiveData<String>()
@@ -70,7 +71,6 @@ class AddEditPropertyViewModel @Inject constructor(
     var lat = MutableLiveData<Double>()
     var long = MutableLiveData<Double>()
 
-    private var propertyId: String? = null
 
     private var isNewProperty: Boolean = false
 
@@ -88,6 +88,11 @@ class AddEditPropertyViewModel @Inject constructor(
     val propertyState: StateFlow<DataState<Property>>
         get() = _state
 
+    private val _stateEvent = MutableStateFlow<DataState<Long>>(DataState.loading(null))
+    private val _taskUpdatedEvent = MutableLiveData<Event<Unit>>()
+
+    val eventState: StateFlow<DataState<Long>>
+        get() = _stateEvent
 
     fun start(propertyId: String) {
         this.propertyId = propertyId

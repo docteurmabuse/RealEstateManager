@@ -43,7 +43,7 @@ class AddEditAgentViewModel @Inject constructor(
     val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     private val _agentUpdatedEvent = MutableLiveData<Event<Unit>>()
-    val taskUpdatedEvent: LiveData<Event<Unit>> = _agentUpdatedEvent
+    val agentUpdatedEvent: LiveData<Event<Unit>> = _agentUpdatedEvent
 
     private var agentId: String? = null
 
