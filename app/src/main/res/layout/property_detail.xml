@@ -243,6 +243,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/description_text" />
 
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -314,6 +315,30 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <TextView
+                    android:id="@+id/onMarketSince_text"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@string/on_market_since"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nearby" />
+
+                <TextView
+                    android:id="@+id/onMarketSinceDate"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    dateToText="@{property.sellDate}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    app:layout_constraintStart_toEndOf="@+id/onMarketSince_text"
+                    app:layout_constraintTop_toBottomOf="@id/nearby" />
+
+                <TextView
                     android:id="@+id/location_text"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
@@ -323,7 +348,7 @@
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@string/location"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nearby" />
+                    app:layout_constraintTop_toBottomOf="@id/onMarketSince_text" />
 
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/lite_map_view"
