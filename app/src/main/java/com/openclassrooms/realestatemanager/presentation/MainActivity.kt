@@ -18,8 +18,8 @@ import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.BaseActivity
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
+import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyViewModel
-import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,7 +37,7 @@ class MainActivity constructor(
     @Inject
     lateinit var fragmentFactory: MainFragmentFactory
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: PropertyListViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     private val addPropertyViewModel: AddPropertyViewModel by viewModels()
     private var isAddAgentView = false
     private var isAddPropertyView = false

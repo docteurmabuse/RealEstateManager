@@ -27,7 +27,7 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
-import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListViewModel
+import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -41,7 +41,7 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
     private var lastLocation: Location? = null
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private val viewModel: PropertyListViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     private var isRestore = false
 
     override fun onCreateView(

@@ -1,4 +1,4 @@
-package com.openclassrooms.realestatemanager.presentation.ui.property_list
+package com.openclassrooms.realestatemanager.presentation.ui
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -15,14 +15,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PropertyListViewModel
+class MainViewModel
 @Inject
 constructor(
     private val getProperties: GetProperties,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-   private val _state = MutableStateFlow<DataState<List<Property>>>(DataState.loading(null))
+    private val _state = MutableStateFlow<DataState<List<Property>>>(DataState.loading(null))
     val state: StateFlow<DataState<List<Property>>>
         get() = _state
 

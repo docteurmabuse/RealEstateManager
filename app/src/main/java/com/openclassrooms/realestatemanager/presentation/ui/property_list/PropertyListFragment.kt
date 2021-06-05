@@ -20,6 +20,7 @@ import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
+import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +39,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
     private var columnCount = 1
     private var _binding: PropertyListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: PropertyListViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var adapter: PropertyAdapter
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
