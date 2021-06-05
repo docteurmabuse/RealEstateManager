@@ -63,6 +63,10 @@ class MapFragment constructor(private var properties: List<Property>) :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupMap()
+    }
+
+    private fun setupMap() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         lifecycleScope.launchWhenCreated {
             // Get map
