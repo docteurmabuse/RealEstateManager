@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -24,24 +25,27 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.awaitMapLoad
 import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.databinding.MapLayoutBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import timber.log.Timber
 
 
 @AndroidEntryPoint
-class MapFragment constructor(private var properties: List<Property>) : Fragment(),
+class MapFragment constructor(private var properties: List<Property>) :
+    Fragment(R.layout.map_layout),
     GoogleMap.OnInfoWindowClickListener {
 
     private var lastLocation: Location? = null
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private val viewModel: MainViewModel by viewModels()
+    private var _binding: MapLayoutBinding? = null
+    private val binding get() = _binding!!
     private var isRestore = false
 
     override fun onCreateView(
@@ -49,11 +53,12 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = MapLayoutBinding.inflate(inflater, container, false)
         viewModel.fetchProperties()
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
         isRestore = savedInstanceState != null
-        return inflater.inflate(R.layout.map_layout, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -136,19 +141,20 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
 
 
     private fun setObserver() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             val value = viewModel.state
             value.collect {
                 when (it.status) {
                     DataState.Status.SUCCESS -> {
-                        it.data?.let { properties ->
-                            renderList(properties)
-                        }
+                        displayLoading(false)
+                        it.data?.let { properties -> renderList(properties) }
                     }
                     DataState.Status.LOADING -> {
-
+                        displayLoading(true)
                     }
                     DataState.Status.ERROR -> {
+                        displayLoading(false)
+                        displayError(it.message)
                         Timber.d("LIST_OBSERVER: ${it.message}")
                     }
                 }
@@ -156,9 +162,22 @@ class MapFragment constructor(private var properties: List<Property>) : Fragment
         }
     }
 
+    private fun displayLoading(isLoading: Boolean) {
+        if (isLoading) binding.mapProgressBar.visibility = View.VISIBLE
+        else binding.mapProgressBar.visibility = View.GONE
+        binding.mapSwiperefresh.isRefreshing = isLoading
+    }
+
+    private fun displayError(message: String?) {
+        if (message != null) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(requireContext(), "Unknown error", Toast.LENGTH_LONG).show()
+        }
+    }
+
     private fun renderList(list: List<Property>) {
         properties = list
-
 
         Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
         properties.forEach { property ->

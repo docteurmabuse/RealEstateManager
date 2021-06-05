@@ -147,7 +147,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
     }
 
     private fun setObserver() {
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launchWhenStarted {
             val value = viewModel.state
             value.collect {
                 when (it.status) {
