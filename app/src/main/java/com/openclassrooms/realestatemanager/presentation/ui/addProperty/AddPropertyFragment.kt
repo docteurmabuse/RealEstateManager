@@ -13,7 +13,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
@@ -47,9 +46,7 @@ import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAd
 import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragmentArgs
 import com.openclassrooms.realestatemanager.utils.*
-import com.openclassrooms.realestatemanager.utils.DateUtil.dateToString
-import com.openclassrooms.realestatemanager.utils.DateUtil.getDate
-import com.openclassrooms.realestatemanager.utils.DateUtil.longToDate
+import com.openclassrooms.realestatemanager.utils.DateUtil.longDateToString
 import com.openclassrooms.realestatemanager.utils.Utils.isNetworkConnected
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -58,6 +55,7 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 
 private const val REQ_CAPTURE = 100
@@ -110,6 +108,16 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var selectedAgent: Agent = Agent("", "", "")
     private var selectedType: String = ""
     private var _agentId = ""
+    private val dateSetListener =
+        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateDateInView()
+        }
+
+    private var cal = Calendar.getInstance()
+
 
     companion object {
         fun newInstance() = AddPropertyFragment()
@@ -154,6 +162,43 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         retrieveArguments()
         setupUploadImageListener()
         setupSnackbar()
+        setupDateListener()
+    }
+
+    private fun setupDateListener() {
+
+        binding.dates!!.sellDateDropdown.setOnClickListener {
+            DatePickerDialog(
+                requireContext(),
+                dateSetListener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+    }
+
+    private fun updateDateInView() {
+        val myFormat = "MM/dd/yyyy" // mention the format you need
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+        Snackbar.make(binding.root, "${cal.time}", Snackbar.LENGTH_SHORT)
+            .show()
+        val dateOnMarket = cal.timeInMillis
+        binding.dates!!.viewModel?.sellDate = MutableLiveData(dateOnMarket.toString())
+        binding.dates!!.sellDateDropdown.setText(longDateToString(dateOnMarket))
+        viewModel.sellDate = MutableLiveData(dateOnMarket.toString())
+        Timber.d("DATE_PICKER : ${dateOnMarket}")
+
+
+        /* binding.dates!!.viewModel?.soldDate = MutableLiveData(date.toString())
+         binding.dates!!.sellDateDropdown.setText(longToDate(date)?.let { it1 ->
+             DateUtil.dateToString(
+                 it1
+             )
+         })
+         viewModel.soldDate = MutableLiveData(date.toString())
+          */
     }
 
     private fun setupSnackbar() {
@@ -193,40 +238,11 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         val items = agentList
         Timber.d("AGENT_LIST: $agentList")
 
-
         agentDropdown.setOnItemClickListener { parent, view, position, id ->
             selectedAgent = parent.getItemAtPosition(position) as Agent
             _agentId = selectedAgent.id.toString()
             Timber.d("AGENT_SELECTED: $selectedAgent")
             viewModel.agent.value = selectedAgent
-        }
-
-        agentDropdown.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                selectedAgent = Agent("", "", "")
-            }
-
-
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                selectedAgent = parent!!.getItemAtPosition(position) as Agent
-                _agentId = selectedAgent.id.toString()
-                Timber.d("AGENT_SELECTED: $selectedAgent")
-
-            }
-        }
-        agentDropdown.setOnFocusChangeListener { view, hasFocus ->
-            var enteredAgent = agentDropdown.text.toString()
-            if (selectedAgent != null && enteredAgent.isNotEmpty() && !enteredAgent.equals(
-                    selectedAgent.toString()
-                )
-            ) {
-
-            }
         }
     }
 
@@ -250,10 +266,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun renderList(agents: List<Agent>) {
-
-
         setupAgentMenuValues(agents)
-
     }
 
     private fun setUpPermissions() {
@@ -355,52 +368,33 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun setupSellDateListener() {
-        binding.dates!!.sellDateDropdown.setOnClickListener {
-            val cldr: Calendar = Calendar.getInstance()
-            var date: Long = cldr.timeInMillis
-            val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
-            val month: Int = cldr.get(Calendar.MONTH)
-            val year: Int = cldr.get(Calendar.YEAR)
-            val picker = DatePickerDialog(
-                requireContext(),
-                { _, year, monthOfYear, dayOfMonth ->
-                },
-                year,
-                month,
-                day
-            )
-            picker.show()
 
-            val dateOnMarket: Date = picker.datePicker.getDate()
-            binding.dates!!.viewModel?.sellDate = MutableLiveData(date.toString())
-            binding.dates!!.sellDateDropdown.setText(longToDate(date)?.let { it1 -> dateToString(it1) })
-            viewModel.sellDate = MutableLiveData(date.toString())
-            Timber.d("DATE_PICKER : $date, {${longToDate(date)}}")
-        }
+        /*var date: Long=0
+
+        val calendar: Calendar = Calendar.getInstance()
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+        month = calendar.get(Calendar.MONTH)
+        year = calendar.get(Calendar.YEAR)
+        val datePickerDialog =
+            DatePickerDialog(requireContext(), this, year, month,day)
+        datePickerDialog.datePicker
+        datePickerDialog.show()
+        onDateSet(datePickerDialog.datePicker,myYear, myMonth, myDay )
+        val dateOnMarket= calendar.timeInMillis
+        binding.dates!!.viewModel?.sellDate = MutableLiveData(dateOnMarket.toString())
+        binding.dates!!.sellDateDropdown.setText(longToDate(dateOnMarket).toString())
+        viewModel.sellDate = MutableLiveData(dateOnMarket.toString())
+        Timber.d("DATE_PICKER : $year/$month/$myDay, {${longToDate(dateOnMarket)}}")*/
+
+
     }
 
     private fun setupSoldDateListener() {
         binding.dates!!.sellDateDropdown.setOnClickListener {
-            val cldr: Calendar = Calendar.getInstance()
-            var date: Long = cldr.timeInMillis
-            val day: Int = cldr.get(Calendar.DAY_OF_MONTH)
-            val month: Int = cldr.get(Calendar.MONTH)
-            val year: Int = cldr.get(Calendar.YEAR)
-            val picker = DatePickerDialog(
-                requireContext(),
-                { _, year, monthOfYear, dayOfMonth ->
-                },
-                year,
-                month,
-                day
-            )
-            picker.show()
 
-            val dateOnMarket: Date = picker.datePicker.getDate()
-            binding.dates!!.viewModel?.soldDate = MutableLiveData(date.toString())
-            binding.dates!!.sellDateDropdown.setText(longToDate(date)?.let { it1 -> dateToString(it1) })
-            viewModel.soldDate = MutableLiveData(date.toString())
-            Timber.d("DATE_PICKER : $date, {${longToDate(date)}}")
+            //  val datePickerDialog =
+            //       DatePickerDialog(requireContext(), this, year, month,day)
+            //  datePickerDialog.show()
         }
     }
 
@@ -642,4 +636,5 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
 
     }
+
 }

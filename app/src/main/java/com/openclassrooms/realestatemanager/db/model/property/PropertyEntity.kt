@@ -66,7 +66,7 @@ data class PropertyEntity(
                 hospital = domainModel.hospital,
                 museum = domainModel.museum,
                 sold = domainModel.sold,
-                sellDate = domainModel.soldDate,
+                sellDate = domainModel.sellDate,
                 soldDate = domainModel.soldDate,
                 agent_id = domainModel.agent
             )
@@ -94,7 +94,7 @@ data class PropertyEntity(
             _hospital = hospital,
             _museum = museum,
             _sold = sold,
-            _sellDate = soldDate,
+            _sellDate = sellDate,
             _soldDate = soldDate,
             Media(
                 photos = photos.map { it.toDomain() },
