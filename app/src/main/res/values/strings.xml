@@ -85,5 +85,10 @@
     <string name="select_agent_in_charge">Select agent in charge</string>
     <string name="dates">Dates</string>
     <string name="agent">Agent:</string>
+    <string name="logo_image">Logo image</string>
+    <string name="sort">Sort</string>
+    <string name="search">Search</string>
+    <string name="sort_by_name">Sort by name</string>
+    <string name="sort_by_date_on_market">Sort by date on market</string>
 
 </resources>
