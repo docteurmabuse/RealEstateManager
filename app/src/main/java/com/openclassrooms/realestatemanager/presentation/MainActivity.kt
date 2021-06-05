@@ -77,11 +77,12 @@ class MainActivity constructor(
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_fragment_properties, menu)
-        val searchItem = menu?.findItem(R.id.action_search)
+
+        val searchItem = binding.bottomAppBar.menu?.findItem(R.id.action_search)
         val searchView = searchItem?.actionView as SearchView
         searchView.onQueryTextChanged {
             viewModel.searchQuery.value = it
+            Timber.d("SEARCH: ${it}")
         }
         return super.onCreateOptionsMenu(menu)
     }
@@ -95,6 +96,9 @@ class MainActivity constructor(
                 true
             }
 
+            R.id.action_search -> {
+                true
+            }
             android.R.id.home -> {
                 onBackPressed()
                 true
