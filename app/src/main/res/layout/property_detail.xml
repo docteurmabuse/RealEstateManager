@@ -13,6 +13,10 @@
             type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
 
         <variable
+            name="agent"
+            type="com.openclassrooms.realestatemanager.domain.model.agent.Agent" />
+
+        <variable
             name="photo"
             type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
 
@@ -339,6 +343,42 @@
                     app:layout_constraintTop_toBottomOf="@id/nearby" />
 
                 <TextView
+                    android:id="@+id/agentInChargeText"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@string/agent"
+                    app:drawableStartCompat="@drawable/ic_baseline_account_circle_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/onMarketSince_text" />
+
+                <ImageView
+                    android:id="@+id/agentImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    android:text="@{agent.name}"
+                    app:layout_constraintStart_toEndOf="@id/agentInChargeText"
+                    app:layout_constraintTop_toBottomOf="@id/onMarketSince_text" />
+
+                <TextView
+                    android:id="@+id/agentText"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/marginEnd"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="@dimen/marginEnd"
+                    app:imagePath="@{agent.photoUrl}"
+                    app:layout_constraintStart_toEndOf="@id/agentImage"
+                    app:layout_constraintTop_toBottomOf="@id/onMarketSince_text" />
+
+                <TextView
                     android:id="@+id/location_text"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
@@ -348,7 +388,7 @@
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@string/location"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/onMarketSince_text" />
+                    app:layout_constraintTop_toBottomOf="@id/agentText" />
 
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/lite_map_view"
