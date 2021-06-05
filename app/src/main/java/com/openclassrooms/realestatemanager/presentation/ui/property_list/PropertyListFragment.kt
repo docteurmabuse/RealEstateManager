@@ -24,6 +24,7 @@ import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import java.util.*
@@ -144,6 +145,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun setObserver() {
         lifecycleScope.launchWhenStarted {
             val value = viewModel.state
@@ -163,6 +165,9 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
                     }
                 }
             }
+        }
+        viewModel.properties.observe(viewLifecycleOwner) {
+            renderList(it)
         }
     }
 

@@ -34,8 +34,8 @@ interface PropertyDao {
 
     @Transaction
     //Get PropertiesEntity List
-    @Query("SELECT * FROM properties ORDER BY sell_date DESC")
-    fun getAllProperties(): Flow<List<PropertyEntityAggregate>>
+    @Query("SELECT * FROM properties WHERE type LIKE '%' || :searchQuery || '%'   ORDER BY sell_date ASC")
+    fun getAllProperties(searchQuery: String): Flow<List<PropertyEntityAggregate>>
 
 
 

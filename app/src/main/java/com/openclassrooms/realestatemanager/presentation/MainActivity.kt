@@ -57,17 +57,8 @@ class MainActivity constructor(
         setObserver()
         setAddPropertyFabListener()
         setAddAgentFabListener()
-
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val searchItem = menu?.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
-        searchView.onQueryTextChanged {
-            // update search query
-        }
-        return super.onCreateOptionsMenu(menu)
-    }
 
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
@@ -85,6 +76,15 @@ class MainActivity constructor(
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_fragment_properties, menu)
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.onQueryTextChanged {
+            viewModel.searchQuery.value = it
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

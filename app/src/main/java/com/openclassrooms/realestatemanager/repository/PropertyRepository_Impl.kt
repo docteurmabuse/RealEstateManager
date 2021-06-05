@@ -24,8 +24,8 @@ class PropertyRepository_Impl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getAllProperties(): Flow<List<Property>> {
-        return persistence.getAllProperties()
+    override suspend fun getAllProperties(searchQuery: String): Flow<List<Property>> {
+        return persistence.getAllProperties(searchQuery)
             .distinctUntilChanged()
             .map { propertyList ->
                 propertyList.map {
