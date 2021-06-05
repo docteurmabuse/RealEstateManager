@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -39,14 +39,13 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
     private var columnCount = 1
     private var _binding: PropertyListBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var adapter: PropertyAdapter
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.fetchProperties()
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
@@ -57,7 +56,6 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         savedInstanceState: Bundle?
     ): View {
         _binding = PropertyListBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 

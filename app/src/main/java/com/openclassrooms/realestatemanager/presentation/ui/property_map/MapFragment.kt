@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -43,7 +43,7 @@ class MapFragment constructor(private var properties: List<Property>) :
     private var lastLocation: Location? = null
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by activityViewModels()
     private var _binding: MapLayoutBinding? = null
     private val binding get() = _binding!!
     private var isRestore = false
@@ -54,7 +54,6 @@ class MapFragment constructor(private var properties: List<Property>) :
         savedInstanceState: Bundle?
     ): View? {
         _binding = MapLayoutBinding.inflate(inflater, container, false)
-        viewModel.fetchProperties()
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
         isRestore = savedInstanceState != null

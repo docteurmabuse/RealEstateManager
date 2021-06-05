@@ -2,8 +2,6 @@ package com.openclassrooms.realestatemanager.presentation
 
 import android.os.Bundle
 import android.view.MenuItem
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -46,42 +44,13 @@ class MainActivity constructor(
     private val navController by lazy { navHostFragment.navController }
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
 
-    // creating variable that handles Animations loading
-    // and initializing it with animation files that we have created
-    private val rotateOpen: Animation by lazy {
-        AnimationUtils.loadAnimation(
-            this,
-            R.anim.rotate_open_anim
-        )
-    }
-    private val rotateClose: Animation by lazy {
-        AnimationUtils.loadAnimation(
-            this,
-            R.anim.rotate_close_anim
-        )
-    }
-    private val fromBottom: Animation by lazy {
-        AnimationUtils.loadAnimation(
-            this,
-            R.anim.from_bottom_anim
-        )
-    }
-    private val toBottom: Animation by lazy {
-        AnimationUtils.loadAnimation(
-            this,
-            R.anim.to_bottom_anim
-        )
-    }
-
-    //used to check if fab menu are opened or closed
-    private var closed = false
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupActionBarWithNavController(navController, appBarConfiguration)
+        viewModel.fetchProperties()
         setObserver()
         setAddPropertyFabListener()
         setAddAgentFabListener()
@@ -122,9 +91,6 @@ class MainActivity constructor(
         navHostFragment.navigate(R.id.mainActivity)
     }
 
-    private fun showImages() {
-        viewModel.fetchProperties()
-    }
 
     private fun setAddAgentFabListener() {
         val expandableFab = binding.expandableFabPortrait
@@ -140,19 +106,11 @@ class MainActivity constructor(
             if (isAddAgentView) {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
                 binding.expandableFabLayout.removeAllViews()
-/*
-                binding.expandableFabLayout.addViews(
-                    binding.expandableFabPortrait,
-                    binding.bottomAppBar
-                )
-
-                binding.expandableFabPortrait.setImageResource(R.drawable.ic_check_24dp)*/
 
             } else {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
                 binding.expandableFabLayout.removeAllViews()
             }
-
 
             navHostFragment.navigate(action)
         }
@@ -201,7 +159,6 @@ class MainActivity constructor(
     private fun renderList(list: List<Property>) {
         properties = list
         Timber.tag("MAP").d("MAP_PROPERTIES: ${properties!!.size}")
-
     }
 
 }

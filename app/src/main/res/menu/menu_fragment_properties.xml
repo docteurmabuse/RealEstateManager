@@ -21,5 +21,9 @@
                 android:title="@string/sort_by_date_on_market" />
         </menu>
     </item>
-
+    <item
+        android:id="@+id/action_filter_properties"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title="@string/filtered"
+        app:showAsAction="always" />
 </menu>
