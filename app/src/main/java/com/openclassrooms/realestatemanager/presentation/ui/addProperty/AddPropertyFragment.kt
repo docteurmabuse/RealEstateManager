@@ -41,7 +41,6 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
-import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAdapter
@@ -146,18 +145,13 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //  this.binding.handlers = Handlers()
-
-
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
         setObserver()
-
         setUpPermissions()
         setupTypeValues(typeDropdown)
         setFabListener()
         setupSellDateListener()
         retrieveArguments()
-      //  setPhotosObserver()
         setupUploadImageListener()
         setupSnackbar()
     }
@@ -184,6 +178,16 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun setupAgentMenuValues(agents: List<Agent>) {
+        binding.agentLayout!!.agentDropdown.setAdapter(
+            ArrayAdapter(
+                requireContext(),
+                R.layout.support_simple_spinner_dropdown_item,
+                agents
+            )
+        )
+        agentList = agents
+        Timber.d("AGENTS: $agents")
+        binding.agentLayout!!.agentViewModel = agentViewModel
         val agentDropdown: AutoCompleteTextView = binding.agentLayout!!.agentDropdown
 
         val items = agentList
@@ -246,18 +250,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun renderList(agents: List<Agent>) {
-        val agentDropdown: AutoCompleteTextView = binding.agentLayout!!.agentDropdown
 
-        binding.agentLayout!!.agentDropdown.setAdapter(
-            ArrayAdapter(
-                requireContext(),
-                R.layout.support_simple_spinner_dropdown_item,
-                agents
-            )
-        )
-        agentList = agents
-        Timber.d("AGENTS: $agents")
-        binding.agentLayout!!.agentViewModel = agentViewModel
+
         setupAgentMenuValues(agents)
 
     }
@@ -329,10 +323,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             binding.dates!!.switchTitle.visibility = View.GONE
             binding.dates!!.soldSwitch.visibility = View.GONE
         }
-        //viewModel.initPhotosList(photos)
 
         setupRecyclerView()
-        // setPhotosObserver()
     }
 
     private fun retrieveArguments() {
@@ -452,11 +444,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
             val navHostFragment = findNavController()
-           /* if (isEditPropertyView) {
-                updateProperty()
-            } else {
-                saveProperty()
-            }*/
             val action =
                 AddPropertyFragmentDirections.actionAddPropertyFragmentToItemTabsFragment2()
             navHostFragment.navigate(action)
@@ -464,77 +451,11 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         }
     }
 
-    private fun updateProperty() {
-        property?.let { viewModel.updatePropertyToRoomDb(it) }
-    }
-
-
-    private lateinit var intent: Intent
-
-
-    private fun saveProperty() {
-
-
-        zipCode =
-            binding.address?.zipcodeTextInput?.text.toString()
-
-        address1 = binding.address?.address1TextInput?.text.toString()
-        address2 = binding.address?.address2TextInput?.text.toString()
-        city = binding.address?.cityTextInput?.text.toString()
-        state = binding.address?.stateTextInput?.text.toString()
-        country = binding.address?.countryTextInput?.text.toString()
-        area = binding.address?.areaTextInput?.text.toString()
-        val addressLine = "$address1, $city, $state $zipCode, $country"
-        location = GeocodeUtils.getLatLngFromAddress(addressLine, requireContext())
-
-        val address = Address(
-            address1,
-            address2,
-            city,
-            zipCode,
-            state,
-            country,
-            area,
-            lat,
-            lng
-        )
-
-
-        val addPropertyView = AddPropertyViewModel.AddPropertyView(
-            newPropertyId,
-            binding.type!!.typeDropdown.text.toString(),
-            binding.price!!.priceTextInput.text.toString(),
-            binding.characteristics!!.surfaceTextInput.text.toString(),
-            binding.characteristics!!.numberOfRoomTextInput.text.toString(),
-            binding.characteristics!!.numberOfBathroomTextInput.text.toString(),
-            binding.characteristics!!.numberOfBedroomTextInput.text.toString(),
-            binding.description!!.descriptionTextInput.text.toString(),
-            binding.pointOfInterest!!.museum.isChecked,
-            binding.pointOfInterest!!.schools.isChecked,
-            binding.pointOfInterest!!.shops.isChecked,
-            binding.pointOfInterest!!.hospital.isChecked,
-            binding.pointOfInterest!!.station.isChecked,
-            binding.pointOfInterest!!.parcs.isChecked,
-            binding.dates!!.soldSwitch.isChecked,
-            //DateUtil.stringToDate(binding.dates!!.sellDateDropdown.text.toString()),
-            //  DateUtil.stringToDate(binding.dates!!.soldDateDropdown.text.toString()),
-            null, null,
-            Media(photos, videos),
-            agent,
-            address
-        )
-        Timber.tag("FabClick")
-            .d("It's ok FABSAVE: ${addPropertyView.type}, $addPropertyView!!.price, $addPropertyView!!.surface, $addPropertyView!!.roomNumber, $addPropertyView!!.bathroomNumber, $addPropertyView!!.bedroomNumber")
-
-        // viewModel.saveProperty(addPropertyView)
-    }
-
     class Handlers {
         fun onClickFriend(property: String) {
             Timber.tag("FabClick").d("It's ok FAB Handler:$property")
         }
     }
-
 
     private fun submitPhotoToList(photo: Media.Photo) {
         //photos.add(photo)
