@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -22,12 +23,15 @@ import com.google.maps.android.ktx.awaitMapLoad
 import com.nambimobile.widgets.efab.ExpandableFabLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
+import com.openclassrooms.realestatemanager.domain.model.agent.Agent
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyPagerAdapter
 import com.openclassrooms.realestatemanager.utils.EDIT_PROPERTY_VIEW
 import com.openclassrooms.realestatemanager.utils.MAPVIEW_BUNDLE_KEY
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 
@@ -42,6 +46,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private var adapter = PropertyPagerAdapter()
     private var _binding: PropertyDetailBinding? = null
     private var liteMap: GoogleMap? = null
+    private val viewModel: PropertyDetailViewModel by viewModels()
     private lateinit var mapView: MapView
 
 
@@ -70,7 +75,8 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         val args = PropertyDetailFragmentArgs.fromBundle(bundle)
         property = args.property
         Timber.d("PROPERTY_DETAIL: $property")
-
+        property?.agent?.let { viewModel.start(it) }
+        setObserver()
     }
 
     override fun onCreateView(
@@ -107,11 +113,11 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private fun setFabListener() {
         binding.addPropertyFAB?.setOnClickListener {
             val navHostFragment = findNavController()
-            val action = property?.let { it ->
+            val action = property?.let { property ->
                 PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
                     EDIT_PROPERTY_VIEW,
-                    it,
-                    it.id!!
+                    property,
+                    property.id!!
                 )
             }
 
@@ -121,6 +127,30 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
             Timber.tag("PROPERTY").d("PROPERTY_ID:")
         }
     }
+
+    private fun setObserver() {
+        lifecycleScope.launchWhenStarted {
+            val value = viewModel.agentState
+            value.collect {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+                        it.data?.let { agent -> renderAgent(agent) }
+                    }
+                    DataState.Status.LOADING -> {
+
+                    }
+                    DataState.Status.ERROR -> {
+                        Timber.d("LIST_OBSERVER: ${it.message}")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun renderAgent(agent: Agent) {
+        binding.agent = agent
+    }
+
 
     private fun initGoogleMap(savedInstanceState: Bundle?) {
         var mapViewBundle: Bundle? = null
