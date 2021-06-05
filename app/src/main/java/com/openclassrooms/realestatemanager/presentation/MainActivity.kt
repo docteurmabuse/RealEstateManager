@@ -1,8 +1,10 @@
 package com.openclassrooms.realestatemanager.presentation
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -20,6 +22,7 @@ import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
+import com.openclassrooms.realestatemanager.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -57,6 +60,15 @@ class MainActivity constructor(
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val searchItem = menu?.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as SearchView
+        searchView.onQueryTextChanged {
+            // update search query
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
         savedInstanceState.putBundle("nav_state", navHostFragment.findNavController().saveState())
@@ -75,13 +87,21 @@ class MainActivity constructor(
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home ->
-                onBackPressed()
-        }
-        return true
-    }
+        return when (item.itemId) {
+            R.id.action_sort_by_name -> {
+                true
+            }
+            R.id.action_sort_by_date_on_market -> {
+                true
+            }
 
+            android.R.id.home -> {
+                onBackPressed()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
     override fun onBackPressed() {
         //Execute your code here
@@ -121,9 +141,10 @@ class MainActivity constructor(
         binding.fabAddProperty.setOnClickListener {
             val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
             val newPropertyId = UUID.randomUUID().toString()
-            val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
-                newPropertyId, false, null
-            )
+            val action =
+                ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
+                    newPropertyId, false, null
+                )
             binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
 
             isAddPropertyView = true

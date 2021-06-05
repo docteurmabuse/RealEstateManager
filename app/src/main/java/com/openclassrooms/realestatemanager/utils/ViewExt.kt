@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.utils
 
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -40,6 +41,20 @@ fun View.setupSnackbar(
             showSnackbar(context.getString(it), timeLength)
         }
     })
+}
+
+inline fun SearchView.onQueryTextChanged(crossinline listener: (String) -> Unit) {
+    this.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            listener(newText.orEmpty())
+            return true
+        }
+    }
+    )
 }
 
 
