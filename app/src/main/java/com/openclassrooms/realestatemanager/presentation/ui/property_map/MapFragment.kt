@@ -31,6 +31,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
@@ -143,6 +144,7 @@ class MapFragment constructor(private var properties: List<Property>) :
     }
 
 
+    @ExperimentalCoroutinesApi
     private fun setObserver() {
         lifecycleScope.launchWhenStarted {
             val value = viewModel.state
@@ -162,6 +164,9 @@ class MapFragment constructor(private var properties: List<Property>) :
                     }
                 }
             }
+        }
+        viewModel.properties.observe(viewLifecycleOwner) {
+            renderList(it)
         }
     }
 
