@@ -1,18 +1,16 @@
-package com.openclassrooms.realestatemanager.domain.interactors.property
+package com.openclassrooms.realestatemanager.domain.interactors.searchProperty
 
-import com.openclassrooms.realestatemanager.db.dao.PropertyDao
-import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityMapper
-import com.openclassrooms.realestatemanager.domain.model.data.DataState
-import com.openclassrooms.realestatemanager.domain.model.property.Property
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import com.openclassrooms.realestatemanager.repository.PropertyRepository_Impl
+import javax.inject.Inject
 
-class SearchProperties(
-    private val propertyDao: PropertyDao,
-    private val propertyEntityMapper: PropertyEntityMapper
-) {
-    fun execute(query: String): Flow<DataState<List<Property>>> = flow {
-        /* try {
+class SearchProperties @Inject constructor(private val propertyRepositoryImpl: PropertyRepository_Impl) {
+    suspend operator fun invoke(query: String) =
+        propertyRepositoryImpl.searchProperties(query)
+    /* private val propertyDao: PropertyDao,
+     private val propertyEntityMapper: PropertyEntityMapper
+ ) {
+     fun execute(query: String): Flow<DataState<List<Property>>> = flow {
+         *//* try {
              emit(DataState.loading(null))
 
              // force error for testing
@@ -34,6 +32,9 @@ class SearchProperties(
              emit(DataState.success(list))
          } catch (e: Exception) {
              emit(DataState.error<List<Property>>(e.message ?: "Unknown Error"))
-         }*/
-    }
+         }*//*
+    }*/
+
+
 }
+

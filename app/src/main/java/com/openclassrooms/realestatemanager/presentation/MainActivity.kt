@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.presentation
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.lifecycleScope
@@ -57,6 +58,7 @@ class MainActivity constructor(
         setObserver()
         setAddPropertyFabListener()
         setAddAgentFabListener()
+        binding.expandableFabLayout.visibility = View.VISIBLE
     }
 
 
@@ -117,7 +119,6 @@ class MainActivity constructor(
 
 
     private fun setAddAgentFabListener() {
-        val expandableFab = binding.expandableFabPortrait
 
         binding.fabAddAgent.setOnClickListener {
             val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
@@ -129,11 +130,11 @@ class MainActivity constructor(
             )
             if (isAddAgentView) {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-                binding.expandableFabLayout.removeAllViews()
+                binding.expandableFabLayout.visibility = View.GONE
 
             } else {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-                binding.expandableFabLayout.removeAllViews()
+                binding.expandableFabLayout.visibility = View.GONE
             }
 
             navHostFragment.navigate(action)
@@ -153,7 +154,7 @@ class MainActivity constructor(
 
             isAddPropertyView = true
             isAddAgentView = false
-            binding.expandableFabLayout.removeAllViews()
+            binding.expandableFabLayout.visibility = View.GONE
 
             navHostFragment.navigate(action)
             Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
@@ -186,4 +187,8 @@ class MainActivity constructor(
         Timber.tag("MAP").d("MAP_PROPERTIES: ${properties!!.size}")
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.expandableFabLayout.visibility = View.VISIBLE
+    }
 }

@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.db.dao
 import androidx.room.*
 import com.openclassrooms.realestatemanager.db.model.property.*
 import kotlinx.coroutines.flow.Flow
-import timber.log.Timber
 
 @Dao
 interface PropertyDao {
@@ -34,10 +33,25 @@ interface PropertyDao {
 
     @Transaction
     //Get PropertiesEntity List
-    @Query("SELECT * FROM properties WHERE type LIKE '%' || :searchQuery || '%'   ORDER BY sell_date ASC")
-    fun getAllProperties(searchQuery: String): Flow<List<PropertyEntityAggregate>>
+    @Query(
+        "SELECT * from  PROPERTIES ORDER BY sell_date ASC"
+    )
+    fun getAllProperties(): Flow<List<PropertyEntityAggregate>>
 
-
+    // Retrieve PropertiesEntity List form a query
+    @Transaction
+    @Query(
+        """
+        SELECT * FROM PROPERTIES
+        INNER JOIN property_address ON property_address.property_id = properties.id
+        WHERE type LIKE '%' || :searchQuery || '%'  
+        OR address1  LIKE '%' || :searchQuery || '%'  
+        ORDER BY sell_date ASC
+   """
+    )
+    fun searchProperties(
+        searchQuery: String
+    ): Flow<List<PropertyEntityAggregate>>
 
     //Update PropertyEntity
     @Update(onConflict = OnConflictStrategy.REPLACE)
@@ -57,14 +71,5 @@ interface PropertyDao {
             propertyEntityAggregate.videos,
             propertyEntityAggregate.address
         )
-        Timber.tag("UPDATE_FabClick")
-            .d("UPDATE_FabClick2: ${propertyEntityAggregate.photos}s,\n")
-
     }
-
-    // Retrieve PropertiesEntity List form a query
-    //@Query("SELECT * FROM properties WHERE surface BETWEEN 200 AND 300 OR price  BETWEEN 1500000 AND 2000000  || :query || '%' ORDER BY sell_date DESC")
-    //   suspend fun searchProperties(
-    //   query: String
-//    ): List<PropertyEntityAggregate>
 }

@@ -20,12 +20,8 @@ class PropertyRepository_Impl @Inject constructor(
         persistence.storeProperty(PropertyEntityAggregate.fromDomain(property))
     }
 
-    override suspend fun searchProperty(query: String): Flow<List<Property>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getAllProperties(searchQuery: String): Flow<List<Property>> {
-        return persistence.getAllProperties(searchQuery)
+    override suspend fun getAllProperties(): Flow<List<Property>> {
+        return persistence.getAllProperties()
             .distinctUntilChanged()
             .map { propertyList ->
                 propertyList.map {
@@ -35,7 +31,20 @@ class PropertyRepository_Impl @Inject constructor(
                         it.address
                     )
                 }
-                // propertyList.map { it.property.toDomain(it.photos, it.videos, it.address) }
+            }
+    }
+
+    override suspend fun searchProperties(searchQuery: String): Flow<List<Property>> {
+        return persistence.searchProperties(searchQuery)
+            .distinctUntilChanged()
+            .map { propertyList ->
+                propertyList.map {
+                    it.property.toDomain(
+                        it.photos,
+                        it.videos,
+                        it.address
+                    )
+                }
             }
     }
 

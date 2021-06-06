@@ -24,8 +24,12 @@ class RoomPersistence @Inject constructor(
         return agentDao.getAgentById(agentId)
     }
 
-    override suspend fun getAllProperties(searchQuery: String): Flow<List<PropertyEntityAggregate>> {
-        return propertyDao.getAllProperties(searchQuery)
+    override suspend fun getAllProperties(): Flow<List<PropertyEntityAggregate>> {
+        return propertyDao.getAllProperties()
+    }
+
+    override suspend fun searchProperties(searchQuery: String): Flow<List<PropertyEntityAggregate>> {
+        return propertyDao.searchProperties(searchQuery)
     }
 
     override suspend fun storeProperty(

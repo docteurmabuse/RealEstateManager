@@ -60,6 +60,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         return binding.root
     }
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = binding.propertyList
@@ -91,7 +92,6 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
             } else {
                 itemView.findNavController().navigate(R.id.propertyDetailFragment, bundle)
             }
-
         }
 
         /**

@@ -51,11 +51,14 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
 
     private fun setupNavigation() {
         viewModelEdit.agentUpdatedEvent.observe(viewLifecycleOwner, EventObserver {
-            val action = AddEditAgentFragmentDirections.actionAddAgentFragmentToItemTabsFragment2()
-            findNavController().navigate(action)
+            /*val action = AddEditAgentFragmentDirections.actionAddAgentFragmentToItemTabsFragment2()
+            findNavController().navigate(action)*/
+            val navHostFragment = findNavController()
+            navHostFragment.navigate(R.id.mainActivity)
+            val agentName: String = binding.agentName.text.toString()
             NotificationHelper.createNotification(
                 requireContext(),
-                "New agent created",
+                "Agent $agentName was added",
                 "",
                 "",
                 autoCancel = false
@@ -78,6 +81,4 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
         // isEditAgentView = args.editAgentView
         // agent?.let { setAgentInLayout(it) }
     }
-
-
 }

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import com.openclassrooms.realestatemanager.domain.model.property.Address
 
 @Entity(
-    tableName = "estate_address", foreignKeys = [ForeignKey(
+    tableName = "property_address", foreignKeys = [ForeignKey(
         entity = PropertyEntity::class,
         parentColumns = ["id"],
         childColumns = ["property_id"],
@@ -16,7 +16,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Address
 )
 data class AddressEntity(
     @PrimaryKey(autoGenerate = true)
-    var id: Long? = null,
+    var address_id: Long? = null,
     @ColumnInfo(name = "property_id", index = true)
     var property_id: String,
     var address1: String? = "",

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 
 @Entity(
-    tableName = "estate_photos", foreignKeys = [ForeignKey(
+    tableName = "property_photos", foreignKeys = [ForeignKey(
         entity = PropertyEntity::class,
         parentColumns = ["id"],
         childColumns = ["property_id"],
@@ -16,7 +16,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Media
 )
 data class PhotoEntity(
     @PrimaryKey(autoGenerate = true)
-    var id: Long? = null,
+    var photo_id: Long? = null,
     @ColumnInfo(name = "property_id", index = true)
     var property_id: String,
     var name: String?,

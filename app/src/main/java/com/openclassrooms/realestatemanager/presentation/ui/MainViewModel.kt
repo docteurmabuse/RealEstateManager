@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.domain.interactors.property.GetProperties
+import com.openclassrooms.realestatemanager.domain.interactors.searchProperty.SearchProperties
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,7 @@ class MainViewModel
 @Inject
 constructor(
     private val getProperties: GetProperties,
+    private val searchProperties: SearchProperties,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -28,15 +30,16 @@ constructor(
 
     @ExperimentalCoroutinesApi
     private val propertiesFlow = searchQuery.flatMapLatest {
-        getProperties.invoke(it)
+        searchProperties.invoke(it)
     }
+
 
     @ExperimentalCoroutinesApi
     val properties = propertiesFlow.asLiveData()
 
     fun fetchProperties() {
         viewModelScope.launch {
-            getProperties.invoke("")
+            getProperties.invoke()
                 .catch { e ->
                     _state.value = (DataState.error(e.toString(), null))
                 }
