@@ -1,4 +1,5 @@
-package com.openclassrooms.realestatemanager.presentation
+package com.opencl
+
 
 import android.os.Bundle
 import android.view.Menu
@@ -13,20 +14,21 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
+import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.BaseActivity
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
-import com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyViewModel
+import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
 import com.openclassrooms.realestatemanager.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -40,13 +42,16 @@ class MainActivity constructor(
     lateinit var fragmentFactory: MainFragmentFactory
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
-    private val addPropertyViewModel: AddPropertyViewModel by viewModels()
+    private val agentViewModel: AgentsViewModel by viewModels()
+
     private var isAddAgentView = false
     private var isAddPropertyView = false
+    private var agentList: List<Agent>? = arrayListOf()
 
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment }
     private val navController by lazy { navHostFragment.navController }
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -144,25 +149,35 @@ class MainActivity constructor(
 
     private fun setAddPropertyFabListener() {
         binding.fabAddProperty.setOnClickListener {
-            val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
-            val newPropertyId = UUID.randomUUID().toString()
-            val action =
-                ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
-                    newPropertyId, false, null
+            if (agentList?.size!! > 0) {
+                val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
+                val newPropertyId = UUID.randomUUID().toString()
+                val action =
+                    ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
+                        newPropertyId, false, null
+                    )
+                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+
+                isAddPropertyView = true
+                isAddAgentView = false
+                binding.expandableFabLayout.visibility = View.GONE
+
+                navHostFragment.navigate(action)
+                Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
+            } else {
+                Snackbar.make(
+                    binding.root,
+                    "You need to add at least one agent first}",
+                    Snackbar.LENGTH_SHORT
                 )
-            binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+                    .show()
+            }
 
-            isAddPropertyView = true
-            isAddAgentView = false
-            binding.expandableFabLayout.visibility = View.GONE
-
-            navHostFragment.navigate(action)
-            Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
         }
     }
 
     private fun setObserver() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             val value = viewModel.state
             value.collect {
                 when (it.status) {
@@ -180,6 +195,25 @@ class MainActivity constructor(
                 }
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            val value = agentViewModel.state
+            value.collect {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+                        it.data?.let { agents -> agentList = agents }
+                    }
+                    DataState.Status.LOADING -> {
+
+                    }
+                    DataState.Status.ERROR -> {
+                        Timber.d("LIST_OBSERVER: ${it.message}")
+                    }
+                }
+            }
+        }
+
+
     }
 
     private fun renderList(list: List<Property>) {
