@@ -42,13 +42,13 @@ class AddEditPropertyViewModel @Inject constructor(
 
     // Two-way databinding, exposing MutableLiveData
     private var propertyId: String? = null
-    var type = MutableLiveData<String>()
-    var price = MutableLiveData<String>()
-    var surface = MutableLiveData<String>()
-    var roomNumber = MutableLiveData<String>()
-    var bathroomNumber = MutableLiveData<String>()
-    var bedroomNumber = MutableLiveData<String>()
-    var description = MutableLiveData<String>()
+    var type = MutableLiveData<String>("House")
+    var price = MutableLiveData<String>("")
+    var surface = MutableLiveData<String>("")
+    var roomNumber = MutableLiveData<String>("")
+    var bathroomNumber = MutableLiveData<String>("")
+    var bedroomNumber = MutableLiveData<String>("")
+    var description = MutableLiveData<String>("")
     var schools = MutableLiveData<Boolean>(false)
     var shops = MutableLiveData<Boolean>(false)
     var park = MutableLiveData<Boolean>(false)
@@ -56,22 +56,22 @@ class AddEditPropertyViewModel @Inject constructor(
     var hospital = MutableLiveData<Boolean>(false)
     var museum = MutableLiveData<Boolean>(false)
     var sold = MutableLiveData<Boolean>(false)
-    var sellDate = MutableLiveData<String>()
-    var soldDate = MutableLiveData<String>()
+    var sellDate = MutableLiveData<String>("0")
+    var soldDate = MutableLiveData<String>("0")
     var photos = MutableLiveData<List<Media.Photo>>(arrayListOf())
     var videos = MutableLiveData<List<Media.Video>>(arrayListOf())
     var agent = MutableLiveData<Agent>()
-    var agentId = MutableLiveData<String>()
+    var agentId = MutableLiveData<String>("")
     var address = MutableLiveData<Address>()
-    var address1 = MutableLiveData<String>()
-    var address2 = MutableLiveData<String>()
-    var city = MutableLiveData<String>("New York")
-    var zipCode = MutableLiveData<String>()
-    var state = MutableLiveData<String>("NY")
-    var area = MutableLiveData<String>()
-    var country = MutableLiveData<String>("United States")
-    var lat = MutableLiveData<Double>()
-    var long = MutableLiveData<Double>()
+    var address1 = MutableLiveData<String?>("")
+    var address2 = MutableLiveData<String?>("")
+    var city = MutableLiveData<String?>("New York")
+    var zipCode = MutableLiveData<String?>("")
+    var state = MutableLiveData<String?>("NY")
+    var area = MutableLiveData<String?>("")
+    var country = MutableLiveData<String?>("United States")
+    var lat = MutableLiveData<Double>(0.0)
+    var long = MutableLiveData<Double>(0.0)
 
 
     var isNewProperty = MutableLiveData<Boolean>(false)
@@ -141,13 +141,13 @@ class AddEditPropertyViewModel @Inject constructor(
         videos.value = property.media.videos
         agentId.value = property.agent
         address.value = property.address
-        address1.value = property.address?.address1!!
-        address2.value = property.address?.address2!!
-        city.value = property.address?.city!!
-        zipCode.value = property.address?.zipCode!!
-        state.value = property.address?.state!!
-        area.value = property.address?.area!!
-        country.value = property.address?.country!!
+        address1.value = property.address?.address1
+        address2.value = property.address?.address2
+        city.value = property.address?.city
+        zipCode.value = property.address?.zipCode
+        state.value = property.address?.state
+        area.value = property.address?.area
+        country.value = property.address?.country
         lat.value = property.address?.lat.toString().toDoubleOrNull()
         long.value = property.address?.lng.toString().toDoubleOrNull()
         _statePhotos.value = property.media.photos as ArrayList<Media.Photo>

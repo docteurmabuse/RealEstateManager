@@ -98,7 +98,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/sold_date"
-                textToDate="@{viewModel.soldDate}"
+                textToDate="@{ viewModel.soldDate}"
                 android:inputType="textAutoComplete"
                 android:labelFor="@id/sold_input_layout" />
         </com.google.android.material.textfield.TextInputLayout>

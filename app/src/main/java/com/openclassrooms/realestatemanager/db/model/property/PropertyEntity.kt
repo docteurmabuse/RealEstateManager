@@ -42,9 +42,9 @@ data class PropertyEntity(
     var museum: Boolean? = false,
     var sold: Boolean? = false,
     @ColumnInfo(name = "sell_date")
-    var sellDate: Long? = null,
+    var sellDate: Long? = 0,
     @ColumnInfo(name = "sold_date")
-    var soldDate: Long? = null,
+    var soldDate: Long? = 0,
     @ColumnInfo(name = "agent_id", index = true)
     var agent_id: String? = ""
 ) : Parcelable {

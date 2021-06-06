@@ -103,7 +103,7 @@ class ViewBinding {
         @BindingAdapter("textToDate")
         fun bindTextToDate(textView: TextView, string: String?) {
             string?.let {
-                if (it.isNotEmpty())
+                if (it.isNotEmpty() || it != "0")
                     textView.text = longDateToString(it.toLong())
                 else {
                     textView.text = ""
