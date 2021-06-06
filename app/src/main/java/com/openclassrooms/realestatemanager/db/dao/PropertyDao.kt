@@ -44,8 +44,13 @@ interface PropertyDao {
         """
         SELECT * FROM PROPERTIES
         INNER JOIN property_address ON property_address.property_id = properties.id
+
+
         WHERE type LIKE '%' || :searchQuery || '%'  
         OR address1  LIKE '%' || :searchQuery || '%'  
+        OR area  LIKE '%' || :searchQuery || '%'  
+        OR state  LIKE '%' || :searchQuery || '%'  
+        OR city  LIKE '%' || :searchQuery || '%'
         ORDER BY sell_date ASC
    """
     )

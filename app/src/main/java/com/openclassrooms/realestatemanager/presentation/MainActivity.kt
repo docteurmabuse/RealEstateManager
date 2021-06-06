@@ -51,7 +51,6 @@ class MainActivity constructor(
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -189,7 +188,7 @@ class MainActivity constructor(
             value.collect {
                 when (it.status) {
                     DataState.Status.SUCCESS -> {
-                        it.data?.let { agents -> agentList = agents }
+                        it.data?.let { agents -> renderAgentList(agents) }
                     }
                     DataState.Status.LOADING -> {
 
@@ -202,6 +201,11 @@ class MainActivity constructor(
         }
 
 
+    }
+
+    private fun renderAgentList(agents: List<Agent>) {
+        agentList = agents
+        binding.fabAddProperty.fabOptionEnabled = agents.isNotEmpty()
     }
 
     private fun renderList(list: List<Property>) {
