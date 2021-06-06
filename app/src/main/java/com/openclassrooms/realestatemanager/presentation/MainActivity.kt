@@ -1,5 +1,4 @@
-package com.opencl
-
+package com.openclassrooms.realestatemanager.presentation
 
 import android.os.Bundle
 import android.view.Menu
@@ -14,7 +13,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.snackbar.Snackbar
+import com.nambimobile.widgets.efab.ExpandableFabLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
@@ -30,7 +29,6 @@ import com.openclassrooms.realestatemanager.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 
@@ -63,7 +61,6 @@ class MainActivity constructor(
         setObserver()
         setAddPropertyFabListener()
         setAddAgentFabListener()
-        binding.expandableFabLayout.visibility = View.VISIBLE
     }
 
 
@@ -130,9 +127,7 @@ class MainActivity constructor(
             isAddAgentView = true
             isAddPropertyView = false
 
-            val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddAgentFragment(
-                isAddAgentView
-            )
+            val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddAgentFragment()
             if (isAddAgentView) {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
                 binding.expandableFabLayout.visibility = View.GONE
@@ -149,30 +144,23 @@ class MainActivity constructor(
 
     private fun setAddPropertyFabListener() {
         binding.fabAddProperty.setOnClickListener {
-            if (agentList?.size!! > 0) {
-                val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
-                val newPropertyId = UUID.randomUUID().toString()
-                val action =
-                    ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
-                        newPropertyId, false, null
-                    )
+            val navHostFragment = findNavController(R.id.nav_host_fragment_activity_main)
+            isAddAgentView = false
+            isAddPropertyView = true
+
+            val action =
+                ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(null)
+            if (isAddPropertyView) {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+                findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout).visibility = View.GONE
 
-                isAddPropertyView = true
-                isAddAgentView = false
-                binding.expandableFabLayout.visibility = View.GONE
-
-                navHostFragment.navigate(action)
-                Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
             } else {
-                Snackbar.make(
-                    binding.root,
-                    "You need to add at least one agent first}",
-                    Snackbar.LENGTH_SHORT
-                )
-                    .show()
+                findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout).visibility = View.GONE
+                binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+                binding.expandableFabLayout.visibility = View.GONE
             }
 
+            navHostFragment.navigate(action)
         }
     }
 
@@ -221,8 +209,4 @@ class MainActivity constructor(
         Timber.tag("MAP").d("MAP_PROPERTIES: ${properties!!.size}")
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.expandableFabLayout.visibility = View.VISIBLE
-    }
 }

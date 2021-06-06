@@ -359,7 +359,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun retrieveArguments() {
-        newPropertyId = args.propertyId
+        //newPropertyId = args.propertyId
         Timber.d("ADDPROPERTY: ${newPropertyId}")
     }
 

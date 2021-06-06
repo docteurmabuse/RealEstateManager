@@ -20,7 +20,6 @@ import timber.log.Timber
 @AndroidEntryPoint
 
 class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
-    private var isEditAgentView: Boolean = false
     private val viewModelEdit: AddEditAgentViewModel by viewModels()
     private var _binding: AddAgentFragmentBinding? = null
     private val binding get() = _binding!!

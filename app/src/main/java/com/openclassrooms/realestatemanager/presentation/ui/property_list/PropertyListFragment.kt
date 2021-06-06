@@ -9,17 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
-import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
@@ -27,7 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
-import java.util.*
 
 
 /**
@@ -111,7 +107,6 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
 
         setupRecyclerView(recyclerView!!, onClickListener, onContextClickListener)
 
-        setFabListener()
     }
 
     private fun setupRecyclerView(
@@ -132,18 +127,6 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         recyclerView.adapter = adapter
     }
 
-    private fun setFabListener() {
-        binding.addPropertyFAB?.setOnClickListener {
-            val navHostFragment = findNavController()
-            val newPropertyId = UUID.randomUUID().toString()
-            val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(
-                newPropertyId, false, null
-            )
-            binding.bottomAppBar?.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-            navHostFragment.navigate(action)
-            Timber.tag("PROPERTY_ID").d("PROPERTY_ID: $newPropertyId")
-        }
-    }
 
     @ExperimentalCoroutinesApi
     private fun setObserver() {
