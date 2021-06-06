@@ -16,8 +16,8 @@ class AgentRepository_Impl @Inject constructor(
     private val persistence: Persistence,
     dispatchersProvider: DispatchersProvider
 ) : AgentRepository {
-    override suspend fun addAgent(agent: Agent) {
-        persistence.storeAgent(agentEntityMapper.mapFromDomainModel(agent))
+    override suspend fun addAgent(agent: Agent): Long {
+        return persistence.storeAgent(agentEntityMapper.mapFromDomainModel(agent))
     }
 
     override suspend fun getAllAgents(): Flow<List<Agent>> {

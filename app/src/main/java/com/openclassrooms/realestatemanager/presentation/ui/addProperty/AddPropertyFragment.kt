@@ -42,6 +42,8 @@ import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.notif.NotificationHelper
+import com.openclassrooms.realestatemanager.presentation.EventObserver
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragmentArgs
@@ -163,6 +165,22 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupUploadImageListener()
         setupSnackbar()
         setupDateListener()
+        setupNavigation()
+    }
+
+    private fun setupNavigation() {
+        viewModel.propertyUpdatedEvent.observe(viewLifecycleOwner, EventObserver {
+            val navHostFragment = findNavController()
+            navHostFragment.navigate(R.id.mainActivity)
+            val propertyName: String = binding.address?.address1TextInput?.text.toString()
+            NotificationHelper.createNotification(
+                requireContext(),
+                "Property $propertyName was added",
+                "",
+                "",
+                autoCancel = false
+            )
+        })
     }
 
     private fun setupDateListener() {
