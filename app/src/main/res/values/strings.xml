@@ -90,5 +90,12 @@
     <string name="sort_by_name">Sort by name</string>
     <string name="sort_by_date_on_market">Sort by date on market</string>
     <string name="filtered">Filtered</string>
+    <string name="filters">Filters:</string>
+    <string name="house">House</string>
+    <string name="flat">Flat</string>
+    <string name="duplex">Duplex</string>
+    <string name="penthouse">Penthouse</string>
+    <string name="manor">Manor</string>
+    <string name="all">All</string>
 
 </resources>

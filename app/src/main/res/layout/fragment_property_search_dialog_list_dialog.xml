@@ -1,11 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipToPadding="false"
-    android:paddingTop="@dimen/list_item_spacing_half"
-    android:paddingBottom="@dimen/list_item_spacing_half"
-    tools:context=".presentation.ui.search.PropertySearchDialogFragment"
-    tools:listitem="@layout/fragment_property_search_dialog_list_dialog_item" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.MainViewModel" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/list"
+        android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingStart="@dimen/marginStart"
+        android:paddingTop="@dimen/list_item_spacing_half"
+        android:paddingEnd="@dimen/marginEnd"
+        android:paddingBottom="@dimen/list_item_spacing_half"
+        tools:context=".presentation.ui.search.PropertySearchDialogFragment"
+        tools:listitem="@layout/fragment_property_search_dialog_list_dialog_item">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/typeFilter"
+                style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/property_type"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.chip.ChipGroup
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                app:chipSpacingHorizontal="22dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/typeFilter">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/allTypes"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{}"
+                    android:text="@string/all"
+                    app:rippleColor="@color/colorAccent" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/house"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/house" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/flat"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/flat" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/duplex"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/duplex" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/penthouse"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/penthouse" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/manor"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/manor" />
+            </com.google.android.material.chip.ChipGroup>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>
