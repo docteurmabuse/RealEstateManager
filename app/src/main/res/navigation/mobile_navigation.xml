@@ -124,6 +124,9 @@
         <action
             android:id="@+id/action_itemTabsFragment2_to_addAgentFragment"
             app:destination="@id/addEditAgentFragment" />
+        <action
+            android:id="@+id/action_itemTabsFragment2_to_propertySearchDialogFragment"
+            app:destination="@id/propertySearchDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/masterHostFragment"
@@ -141,4 +144,9 @@
             android:id="@+id/action_addAgentFragment_to_itemTabsFragment2"
             app:destination="@id/itemTabsFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/propertySearchDialogFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.search.PropertySearchDialogFragment"
+        android:label="fragment_property_search_dialog_list_dialog"
+        tools:layout="@layout/fragment_property_search_dialog_list_dialog" />
 </navigation>

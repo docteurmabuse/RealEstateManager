@@ -25,5 +25,5 @@
         android:id="@+id/action_filter_properties"
         android:icon="@drawable/ic_baseline_filter_list_24"
         android:title="@string/filtered"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 </menu>

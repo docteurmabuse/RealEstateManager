@@ -11,4 +11,8 @@
     <dimen name="formWidth">260dp</dimen>
     <dimen name="default_image_width">480dp</dimen>
     <dimen name="default_image_height">270dp</dimen>
+    <dimen name="fab_move_upwards_65">65dp</dimen>
+    <dimen name="fab_move_upwards_125">125dp</dimen>
+    <dimen name="list_item_spacing">16dp</dimen>
+    <dimen name="list_item_spacing_half">8dp</dimen>
 </resources>
