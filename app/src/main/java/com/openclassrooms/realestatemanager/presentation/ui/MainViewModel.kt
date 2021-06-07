@@ -26,6 +26,27 @@ constructor(
     val searchQuery = MutableStateFlow("")
     var arrStr = enumValues<Property.PropertyType>().toList() as List<String>
     var typeList = MutableLiveData<List<String>>(arrStr)
+    var house = MutableLiveData<Boolean>(false)
+    var flat = MutableLiveData<Boolean>(false)
+    var duplex = MutableLiveData<Boolean>(false)
+    var penthouse = MutableLiveData<Boolean>(false)
+    var manor = MutableLiveData<Boolean>(false)
+
+    var price = MutableLiveData<String>("")
+    var surface = MutableLiveData<String>("")
+    var roomNumber = MutableLiveData<String>("")
+    var bathroomNumber = MutableLiveData<String>("")
+    var bedroomNumber = MutableLiveData<String>("")
+    var description = MutableLiveData<String>("")
+    var schools = MutableLiveData<Boolean>(false)
+    var shops = MutableLiveData<Boolean>(false)
+    var park = MutableLiveData<Boolean>(false)
+    var stations = MutableLiveData<Boolean>(false)
+    var hospital = MutableLiveData<Boolean>(false)
+    var museum = MutableLiveData<Boolean>(false)
+    var sold = MutableLiveData<Boolean>(false)
+    var sellDate = MutableLiveData<String>("0")
+    var soldDate = MutableLiveData<String>("0")
 
     @ExperimentalCoroutinesApi
     private val propertiesFlow = searchQuery.flatMapLatest {

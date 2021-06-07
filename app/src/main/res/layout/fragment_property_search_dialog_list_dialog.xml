@@ -57,6 +57,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/house"
+                    android:checked="@{viewModel.house}"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,6 +65,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/flat"
+                    android:checked="@{viewModel.flat}"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -71,6 +73,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/duplex"
+                    android:checked="@{viewModel.duplex}"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -78,6 +81,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/penthouse"
+                    android:checked="@{viewModel.penthouse}"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -85,6 +89,7 @@
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/manor"
+                    android:checked="@{viewModel.manor}"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
