@@ -177,6 +177,7 @@
                 android:id="@+id/priceRangeSlider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:stepSize="100000"
                 android:valueFrom="@{viewModel.minPrice}"
                 android:valueTo="@{viewModel.maxPrice}"
                 app:layout_constraintStart_toStartOf="parent"
@@ -197,8 +198,9 @@
                 android:id="@+id/surfaceRangeSlider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:valueFrom="@{viewModel.minPrice}"
-                android:valueTo="@{viewModel.maxPrice}"
+                android:stepSize="10"
+                android:valueFrom="0"
+                android:valueTo="10000"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/surfaceRangeText" />
 

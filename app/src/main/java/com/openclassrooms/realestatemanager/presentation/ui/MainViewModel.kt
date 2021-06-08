@@ -40,7 +40,7 @@ constructor(
     var penthouse = MutableLiveData<Boolean>(false)
     var manor = MutableLiveData<Boolean>(false)
 
-    var maxPrice = MutableLiveData<Float>(900000000F)
+    var maxPrice = MutableLiveData<Float>(100000000F)
     var minPrice = MutableLiveData<Float>(0F)
 
     var surface = MutableLiveData<String>("")
