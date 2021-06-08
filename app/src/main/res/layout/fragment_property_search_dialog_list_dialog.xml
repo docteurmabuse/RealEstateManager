@@ -39,21 +39,13 @@
 
             <com.google.android.material.chip.ChipGroup
                 style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:id="@+id/typeChipGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 app:chipSpacingHorizontal="22dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/typeFilter">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/allTypes"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@{}"
-                    android:text="@string/all"
-                    app:rippleColor="@color/colorAccent" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/house"
@@ -94,6 +86,76 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/manor" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:id="@+id/nearByFilter"
+                style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/marginTop"
+                android:text="@string/nearby"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/typeChipGroup" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/nearbyChipGroup"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                app:chipSpacingHorizontal="22dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nearByFilter">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMuseum"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{viewModel.house}"
+                    android:text="@string/museum" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSchool"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{viewModel.flat}"
+                    android:text="@string/schools" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipShop"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{viewModel.duplex}"
+                    android:text="@string/shops" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipHospital"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{viewModel.penthouse}"
+                    android:text="@string/hospital" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipStation"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{viewModel.manor}"
+                    android:text="@string/station" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPark"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{viewModel.manor}"
+                    android:text="@string/park" />
             </com.google.android.material.chip.ChipGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
