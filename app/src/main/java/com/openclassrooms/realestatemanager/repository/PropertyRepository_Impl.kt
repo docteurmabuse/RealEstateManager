@@ -35,24 +35,28 @@ class PropertyRepository_Impl @Inject constructor(
     }
 
     override suspend fun searchProperties(
-        query: String,
-        types: List<String>?,
-        museum: Boolean?,
-        schools: Boolean?,
-        shops: Boolean?,
-        hospital: Boolean?,
-        stations: Boolean?,
-        park: Boolean?
+        query: String
     ): Flow<List<Property>> {
         return persistence.searchProperties(
-            query,
-            types,
-            museum,
-            schools,
-            shops,
-            hospital,
-            stations,
-            park
+            query
+        )
+            .distinctUntilChanged()
+            .map { propertyList ->
+                propertyList.map {
+                    it.property.toDomain(
+                        it.photos,
+                        it.videos,
+                        it.address
+                    )
+                }
+            }
+    }
+
+    override suspend fun filterSearchProperties(
+        query: String
+    ): Flow<List<Property>> {
+        return persistence.searchProperties(
+            query
         )
             .distinctUntilChanged()
             .map { propertyList ->

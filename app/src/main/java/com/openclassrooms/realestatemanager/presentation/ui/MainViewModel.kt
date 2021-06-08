@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.presentation.ui
 
-import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.domain.interactors.property.GetProperties
 import com.openclassrooms.realestatemanager.domain.interactors.searchProperty.SearchProperties
@@ -19,16 +18,21 @@ class MainViewModel
 constructor(
     private val getProperties: GetProperties,
     private val searchProperties: SearchProperties,
+    private val filterSearchProperties: SearchProperties,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
-    private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
 
     private val _state = MutableStateFlow<DataState<List<Property>>>(DataState.loading(null))
     val state: StateFlow<DataState<List<Property>>>
         get() = _state
-    val searchQuery = MutableStateFlow("")
 
+    private val _stateFilter = MutableStateFlow<DataState<List<Property>>>(DataState.loading(null))
+    val stateFilter: StateFlow<DataState<List<Property>>>
+        get() = _stateFilter
+
+    val searchQuery = MutableStateFlow("")
+    private val Boolean.int
+        get() = if (this) 1 else 0
     var typeList = MutableLiveData<List<String>>(arrayListOf())
     var house = MutableLiveData<Boolean>(false)
     var flat = MutableLiveData<Boolean>(false)
@@ -36,7 +40,9 @@ constructor(
     var penthouse = MutableLiveData<Boolean>(false)
     var manor = MutableLiveData<Boolean>(false)
 
-    var price = MutableLiveData<String>("")
+    var maxPrice = MutableLiveData<Float>(900000000F)
+    var minPrice = MutableLiveData<Float>(0F)
+
     var surface = MutableLiveData<String>("")
     var roomNumber = MutableLiveData<String>("")
     var bathroomNumber = MutableLiveData<String>("")
@@ -55,8 +61,7 @@ constructor(
     @ExperimentalCoroutinesApi
     private val propertiesFlow = searchQuery.flatMapLatest {
         searchProperties.invoke(
-            it, typeList.value, museum.value, schools.value,
-            shops.value, hospital.value, stations.value, park.value
+            it
         )
 
     }
@@ -64,6 +69,7 @@ constructor(
 
     @ExperimentalCoroutinesApi
     val properties = propertiesFlow.asLiveData()
+
 
     fun fetchProperties() {
         viewModelScope.launch {
@@ -80,15 +86,14 @@ constructor(
 
     fun filterData() {
         viewModelScope.launch {
-            searchProperties.invoke(
-                searchQuery.value, typeList.value, museum.value, schools.value,
-                shops.value, hospital.value, stations.value, park.value
+            filterSearchProperties.invoke(
+                searchQuery.value
             )
                 .catch { e ->
-                    _state.value = (DataState.error(e.toString(), null))
+                    _stateFilter.value = (DataState.error(e.toString(), null))
                 }
                 .collectLatest {
-                    _state.value = DataState.success(it)
+                    _stateFilter.value = DataState.success(it)
                 }
             Timber.d(
                 "FILTER_CLICK: ${museum.value}, ${searchQuery.value}, ${typeList.value}, ${museum.value}, ${schools.value}" +

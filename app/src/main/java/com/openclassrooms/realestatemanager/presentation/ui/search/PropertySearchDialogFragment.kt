@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertySearchFilterDialogBinding
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 
 // TODO: Customize parameter argument names
@@ -24,7 +25,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,21 +33,21 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     ): View? {
         // binding.lifecycleOwner = requireActivity()
         _binding = FragmentPropertySearchFilterDialogBinding.inflate(inflater, container, false)
-        binding.viewModel = viewModel
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //   list.layoutManager = GridLayoutManager(context, 2)
         //    activity?.findViewById<RecyclerView>(R.id.list)?.adapter =
         //   arguments?.getInt(ARG_ITEM_COUNT)?.let { ItemAdapter(it)
-        binding.viewModel = viewModel
+        binding.viewModel = mainViewModel
+        binding.applyFilter.setOnClickListener {
+            mainViewModel.filterData()
+            Timber.d("Click")
+        }
     }
 
-
     companion object {
-
         // TODO: Customize parameters
         fun newInstance(itemCount: Int): PropertySearchDialogFragment =
             PropertySearchDialogFragment().apply {

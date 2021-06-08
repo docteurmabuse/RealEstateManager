@@ -127,7 +127,6 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         recyclerView.adapter = adapter
     }
 
-
     @ExperimentalCoroutinesApi
     private fun setObserver() {
         lifecycleScope.launchWhenStarted {
@@ -154,6 +153,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         }
     }
 
+
     private fun displayError(message: String?) {
         if (message != null) {
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
@@ -167,7 +167,6 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
         else binding.progressBar?.visibility = View.GONE
         swipeRefreshLayout?.isRefreshing = isLoading
     }
-
 
     private fun renderList(list: List<Property>) {
         adapter.submitList(list)

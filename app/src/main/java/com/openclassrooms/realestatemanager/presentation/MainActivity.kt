@@ -35,14 +35,14 @@ import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFacto
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
 import com.openclassrooms.realestatemanager.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class MainActivity constructor(
-    private var properties: List<Property>? = null
+    private var properties: List<Property> = arrayListOf()
 ) : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     NavController.OnDestinationChangedListener {
     @Inject
@@ -232,9 +232,7 @@ class MainActivity constructor(
         navController.navigate(R.id.mainActivity)
     }
 
-
     private fun setAddAgentFabListener() {
-
         binding.fabAddAgent.setOnClickListener {
             isAddAgentView = true
             isAddPropertyView = false
@@ -276,7 +274,7 @@ class MainActivity constructor(
     private fun setObserver() {
         lifecycleScope.launchWhenStarted {
             val value = viewModel.state
-            value.collectLatest {
+            value.collect {
                 when (it.status) {
                     DataState.Status.SUCCESS -> {
                         it.data?.let { properties ->
@@ -298,14 +296,14 @@ class MainActivity constructor(
 
         lifecycleScope.launchWhenStarted {
             val value = agentViewModel.state
-            value.collectLatest {
+            value.collect {
                 when (it.status) {
                     DataState.Status.SUCCESS -> {
                         it.data?.let { agents -> renderAgentList(agents) }
                         displayLoading(false)
                     }
                     DataState.Status.LOADING -> {
-                        displayLoading(true)
+                        displayLoading(false)
                     }
                     DataState.Status.ERROR -> {
                         displayLoading(false)
@@ -324,7 +322,7 @@ class MainActivity constructor(
 
     private fun renderList(list: List<Property>) {
         properties = list
-        Timber.tag("MAP").d("MAP_PROPERTIES: ${properties!!.size}")
+        Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
     }
 
 

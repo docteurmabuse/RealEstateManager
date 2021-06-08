@@ -38,37 +38,41 @@ interface PropertyDao {
     )
     fun getAllProperties(): Flow<List<PropertyEntityAggregate>>
 
-    // Retrieve PropertiesEntity List form a query
+    // Retrieve PropertiesEntity from search word
     @Transaction
     @Query(
         """
-        SELECT * FROM PROPERTIES
+        SELECT *
+        FROM PROPERTIES
         INNER JOIN property_address ON property_address.property_id = properties.id
-        WHERE type IN (:types)
-        or type LIKE '%' || :searchQuery || '%'  
+        WHERE type LIKE '%' || :searchQuery || '%'  
         OR address1  LIKE '%' || :searchQuery || '%'  
         OR area  LIKE '%' || :searchQuery || '%'  
         OR state  LIKE '%' || :searchQuery || '%'  
         OR city  LIKE '%' || :searchQuery || '%'
-        and museum = :museum
-        and schools = :schools
-        and shops = :shops
-        and stations = :stations
-        and hospital = :hospital
-        and park = :park
-        and type IN (:types)
         ORDER BY sell_date ASC
    """
     )
     fun searchProperties(
         searchQuery: String,
-        types: List<String>?,
-        museum: Boolean?,
-        schools: Boolean?,
-        shops: Boolean?,
-        hospital: Boolean?,
-        stations: Boolean?,
-        park: Boolean?
+    ): Flow<List<PropertyEntityAggregate>>
+
+    @Transaction
+    @Query(
+        """
+        SELECT *
+        FROM PROPERTIES
+        INNER JOIN property_address ON property_address.property_id = properties.id
+        WHERE type LIKE '%' || :searchQuery || '%'  
+        OR address1  LIKE '%' || :searchQuery || '%'  
+        OR area  LIKE '%' || :searchQuery || '%'  
+        OR state  LIKE '%' || :searchQuery || '%'  
+        OR city  LIKE '%' || :searchQuery || '%'
+        ORDER BY sell_date ASC
+   """
+    )
+    fun filterSearchProperties(
+        searchQuery: String,
     ): Flow<List<PropertyEntityAggregate>>
 
     //Update PropertyEntity

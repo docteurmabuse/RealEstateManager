@@ -29,24 +29,18 @@ class RoomPersistence @Inject constructor(
     }
 
     override suspend fun searchProperties(
-        searchQuery: String,
-        types: List<String>?,
-        museum: Boolean?,
-        schools: Boolean?,
-        shops: Boolean?,
-        hospital: Boolean?,
-        stations: Boolean?,
-        park: Boolean?
+        searchQuery: String
     ): Flow<List<PropertyEntityAggregate>> {
         return propertyDao.searchProperties(
-            searchQuery,
-            types,
-            museum,
-            schools,
-            shops,
-            hospital,
-            stations,
-            park
+            searchQuery
+        )
+    }
+
+    override suspend fun filterSearchProperties(
+        searchQuery: String
+    ): Flow<List<PropertyEntityAggregate>> {
+        return propertyDao.searchProperties(
+            searchQuery
         )
     }
 
@@ -63,5 +57,4 @@ class RoomPersistence @Inject constructor(
     override suspend fun updateProperty(property: PropertyEntityAggregate) {
         return propertyDao.updateProperty(property)
     }
-
 }

@@ -12,7 +12,6 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/list"
-        android="http://schemas.android.com/apk/res/android"
         app:behavior_hideable="true"
         app:behavior_peekHeight="600dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
@@ -119,7 +118,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.museum}"
-                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:text="@string/museum" />
 
                 <com.google.android.material.chip.Chip
@@ -128,7 +126,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.schools}"
-                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:text="@string/schools" />
 
                 <com.google.android.material.chip.Chip
@@ -136,7 +133,6 @@
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:checked="@={viewModel.shops}"
                     android:text="@string/shops" />
 
@@ -145,7 +141,6 @@
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:checked="@={viewModel.hospital}"
                     android:text="@string/hospital" />
 
@@ -155,7 +150,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.stations}"
-                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:text="@string/station" />
 
                 <com.google.android.material.chip.Chip
@@ -163,16 +157,57 @@
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{()->viewModel.filterData()}"
                     android:checked="@={viewModel.park}"
-                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:text="@string/park" />
             </com.google.android.material.chip.ChipGroup>
 
-            <Button
+            <TextView
+                android:id="@+id/priceRangeText"
+                style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/marginTop"
+                android:text="@string/price"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/nearbyChipGroup" />
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/priceRangeSlider"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{(view)->viewModel.filterData()}"
-                android:text="Apply"
+                android:valueFrom="@{viewModel.minPrice}"
+                android:valueTo="@{viewModel.maxPrice}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/priceRangeText" />
+
+            <TextView
+                android:id="@+id/surfaceRangeText"
+                style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/marginTop"
+                android:text="@string/surface"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/priceRangeSlider" />
+
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/surfaceRangeSlider"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:valueFrom="@{viewModel.minPrice}"
+                android:valueTo="@{viewModel.maxPrice}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/surfaceRangeText" />
+
+            <Button
+                android:id="@+id/applyFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/apply"
+                app:layout_constraintTop_toBottomOf="@id/surfaceRangeSlider"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
