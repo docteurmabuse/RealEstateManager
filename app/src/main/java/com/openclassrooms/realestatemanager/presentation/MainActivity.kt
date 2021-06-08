@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
@@ -34,7 +35,7 @@ import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFacto
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
 import com.openclassrooms.realestatemanager.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -275,17 +276,20 @@ class MainActivity constructor(
     private fun setObserver() {
         lifecycleScope.launchWhenStarted {
             val value = viewModel.state
-            value.collect {
+            value.collectLatest {
                 when (it.status) {
                     DataState.Status.SUCCESS -> {
                         it.data?.let { properties ->
                             renderList(properties)
                         }
+                        displayLoading(false)
                     }
                     DataState.Status.LOADING -> {
-
+                        displayLoading(true)
                     }
                     DataState.Status.ERROR -> {
+                        displayLoading(false)
+                        displayError(it.message)
                         Timber.d("LIST_OBSERVER: ${it.message}")
                     }
                 }
@@ -294,22 +298,23 @@ class MainActivity constructor(
 
         lifecycleScope.launchWhenStarted {
             val value = agentViewModel.state
-            value.collect {
+            value.collectLatest {
                 when (it.status) {
                     DataState.Status.SUCCESS -> {
                         it.data?.let { agents -> renderAgentList(agents) }
+                        displayLoading(false)
                     }
                     DataState.Status.LOADING -> {
-
+                        displayLoading(true)
                     }
                     DataState.Status.ERROR -> {
+                        displayLoading(false)
+                        displayError(it.message)
                         Timber.d("LIST_OBSERVER: ${it.message}")
                     }
                 }
             }
         }
-
-
     }
 
     private fun renderAgentList(agents: List<Agent>) {
@@ -323,4 +328,16 @@ class MainActivity constructor(
     }
 
 
+    private fun displayError(message: String?) {
+        if (message != null) {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this, "Unknown error", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun displayLoading(isLoading: Boolean) {
+        if (isLoading) binding.progressBar.visibility = View.VISIBLE
+        else binding.progressBar.visibility = View.GONE
+    }
 }

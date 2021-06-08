@@ -28,7 +28,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/typeFilter"
@@ -119,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.museum}"
-                    android:onClick="@{(v)->viewModel.filterData()}"
+                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:text="@string/museum" />
 
                 <com.google.android.material.chip.Chip
@@ -128,6 +128,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.schools}"
+                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:text="@string/schools" />
 
                 <com.google.android.material.chip.Chip
@@ -135,6 +136,7 @@
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:checked="@={viewModel.shops}"
                     android:text="@string/shops" />
 
@@ -143,6 +145,7 @@
                     style="@style/Widget.MaterialComponents.Chip.Filter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:checked="@={viewModel.hospital}"
                     android:text="@string/hospital" />
 
@@ -152,6 +155,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.stations}"
+                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:text="@string/station" />
 
                 <com.google.android.material.chip.Chip
@@ -160,14 +164,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="@={viewModel.park}"
+                    android:onClick="@{(view)->viewModel.filterData()}"
                     android:text="@string/park" />
             </com.google.android.material.chip.ChipGroup>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nearbyChipGroup" />
+                android:onClick="@{(view)->viewModel.filterData()}"
+                android:text="Apply"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

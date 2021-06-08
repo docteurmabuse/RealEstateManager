@@ -32,6 +32,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     ): View? {
         // binding.lifecycleOwner = requireActivity()
         _binding = FragmentPropertySearchFilterDialogBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
         return binding.root
 
     }
@@ -39,7 +40,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //   list.layoutManager = GridLayoutManager(context, 2)
         //    activity?.findViewById<RecyclerView>(R.id.list)?.adapter =
-        //   arguments?.getInt(ARG_ITEM_COUNT)?.let { ItemAdapter(it) }
+        //   arguments?.getInt(ARG_ITEM_COUNT)?.let { ItemAdapter(it)
         binding.viewModel = viewModel
     }
 

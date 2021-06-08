@@ -58,6 +58,7 @@ constructor(
             it, typeList.value, museum.value, schools.value,
             shops.value, hospital.value, stations.value, park.value
         )
+
     }
 
 
@@ -78,6 +79,21 @@ constructor(
 
 
     fun filterData() {
-        Timber.d("click")
+        viewModelScope.launch {
+            searchProperties.invoke(
+                searchQuery.value, typeList.value, museum.value, schools.value,
+                shops.value, hospital.value, stations.value, park.value
+            )
+                .catch { e ->
+                    _state.value = (DataState.error(e.toString(), null))
+                }
+                .collectLatest {
+                    _state.value = DataState.success(it)
+                }
+            Timber.d(
+                "FILTER_CLICK: ${museum.value}, ${searchQuery.value}, ${typeList.value}, ${museum.value}, ${schools.value}" +
+                        "${shops.value}, ${hospital.value}, ${stations.value}, ${park.value}"
+            )
+        }
     }
 }
