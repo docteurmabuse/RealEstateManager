@@ -173,7 +173,7 @@ class MainActivity constructor(
         val searchView = searchItem?.actionView as SearchView
         searchView.onQueryTextChanged {
             viewModel.searchQuery.value = it
-            Timber.d("SEARCH: ${it}")
+            Timber.d("SEARCH: $it")
         }
         return super.onCreateOptionsMenu(menu)
     }

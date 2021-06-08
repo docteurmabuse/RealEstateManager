@@ -34,8 +34,26 @@ class PropertyRepository_Impl @Inject constructor(
             }
     }
 
-    override suspend fun searchProperties(searchQuery: String): Flow<List<Property>> {
-        return persistence.searchProperties(searchQuery)
+    override suspend fun searchProperties(
+        query: String,
+        types: List<String>?,
+        museum: Boolean?,
+        schools: Boolean?,
+        shops: Boolean?,
+        hospital: Boolean?,
+        stations: Boolean?,
+        park: Boolean?
+    ): Flow<List<Property>> {
+        return persistence.searchProperties(
+            query,
+            types,
+            museum,
+            schools,
+            shops,
+            hospital,
+            stations,
+            park
+        )
             .distinctUntilChanged()
             .map { propertyList ->
                 propertyList.map {
@@ -67,6 +85,4 @@ class PropertyRepository_Impl @Inject constructor(
     override suspend fun updateProperty(property: Property) {
         persistence.updateProperty(PropertyEntityAggregate.fromDomain(property))
     }
-
-
 }

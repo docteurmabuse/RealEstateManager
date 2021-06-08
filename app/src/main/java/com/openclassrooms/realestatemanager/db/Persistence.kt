@@ -13,7 +13,16 @@ interface Persistence {
 
     suspend fun getAllProperties(): Flow<List<PropertyEntityAggregate>>
 
-    suspend fun searchProperties(searchQuery: String): Flow<List<PropertyEntityAggregate>>
+    suspend fun searchProperties(
+        searchQuery: String,
+        types: List<String>?,
+        museum: Boolean?,
+        schools: Boolean?,
+        shops: Boolean?,
+        hospital: Boolean?,
+        stations: Boolean?,
+        park: Boolean?
+    ): Flow<List<PropertyEntityAggregate>>
 
     suspend fun getPropertyById(propertyId: String): Flow<PropertyEntityAggregate>
 

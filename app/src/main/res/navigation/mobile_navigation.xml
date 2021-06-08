@@ -144,9 +144,9 @@
             android:id="@+id/action_addAgentFragment_to_itemTabsFragment2"
             app:destination="@id/itemTabsFragment2" />
     </fragment>
-    <fragment
+    <dialog
         android:id="@+id/propertySearchDialogFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.search.PropertySearchDialogFragment"
         android:label="fragment_property_search_dialog_list_dialog"
-        tools:layout="@layout/fragment_property_search_dialog_list_dialog" />
+        tools:layout="@layout/fragment_property_search_filter_dialog" />
 </navigation>

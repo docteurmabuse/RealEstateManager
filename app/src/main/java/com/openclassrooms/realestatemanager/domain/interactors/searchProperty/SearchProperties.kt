@@ -4,8 +4,27 @@ import com.openclassrooms.realestatemanager.repository.PropertyRepository_Impl
 import javax.inject.Inject
 
 class SearchProperties @Inject constructor(private val propertyRepositoryImpl: PropertyRepository_Impl) {
-    suspend operator fun invoke(query: String, type: List<String>?) =
-        propertyRepositoryImpl.searchProperties(query)
+    suspend operator fun invoke(
+        query: String,
+        types: List<String>?,
+        museum: Boolean?,
+        schools: Boolean?,
+        shops: Boolean?,
+        hospital: Boolean?,
+        stations: Boolean?,
+        park: Boolean?
+
+    ) =
+        propertyRepositoryImpl.searchProperties(
+            query,
+            types,
+            museum,
+            schools,
+            shops,
+            hospital,
+            stations,
+            park
+        )
     /* private val propertyDao: PropertyDao,
      private val propertyEntityMapper: PropertyEntityMapper
  ) {

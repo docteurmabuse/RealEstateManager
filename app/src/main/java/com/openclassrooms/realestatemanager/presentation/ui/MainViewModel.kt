@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.presentation.ui
 
+import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.domain.interactors.property.GetProperties
 import com.openclassrooms.realestatemanager.domain.interactors.searchProperty.SearchProperties
@@ -9,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,12 +22,14 @@ constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
+    private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
+
     private val _state = MutableStateFlow<DataState<List<Property>>>(DataState.loading(null))
     val state: StateFlow<DataState<List<Property>>>
         get() = _state
     val searchQuery = MutableStateFlow("")
-    var arrStr = enumValues<Property.PropertyType>().toList() as List<String>
-    var typeList = MutableLiveData<List<String>>(arrStr)
+
+    var typeList = MutableLiveData<List<String>>(arrayListOf())
     var house = MutableLiveData<Boolean>(false)
     var flat = MutableLiveData<Boolean>(false)
     var duplex = MutableLiveData<Boolean>(false)
@@ -50,7 +54,10 @@ constructor(
 
     @ExperimentalCoroutinesApi
     private val propertiesFlow = searchQuery.flatMapLatest {
-        searchProperties.invoke(it, typeList.value)
+        searchProperties.invoke(
+            it, typeList.value, museum.value, schools.value,
+            shops.value, hospital.value, stations.value, park.value
+        )
     }
 
 
@@ -67,5 +74,10 @@ constructor(
                     _state.value = DataState.success(it)
                 }
         }
+    }
+
+
+    fun filterData() {
+        Timber.d("click")
     }
 }
