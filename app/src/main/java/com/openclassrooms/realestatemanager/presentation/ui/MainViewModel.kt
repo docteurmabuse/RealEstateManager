@@ -2,9 +2,11 @@ package com.openclassrooms.realestatemanager.presentation.ui
 
 import androidx.lifecycle.*
 import com.openclassrooms.realestatemanager.domain.interactors.property.GetProperties
+import com.openclassrooms.realestatemanager.domain.interactors.searchProperty.FilterSearchProperties
 import com.openclassrooms.realestatemanager.domain.interactors.searchProperty.SearchProperties
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.domain.model.search.SearchFilters
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -18,7 +20,7 @@ class MainViewModel
 constructor(
     private val getProperties: GetProperties,
     private val searchProperties: SearchProperties,
-    private val filterSearchProperties: SearchProperties,
+    private val filterSearchProperties: FilterSearchProperties,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -32,8 +34,22 @@ constructor(
 
 
     val searchQuery = MutableStateFlow("")
+    var searchFilterQuery = MutableStateFlow(
+        SearchFilters(
+            "",
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            "",
+            arrayListOf(),
+        )
+    )
+
     private val Boolean.int
-        get() = if (this) 1 else 0
+        get() = if (this) 1 else -1
     var typeList = MutableLiveData<List<String>>(arrayListOf())
     var house = MutableLiveData<Boolean>(false)
     var flat = MutableLiveData<Boolean>(false)
@@ -68,13 +84,18 @@ constructor(
     var area = MutableLiveData<String>("")
 
     @ExperimentalCoroutinesApi
-    private val propertiesFlow = searchQuery.flatMapLatest {
+    private val propertiesFlow = searchFilterQuery.flatMapLatest {
         searchProperties.invoke(
-            it
+            it.textQuery
         )
-
     }
 
+    @ExperimentalCoroutinesApi
+    private val propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
+        filterSearchProperties.invoke(
+            it
+        )
+    }
 
     @ExperimentalCoroutinesApi
     val properties = propertiesFlow.asLiveData()
@@ -96,7 +117,7 @@ constructor(
     fun filterData() {
         viewModelScope.launch {
             filterSearchProperties.invoke(
-                searchQuery.value
+                searchFilterQuery.value
             )
                 .catch { e ->
                     _stateFilter.value = (DataState.error(e.toString(), null))

@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.repository
 import com.openclassrooms.realestatemanager.db.Persistence
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.domain.model.search.SearchFilters
 import com.openclassrooms.realestatemanager.utils.DispatchersProvider
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.flow.Flow
@@ -53,10 +54,18 @@ class PropertyRepository_Impl @Inject constructor(
     }
 
     override suspend fun filterSearchProperties(
-        query: String
+        query: SearchFilters
     ): Flow<List<Property>> {
-        return persistence.searchProperties(
-            query
+        return persistence.filterSearchProperties(
+            query.textQuery,
+            query.museum,
+            query.school,
+            query.shop,
+            query.hospital,
+            query.station,
+            query.park,
+            query.area,
+            query.types
         )
             .distinctUntilChanged()
             .map { propertyList ->

@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.repository
 
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.domain.model.search.SearchFilters
 import kotlinx.coroutines.flow.Flow
 
 interface PropertyRepository {
@@ -11,7 +12,7 @@ interface PropertyRepository {
     ): Flow<List<Property>>
 
     suspend fun filterSearchProperties(
-        query: String
+        query: SearchFilters
     ): Flow<List<Property>>
 
     suspend fun getAllProperties(): Flow<List<Property>>
