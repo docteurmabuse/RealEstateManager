@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,15 +14,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
-import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
-import timber.log.Timber
 
 
 /**
@@ -129,7 +125,7 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
 
     @ExperimentalCoroutinesApi
     private fun setObserver() {
-        lifecycleScope.launchWhenStarted {
+      /*  lifecycleScope.launchWhenStarted {
             val value = viewModel.state
             value.collect {
                 when (it.status) {
@@ -147,8 +143,8 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
                     }
                 }
             }
-        }
-        viewModel.properties.observe(viewLifecycleOwner) {
+        }*/
+        viewModel.properties.observe(requireActivity()) {
             renderList(it)
         }
     }

@@ -272,6 +272,7 @@ class MainActivity constructor(
     }
 
     private fun setObserver() {
+/*
         lifecycleScope.launchWhenStarted {
             val value = viewModel.state
             value.collect {
@@ -293,6 +294,7 @@ class MainActivity constructor(
                 }
             }
         }
+*/
 
         lifecycleScope.launchWhenStarted {
             val value = agentViewModel.state
@@ -329,6 +331,7 @@ class MainActivity constructor(
         viewModel.maxPrice.value = maxPrice
         viewModel.priceArray.value = arrayOf(minPrice!!, maxPrice!!)
         Timber.d(" PRICE_RANGE: ${viewModel.minPrice.value}, ${viewModel.maxPrice.value}}")
+
     }
 
 

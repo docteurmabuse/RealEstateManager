@@ -44,7 +44,11 @@ constructor(
     var maxPrice = MutableLiveData<Float>(100000000F)
     var minPrice = MutableLiveData<Float>(0F)
     var priceArray = MutableLiveData<Array<Float>>(arrayOf())
-    var surface = MutableLiveData<String>("")
+
+    var minSurface = MutableLiveData<Float>(0F)
+    var maxSurface = MutableLiveData<Float>(1000F)
+    var surfaceArray = MutableLiveData<Array<Float>>(arrayOf())
+
     var roomNumber = MutableLiveData<String>("")
     var bathroomNumber = MutableLiveData<String>("")
     var bedroomNumber = MutableLiveData<String>("")
@@ -55,9 +59,13 @@ constructor(
     var stations = MutableLiveData<Boolean>(false)
     var hospital = MutableLiveData<Boolean>(false)
     var museum = MutableLiveData<Boolean>(false)
+
     var sold = MutableLiveData<Boolean>(false)
+
     var sellDate = MutableLiveData<String>("0")
     var soldDate = MutableLiveData<String>("0")
+
+    var area = MutableLiveData<String>("")
 
     @ExperimentalCoroutinesApi
     private val propertiesFlow = searchQuery.flatMapLatest {

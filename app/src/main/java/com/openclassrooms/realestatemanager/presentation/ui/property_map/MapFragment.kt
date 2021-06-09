@@ -26,13 +26,11 @@ import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.awaitMapLoad
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.MapLayoutBinding
-import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 
@@ -146,7 +144,7 @@ class MapFragment constructor(private var properties: List<Property>) :
 
     @ExperimentalCoroutinesApi
     private fun setObserver() {
-        lifecycleScope.launchWhenStarted {
+        /*lifecycleScope.launchWhenStarted {
             val value = viewModel.state
             value.collect {
                 when (it.status) {
@@ -164,8 +162,8 @@ class MapFragment constructor(private var properties: List<Property>) :
                     }
                 }
             }
-        }
-        viewModel.properties.observe(viewLifecycleOwner) {
+        }*/
+        viewModel.properties.observe(requireActivity()) {
             renderList(it)
         }
     }
