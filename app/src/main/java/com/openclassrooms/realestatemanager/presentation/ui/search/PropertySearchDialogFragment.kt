@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertySearchFilterDialogBinding
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 
 
@@ -36,7 +39,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // binding.lifecycleOwner = requireActivity()
+        //  binding.lifecycleOwner = requireActivity()
         _binding = FragmentPropertySearchFilterDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -56,6 +59,22 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
     @ExperimentalCoroutinesApi
     private fun setObserver() {
+        lifecycleScope.launchWhenStarted {
+            val value = viewModel.state
+            value.collect {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+
+                        it.data?.let { properties -> renderList(properties) }
+                    }
+                    DataState.Status.LOADING -> {
+                    }
+                    DataState.Status.ERROR -> {
+                        Timber.d("LIST_OBSERVER: ${it.message}")
+                    }
+                }
+            }
+        }
         viewModel.properties.observe(requireActivity()) {
             renderList(it)
         }
@@ -83,7 +102,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
             )
         binding.filterArea.setAdapter(dropdownAdapter)
         Timber.d(" PRICE_RANGE: ${viewModel.minPrice.value}, ${viewModel.maxPrice.value}}")
-
+        viewModel._filteredPropertyList.value = list
     }
 
     companion object {

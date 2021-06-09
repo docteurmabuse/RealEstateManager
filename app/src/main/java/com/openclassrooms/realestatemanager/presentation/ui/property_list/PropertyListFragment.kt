@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -125,28 +126,33 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
 
     @ExperimentalCoroutinesApi
     private fun setObserver() {
-      /*  lifecycleScope.launchWhenStarted {
-            val value = viewModel.state
-            value.collect {
-                when (it.status) {
-                    DataState.Status.SUCCESS -> {
-                        displayLoading(false)
-                        it.data?.let { properties -> renderList(properties) }
-                    }
-                    DataState.Status.LOADING -> {
-                        displayLoading(true)
-                    }
-                    DataState.Status.ERROR -> {
-                        displayLoading(false)
-                        displayError(it.message)
-                        Timber.d("LIST_OBSERVER: ${it.message}")
-                    }
-                }
+        lifecycleScope.launchWhenStarted {
+            /*    val value = viewModel.state
+               value.collect() {
+                   when (it.status) {
+                       DataState.Status.SUCCESS -> {
+                           displayLoading(false)
+                           it.data?.let { properties -> renderList(properties) }
+                       }
+                       DataState.Status.LOADING -> {
+                           displayLoading(true)
+                       }
+                       DataState.Status.ERROR -> {
+                           displayLoading(false)
+                           displayError(it.message)
+                           Timber.d("LIST_OBSERVER: ${it.message}")
+                       }
+                   }
+               }*/
+            viewModel.properties.observe(requireActivity()) {
+                renderList(it)
             }
-        }*/
-        viewModel.properties.observe(requireActivity()) {
-            renderList(it)
+            viewModel.filteredPropertyList.observe(requireActivity()) {
+                if (it != null)
+                    renderList(it)
+            }
         }
+
     }
 
 

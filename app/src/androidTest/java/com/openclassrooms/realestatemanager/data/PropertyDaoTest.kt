@@ -114,4 +114,20 @@ class PropertyDaoTest {
         Assert.assertEquals(propertyUpdate.property, firstProperty.property)
         closeDb()
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun insertAndGetAndSearchPropertyAggregate() = runBlocking {
+        //Insert fake properties
+        propertyDao.insertProperty(property)
+
+        //First Property in database
+        var firstProperty = propertyDao.getAllProperties().first()[0]
+
+        //Fake Property 1 should be equal to first agent in database
+        assertEquals(property.property.park, firstProperty.property.park)
+        //Fake Property 1 should be equal to first agent in database
+        assertEquals(false, firstProperty.property.park)
+        closeDb()
+    }
 }
