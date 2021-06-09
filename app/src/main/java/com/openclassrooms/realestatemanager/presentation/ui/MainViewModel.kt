@@ -34,22 +34,11 @@ constructor(
 
 
     val searchQuery = MutableStateFlow("")
-    var searchFilterQuery = MutableStateFlow(
-        SearchFilters(
-            "",
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            "",
-            arrayListOf(),
-        )
-    )
+
 
     private val Boolean.int
         get() = if (this) 1 else -1
+
     var typeList = MutableLiveData<List<String>>(arrayListOf())
     var house = MutableLiveData<Boolean>(false)
     var flat = MutableLiveData<Boolean>(false)
@@ -83,10 +72,24 @@ constructor(
 
     var area = MutableLiveData<String>("")
 
+    var searchFilterQuery = MutableStateFlow(
+        SearchFilters(
+            searchQuery.value,
+            museum.value?.int,
+            schools.value?.int,
+            shops.value?.int,
+            hospital.value?.int,
+            stations.value?.int,
+            park.value?.int,
+            area.value,
+            types = typeList.value,
+        )
+    )
+
     @ExperimentalCoroutinesApi
     private val propertiesFlow = searchFilterQuery.flatMapLatest {
-        searchProperties.invoke(
-            it.textQuery
+        filterSearchProperties.invoke(
+            it
         )
     }
 
@@ -116,7 +119,8 @@ constructor(
 
     fun filterData() {
         viewModelScope.launch {
-            filterSearchProperties.invoke(
+
+        filterSearchProperties.invoke(
                 searchFilterQuery.value
             )
                 .catch { e ->
