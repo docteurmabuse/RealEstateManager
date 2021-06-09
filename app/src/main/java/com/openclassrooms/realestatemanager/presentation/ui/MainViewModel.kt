@@ -30,6 +30,7 @@ constructor(
     val stateFilter: StateFlow<DataState<List<Property>>>
         get() = _stateFilter
 
+
     val searchQuery = MutableStateFlow("")
     private val Boolean.int
         get() = if (this) 1 else 0
@@ -42,7 +43,7 @@ constructor(
 
     var maxPrice = MutableLiveData<Float>(100000000F)
     var minPrice = MutableLiveData<Float>(0F)
-
+    var priceArray = MutableLiveData<Array<Float>>(arrayOf())
     var surface = MutableLiveData<String>("")
     var roomNumber = MutableLiveData<String>("")
     var bathroomNumber = MutableLiveData<String>("")

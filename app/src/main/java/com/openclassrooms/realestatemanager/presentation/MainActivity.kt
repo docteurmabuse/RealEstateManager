@@ -323,6 +323,12 @@ class MainActivity constructor(
     private fun renderList(list: List<Property>) {
         properties = list
         Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
+        val minPrice = list.minWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
+        val maxPrice = list.maxWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
+        viewModel.minPrice.value = minPrice
+        viewModel.maxPrice.value = maxPrice
+        viewModel.priceArray.value = arrayOf(minPrice!!, maxPrice!!)
+        Timber.d(" PRICE_RANGE: ${viewModel.minPrice.value}, ${viewModel.maxPrice.value}}")
     }
 
 
