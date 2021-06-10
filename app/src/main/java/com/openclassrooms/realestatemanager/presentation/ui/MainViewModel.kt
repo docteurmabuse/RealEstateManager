@@ -150,14 +150,14 @@ constructor(
                   it.park == park.value
 
               }*/
-            _filteredPropertyList.value = getPropertiesMatchFilter(_filteredPropertyList.value)
+           // _filteredPropertyList.value = getPropertiesMatchFilter(_filteredPropertyList.value)
 
             Timber.d(
-                "FILTER_CLICK: park:  ${getPropertiesMatchFilter(_filteredPropertyList.value)}, ${park.value}"
+                "FILTER_CLICK: park:  ${searchFilterQuery.value}, ${park.value}"
             )
-            /* filterSearchProperties.invoke(
-                 searchFilterQuery.value
-             )
+            filterSearchProperties.invoke(
+                searchFilterQuery.value
+            )
                  .catch { e ->
                      _stateFilter.value = (DataState.error(e.toString(), null))
                      Timber.d(
@@ -169,7 +169,7 @@ constructor(
                      Timber.d(
                          "FILTER_CLICK_RESULT: $it"
                      )
-                 }*/
+                 }
         }
     }
 

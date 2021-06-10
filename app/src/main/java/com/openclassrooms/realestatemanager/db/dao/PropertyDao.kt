@@ -71,8 +71,8 @@ interface PropertyDao {
         AND (:hospital IS NULL OR hospital IS :hospital)
         AND (:station IS NULL OR stations IS  :station)
         AND (:park IS NULL OR park IS :park)
-        AND (:area IS NULL OR area IS  :area)
-        and type IN (:types)
+        AND (:area IS NULL OR area  LIKE '%' || :textQuery || '%')
+        AND (:types IS NULL OR type IN (:types))
         ORDER BY sell_date ASC
    """
     )
