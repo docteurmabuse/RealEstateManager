@@ -151,6 +151,10 @@ class PropertyListFragment constructor(private var properties: List<Property>) :
                 if (it != null)
                     renderList(it)
             }
+            viewModel.filteredPropertyList.observe(requireActivity()) {
+                if (it != null)
+                    renderList(it)
+            }
         }
 
     }

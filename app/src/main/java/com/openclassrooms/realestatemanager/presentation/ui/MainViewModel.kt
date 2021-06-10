@@ -40,7 +40,6 @@ constructor(
     private val Boolean.int
         get() = if (this) 1 else null
     var _filteredPropertyList = MutableLiveData<List<Property>>(arrayListOf())
-    var filteredPropertyList: LiveData<List<Property>> = _filteredPropertyList
     var typeList = MutableLiveData<List<String>>(
         listOf(
             Property.PropertyType.values().joinToString { it.name })
@@ -99,7 +98,7 @@ constructor(
     }
 
     @ExperimentalCoroutinesApi
-    private val propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
+    private var propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
         filterSearchProperties.invoke(
             it
         )
@@ -107,6 +106,9 @@ constructor(
 
     @ExperimentalCoroutinesApi
     val properties = propertiesFlow.asLiveData()
+
+    @ExperimentalCoroutinesApi
+    val filteredPropertyList = propertiesFilteredFlow.asLiveData()
 
 
     fun fetchProperties() {
@@ -140,11 +142,11 @@ constructor(
         Timber.d(
             "FILTER_CLICK: park:  ${filteredPropertyList.value}"
         )
-        /* propertiesFlow=searchFilterQuery.flatMapLatest {
-             filterSearchProperties.invoke(
-                 searchFilterQuery.value
-             )
-         }*/
+        propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
+            filterSearchProperties.invoke(
+                searchFilterQuery.value
+            )
+        }
 
 
         viewModelScope.launch {
