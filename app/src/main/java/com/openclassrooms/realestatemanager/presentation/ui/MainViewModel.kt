@@ -12,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.util.stream.Collectors
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,6 +35,16 @@ constructor(
 
 
     val searchQuery = MutableStateFlow("")
+
+
+    private val Boolean.int
+        get() = if (this) 1 else null
+    var _filteredPropertyList = MutableLiveData<List<Property>>(arrayListOf())
+    var filteredPropertyList: LiveData<List<Property>> = _filteredPropertyList
+    var typeList = MutableLiveData<List<String>>(
+        listOf(
+            Property.PropertyType.values().joinToString { it.name })
+    )
     private var searchFilterQuery = MutableStateFlow(
         SearchFilters(
             "",
@@ -44,15 +55,9 @@ constructor(
             null,
             null,
             "",
-            arrayListOf(),
+            types = typeList.value,
         )
     )
-
-    private val Boolean.int
-        get() = if (this) 1 else null
-    var _filteredPropertyList = MutableLiveData<List<Property>>(arrayListOf())
-    var filteredPropertyList: LiveData<List<Property>> = _filteredPropertyList
-    var typeList = MutableLiveData<List<String>>(arrayListOf())
     var house = MutableLiveData<Boolean>(false)
     var flat = MutableLiveData<Boolean>(false)
     var duplex = MutableLiveData<Boolean>(false)
@@ -129,10 +134,8 @@ constructor(
                 stations.value?.int,
                 park.value?.int,
                 area.value,
-                types = typeList.value,
+                typeList.value
             )
-
-
 
         Timber.d(
             "FILTER_CLICK: park:  ${filteredPropertyList.value}"
@@ -153,7 +156,11 @@ constructor(
            // _filteredPropertyList.value = getPropertiesMatchFilter(_filteredPropertyList.value)
 
             Timber.d(
-                "FILTER_CLICK: park:  ${searchFilterQuery.value}, ${park.value}"
+                "FILTER_CLICK: park:  ${searchFilterQuery.value}, ${
+                    typeList.value?.stream()?.map { it ->
+                        it.toString()
+                    }?.collect(Collectors.joining("','"))
+                }"
             )
             filterSearchProperties.invoke(
                 searchFilterQuery.value

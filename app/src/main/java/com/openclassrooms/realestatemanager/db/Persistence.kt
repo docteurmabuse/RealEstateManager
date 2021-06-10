@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.db
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
 import kotlinx.coroutines.flow.Flow
-import javax.annotation.Nullable
 
 interface Persistence {
     suspend fun storeAgent(agent: AgentEntity): Long
@@ -19,23 +18,14 @@ interface Persistence {
     ): Flow<List<PropertyEntityAggregate>>
 
     suspend fun filterSearchProperties(
-        @Nullable
         textQuery: String?,
-        @Nullable
         museum: Int?,
-        @Nullable
         school: Int?,
-        @Nullable
         shop: Int?,
-        @Nullable
         hospital: Int?,
-        @Nullable
         station: Int?,
-        @Nullable
         park: Int?,
-        @Nullable
         area: String?,
-        @Nullable
         types: List<String>?,
     ): Flow<List<PropertyEntityAggregate>>
 

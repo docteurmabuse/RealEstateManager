@@ -57,9 +57,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        coreLibraryDesugaringEnabled true
     }
     kotlinOptions {
-        jvmTarget = Versions.jvmTarget
+        jvmTarget = 1.8
         useIR = true
     }
 

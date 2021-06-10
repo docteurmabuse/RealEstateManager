@@ -5,7 +5,7 @@ import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
 import kotlinx.coroutines.flow.Flow
-import javax.annotation.Nullable
+import timber.log.Timber
 import javax.inject.Inject
 
 class RoomPersistence @Inject constructor(
@@ -38,25 +38,17 @@ class RoomPersistence @Inject constructor(
     }
 
     override suspend fun filterSearchProperties(
-        @Nullable
         textQuery: String?,
-        @Nullable
         museum: Int?,
-        @Nullable
         school: Int?,
-        @Nullable
         shop: Int?,
-        @Nullable
         hospital: Int?,
-        @Nullable
         station: Int?,
-        @Nullable
         park: Int?,
-        @Nullable
         area: String?,
-        @Nullable
         types: List<String>?,
     ): Flow<List<PropertyEntityAggregate>> {
+        Timber.d("FILTER_SEARCH  $park,  $hospital, $area, $shop, $school, $museum, $museum , $types ")
         return propertyDao.filterSearchProperties(
             textQuery,
             museum,
@@ -65,9 +57,8 @@ class RoomPersistence @Inject constructor(
             hospital,
             station,
             park,
-            area,
-            types,
-        )
+
+            )
     }
 
     override suspend fun storeProperty(
