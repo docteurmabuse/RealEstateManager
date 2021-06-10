@@ -60,18 +60,18 @@ interface PropertyDao {
     @Transaction
     @Query(
         """
-        SELECT *
+       SELECT *
         FROM PROPERTIES
         INNER JOIN property_address ON property_address.property_id = properties.id
-        WHERE city LIKE '%' || :textQuery || '%'
-        AND area = :area
-        AND museum IN(:museum)
-        AND schools  IN(:school)
-        AND shops IN(:shop)
-        AND hospital IN(:hospital)
-        AND stations IN(:station)
-        AND park IN(:park)
-        AND area =:area
+        WHERE ( :textQuery iS NULL OR city LIKE '%' || :textQuery || '%')
+        AND (:area IS NULL OR area IS  :area)
+        AND (:museum IS NULL OR museum IS :museum)
+        AND (:school IS NULL OR schools IS :school)
+        AND (:shop IS NULL OR shops IS :shop)
+        AND (:hospital IS NULL OR hospital IS :hospital)
+        AND (:station IS NULL OR stations IS  :station)
+        AND (:park IS NULL OR park IS :park)
+        AND (:area IS NULL OR area IS  :area)
         and type IN (:types)
         ORDER BY sell_date ASC
    """

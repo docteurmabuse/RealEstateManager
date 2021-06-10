@@ -37,19 +37,19 @@ constructor(
     private var searchFilterQuery = MutableStateFlow(
         SearchFilters(
             "",
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
-            -1,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
             "",
             arrayListOf(),
         )
     )
 
     private val Boolean.int
-        get() = if (this) 1 else -1
+        get() = if (this) 1 else null
     var _filteredPropertyList = MutableLiveData<List<Property>>(arrayListOf())
     var filteredPropertyList: LiveData<List<Property>> = _filteredPropertyList
     var typeList = MutableLiveData<List<String>>(arrayListOf())
