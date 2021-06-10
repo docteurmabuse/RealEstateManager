@@ -121,7 +121,6 @@ dependencies {
     implementation Google.hilt_android
 
     implementation Glide.glide
-    implementation("io.coil-kt:coil:1.2.1")
 
     //implementation Jetbrains.kotlin_stdlib
 
