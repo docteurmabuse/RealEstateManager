@@ -44,18 +44,18 @@ constructor(
         arrayListOf()
     )
 
-    var house = MutableLiveData<Boolean>(false)
-    var flat = MutableLiveData<Boolean>(false)
-    var duplex = MutableLiveData<Boolean>(false)
-    var penthouse = MutableLiveData<Boolean>(false)
-    var manor = MutableLiveData<Boolean>(false)
+    var house = MutableLiveData<Boolean>(true)
+    var flat = MutableLiveData<Boolean>(true)
+    var duplex = MutableLiveData<Boolean>(true)
+    var penthouse = MutableLiveData<Boolean>(true)
+    var manor = MutableLiveData<Boolean>(true)
 
     var maxPrice = MutableLiveData<Float>(100000000F)
     var minPrice = MutableLiveData<Float>(0F)
     var priceArray = MutableLiveData<Array<Float>>(arrayOf())
 
     var minSurface = MutableLiveData<Float>(0F)
-    var maxSurface = MutableLiveData<Float>(1000F)
+    var maxSurface = MutableLiveData<Float>(10000F)
     var surfaceArray = MutableLiveData<Array<Float>>(arrayOf())
 
     var roomNumber = MutableLiveData<String>("")
@@ -157,7 +157,7 @@ constructor(
             )
 
         Timber.d(
-            "FILTER_CLICK: House:  ${searchFilterQuery.value}, ${house.value}"
+            "FILTER_CLICK: House:  ${searchFilterQuery.value}, ${surfaceArray.value}"
         )
         propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
             filterSearchProperties.invoke(

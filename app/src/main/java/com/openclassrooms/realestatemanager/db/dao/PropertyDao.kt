@@ -72,6 +72,7 @@ interface PropertyDao {
         AND (:station IS NULL OR stations IS  :station)
         AND (:park IS NULL OR park IS :park)
         AND  (type IN (:typeList))
+        AND surface BETWEEN :minSurface AND :maxSurface
         ORDER BY sell_date ASC
    """
     )
@@ -84,7 +85,9 @@ interface PropertyDao {
         station: Int? = null,
         park: Int? = null,
         area: String? = null,
-        typeList: List<String?>?
+        typeList: List<String?>?,
+        minSurface: Float?,
+        maxSurface: Float?
     ): Flow<List<PropertyEntityAggregate>>
     // AND
 

@@ -192,7 +192,6 @@
                 app:values="@{viewModel.priceArray}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/priceRangeText" />
-
             <TextView
                 android:id="@+id/surfaceRangeText"
                 style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
@@ -214,8 +213,6 @@
                 app:values="@{viewModel.surfaceArray}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/surfaceRangeText" />
-
-
             <TextView
                 android:id="@+id/marketText"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
