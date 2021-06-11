@@ -300,6 +300,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/marginStart"
                 android:checked="@{viewModel.sold}"
+                android:onClick="@{(v)->viewModel.filterData()}"
                 app:layout_constraintStart_toEndOf="@id/areaTex"
                 app:layout_constraintTop_toBottomOf="@+id/switchSoldText" />
 
