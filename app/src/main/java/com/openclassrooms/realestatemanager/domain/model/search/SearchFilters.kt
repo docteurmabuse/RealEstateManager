@@ -10,4 +10,6 @@ data class SearchFilters(
     val park: Int? = -1,
     val area: String?,
     val types: List<String?>?,
+    val minSurface: Float?,
+    val maxSurface: Float?
 )

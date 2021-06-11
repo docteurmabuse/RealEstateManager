@@ -43,19 +43,7 @@ constructor(
     var typeList = MutableLiveData<ArrayList<String>>(
         arrayListOf()
     )
-    private var searchFilterQuery = MutableStateFlow(
-        SearchFilters(
-            "",
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            "",
-            types = listOf("House", "Flat", "Duplex", "Penthouse", "Manor", "Loft")
-        )
-    )
+
     var house = MutableLiveData<Boolean>(false)
     var flat = MutableLiveData<Boolean>(false)
     var duplex = MutableLiveData<Boolean>(false)
@@ -88,6 +76,21 @@ constructor(
 
     var area = MutableLiveData<String>("")
 
+    private var searchFilterQuery = MutableStateFlow(
+        SearchFilters(
+            "",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "",
+            types = listOf("House", "Flat", "Duplex", "Penthouse", "Manor", "Loft"),
+            minSurface = minSurface.value,
+            maxSurface = maxSurface.value
+        )
+    )
 
     @ExperimentalCoroutinesApi
     private var propertiesFlow = searchQuery.flatMapLatest {
@@ -148,7 +151,9 @@ constructor(
                 stations.value?.int,
                 park.value?.int,
                 area.value,
-                types = typeList.value
+                types = typeList.value,
+                minSurface = surfaceArray.value?.get(0),
+                maxSurface = surfaceArray.value?.get(1)
             )
 
         Timber.d(
