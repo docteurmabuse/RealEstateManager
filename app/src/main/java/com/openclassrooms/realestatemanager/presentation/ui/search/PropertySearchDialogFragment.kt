@@ -82,12 +82,13 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
     @ExperimentalCoroutinesApi
     private fun renderList(list: List<Property>) {
-        val minPrice = list.minWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
-        val maxPrice = list.maxWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
-        viewModel.minPrice.value = minPrice
-        viewModel.maxPrice.value = maxPrice
-        viewModel.priceArray.value = arrayOf(minPrice!!, maxPrice!!)
+        initPriceListener(list)
+        initSurfaceListener(list)
+        initAreaListener(list)
+    }
 
+
+    private fun initSurfaceListener(list: List<Property>) {
         val minSurface =
             list.minWithOrNull(Comparator.comparingInt { it.surface!! })?.surface?.toFloat()
         val maxSurface =
@@ -101,7 +102,24 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
             viewModel.filterData()
             Timber.d(" SURFACE_RANGE: ${viewModel.surfaceArray.value},min:$minSurface , max: $maxSurface")
         }
+    }
 
+    private fun initPriceListener(list: List<Property>) {
+        val minPrice = list.minWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
+        val maxPrice = list.maxWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
+        viewModel.minPrice.value = minPrice
+        viewModel.maxPrice.value = maxPrice
+        viewModel.priceArray.value = arrayOf(minPrice!!, maxPrice!!)
+        Timber.d(" PRICE_RANGE: ${viewModel.minPrice.value}, ${viewModel.maxPrice.value}}")
+        binding.priceRangeSlider.addOnChangeListener { slider, value, fromUser ->
+            viewModel.priceArray.value =
+                arrayOf(binding.priceRangeSlider.values[0], binding.priceRangeSlider.values[1])
+            viewModel.filterData()
+            Timber.d(" SURFACE_RANGE: ${viewModel.priceArray.value},min:$minPrice , max: $maxPrice")
+        }
+    }
+
+    private fun initAreaListener(list: List<Property>) {
         val dropdownAdapter =
             ArrayAdapter(
                 requireContext(),
@@ -109,7 +127,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
                 list.map { it.address?.area }.toSet().toList()
             )
         binding.filterArea.setAdapter(dropdownAdapter)
-        Timber.d(" PRICE_RANGE: ${viewModel.minPrice.value}, ${viewModel.maxPrice.value}}")
     }
 
     companion object {
