@@ -11,5 +11,11 @@ data class SearchFilters(
     val area: String?,
     val types: List<String?>?,
     val minSurface: Float?,
-    val maxSurface: Float?
+    val maxSurface: Float?,
+    val minPrice: Float?,
+    val maxPrice: Float?,
+    val sold: Int? = -1,
+    val sellDate: Long? = -1,
+    val soldDate: Long? = -1
+
 )

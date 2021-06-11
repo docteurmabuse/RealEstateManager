@@ -48,7 +48,12 @@ class RoomPersistence @Inject constructor(
         area: String?,
         typeList: List<String?>?,
         minSurface: Float?,
-        maxSurface: Float?
+        maxSurface: Float?,
+        minPrice: Float?,
+        maxPrice: Float?,
+        sold: Int?,
+        sellDate: Long?,
+        soldDate: Long?
     ): Flow<List<PropertyEntityAggregate>> {
         Timber.d("FILTER_SEARCH  $park,  $hospital, $area, $shop, $school, $museum, $museum , $typeList ")
 
@@ -63,7 +68,12 @@ class RoomPersistence @Inject constructor(
             area = area,
             typeList = typeList,
             minSurface = minSurface,
-            maxSurface = maxSurface
+            maxSurface = maxSurface,
+            minPrice,
+            maxPrice,
+            sold,
+            sellDate,
+            soldDate
         )
     }
 

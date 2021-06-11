@@ -76,6 +76,7 @@ constructor(
 
     var area = MutableLiveData<String>("")
 
+
     private var searchFilterQuery = MutableStateFlow(
         SearchFilters(
             "",
@@ -88,7 +89,12 @@ constructor(
             "",
             types = listOf("House", "Flat", "Duplex", "Penthouse", "Manor", "Loft"),
             minSurface = minSurface.value,
-            maxSurface = maxSurface.value
+            maxSurface = maxSurface.value,
+            minPrice = minPrice.value,
+            maxPrice = maxPrice.value,
+            sold = null,
+            sellDate = null,
+            soldDate = null
         )
     )
 
@@ -143,17 +149,22 @@ constructor(
 
         searchFilterQuery.value =
             SearchFilters(
-                searchQuery.value,
-                museum.value?.int,
-                schools.value?.int,
-                shops.value?.int,
-                hospital.value?.int,
-                stations.value?.int,
-                park.value?.int,
-                area.value,
+                textQuery = searchQuery.value,
+                museum = museum.value?.int,
+                school = schools.value?.int,
+                shop = shops.value?.int,
+                hospital = hospital.value?.int,
+                station = stations.value?.int,
+                park = park.value?.int,
+                area = area.value,
                 types = typeList.value,
                 minSurface = surfaceArray.value?.get(0),
-                maxSurface = surfaceArray.value?.get(1)
+                maxSurface = surfaceArray.value?.get(1),
+                minPrice = priceArray.value?.get(0),
+                maxPrice = priceArray.value?.get(1),
+                sold = sold.value?.int,
+                sellDate = sellDate.value?.toLong(),
+                soldDate = soldDate.value?.toLong()
             )
 
         Timber.d(

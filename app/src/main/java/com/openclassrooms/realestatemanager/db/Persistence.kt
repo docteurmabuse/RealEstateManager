@@ -28,7 +28,12 @@ interface Persistence {
         area: String?,
         typeList: List<String?>?,
         minSurface: Float?,
-        maxSurface: Float?
+        maxSurface: Float?,
+        minPrice: Float?,
+        maxPrice: Float?,
+        sold: Int?,
+        sellDate: Long?,
+        soldDate: Long?
     ): Flow<List<PropertyEntityAggregate>>
 
     suspend fun getPropertyById(propertyId: String): Flow<PropertyEntityAggregate>

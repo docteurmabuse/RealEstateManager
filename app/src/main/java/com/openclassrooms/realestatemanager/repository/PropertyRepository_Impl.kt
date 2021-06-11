@@ -67,7 +67,12 @@ class PropertyRepository_Impl @Inject constructor(
             query.area,
             query.types,
             query.minSurface,
-            query.maxSurface
+            query.maxSurface,
+            query.minPrice,
+            query.maxPrice,
+            query.sold,
+            query.sellDate,
+            query.soldDate
         )
             .distinctUntilChanged()
             .map { propertyList ->
