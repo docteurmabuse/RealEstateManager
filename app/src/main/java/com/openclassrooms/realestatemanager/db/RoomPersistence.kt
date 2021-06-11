@@ -46,19 +46,21 @@ class RoomPersistence @Inject constructor(
         station: Int?,
         park: Int?,
         area: String?,
-        types: List<String>?,
+        typeList: List<String?>?,
     ): Flow<List<PropertyEntityAggregate>> {
-        Timber.d("FILTER_SEARCH  $park,  $hospital, $area, $shop, $school, $museum, $museum , $types ")
-        return propertyDao.filterSearchProperties(
-            textQuery,
-            museum,
-            school,
-            shop,
-            hospital,
-            station,
-            park,
+        Timber.d("FILTER_SEARCH  $park,  $hospital, $area, $shop, $school, $museum, $museum , $typeList ")
 
-            )
+        return propertyDao.filterSearchProperties(
+            textQuery = textQuery,
+            museum = museum,
+            school = school,
+            shop = shop,
+            hospital = hospital,
+            station = station,
+            park = park,
+            area = area,
+            typeList = typeList
+        )
     }
 
     override suspend fun storeProperty(

@@ -26,7 +26,7 @@ interface Persistence {
         station: Int?,
         park: Int?,
         area: String?,
-        types: List<String>?,
+        typeList: List<String?>?,
     ): Flow<List<PropertyEntityAggregate>>
 
     suspend fun getPropertyById(propertyId: String): Flow<PropertyEntityAggregate>

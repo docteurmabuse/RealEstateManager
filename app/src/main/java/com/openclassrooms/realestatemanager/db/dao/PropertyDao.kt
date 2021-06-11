@@ -64,16 +64,15 @@ interface PropertyDao {
         FROM PROPERTIES
         INNER JOIN property_address ON property_address.property_id = properties.id
         WHERE ( :textQuery iS NULL OR city LIKE '%' || :textQuery || '%')
-        AND (:area IS NULL OR area IS  :area)
+        AND (:area IS NULL OR area LIKE '%' || :area || '%')
         AND (:museum IS NULL OR museum IS :museum)
         AND (:school IS NULL OR schools IS :school)
         AND (:shop IS NULL OR shops IS :shop)
         AND (:hospital IS NULL OR hospital IS :hospital)
         AND (:station IS NULL OR stations IS  :station)
         AND (:park IS NULL OR park IS :park)
+        AND  (type IN (:typeList))
         ORDER BY sell_date ASC
-        
-        
    """
     )
     fun filterSearchProperties(
@@ -85,7 +84,9 @@ interface PropertyDao {
         station: Int? = null,
         park: Int? = null,
         area: String? = null,
+        typeList: List<String?>?
     ): Flow<List<PropertyEntityAggregate>>
+    // AND
 
     //Update PropertyEntity
     @Update(onConflict = OnConflictStrategy.REPLACE)

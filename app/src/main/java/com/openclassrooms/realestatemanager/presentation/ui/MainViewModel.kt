@@ -40,9 +40,8 @@ constructor(
     private val Boolean.int
         get() = if (this) 1 else null
     var _filteredPropertyList = MutableLiveData<List<Property>>(arrayListOf())
-    var typeList = MutableLiveData<List<String>>(
-        listOf(
-            Property.PropertyType.values().joinToString { it.name })
+    var typeList = MutableLiveData<ArrayList<String>>(
+        arrayListOf()
     )
     private var searchFilterQuery = MutableStateFlow(
         SearchFilters(
@@ -54,7 +53,7 @@ constructor(
             null,
             null,
             "",
-            types = typeList.value,
+            types = listOf("House", "Flat", "Duplex", "Penthouse", "Manor", "Loft")
         )
     )
     var house = MutableLiveData<Boolean>(false)
@@ -123,9 +122,22 @@ constructor(
         }
     }
 
-
     @ExperimentalCoroutinesApi
     fun filterData() {
+        if (house.value == true || flat.value == true || duplex.value == true
+            || penthouse.value == true || manor.value == true
+        ) {
+            typeList.value = arrayListOf()
+            if (house.value == true) typeList.value!!.add("House")
+            if (flat.value == true) typeList.value!!.add("Flat")
+            if (duplex.value == true) typeList.value!!.add("Duplex")
+            if (penthouse.value == true) typeList.value!!.add("Penthouse")
+            if (manor.value == true) typeList.value!!.add("Manor")
+            Timber.d(
+                "FILTER_CLICK: House is true:  ${flat.value}, ${house.value},${typeList.value} "
+            )
+        }
+
         searchFilterQuery.value =
             SearchFilters(
                 searchQuery.value,
@@ -136,11 +148,11 @@ constructor(
                 stations.value?.int,
                 park.value?.int,
                 area.value,
-                typeList.value
+                types = typeList.value
             )
 
         Timber.d(
-            "FILTER_CLICK: park:  ${filteredPropertyList.value}"
+            "FILTER_CLICK: House:  ${searchFilterQuery.value}, ${house.value}"
         )
         propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
             filterSearchProperties.invoke(
@@ -150,13 +162,6 @@ constructor(
 
 
         viewModelScope.launch {
-            /* _filteredPropertyList.value = filteredPropertyList.value?.filter {
-
-                  it.park == park.value
-
-              }*/
-           // _filteredPropertyList.value = getPropertiesMatchFilter(_filteredPropertyList.value)
-
             Timber.d(
                 "FILTER_CLICK: park:  ${searchFilterQuery.value}, ${
                     typeList.value?.stream()?.map { it ->
@@ -167,31 +172,18 @@ constructor(
             filterSearchProperties.invoke(
                 searchFilterQuery.value
             )
-                 .catch { e ->
-                     _stateFilter.value = (DataState.error(e.toString(), null))
-                     Timber.d(
-                         "FILTER_CLICK: $e"
-                     )
-                 }
-                 .collectLatest {
-                     _stateFilter.value = DataState.success(it)
-                     Timber.d(
-                         "FILTER_CLICK_RESULT: $it"
-                     )
-                 }
+                .catch { e ->
+                    _stateFilter.value = (DataState.error(e.toString(), null))
+                    Timber.d(
+                        "FILTER_CLICK: $e"
+                    )
+                }
+                .collectLatest {
+                    _stateFilter.value = DataState.success(it)
+                    Timber.d(
+                        "FILTER_CLICK_RESULT: $it"
+                    )
+                }
         }
-    }
-
-    private fun getPropertiesMatchFilter(list: List<Property>?): List<Property>? {
-        val conditions = ArrayList<(Property) -> Boolean>()
-        if (park.value == true) {
-            conditions.add { it.park == true }
-        }
-        if (museum.value == true) {
-            conditions.add { it.museum == true }
-        }
-        return if (list != null) {
-            list.filter { property -> conditions.all { it(property) } }
-        } else list
     }
 }
