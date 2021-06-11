@@ -71,9 +71,7 @@ interface PropertyDao {
         AND (:hospital IS NULL OR hospital IS :hospital)
         AND (:station IS NULL OR stations IS  :station)
         AND (:park IS NULL OR park IS :park)
-        AND (:sold IS NULL OR park IS :sold)
-        AND (:sellDate IS NULL OR sell_date IS :sellDate)
-        AND (:soldDate IS NULL OR sold_date IS :sold)
+       
         AND  (type IN (:typeList))
         AND surface BETWEEN :minSurface AND :maxSurface
         AND price BETWEEN :minPrice AND :maxPrice
@@ -94,12 +92,18 @@ interface PropertyDao {
         maxSurface: Float?,
         minPrice: Float?,
         maxPrice: Float?,
-        sold: Int? = null,
-        sellDate: Long?,
-        soldDate: Long?
+        // sold: Int? = null,
+        // sellDate: Long?,
+        // soldDate: Long?
     ): Flow<List<PropertyEntityAggregate>>
-    // AND
 
+    /*
+    AND (:sold IS NULL OR park IS :sold)
+    AND (:sellDate IS NULL OR sell_date IS :sellDate)
+    AND (:soldDate IS NULL OR sold_date IS :sold)
+
+
+    */
     //Update PropertyEntity
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updatePropertyAggregate(

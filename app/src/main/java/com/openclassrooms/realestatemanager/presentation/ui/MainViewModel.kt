@@ -76,6 +76,9 @@ constructor(
 
     var area = MutableLiveData<String>("")
 
+    init {
+        fetchProperties()
+    }
 
     private var searchFilterQuery = MutableStateFlow(
         SearchFilters(
@@ -127,8 +130,26 @@ constructor(
                 }
                 .collectLatest {
                     _state.value = DataState.success(it)
+                    initSurfaceFilter(it)
+                    initPriceFilter(it)
                 }
         }
+    }
+
+    private fun initPriceFilter(list: List<Property>) {
+        minPrice.value =
+            list.minWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
+        maxPrice.value =
+            list.maxWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
+        priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
+    }
+
+    private fun initSurfaceFilter(list: List<Property>) {
+        minSurface.value =
+            list.minWithOrNull(Comparator.comparingInt { it.surface!! })?.surface?.toFloat()
+        maxSurface.value =
+            list.maxWithOrNull(Comparator.comparingInt { it.surface!! })?.surface?.toFloat()
+        surfaceArray.value = arrayOf(minSurface.value!!, maxSurface.value!!)
     }
 
     @ExperimentalCoroutinesApi

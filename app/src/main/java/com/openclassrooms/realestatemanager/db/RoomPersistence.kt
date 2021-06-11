@@ -71,9 +71,9 @@ class RoomPersistence @Inject constructor(
             maxSurface = maxSurface,
             minPrice,
             maxPrice,
-            sold,
-            sellDate,
-            soldDate
+//            sold,
+//            sellDate,
+//            soldDate
         )
     }
 

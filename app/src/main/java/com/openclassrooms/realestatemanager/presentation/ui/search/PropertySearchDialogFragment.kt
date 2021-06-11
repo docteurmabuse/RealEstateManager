@@ -89,34 +89,21 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
 
     private fun initSurfaceListener(list: List<Property>) {
-        val minSurface =
-            list.minWithOrNull(Comparator.comparingInt { it.surface!! })?.surface?.toFloat()
-        val maxSurface =
-            list.maxWithOrNull(Comparator.comparingInt { it.surface!! })?.surface?.toFloat()
-        viewModel.minSurface.value = minSurface
-        viewModel.maxSurface.value = maxSurface
         binding.surfaceRangeSlider.addOnChangeListener { slider, value, fromUser ->
             viewModel.surfaceArray.value =
                 arrayOf(binding.surfaceRangeSlider.values[0], binding.surfaceRangeSlider.values[1])
             viewModel.filterData()
-            Timber.d(" SURFACE_RANGE: ${viewModel.surfaceArray.value},min:$minSurface , max: $maxSurface")
+            Timber.d(" SURFACE_RANGE: ${viewModel.surfaceArray.value}")
         }
     }
 
     private fun initPriceListener(list: List<Property>) {
-        val minPrice = list.minWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
-        val maxPrice = list.maxWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
-        viewModel.minPrice.value = minPrice
-        viewModel.maxPrice.value = maxPrice
-//        viewModel.priceArray.value =
-//            arrayOf(binding.priceRangeSlider.values[0], binding.priceRangeSlider.values[1])
-
         Timber.d(" PRICE_RANGE: ${viewModel.minPrice.value}, ${viewModel.maxPrice.value}}")
         binding.priceRangeSlider.addOnChangeListener { slider, value, fromUser ->
             viewModel.priceArray.value =
                 arrayOf(binding.priceRangeSlider.values[0], binding.priceRangeSlider.values[1])
             viewModel.filterData()
-            Timber.d(" SURFACE_RANGE: ${viewModel.priceArray.value},min:$minPrice , max: $maxPrice")
+            Timber.d(" SURFACE_RANGE: ${viewModel.priceArray.value}")
         }
     }
 
@@ -131,7 +118,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
-        // TODO: Customize parameters
         fun newInstance(itemCount: Int): PropertySearchDialogFragment =
             PropertySearchDialogFragment().apply {
                 arguments = Bundle().apply {
