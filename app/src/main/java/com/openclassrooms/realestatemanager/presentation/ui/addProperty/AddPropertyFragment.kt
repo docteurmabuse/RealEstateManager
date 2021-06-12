@@ -120,7 +120,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private var cal = Calendar.getInstance()
 
-
     companion object {
         fun newInstance() = AddPropertyFragment()
     }
@@ -161,7 +160,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         setupTypeValues(typeDropdown)
         setFabListener()
         setupSellDateListener()
-        retrieveArguments()
         setupUploadImageListener()
         setupSnackbar()
         setupDateListener()
@@ -184,7 +182,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     }
 
     private fun setupDateListener() {
-
         binding.dates!!.sellDateDropdown.setOnClickListener {
             DatePickerDialog(
                 requireContext(),
@@ -207,8 +204,6 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         binding.dates!!.sellDateDropdown.setText(longDateToString(dateOnMarket))
         viewModel.sellDate = MutableLiveData(dateOnMarket.toString())
         Timber.d("DATE_PICKER : ${dateOnMarket}")
-
-
         /* binding.dates!!.viewModel?.soldDate = MutableLiveData(date.toString())
          binding.dates!!.sellDateDropdown.setText(longToDate(date)?.let { it1 ->
              DateUtil.dateToString(
@@ -326,15 +321,27 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
     private fun retrievedArguments() {
         val bundle = arguments
+        Timber.d("ARGUMENT: $bundle")
+
         if (bundle == null) {
             Timber.d("PropertyDetailFragment did not received arguments")
+            binding.dates?.switchTitle?.visibility = View.GONE
+            binding.dates?.soldSwitch?.visibility = View.GONE
+            viewModel.isNewProperty.value = false
             return
         }
+
         val args = PropertyDetailFragmentArgs.fromBundle(bundle)
         property = args.property
         isEditPropertyView = args.editPropertyView
-        args.property?.let { it.id?.let { it1 -> viewModel.start(it1) } }
-
+        args.property?.let {
+            it.id?.let { it1 ->
+                viewModel.start(it1)
+                binding.dates?.switchTitle?.visibility = View.VISIBLE
+                binding.dates?.soldSwitch?.visibility = View.VISIBLE
+                viewModel.isNewProperty.value = true
+            }
+        }
         property?.let { setPropertyInLayout(it) }
     }
 
@@ -351,20 +358,13 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         if (!EDIT_PROPERTY_VIEW) {
             binding.dates!!.soldInputLayout.visibility = View.GONE
             binding.dates!!.soldDateDropdown.visibility = View.GONE
-            binding.dates!!.switchTitle.visibility = View.GONE
-            binding.dates!!.soldSwitch.visibility = View.GONE
+            //    binding.dates!!.switchTitle.visibility = View.GONE
+            //  binding.dates!!.soldSwitch.visibility = View.GONE
         }
-
         setupRecyclerView()
     }
 
-    private fun retrieveArguments() {
-        //newPropertyId = args.propertyId
-        Timber.d("ADDPROPERTY: ${newPropertyId}")
-    }
-
     private fun setPhotosObserver() {
-
         viewLifecycleOwner.lifecycleScope.launch {
             whenStarted {
                 val value = viewModel.statePhotos

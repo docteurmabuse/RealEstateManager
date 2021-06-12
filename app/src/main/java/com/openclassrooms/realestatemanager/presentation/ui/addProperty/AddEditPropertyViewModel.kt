@@ -99,24 +99,24 @@ class AddEditPropertyViewModel @Inject constructor(
 
     fun start(propertyId: String) {
         this.propertyId = propertyId
-        if (propertyId == null) {
+        if (propertyId == "") {
             isNewProperty.value = true
             return
+        } else {
+            isNewProperty.value = false
+            viewModelScope.launch {
+                getPropertyById.invoke(propertyId)
+                    .catch { e ->
+                        _state.value = (DataState.error(e.toString(), null))
+                    }
+                    .collectLatest {
+                        _state.value = DataState.success(it)
+                        onPropertyLoaded(it)
+                    }
+            }
         }
 
-        isNewProperty.value = false
 
-        viewModelScope.launch {
-            getPropertyById.invoke(propertyId)
-                .catch { e ->
-                    _state.value = (DataState.error(e.toString(), null))
-                }
-                .collectLatest {
-                    _state.value = DataState.success(it)
-                    onPropertyLoaded(it)
-                }
-
-        }
     }
 
     private fun onPropertyLoaded(property: Property) {

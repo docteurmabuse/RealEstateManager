@@ -116,8 +116,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
             val action = property?.let { property ->
                 PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
                     EDIT_PROPERTY_VIEW,
-                    property,
-                    property.id!!
+                    property
                 )
             }
 
