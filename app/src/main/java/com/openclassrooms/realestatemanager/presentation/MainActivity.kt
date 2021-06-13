@@ -169,8 +169,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val searchItem = binding.bottomAppBar.menu?.findItem(R.id.action_search)
-        val searchView = searchItem?.actionView as SearchView
-        searchView.onQueryTextChanged {
+        (searchItem?.actionView as? SearchView)?.onQueryTextChanged {
             viewModel.searchQuery.value = it
             Timber.d("SEARCH: $it")
         }
