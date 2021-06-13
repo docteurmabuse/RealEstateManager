@@ -27,9 +27,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
  * A fragment representing a list of Items.
  */
 @AndroidEntryPoint
-class PropertyListFragment constructor(private var properties: List<Property>) :
+class PropertyListFragment :
     Fragment(R.layout.property_list) {
-
+    private var properties: List<Property> = arrayListOf()
     private var columnCount = 1
     private var _binding: PropertyListBinding? = null
     private val binding get() = _binding!!

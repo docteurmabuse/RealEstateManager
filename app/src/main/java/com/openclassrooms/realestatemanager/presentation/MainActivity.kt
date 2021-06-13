@@ -41,16 +41,14 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MainActivity constructor(
-    private var properties: List<Property> = arrayListOf()
-) : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
+class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     NavController.OnDestinationChangedListener {
     @Inject
     lateinit var fragmentFactory: MainFragmentFactory
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
     private val agentViewModel: AgentsViewModel by viewModels()
-
+    private var properties: List<Property> = arrayListOf()
     private var isAddAgentView = false
     private var isAddPropertyView = false
     private var agentList: List<Agent>? = arrayListOf()

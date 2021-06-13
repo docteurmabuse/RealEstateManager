@@ -32,8 +32,8 @@ class ItemTabsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val fragmentList = arrayListOf(
-            PropertyListFragment(arrayListOf()),
-            MapFragment(arrayListOf())
+            PropertyListFragment(),
+            MapFragment()
         )
 
         tabsPagerAdapter = TabsPagerAdapter(

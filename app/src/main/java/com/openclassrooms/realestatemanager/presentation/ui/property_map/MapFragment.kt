@@ -35,10 +35,10 @@ import timber.log.Timber
 
 
 @AndroidEntryPoint
-class MapFragment constructor(private var properties: List<Property>) :
+class MapFragment :
     Fragment(R.layout.map_layout),
     GoogleMap.OnInfoWindowClickListener {
-
+    private var properties: List<Property> = arrayListOf()
     private var lastLocation: Location? = null
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
