@@ -141,7 +141,8 @@ constructor(
             list.minWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
         maxPrice.value =
             list.maxWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
-        priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
+        if (minPrice.value != null && maxPrice.value != null)
+            priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
     }
 
     private fun initSurfaceFilter(list: List<Property>) {
@@ -149,7 +150,8 @@ constructor(
             list.minWithOrNull(Comparator.comparingInt { it.surface!! })?.surface?.toFloat()
         maxSurface.value =
             list.maxWithOrNull(Comparator.comparingInt { it.surface!! })?.surface?.toFloat()
-        surfaceArray.value = arrayOf(minSurface.value!!, maxSurface.value!!)
+        if (minSurface.value != null && maxSurface.value != null)
+            surfaceArray.value = arrayOf(minSurface.value!!, maxSurface.value!!)
     }
 
     @ExperimentalCoroutinesApi
