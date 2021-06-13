@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:contentDescription="@string/property_image_view"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             app:imagePath="@{photo.photoPath}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -30,5 +30,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginBottom="80dp"
+            android:background="#66101010"
+            android:padding="10dip"
+            android:text="@{photo.name}"
+            android:textColor="@color/grey_20"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

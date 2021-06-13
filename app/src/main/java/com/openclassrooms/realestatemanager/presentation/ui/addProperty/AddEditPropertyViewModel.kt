@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 import android.annotation.SuppressLint
 import android.app.Application
 import androidx.lifecycle.*
+import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.interactors.agent.GetAgentById
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.interactors.property.GetPropertyById
@@ -99,7 +100,7 @@ class AddEditPropertyViewModel @Inject constructor(
 
     fun start(propertyId: String) {
         this.propertyId = propertyId
-        if (propertyId == "") {
+        if (propertyId == null) {
             isNewProperty.value = true
             return
         } else {
@@ -231,42 +232,42 @@ class AddEditPropertyViewModel @Inject constructor(
 
         Timber.d("PROPERTY_VIEWMODEL3: $location , $context")
         Timber.d("PROPERTY_ID: $currentId")
-        /*if (currentType == null || currentPrice == null || currentSurface == null ||
+        if (currentType == null || currentPrice == null || currentSurface == null ||
             currentRoomNumber == null || currentBathroomNumber == null || currentBedroomNumber == null ||
-            currentDescription == null || currentPhotos.isNullOrEmpty() || currentAgentId == null || currentAddress1 == null
+            currentDescription == null || currentAgentId == null || currentAddress1 == null
             || currentCity == null || currentState == null || currentZipcode == null || currentCountry == null
             || currentSellDate == null
         ) {
-            _snackbarText.value = Event(R.string.empty_property_message)
+            _snackbarText.value = Event(R.string.empty_property_message2)
             return
-        }*/
+        }
 
-        /* if (Property(
-                 currentId,
-                 currentType,
-                 currentPrice,
-                 currentSurface,
-                 currentRoomNumber,
-                 currentBathroomNumber,
-                 currentBedroomNumber,
-                 currentDescription,
-                 currentSchools,
-                 currentShops,
-                 currentPark,
-                 currentStations,
-                 currentHospital,
-                 currentMuseum,
-                 currentSold,
-                 currentSellDate,
-                 currentSoldDate,
-                 currentMedia,
-                 currentAgentId,
-                 currentAddress
-             ).isEmpty
-         ) {
-             _snackbarText.value = Event(R.string.empty_property_message)
-             return
-         }*/
+        /*  if (Property(
+                    currentId,
+                    currentType,
+                    currentPrice,
+                    currentSurface,
+                    currentRoomNumber,
+                    currentBathroomNumber,
+                    currentBedroomNumber,
+                    currentDescription,
+                    currentSchools,
+                    currentShops,
+                    currentPark,
+                    currentStations,
+                    currentHospital,
+                    currentMuseum,
+                    currentSold,
+                    currentSellDate.toLong(),
+                    currentSoldDate?.toLong(),
+                    currentMedia,
+                    currentAgentId,
+                    currentAddress
+                ).isEmpty
+            ) {
+                _snackbarText.value = Event(R.string.empty_property_message)
+                return
+            }*/
 
 
         if (isNewProperty.value == true || currentId == null) {
@@ -287,7 +288,7 @@ class AddEditPropertyViewModel @Inject constructor(
                     currentHospital,
                     currentMuseum,
                     currentSold,
-                    currentSellDate?.toLong(),
+                    currentSellDate.toLong(),
                     currentSoldDate?.toLong(),
                     currentMedia,
                     currentAgentId,
@@ -312,7 +313,7 @@ class AddEditPropertyViewModel @Inject constructor(
                     currentHospital,
                     currentMuseum,
                     currentSold,
-                    currentSellDate?.toLong(),
+                    currentSellDate.toLong(),
                     currentSoldDate?.toLong(),
                     currentMedia,
                     currentAgentId,
@@ -330,7 +331,7 @@ class AddEditPropertyViewModel @Inject constructor(
         }
         viewModelScope.launch {
             // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
-            addProperty.invoke(property)
+            updateProperty.invoke(property)
         }
 
     }

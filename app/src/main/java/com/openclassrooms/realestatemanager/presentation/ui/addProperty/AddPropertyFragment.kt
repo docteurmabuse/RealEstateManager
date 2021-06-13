@@ -340,6 +340,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                 binding.dates?.switchTitle?.visibility = View.VISIBLE
                 binding.dates?.soldSwitch?.visibility = View.VISIBLE
                 viewModel.isNewProperty.value = true
+                Timber.d("$it")
+
             }
         }
         property?.let { setPropertyInLayout(it) }

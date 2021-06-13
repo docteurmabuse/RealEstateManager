@@ -98,5 +98,6 @@
     <string name="manor">Manor</string>
     <string name="all">All</string>
     <string name="apply">Apply</string>
+    <string name="empty_property_message2">Property cannot be empty</string>
 
 </resources>
