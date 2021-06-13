@@ -100,11 +100,13 @@ class AddEditPropertyViewModel @Inject constructor(
 
     fun start(propertyId: String) {
         this.propertyId = propertyId
-        if (propertyId == null) {
+        if (propertyId.isBlank()) {
             isNewProperty.value = true
+            Timber.d("EDIT_MODE: $propertyId")
             return
         } else {
             isNewProperty.value = false
+            Timber.d("EDIT_MODE: FALSE")
             viewModelScope.launch {
                 getPropertyById.invoke(propertyId)
                     .catch { e ->
@@ -122,6 +124,9 @@ class AddEditPropertyViewModel @Inject constructor(
 
     private fun onPropertyLoaded(property: Property) {
         // Two-way databinding, exposing MutableLiveData
+        propertyId = property.id
+        Timber.d("PROPERTY_ID: ${propertyId}")
+
         type.value = property.type
         price.value = property.price.toString()
         surface.value = property.surface.toString()
@@ -153,7 +158,6 @@ class AddEditPropertyViewModel @Inject constructor(
         long.value = property.address?.lng.toString().toDoubleOrNull()
         _statePhotos.value = property.media.photos as ArrayList<Media.Photo>
         photos.value = _statePhotos.value
-
         viewModelScope.launch {
             agentId.value?.let { it ->
                 getAgentById.invoke(it).catch { e ->
@@ -270,7 +274,7 @@ class AddEditPropertyViewModel @Inject constructor(
             }*/
 
 
-        if (isNewProperty.value == true || currentId == null) {
+        if (isNewProperty.value == true && currentId == null) {
             saveProperty(
                 Property(
                     UUID.randomUUID().toString(),

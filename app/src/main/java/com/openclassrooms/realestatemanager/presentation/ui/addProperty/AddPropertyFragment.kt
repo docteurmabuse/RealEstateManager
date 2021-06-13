@@ -327,7 +327,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             Timber.d("PropertyDetailFragment did not received arguments")
             binding.dates?.switchTitle?.visibility = View.GONE
             binding.dates?.soldSwitch?.visibility = View.GONE
-            viewModel.isNewProperty.value = false
+            viewModel.isNewProperty.value = true
             return
         }
 
@@ -339,8 +339,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
                 viewModel.start(it1)
                 binding.dates?.switchTitle?.visibility = View.VISIBLE
                 binding.dates?.soldSwitch?.visibility = View.VISIBLE
-                viewModel.isNewProperty.value = true
-                Timber.d("$it")
+                viewModel.isNewProperty.value = false
+                Timber.d("EDIT_MODRE: $it")
 
             }
         }
