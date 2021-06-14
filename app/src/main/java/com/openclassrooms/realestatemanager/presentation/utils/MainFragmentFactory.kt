@@ -17,7 +17,6 @@ constructor(
                 val fragment = PropertyListFragment()
                 fragment
             }
-
             else -> super.instantiate(classLoader, className)
         }
     }

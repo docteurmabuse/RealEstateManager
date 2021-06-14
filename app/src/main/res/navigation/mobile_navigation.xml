@@ -20,7 +20,7 @@
             app:nullable="true" />
         <action
             android:id="@+id/action_propertyListFragment_to_addPropertyFragment"
-            app:destination="@id/addPropertyFragment" />
+            app:destination="@id/addEditPropertyFragment" />
     </fragment>
     <fragment
         android:id="@+id/propertyDetailFragment"
@@ -42,7 +42,7 @@
 
         <action
             android:id="@+id/action_propertyDetailFragment_to_addPropertyFragment"
-            app:destination="@id/addPropertyFragment"
+            app:destination="@id/addEditPropertyFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right">
 
@@ -57,8 +57,8 @@
         </action>
     </fragment>
     <fragment
-        android:id="@+id/addPropertyFragment"
-        android:name="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddPropertyFragment"
+        android:id="@+id/addEditPropertyFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyFragment"
         android:label="add_property_fragment"
         tools:layout="@layout/add_property_fragment">
         <action
@@ -104,7 +104,7 @@
         android:label="ItemTabsFragment">
         <action
             android:id="@+id/action_itemTabsFragment2_to_addPropertyFragment"
-            app:destination="@id/addPropertyFragment"
+            app:destination="@id/addEditPropertyFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right" />
         <action

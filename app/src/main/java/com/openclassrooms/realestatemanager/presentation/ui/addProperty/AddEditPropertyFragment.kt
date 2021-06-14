@@ -64,7 +64,7 @@ private const val REQ_CAPTURE = 100
 private const val RES_IMAGE = 100
 
 @AndroidEntryPoint
-class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property_fragment),
+class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property_fragment),
     PhotoListAdapter.Interaction, OnStartDragListener {
     //ViewModels
     private val viewModel: AddEditPropertyViewModel by viewModels()
@@ -75,7 +75,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
 
 
     //Nav Arguments
-    private val args: AddPropertyFragmentArgs by navArgs()
+    private val args: AddEditPropertyFragmentArgs by navArgs()
     private var newPropertyId: String = ""
     private var property: Property? = null
     private var isEditPropertyView: Boolean = false
@@ -121,7 +121,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
     private var cal = Calendar.getInstance()
 
     companion object {
-        fun newInstance() = AddPropertyFragment()
+        fun newInstance() = AddEditPropertyFragment()
     }
 
     private var _binding: AddPropertyFragmentBinding? = null
@@ -424,8 +424,8 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
             val topSpacingItemDecoration = TopSpacingItemDecoration(5)
             addItemDecoration(topSpacingItemDecoration)
             photoListAdapter = PhotoListAdapter(
-                this@AddPropertyFragment,
-                dragStartListener = this@AddPropertyFragment
+                this@AddEditPropertyFragment,
+                dragStartListener = this@AddEditPropertyFragment
             ) {
                 Timber.d("REORDER: reorder completed")
                 photoListAdapter.submitList(photos)
@@ -459,7 +459,7 @@ class AddPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_property
         binding.addPropertyFAB.setOnClickListener {
             val navHostFragment = findNavController()
             val action =
-                AddPropertyFragmentDirections.actionAddPropertyFragmentToItemTabsFragment2()
+                AddEditPropertyFragmentDirections.actionAddPropertyFragmentToItemTabsFragment2()
             navHostFragment.navigate(action)
             navHostFragment.navigate(R.id.propertyListFragment)
         }

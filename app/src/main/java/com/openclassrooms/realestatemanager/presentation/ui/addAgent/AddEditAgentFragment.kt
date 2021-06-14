@@ -18,7 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
 @AndroidEntryPoint
-
 class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
     private val viewModelEdit: AddEditAgentViewModel by viewModels()
     private var _binding: AddAgentFragmentBinding? = null

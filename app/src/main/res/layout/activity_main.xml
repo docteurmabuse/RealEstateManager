@@ -38,6 +38,7 @@
             <com.nambimobile.widgets.efab.ExpandableFab
                 android:id="@+id/expandable_fab_portrait"
                 android:layout_width="wrap_content"
+                android:contentDescription="Fab add"
                 android:layout_height="wrap_content"
                 app:efab_iconAnimationRotationDeg="0.0"
                 app:efab_orientation="portrait"
@@ -46,6 +47,7 @@
             <com.nambimobile.widgets.efab.FabOption
                 android:id="@+id/fabAddProperty"
                 android:layout_width="wrap_content"
+                android:contentDescription="Property add"
                 android:layout_height="wrap_content"
                 app:fab_icon="@drawable/ic_house_24dp"
                 app:fab_orientation="portrait"

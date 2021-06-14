@@ -34,7 +34,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.ui.addProperty.AddPropertyFragment">
+        tools:context=".presentation.ui.addProperty.AddEditPropertyFragment">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedScrollView"

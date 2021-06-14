@@ -335,7 +335,8 @@ class AddEditPropertyViewModel @Inject constructor(
         }
         viewModelScope.launch {
             // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
-            updateProperty.invoke(property)
+            addProperty.invoke(property)
+            _propertyUpdatedEvent.value = Event(Unit)
         }
 
     }

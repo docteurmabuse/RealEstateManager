@@ -24,5 +24,4 @@ class BaseApplication : Application() {
             getString(R.string.app_name), "App notification channel."
         )
     }
-
 }

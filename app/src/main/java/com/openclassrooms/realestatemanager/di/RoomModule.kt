@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.di
 
+import android.content.Context
 import androidx.room.Room
 import com.openclassrooms.realestatemanager.db.Persistence
 import com.openclassrooms.realestatemanager.db.RoomPersistence
@@ -8,11 +9,11 @@ import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntityMapper
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityMapper
-import com.openclassrooms.realestatemanager.presentation.BaseApplication
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -27,9 +28,9 @@ abstract class RoomModule {
 
         @Singleton
         @Provides
-        fun provideRoomDb(app: BaseApplication): PropertyDatabase {
+        fun provideRoomDb(@ApplicationContext context: Context): PropertyDatabase {
             return Room.databaseBuilder(
-                app,
+                context,
                 PropertyDatabase::class.java,
                 PropertyDatabase.DATABASE_BASE
             )

@@ -32,7 +32,8 @@ class PropertyDaoTest {
     private val property = PropertyFactory.makeOneProperty()
     private val propertyUpdate = PropertyFactory.makeOneUpdateProperty()
 
-    private val agent = AgentEntity("1", "John Wayne", "kjjk", "121221", "ddd")
+    private val agent =
+        AgentEntity("1", "John Wayne", "john45@gmail.com", "121221", "myphotourl.com")
 
 
     @Before
