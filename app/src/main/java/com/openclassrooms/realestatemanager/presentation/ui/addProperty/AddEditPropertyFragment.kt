@@ -57,7 +57,6 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 
 private const val REQ_CAPTURE = 100
@@ -110,14 +109,21 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     private var selectedAgent: Agent = Agent("", "", "")
     private var selectedType: String = ""
     private var _agentId = ""
-    private val dateSetListener =
+    private val dateSellSetListener =
         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateDateInView()
+            updateSellDateInView()
         }
 
+    private val dateSoldSetListener =
+        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateSoldDateInView()
+        }
     private var cal = Calendar.getInstance()
 
     companion object {
@@ -185,7 +191,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         binding.dates!!.sellDateDropdown.setOnClickListener {
             DatePickerDialog(
                 requireContext(),
-                dateSetListener,
+                dateSellSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
@@ -196,7 +202,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         binding.dates!!.soldDateDropdown.setOnClickListener {
             DatePickerDialog(
                 requireContext(),
-                dateSetListener,
+                dateSoldSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
@@ -205,24 +211,20 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         }
     }
 
-    private fun updateDateInView() {
-        val myFormat = "MM/dd/yyyy" // mention the format you need
-        val sdf = SimpleDateFormat(myFormat, Locale.US)
-        Snackbar.make(binding.root, "${cal.time}", Snackbar.LENGTH_SHORT)
-            .show()
+    private fun updateSellDateInView() {
         val dateOnMarket = cal.timeInMillis
         binding.dates!!.viewModel?.sellDate = MutableLiveData(dateOnMarket.toString())
         binding.dates!!.sellDateDropdown.setText(longDateToString(dateOnMarket))
         viewModel.sellDate = MutableLiveData(dateOnMarket.toString())
         Timber.d("DATE_PICKER : ${dateOnMarket}")
-        /* binding.dates!!.viewModel?.soldDate = MutableLiveData(date.toString())
-         binding.dates!!.sellDateDropdown.setText(longToDate(date)?.let { it1 ->
-             DateUtil.dateToString(
-                 it1
-             )
-         })
-         viewModel.soldDate = MutableLiveData(date.toString())
-          */
+
+    }
+
+    private fun updateSoldDateInView() {
+        val dateOnMarket = cal.timeInMillis
+        binding.dates!!.viewModel?.soldDate = MutableLiveData(dateOnMarket.toString())
+        binding.dates!!.soldDateDropdown.setText(longDateToString(dateOnMarket))
+        viewModel.soldDate = MutableLiveData(dateOnMarket.toString())
     }
 
     private fun setupSnackbar() {
