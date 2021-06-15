@@ -1,22 +1,26 @@
 package com.openclassrooms.realestatemanager.presentation.ui.search
 
 import android.R
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertySearchFilterDialogBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
+import com.openclassrooms.realestatemanager.utils.DateUtil
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
+import java.util.*
 
 
 // TODO: Customize parameter argument names
@@ -35,6 +39,40 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
+    private var cal = Calendar.getInstance()
+
+    private val dateSellSetListener =
+        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateSellDateInView()
+        }
+
+    private val dateSoldSetListener =
+        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateSoldDateInView()
+        }
+
+    private fun updateSellDateInView() {
+        val dateOnMarket = cal.timeInMillis
+        binding.viewModel?.sellDate = MutableLiveData(dateOnMarket.toString())
+        binding.sellDateDropdown.setText(DateUtil.longDateToString(dateOnMarket))
+        viewModel.sellDate = MutableLiveData(dateOnMarket.toString())
+        Timber.d("DATE_PICKER : ${dateOnMarket}")
+
+    }
+
+    private fun updateSoldDateInView() {
+        val dateOnMarket = cal.timeInMillis
+        binding.viewModel?.soldDate = MutableLiveData(dateOnMarket.toString())
+        binding.filterSoldDate.setText(DateUtil.longDateToString(dateOnMarket))
+        viewModel.soldDate = MutableLiveData(dateOnMarket.toString())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,9 +89,34 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         //   arguments?.getInt(ARG_ITEM_COUNT)?.let { ItemAdapter(it)
         binding.viewModel = mainViewModel
         setObserver()
+        setDatesListener()
         binding.applyFilter.setOnClickListener {
             mainViewModel.filterData()
             Timber.d("Click")
+        }
+    }
+
+    private fun setDatesListener() {
+        binding.sellDateDropdown.setOnClickListener {
+            DatePickerDialog(
+                requireContext(),
+                dateSellSetListener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
+
+        binding.filterSoldDate.setOnClickListener {
+            DatePickerDialog(
+                requireContext(),
+                dateSoldSetListener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
     }
 

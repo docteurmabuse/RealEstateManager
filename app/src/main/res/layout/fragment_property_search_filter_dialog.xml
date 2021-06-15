@@ -262,7 +262,6 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/filterSoldText"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                isVisible="@{viewModel.sold}"
                 android:layout_width="@dimen/formWidth"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/marginStart"
@@ -310,8 +309,7 @@
                 android:layout_width="@dimen/formWidth"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/marginStart"
-
-                android:hint="Select an area"
+                android:hint="@string/select_an_area"
                 android:inputType="textAutoComplete"
                 android:labelFor="@id/agent_dropdown"
                 app:layout_constraintStart_toStartOf="parent"

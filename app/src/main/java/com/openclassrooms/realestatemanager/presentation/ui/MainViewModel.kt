@@ -7,6 +7,7 @@ import com.openclassrooms.realestatemanager.domain.interactors.searchProperty.Se
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.domain.model.search.SearchFilters
+import com.openclassrooms.realestatemanager.utils.DateUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -71,8 +72,8 @@ constructor(
 
     var sold = MutableLiveData<Boolean>(false)
 
-    var sellDate = MutableLiveData<String>("0")
-    var soldDate = MutableLiveData<String>("0")
+    var sellDate = MutableLiveData<String>(DateUtil.todayDate)
+    var soldDate = MutableLiveData<String>(DateUtil.todayDate)
 
     var area = MutableLiveData<String>("")
 
