@@ -475,7 +475,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         //photos.add(photo)
         Timber.d("PHOTOS: ${photo.photoPath}")
         //viewModel.photos.value?.add(photo)
-
         viewModel.addPhotoToPhotosList(photo)
         setPhotosObserver()
     }
@@ -518,6 +517,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
 
     override fun onItemSelected(position: Int, item: Media.Photo) {
         viewModel.removePhotoToPhotosList(item)
+        photos.remove(item)
 
         Timber.d("PHOTO_DELETE: ${item.photoPath}, newlist = $photos")
         setupRecyclerView()
