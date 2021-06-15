@@ -9,6 +9,7 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.utils.DateUtil.longDateToString
@@ -28,6 +29,19 @@ class ViewBinding {
                 Timber.d("PHOTO: $imgPath")
                 imgView.load(imgPath) {
                     placeholder(R.drawable.loading_animation)
+                    crossfade(true)
+                    error(R.drawable.ic_baseline_broken_image_24dp)
+                }
+            }
+        }
+
+        @JvmStatic
+        @BindingAdapter("imageCirclePath")
+        fun bindCircleImage(imgView: ImageView, imgPath: String?) {
+            imgPath?.let {
+                imgView.load(imgPath) {
+                    placeholder(R.drawable.loading_animation)
+                    transformations(CircleCropTransformation())
                     crossfade(true)
                     error(R.drawable.ic_baseline_broken_image_24dp)
                 }
