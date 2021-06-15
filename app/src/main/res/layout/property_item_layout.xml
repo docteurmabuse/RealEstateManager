@@ -40,6 +40,7 @@
             android:padding="10dip"
             android:text="@{photo.name}"
             android:textColor="@color/grey_20"
+            android:textStyle="bold"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@id/imageView"
             app:layout_constraintEnd_toEndOf="parent"

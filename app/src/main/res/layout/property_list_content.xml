@@ -51,7 +51,6 @@
                 android:text="@{property.type}"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/text_area"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/img_photo"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +75,7 @@
                 android:layout_margin="@dimen/text_margin"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/text_sold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/img_photo"
                 app:layout_constraintTop_toBottomOf="@id/text_area" />
@@ -86,7 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"
-                android:text="SOLD"
+                android:text="@string/sold"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold"
@@ -94,7 +93,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/img_photo"
-                app:layout_constraintTop_toBottomOf="@id/text_area" />
+                app:layout_constraintTop_toBottomOf="@id/text_price" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
