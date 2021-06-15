@@ -96,6 +96,9 @@ class AddEditPropertyViewModel @Inject constructor(
     val agentState: StateFlow<DataState<Agent>>
         get() = _stateAgent
 
+    private val _propertyAddedEvent = MutableLiveData<Event<Unit>>()
+    val propertyAddedEvent: LiveData<Event<Unit>> = _propertyAddedEvent
+
     private val _propertyUpdatedEvent = MutableLiveData<Event<Unit>>()
     val propertyUpdatedEvent: LiveData<Event<Unit>> = _propertyUpdatedEvent
 
@@ -354,7 +357,7 @@ class AddEditPropertyViewModel @Inject constructor(
         viewModelScope.launch {
             Timber.d("PROPERTY: ${property.agent}, ${property.media}")
             addProperty.invoke(property)
-            _propertyUpdatedEvent.value = Event(Unit)
+            _propertyAddedEvent.value = Event(Unit)
 
         }
     }

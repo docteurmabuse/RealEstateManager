@@ -185,6 +185,19 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
                 autoCancel = false
             )
         })
+
+        viewModel.propertyAddedEvent.observe(viewLifecycleOwner, EventObserver {
+            val navHostFragment = findNavController()
+            navHostFragment.navigate(R.id.mainActivity)
+            val propertyName: String = binding.address?.address1TextInput?.text.toString()
+            NotificationHelper.createNotification(
+                requireContext(),
+                "Property $propertyName was updated",
+                "",
+                "",
+                autoCancel = false
+            )
+        })
     }
 
     private fun setupDateListener() {
