@@ -179,7 +179,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
             val propertyName: String = binding.address?.address1TextInput?.text.toString()
             NotificationHelper.createNotification(
                 requireContext(),
-                "Property $propertyName was added",
+                "Property $propertyName was updated",
                 "",
                 "",
                 autoCancel = false
@@ -192,7 +192,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
             val propertyName: String = binding.address?.address1TextInput?.text.toString()
             NotificationHelper.createNotification(
                 requireContext(),
-                "Property $propertyName was updated",
+                "Property $propertyName was added",
                 "",
                 "",
                 autoCancel = false
