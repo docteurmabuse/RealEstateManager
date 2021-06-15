@@ -192,6 +192,17 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
                 cal.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
+
+        binding.dates!!.soldDateDropdown.setOnClickListener {
+            DatePickerDialog(
+                requireContext(),
+                dateSetListener,
+                // set DatePickerDialog to point to today's date when it loads up
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+            ).show()
+        }
     }
 
     private fun updateDateInView() {

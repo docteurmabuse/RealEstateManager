@@ -16,7 +16,7 @@ object DateUtil {
      */
     val todayDate: String
         get() {
-            return sdf.format(createTimestamp())
+            return dateToLong(createTimestamp()).toString()
         }
 
     fun longToDate(long: Long?): Date? {

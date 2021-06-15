@@ -14,6 +14,7 @@ import com.openclassrooms.realestatemanager.domain.model.property.Address
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.Event
+import com.openclassrooms.realestatemanager.utils.DateUtil
 import com.openclassrooms.realestatemanager.utils.GeocodeUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,8 +58,8 @@ class AddEditPropertyViewModel @Inject constructor(
     var hospital = MutableLiveData<Boolean>(false)
     var museum = MutableLiveData<Boolean>(false)
     var sold = MutableLiveData<Boolean>(false)
-    var sellDate = MutableLiveData<String>("0")
-    var soldDate = MutableLiveData<String>("0")
+    var sellDate = MutableLiveData<String>(DateUtil.todayDate)
+    var soldDate = MutableLiveData<String>(DateUtil.todayDate)
     var photos = MutableLiveData<List<Media.Photo>>(arrayListOf())
     var videos = MutableLiveData<List<Media.Video>>(arrayListOf())
     var agent = MutableLiveData<Agent>()
@@ -236,7 +237,7 @@ class AddEditPropertyViewModel @Inject constructor(
             currentLong
         )
 
-        Timber.d("PROPERTY_VIEWMODEL3: $location , $context")
+        Timber.d("PROPERTY_VIEWMODEL3: $location , $addressLine")
         Timber.d(
             "CURRENT: $currentType = type ,$currentPrice  = price, $currentSurface = surface" +
                     "            $currentRoomNumber = room || $currentBathroomNumber = bath || $currentBedroomNumber = beds ||\n" +
