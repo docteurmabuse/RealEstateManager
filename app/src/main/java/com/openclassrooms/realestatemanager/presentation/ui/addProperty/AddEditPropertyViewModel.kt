@@ -235,7 +235,13 @@ class AddEditPropertyViewModel @Inject constructor(
         )
 
         Timber.d("PROPERTY_VIEWMODEL3: $location , $context")
-        Timber.d("PROPERTY_ID: $currentId")
+        Timber.d(
+            "CURRENT: $currentType = type ,$currentPrice  = price, $currentSurface = surface" +
+                    "            $currentRoomNumber = room || $currentBathroomNumber = bath || $currentBedroomNumber = beds ||\n" +
+                    "            $currentDescription = description || $currentAgentId == agent ||$ currentAddress1 == address1\n" +
+                    "            || $currentCity == city || $currentState == state || $currentZipcode == zip || $currentCountry == country\n" +
+                    "            || $currentSellDate == sell  $currentId"
+        )
         if (currentType == null || currentPrice == null || currentSurface == null ||
             currentRoomNumber == null || currentBathroomNumber == null || currentBedroomNumber == null ||
             currentDescription == null || currentAgentId == null || currentAddress1 == null
