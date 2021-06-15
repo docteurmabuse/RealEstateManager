@@ -324,15 +324,17 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         Timber.d("ARGUMENT: $bundle")
 
         if (bundle == null) {
-            Timber.d("PropertyDetailFragment did not received arguments")
-            binding.dates?.switchTitle?.visibility = View.GONE
-            binding.dates?.soldSwitch?.visibility = View.GONE
-            viewModel.isNewProperty.value = true
+            Timber.d("EDIT_MODE= NEW. PropertyDetailFragment did not received arguments")
             return
         }
 
         val args = PropertyDetailFragmentArgs.fromBundle(bundle)
         property = args.property
+        if (property == null) {
+            binding.dates?.switchTitle?.visibility = View.GONE
+            binding.dates?.soldSwitch?.visibility = View.GONE
+            viewModel.isNewProperty.value = true
+        }
         isEditPropertyView = args.editPropertyView
         args.property?.let {
             it.id?.let { it1 ->
@@ -340,8 +342,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
                 binding.dates?.switchTitle?.visibility = View.VISIBLE
                 binding.dates?.soldSwitch?.visibility = View.VISIBLE
                 viewModel.isNewProperty.value = false
-                Timber.d("EDIT_MODRE: $it")
-
+                Timber.d("EDIT_MODE_FRAG: $it")
             }
         }
         property?.let { setPropertyInLayout(it) }

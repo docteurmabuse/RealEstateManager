@@ -100,9 +100,11 @@ class AddEditPropertyViewModel @Inject constructor(
 
     fun start(propertyId: String) {
         this.propertyId = propertyId
+        Timber.d("EDIT_MODE: $propertyId")
+
         if (propertyId.isBlank()) {
             isNewProperty.value = true
-            Timber.d("EDIT_MODE: $propertyId")
+            Timber.d("EDIT_MODE: TRUE")
             return
         } else {
             isNewProperty.value = false
