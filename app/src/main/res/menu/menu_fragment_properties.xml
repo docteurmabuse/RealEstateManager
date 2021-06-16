@@ -14,8 +14,8 @@
         app:showAsAction="always">
         <menu>
             <item
-                android:id="@+id/action_sort_by_name"
-                android:title="@string/sort_by_name" />
+                android:id="@+id/action_sort_by_price"
+                android:title="@string/sort_by_price" />
             <item
                 android:id="@+id/action_sort_by_date_on_market"
                 android:title="@string/sort_by_date_on_market" />

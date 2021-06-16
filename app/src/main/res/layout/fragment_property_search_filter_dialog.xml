@@ -12,444 +12,472 @@
             type="com.openclassrooms.realestatemanager.presentation.ui.MainViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/list"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/item_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:clipToPadding="false"
-        android:paddingStart="@dimen/marginStart"
-        android:paddingTop="@dimen/list_item_spacing_half"
-        android:paddingEnd="@dimen/marginEnd"
-        android:paddingBottom="@dimen/list_item_spacing_half"
-        app:behavior_hideable="true"
-        app:behavior_peekHeight="600dp"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-        tools:context=".presentation.ui.search.PropertySearchDialogFragment"
-        tools:listitem="@layout/fragment_property_search_dialog_list_dialog_item">
+        android:layout_gravity="bottom"
+        app:behavior_hideable="false"
+        tools:context=".presentation.ui.search.PropertySearchDialogFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:theme="@style/AppTheme.NoActionBar">
 
             <TextView
-                android:id="@+id/typeFilter"
-                style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/property_type"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/typeChipGroup"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                app:chipSpacingHorizontal="22dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/typeFilter">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/house"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.house}"
-                    android:onClick="@{(v)->viewModel.filterData()}"
-                    android:text="@string/house" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/flat"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.flat}"
-                    android:onClick="@{(v)->viewModel.filterData()}"
-                    android:text="@string/flat" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/duplex"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.duplex}"
-                    android:onClick="@{(v)->viewModel.filterData()}"
-                    android:text="@string/duplex" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/penthouse"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.penthouse}"
-                    android:onClick="@{(v)->viewModel.filterData()}"
-                    android:text="@string/penthouse" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/loft"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.loft}"
-                    android:onClick="@{(v)->viewModel.filterData()}"
-                    android:text="@string/loft" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/manor"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.manor}"
-                    android:onClick="@{(v)->viewModel.filterData()}"
-                    android:text="@string/manor" />
-            </com.google.android.material.chip.ChipGroup>
-
-            <TextView
-                android:id="@+id/nearByFilter"
-                style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/marginTop"
-                android:text="@string/nearby"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/typeChipGroup" />
-
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/nearbyChipGroup"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                app:chipSpacingHorizontal="22dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nearByFilter">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipMuseum"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.museum}"
-                    android:onClick="@{()->viewModel.filterData()}"
-                    android:text="@string/museum" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSchool"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.schools}"
-                    android:onClick="@{()->viewModel.filterData()}"
-                    android:text="@string/schools" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipShop"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.shops}"
-                    android:onClick="@{()->viewModel.filterData()}"
-                    android:text="@string/shops" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipHospital"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.hospital}"
-                    android:onClick="@{()->viewModel.filterData()}"
-                    android:text="@string/hospital" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipStation"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.stations}"
-                    android:onClick="@{()->viewModel.filterData()}"
-                    android:text="@string/station" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipPark"
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="@={viewModel.park}"
-                    android:onClick="@{()->viewModel.filterData()}"
-                    android:text="@string/park" />
-            </com.google.android.material.chip.ChipGroup>
-
-            <TextView
-                android:id="@+id/areaText"
-                style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/marginTop"
-                android:text="@string/nearby"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nearbyChipGroup" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/areaTex"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_width="@dimen/formWidth"
-                android:layout_height="wrap_content"
-                android:hint="@string/select_an_area"
-                android:inputType="textAutoComplete"
-                android:labelFor="@id/filterArea"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/areaText"
-                app:layout_goneMarginEnd="@dimen/marginEnd">
-
-                <AutoCompleteTextView
-                    android:id="@+id/filterArea"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@={viewModel.area}" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/priceRangeText"
-                style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/marginTop"
-                android:text="@string/price"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/areaTex" />
-
-            <com.google.android.material.slider.RangeSlider
-                android:id="@+id/priceRangeSlider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:stepSize="100000"
-                android:valueFrom="@{viewModel.minPrice}"
-                android:valueTo="@{viewModel.maxPrice}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/priceRangeText"
-                app:values="@{viewModel.priceArray}" />
-
-            <TextView
-                android:id="@+id/surfaceRangeText"
-                style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/marginTop"
-                android:text="@string/surface"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/priceRangeSlider" />
-
-            <com.google.android.material.slider.RangeSlider
-                android:id="@+id/surfaceRangeSlider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:stepSize="10"
-                android:valueFrom="@{viewModel.minSurface}"
-                android:valueTo="@{viewModel.maxSurface}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/surfaceRangeText"
-                app:values="@{viewModel.surfaceArray}" />
-
-
-            <TextView
-                android:id="@+id/switchSoldText"
-                style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:layout_width="wrap_content"
-                android:layout_height="22dp"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="22dp"
-                android:text="@string/sold"
-                app:layout_constraintBottom_toBottomOf="@+id/marketText"
-                app:layout_constraintStart_toStartOf="@id/filterSoldSwitch"
-                app:layout_constraintTop_toTopOf="@+id/marketText" />
-
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/filterSoldSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:checked="@={viewModel.sold}"
-                android:onClick="@{(v)->viewModel.filterData()}"
-                app:layout_constraintBottom_toBottomOf="@id/sellDateFilter"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/sellDateFilter" />
-
-
-            <TextView
-                android:id="@+id/marketText"
-                style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
                 android:layout_marginEnd="@dimen/marginEnd"
-                android:text="@string/on_market_since"
-                app:layout_constraintStart_toEndOf="@id/filterSoldSwitch"
-                app:layout_constraintTop_toBottomOf="@id/surfaceRangeSlider" />
+                android:text="Close"
+                android:textAlignment="textEnd"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </com.google.android.material.appbar.AppBarLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/sellDateFilter"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_width="@dimen/formWidth"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                app:layout_constraintStart_toEndOf="@id/filterSoldSwitch"
-                app:layout_constraintTop_toBottomOf="@id/marketText"
-                app:layout_goneMarginEnd="@dimen/marginEnd">
 
-                <AutoCompleteTextView
-                    android:id="@+id/sell_date_dropdown"
-                    textToDate="@{viewModel.sellDate}"
-                    android:layout_width="match_parent"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/list"
+            android:layout_height="600dp"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="50dp"
+            android:fitsSystemWindows="true"
+            app:behavior_hideable="false"
+            android:paddingStart="@dimen/marginStart"
+            android:paddingTop="@dimen/list_item_spacing_half"
+            android:paddingEnd="@dimen/marginEnd"
+            app:behavior_peekHeight="600dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                app:behavior_hideable="false"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/typeFilter"
+                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:layout_width="42dp"
+                    android:layout_height="20dp"
+                    android:text="@string/property_type"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/typeChipGroup"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/on_market_since"
+                    android:checked="true"
+                    app:chipSpacingHorizontal="22dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/typeFilter">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/house"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.house}"
+                        android:onClick="@{(v)->viewModel.filterData()}"
+                        android:text="@string/house" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/flat"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.flat}"
+                        android:onClick="@{(v)->viewModel.filterData()}"
+                        android:text="@string/flat" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/duplex"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.duplex}"
+                        android:onClick="@{(v)->viewModel.filterData()}"
+                        android:text="@string/duplex" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/penthouse"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.penthouse}"
+                        android:onClick="@{(v)->viewModel.filterData()}"
+                        android:text="@string/penthouse" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/loft"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.loft}"
+                        android:onClick="@{(v)->viewModel.filterData()}"
+                        android:text="@string/loft" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/manor"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.manor}"
+                        android:onClick="@{(v)->viewModel.filterData()}"
+                        android:text="@string/manor" />
+                </com.google.android.material.chip.ChipGroup>
+
+                <TextView
+                    android:id="@+id/nearByFilter"
+                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:text="@string/nearby"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/typeChipGroup" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/nearbyChipGroup"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    app:chipSpacingHorizontal="22dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nearByFilter">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipMuseum"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.museum}"
+                        android:onClick="@{()->viewModel.filterData()}"
+                        android:text="@string/museum" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipSchool"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.schools}"
+                        android:onClick="@{()->viewModel.filterData()}"
+                        android:text="@string/schools" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipShop"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.shops}"
+                        android:onClick="@{()->viewModel.filterData()}"
+                        android:text="@string/shops" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipHospital"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.hospital}"
+                        android:onClick="@{()->viewModel.filterData()}"
+                        android:text="@string/hospital" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipStation"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.stations}"
+                        android:onClick="@{()->viewModel.filterData()}"
+                        android:text="@string/station" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipPark"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="@={viewModel.park}"
+                        android:onClick="@{()->viewModel.filterData()}"
+                        android:text="@string/park" />
+                </com.google.android.material.chip.ChipGroup>
+
+                <TextView
+                    android:id="@+id/areaText"
+                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:text="@string/nearby"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nearbyChipGroup" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/areaTex"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="@dimen/formWidth"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/select_an_area"
                     android:inputType="textAutoComplete"
-                    android:labelFor="@id/type_input_layout" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:labelFor="@id/filterArea"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/areaText"
+                    app:layout_goneMarginEnd="@dimen/marginEnd">
 
-            <TextView
-                android:id="@+id/soldText"
-                style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                isVisible="@{viewModel.sold}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                android:layout_marginEnd="@dimen/marginEnd"
-                android:text="@string/sold_since"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sellDateFilter" />
+                    <AutoCompleteTextView
+                        android:id="@+id/filterArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.area}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filterSoldText"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_width="@dimen/formWidth"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginEnd="@dimen/marginEnd"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/soldText"
-                app:layout_goneMarginEnd="@dimen/marginEnd">
-
-                <AutoCompleteTextView
-                    android:id="@+id/filterSoldDate"
-                    textToDate="@{ viewModel.soldDate}"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/priceRangeText"
+                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/sold_date"
-                    android:inputType="textAutoComplete"
-                    android:labelFor="@id/sold_input_layout" />
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:text="@string/price"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/areaTex" />
 
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/numberOfRoomLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                android:layout_marginEnd="@dimen/marginEnd"
-                android:layout_marginBottom="@dimen/marginTop"
-                android:hint="@string/rooms"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/colorAccent"
-                app:layout_constraintEnd_toStartOf="@id/number_of_bedroom_text_layout"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filterSoldText">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/number_of_room_text_input"
-                    android:layout_width="match_parent"
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/priceRangeSlider"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.3"
+                    android:stepSize="100000"
+                    android:valueFrom="@{viewModel.minPrice}"
+                    android:valueTo="@{viewModel.maxPrice}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/priceRangeText"
+                    app:values="@{viewModel.priceArray}" />
+
+                <TextView
+                    android:id="@+id/surfaceRangeText"
+                    style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:text="@string/surface"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/priceRangeSlider" />
+
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/surfaceRangeSlider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:stepSize="10"
+                    android:valueFrom="@{viewModel.minSurface}"
+                    android:valueTo="@{viewModel.maxSurface}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/surfaceRangeText"
+                    app:values="@{viewModel.surfaceArray}" />
+
+
+                <TextView
+                    android:id="@+id/switchSoldText"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="22dp"
+                    android:text="@string/sold"
+                    app:layout_constraintBottom_toBottomOf="@+id/marketText"
+                    app:layout_constraintStart_toStartOf="@id/filterSoldSwitch"
+                    app:layout_constraintTop_toTopOf="@+id/marketText" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/filterSoldSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:checked="@={viewModel.sold}"
+                    android:onClick="@{(v)->viewModel.filterData()}"
+                    app:layout_constraintBottom_toBottomOf="@id/sellDateFilter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/sellDateFilter" />
+
+
+                <TextView
+                    android:id="@+id/marketText"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:layout_marginEnd="@dimen/marginEnd"
+                    android:text="@string/on_market_since"
+                    app:layout_constraintStart_toEndOf="@id/filterSoldSwitch"
+                    app:layout_constraintTop_toBottomOf="@id/surfaceRangeSlider" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sellDateFilter"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="@dimen/formWidth"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="@dimen/marginTop"
+                    app:layout_constraintStart_toEndOf="@id/filterSoldSwitch"
+                    app:layout_constraintTop_toBottomOf="@id/marketText"
+                    app:layout_goneMarginEnd="@dimen/marginEnd">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/sell_date_dropdown"
+                        textToDate="@{viewModel.sellDate}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/on_market_since"
+                        android:inputType="textAutoComplete"
+                        android:labelFor="@id/type_input_layout" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/soldText"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    isVisible="@{viewModel.sold}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:layout_marginEnd="@dimen/marginEnd"
+                    android:text="@string/sold_since"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/sellDateFilter" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/filterSoldText"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="@dimen/formWidth"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginEnd="@dimen/marginEnd"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/soldText"
+                    app:layout_goneMarginEnd="@dimen/marginEnd">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/filterSoldDate"
+                        textToDate="@{ viewModel.soldDate}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/sold_date"
+                        android:inputType="textAutoComplete"
+                        android:labelFor="@id/sold_input_layout" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/numberOfRoomLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:layout_marginEnd="@dimen/marginEnd"
+                    android:layout_marginBottom="@dimen/marginTop"
+                    android:hint="@string/rooms"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/colorAccent"
+                    app:layout_constraintEnd_toStartOf="@id/number_of_bedroom_text_layout"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/filterSoldText">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/number_of_room_text_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:inputType="number"
+                        android:text="@={viewModel.roomNumber }"
+                        android:onClick="@{()->viewModel.filterData()}"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/textSize"
+                        app:drawableStartCompat="@drawable/ic_room_24dp"
+                        app:endIconMode="clear_text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/number_of_bedroom_text_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:layout_marginEnd="@dimen/marginEnd"
+                    android:layout_marginBottom="@dimen/marginTop"
+                    android:layout_weight="0.33"
+                    android:hint="@string/bedrooms"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/colorAccent"
+                    app:layout_constraintEnd_toStartOf="@id/bathroomsLayout"
+                    app:layout_constraintStart_toEndOf="@id/numberOfRoomLayout"
+                    app:layout_constraintTop_toBottomOf="@id/filterSoldText">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/number_of_bedroom_text_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:text="@={ viewModel.bedroomNumber }"
+                        android:onClick="@{()->viewModel.filterData()}"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/textSize"
+                        app:drawableStartCompat="@drawable/ic_bedroom_parent_24dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/bathroomsLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:layout_marginEnd="@dimen/marginEnd"
+                    android:layout_marginBottom="@dimen/marginTop"
+                    android:layout_weight="0.33"
+                    android:hint="@string/bathroom"
                     android:inputType="number"
-                    android:text="@={viewModel.roomNumber }"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/textSize"
-                    app:drawableStartCompat="@drawable/ic_room_24dp"
-                    app:endIconMode="clear_text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/colorAccent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/number_of_bedroom_text_layout"
+                    app:layout_constraintTop_toBottomOf="@id/filterSoldText">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/number_of_bedroom_text_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                android:layout_marginEnd="@dimen/marginEnd"
-                android:layout_marginBottom="@dimen/marginTop"
-                android:layout_weight="0.33"
-                android:hint="@string/bedrooms"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/colorAccent"
-                app:layout_constraintEnd_toStartOf="@id/bathroomsLayout"
-                app:layout_constraintStart_toEndOf="@id/numberOfRoomLayout"
-                app:layout_constraintTop_toBottomOf="@id/filterSoldText">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/number_of_bathroom_text_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:inputType="number"
+                        android:text="@={viewModel.bathroomNumber }"
+                        android:onClick="@{()->viewModel.filterData()}"
+                        android:textAlignment="center"
+                        android:textSize="@dimen/textSize"
+                        app:drawableStartCompat="@drawable/ic_bathroom_24dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/number_of_bedroom_text_input"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/applyFilter"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:text="@={ viewModel.bedroomNumber }"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/textSize"
-                    app:drawableStartCompat="@drawable/ic_bedroom_parent_24dp" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:onClick="@{()->viewModel.resetFilters()}"
+                    android:text="@string/reset"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bathroomsLayout" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/bathroomsLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                android:layout_marginEnd="@dimen/marginEnd"
-                android:layout_marginBottom="@dimen/marginTop"
-                android:layout_weight="0.33"
-                android:hint="@string/bathroom"
-                android:inputType="number"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/colorAccent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/number_of_bedroom_text_layout"
-                app:layout_constraintTop_toBottomOf="@id/filterSoldText">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/number_of_bathroom_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:inputType="number"
-                    android:text="@={viewModel.bathroomNumber }"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/textSize"
-                    app:drawableStartCompat="@drawable/ic_bathroom_24dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <Button
-                android:id="@+id/applyFilter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{()->viewModel.resetFilters()}"
-                android:text="@string/reset"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/bathroomsLayout" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.core.widget.NestedScrollView>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

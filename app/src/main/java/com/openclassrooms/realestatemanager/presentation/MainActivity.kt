@@ -35,6 +35,7 @@ import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFacto
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
 import com.openclassrooms.realestatemanager.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import javax.inject.Inject
@@ -130,11 +131,17 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    @ExperimentalCoroutinesApi
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_filter_properties -> {
                 navController.navigate(R.id.action_itemTabsFragment2_to_propertySearchDialogFragment)
                 Timber.d("FILTER: filter ok")
+            }
+            R.id.action_sort_by_price -> {
+                viewModel.sortBy.value = "price"
+                viewModel.filterData()
+                Timber.d("FILTER: price ok")
             }
         }
         return true
@@ -199,10 +206,14 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         }
     }
 
+    @ExperimentalCoroutinesApi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_sort_by_name ->
-                Timber.d("SEARCH:CLICKED")
+            R.id.action_sort_by_price -> {
+                Timber.d("SEARCH:CLICKED-SORT-PRICE")
+                // viewModel.sortBy.value="price"
+                // viewModel.filterData()
+            }
 
 
             R.id.action_sort_by_date_on_market -> {
