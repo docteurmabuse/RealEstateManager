@@ -395,8 +395,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         if (!EDIT_PROPERTY_VIEW) {
             binding.dates!!.soldInputLayout.visibility = View.GONE
             binding.dates!!.soldDateDropdown.visibility = View.GONE
-            //    binding.dates!!.switchTitle.visibility = View.GONE
-            //  binding.dates!!.soldSwitch.visibility = View.GONE
         }
         setupRecyclerView()
     }
@@ -458,7 +456,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
             }
         }
     }
-
 
     private fun setFabListener() {
         binding.addPropertyFAB.setOnClickListener {
@@ -527,7 +524,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         Timber.d("PHOTO_DELETE: ${item.photoPath}, newlist = $photos")
         setupRecyclerView()
     }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

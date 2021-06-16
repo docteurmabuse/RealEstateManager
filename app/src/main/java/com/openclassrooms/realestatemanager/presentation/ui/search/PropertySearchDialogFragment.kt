@@ -111,8 +111,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
             )
             sellDatePicker.datePicker.maxDate = todayDate
             sellDatePicker.show()
-
-
         }
 
         binding.filterSoldDate.setOnClickListener {
