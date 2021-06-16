@@ -34,10 +34,10 @@ interface Persistence {
         sold: Int?,
         sellDate: Long?,
         soldDate: Long?,
-        numberOfPics: Float?,
-        rooms: Float?,
-        beds: Float?,
-        baths: Float?,
+        // numberOfPics: Float?,
+        rooms: Int?,
+        beds: Int?,
+        baths: Int?,
         sortBy: String?
     ): Flow<List<PropertyEntityAggregate>>
 

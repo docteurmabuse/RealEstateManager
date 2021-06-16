@@ -100,10 +100,10 @@ interface PropertyDao {
         sold: Int? = null,
         sellDate: Long?,
         soldDate: Long?,
-        //  numberOfPics: Float?,
-        rooms: Float?,
-        beds: Float?,
-        baths: Float?,
+        //  numberOfPics: Int?,
+        rooms: Int?,
+        beds: Int?,
+        baths: Int?,
         sortBy: String?
     ): Flow<List<PropertyEntityAggregate>>
 

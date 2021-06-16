@@ -74,7 +74,7 @@ class PropertyRepository_Impl @Inject constructor(
             query.sold,
             query.sellDate,
             query.soldDate,
-            query.numberOfPics,
+          //  query.numberOfPics,
             query.rooms,
             query.beds,
             query.baths,
