@@ -49,6 +49,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
             updateSellDateInView()
         }
 
+    @ExperimentalCoroutinesApi
     private val dateSoldSetListener =
         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
@@ -57,6 +58,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
             updateSoldDateInView()
         }
 
+    @ExperimentalCoroutinesApi
     private fun updateSellDateInView() {
         val dateOnMarket = cal.timeInMillis
         binding.viewModel?.sellDate = MutableLiveData(dateOnMarket.toString())
@@ -79,16 +81,12 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //  binding.lifecycleOwner = requireActivity()
         _binding = FragmentPropertySearchFilterDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        //   list.layoutManager = GridLayoutManager(context, 2)
-        //    activity?.findViewById<RecyclerView>(R.id.list)?.adapter =
-        //   arguments?.getInt(ARG_ITEM_COUNT)?.let { ItemAdapter(it)
         binding.viewModel = mainViewModel
         setObserver()
         setDatesListener()
@@ -98,10 +96,9 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun setDatesListener() {
         val todayDate = cal.timeInMillis
-        // viewModel.sellDate = MutableLiveData(todayDate.toString())
-        //   viewModel.soldDate = MutableLiveData(todayDate.toString())
 
         binding.sellDateDropdown.setOnClickListener {
             val sellDatePicker = DatePickerDialog(
@@ -163,6 +160,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     }
 
 
+    @ExperimentalCoroutinesApi
     private fun initSurfaceListener(list: List<Property>) {
         binding.surfaceRangeSlider.addOnChangeListener { slider, value, fromUser ->
             viewModel.surfaceArray.value =
@@ -172,13 +170,12 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun initPriceListener(list: List<Property>) {
-        Timber.d(" PRICE_RANGE: ${viewModel.minPrice.value}, ${viewModel.maxPrice.value}}")
         binding.priceRangeSlider.addOnChangeListener { slider, value, fromUser ->
             viewModel.priceArray.value =
                 arrayOf(binding.priceRangeSlider.values[0], binding.priceRangeSlider.values[1])
             viewModel.filterData()
-            Timber.d(" SURFACE_RANGE: ${viewModel.priceArray.value}")
         }
     }
 

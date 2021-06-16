@@ -240,7 +240,7 @@ constructor(
         penthouse.value = true
         manor.value = true
         priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
-        surfaceArray.value = arrayOf(minSurface.value!!, maxPrice.value!!)
+        surfaceArray.value = arrayOf(minSurface.value!!, maxSurface.value!!)
         typeList.value = arrayListOf("House", "Flat", "Duplex", "Penthouse", "Manor", "Loft")
         roomNumber.value = ""
         bathroomNumber.value = ""
