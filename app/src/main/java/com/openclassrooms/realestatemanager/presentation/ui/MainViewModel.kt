@@ -222,7 +222,7 @@ constructor(
             )
 
         Timber.d(
-            "FILTER_CLICK: House:  ${searchFilterQuery.value}, ${sellDate.value}"
+            "FILTER_CLICK: House:  ${searchFilterQuery.value}, ${sellDate.value}, ${sortBy.value}"
         )
         propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
             filterSearchProperties.invoke(

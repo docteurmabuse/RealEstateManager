@@ -60,7 +60,7 @@ class RoomPersistence @Inject constructor(
         baths: Int?,
         sortBy: String?
     ): Flow<List<PropertyEntityAggregate>> {
-        Timber.d("FILTER_SEARCH  $park,  $hospital, $area, $shop, $school, $museum, $museum , $typeList ")
+        Timber.d("FILTER_SEARCH  $park,  $hospital, $area, $shop, $school, $museum, $museum , $typeList , $sortBy")
 
         return propertyDao.filterSearchProperties(
             textQuery = textQuery,

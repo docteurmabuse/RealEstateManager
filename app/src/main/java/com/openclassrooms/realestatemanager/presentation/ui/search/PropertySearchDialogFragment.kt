@@ -173,6 +173,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
+    @ExperimentalCoroutinesApi
     private fun initAreaListener(list: List<Property>) {
         val dropdownAdapter =
             ArrayAdapter(
@@ -186,6 +187,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
             val selectedArea = parent.getItemAtPosition(position) as String
             Timber.d("AGENT_SELECTED: $selectedArea")
             viewModel.area.value = selectedArea
+            viewModel.filterData()
         }
     }
 
