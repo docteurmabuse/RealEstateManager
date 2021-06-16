@@ -62,9 +62,9 @@ constructor(
 
     var picsNumber = MutableLiveData<Float>(1F)
 
-    var roomNumber = MutableLiveData<Float>(1F)
-    var bathroomNumber = MutableLiveData<Float>(1F)
-    var bedroomNumber = MutableLiveData<Float>(1F)
+    var roomNumber = MutableLiveData<String>("")
+    var bathroomNumber = MutableLiveData<String>("")
+    var bedroomNumber = MutableLiveData<String>("")
 
     var description = MutableLiveData<String>("")
 
@@ -107,9 +107,9 @@ constructor(
             sellDate = null,
             soldDate = null,
             numberOfPics = null,
-            rooms = null,
-            beds = null,
-            baths = null
+            rooms = 1,
+            beds = 1,
+            baths = 1
         )
     )
 
@@ -186,7 +186,17 @@ constructor(
                 "FILTER_CLICK: House is true:  ${flat.value}, ${house.value},${typeList.value} "
             )
         }
+        val rooms: Int =
+            if (roomNumber.value.isNullOrBlank())
+                1 else roomNumber.value!!.toInt()
 
+        val beds: Int =
+            if (bedroomNumber.value.isNullOrBlank())
+                1 else bedroomNumber.value!!.toInt()
+
+        val baths: Int =
+            if (bathroomNumber.value.isNullOrBlank())
+                1 else bathroomNumber.value!!.toInt()
         searchFilterQuery.value =
             SearchFilters(
                 textQuery = searchQuery.value,
@@ -206,9 +216,9 @@ constructor(
                 sellDate = sellDate.value?.toLong(),
                 soldDate = soldDate.value?.toLong(),
                 numberOfPics = picsNumber.value,
-                rooms = roomNumber.value,
-                beds = bedroomNumber.value,
-                baths = bathroomNumber.value
+                rooms = rooms,
+                beds = beds,
+                baths = baths
             )
 
         Timber.d(
@@ -259,9 +269,9 @@ constructor(
         priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
         surfaceArray.value = arrayOf(minSurface.value!!, maxSurface.value!!)
         typeList.value = arrayListOf("House", "Flat", "Duplex", "Penthouse", "Manor", "Loft")
-        roomNumber.value = 1F
-        bathroomNumber.value = 1F
-        bedroomNumber.value = 1F
+        roomNumber.value = "1"
+        bathroomNumber.value = "1"
+        bedroomNumber.value = "1"
         description.value = ""
         schools.value = false
         shops.value = false
