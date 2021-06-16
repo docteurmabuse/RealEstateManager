@@ -41,6 +41,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
     private var cal = Calendar.getInstance()
 
+    @ExperimentalCoroutinesApi
     private val dateSellSetListener =
         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
@@ -90,10 +91,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         binding.viewModel = mainViewModel
         setObserver()
         setDatesListener()
-        binding.applyFilter.setOnClickListener {
-            mainViewModel.filterData()
-            Timber.d("Click")
-        }
     }
 
     @ExperimentalCoroutinesApi
@@ -157,7 +154,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         initAreaListener(list)
     }
 
-
     @ExperimentalCoroutinesApi
     private fun initSurfaceListener(list: List<Property>) {
         binding.surfaceRangeSlider.addOnChangeListener { slider, value, fromUser ->
@@ -185,6 +181,12 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
                 list.map { it.address?.area }.toSet().toList()
             )
         binding.filterArea.setAdapter(dropdownAdapter)
+
+        binding.filterArea.setOnItemClickListener { parent, view, position, id ->
+            val selectedArea = parent.getItemAtPosition(position) as String
+            Timber.d("AGENT_SELECTED: $selectedArea")
+            viewModel.area.value = selectedArea
+        }
     }
 
     companion object {
@@ -194,7 +196,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
                     putInt(ARG_ITEM_COUNT, itemCount)
                 }
             }
-
     }
 
     override fun onDestroyView() {

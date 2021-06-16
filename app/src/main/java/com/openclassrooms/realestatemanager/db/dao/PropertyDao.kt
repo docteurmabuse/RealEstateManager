@@ -75,9 +75,12 @@ interface PropertyDao {
         AND  (type IN (:typeList))
         AND surface BETWEEN :minSurface AND :maxSurface
         AND price BETWEEN :minPrice AND :maxPrice
-        AND (:sellDate IS NULL OR sell_date < :sellDate)
-        AND (:soldDate IS NULL OR sold_date < :soldDate)
-        ORDER BY sell_date ASC
+        AND (:sellDate IS NULL OR sell_date >= :sellDate)
+        AND (:soldDate IS NULL OR sold_date >= :soldDate)
+        AND (:rooms IS NULL OR room_number >= :rooms)
+        AND (:beds IS NULL OR bedroom_number >= :beds)
+        AND (:baths IS NULL OR bathroom_number >= :baths)
+        ORDER BY :sortBy ASC
    """
     )
     fun filterSearchProperties(
@@ -96,8 +99,15 @@ interface PropertyDao {
         maxPrice: Float?,
         sold: Int? = null,
         sellDate: Long?,
-        soldDate: Long?
+        soldDate: Long?,
+        //  numberOfPics: Float?,
+        rooms: Float?,
+        beds: Float?,
+        baths: Float?,
+        sortBy: String?
     ): Flow<List<PropertyEntityAggregate>>
+
+    //        AND (:numberOfPics IS NULL OR sold_date < :numberOfPics)
 
     //Update PropertyEntity
     @Update(onConflict = OnConflictStrategy.REPLACE)

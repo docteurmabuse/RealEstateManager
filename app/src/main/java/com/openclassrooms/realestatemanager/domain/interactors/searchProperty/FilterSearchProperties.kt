@@ -6,9 +6,11 @@ import javax.inject.Inject
 
 class FilterSearchProperties @Inject constructor(private val propertyRepositoryImpl: PropertyRepository_Impl) {
     suspend operator fun invoke(
-        query: SearchFilters
+        query: SearchFilters,
+        sortBy: String
     ) =
         propertyRepositoryImpl.filterSearchProperties(
-            query
+            query,
+            sortBy
         )
 }

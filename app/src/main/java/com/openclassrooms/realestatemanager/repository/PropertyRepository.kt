@@ -12,7 +12,7 @@ interface PropertyRepository {
     ): Flow<List<Property>>
 
     suspend fun filterSearchProperties(
-        query: SearchFilters
+        query: SearchFilters, sortBy: String
     ): Flow<List<Property>>
 
     suspend fun getAllProperties(): Flow<List<Property>>

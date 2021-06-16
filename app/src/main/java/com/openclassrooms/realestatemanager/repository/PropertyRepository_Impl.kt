@@ -54,7 +54,8 @@ class PropertyRepository_Impl @Inject constructor(
     }
 
     override suspend fun filterSearchProperties(
-        query: SearchFilters
+        query: SearchFilters,
+        sortBy: String
     ): Flow<List<Property>> {
         return persistence.filterSearchProperties(
             query.textQuery,
@@ -72,7 +73,12 @@ class PropertyRepository_Impl @Inject constructor(
             query.maxPrice,
             query.sold,
             query.sellDate,
-            query.soldDate
+            query.soldDate,
+            query.numberOfPics,
+            query.rooms,
+            query.beds,
+            query.baths,
+            sortBy
         )
             .distinctUntilChanged()
             .map { propertyList ->

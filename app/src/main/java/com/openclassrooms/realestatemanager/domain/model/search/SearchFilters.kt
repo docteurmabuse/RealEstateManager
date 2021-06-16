@@ -16,6 +16,9 @@ data class SearchFilters(
     val maxPrice: Float?,
     val sold: Int? = -1,
     val sellDate: Long? = -1,
-    val soldDate: Long? = -1
-
+    val soldDate: Long? = -1,
+    val numberOfPics: Float?,
+    val rooms: Float?,
+    val beds: Float?,
+    val baths: Float?
 )

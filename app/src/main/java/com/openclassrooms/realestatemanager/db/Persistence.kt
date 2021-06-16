@@ -33,7 +33,12 @@ interface Persistence {
         maxPrice: Float?,
         sold: Int?,
         sellDate: Long?,
-        soldDate: Long?
+        soldDate: Long?,
+        numberOfPics: Float?,
+        rooms: Float?,
+        beds: Float?,
+        baths: Float?,
+        sortBy: String?
     ): Flow<List<PropertyEntityAggregate>>
 
     suspend fun getPropertyById(propertyId: String): Flow<PropertyEntityAggregate>

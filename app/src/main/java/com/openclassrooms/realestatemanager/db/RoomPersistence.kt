@@ -53,7 +53,12 @@ class RoomPersistence @Inject constructor(
         maxPrice: Float?,
         sold: Int?,
         sellDate: Long?,
-        soldDate: Long?
+        soldDate: Long?,
+        numberOfPics: Float?,
+        rooms: Float?,
+        beds: Float?,
+        baths: Float?,
+        sortBy: String?
     ): Flow<List<PropertyEntityAggregate>> {
         Timber.d("FILTER_SEARCH  $park,  $hospital, $area, $shop, $school, $museum, $museum , $typeList ")
 
@@ -73,7 +78,12 @@ class RoomPersistence @Inject constructor(
             maxPrice,
             sold,
             sellDate,
-            soldDate
+            soldDate,
+            numberOfPics,
+            rooms,
+            beds,
+            baths,
+            sortBy
         )
     }
 

@@ -60,10 +60,16 @@ constructor(
     var maxSurface = MutableLiveData<Float>(10000F)
     var surfaceArray = MutableLiveData<Array<Float>>(arrayOf())
 
-    var roomNumber = MutableLiveData<String>("")
-    var bathroomNumber = MutableLiveData<String>("")
-    var bedroomNumber = MutableLiveData<String>("")
+    var picsNumber = MutableLiveData<Float>(1F)
+
+    var roomNumber = MutableLiveData<Float>(1F)
+    var bathroomNumber = MutableLiveData<Float>(1F)
+    var bedroomNumber = MutableLiveData<Float>(1F)
+
     var description = MutableLiveData<String>("")
+
+    var sortBy = MutableLiveData<String>("sell_date")
+
     var schools = MutableLiveData<Boolean>(false)
     var shops = MutableLiveData<Boolean>(false)
     var park = MutableLiveData<Boolean>(false)
@@ -99,7 +105,11 @@ constructor(
             maxPrice = maxPrice.value,
             sold = null,
             sellDate = null,
-            soldDate = null
+            soldDate = null,
+            numberOfPics = null,
+            rooms = null,
+            beds = null,
+            baths = null
         )
     )
 
@@ -113,7 +123,8 @@ constructor(
     @ExperimentalCoroutinesApi
     private var propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
         filterSearchProperties.invoke(
-            it
+            it,
+            sortBy.value!!
         )
     }
 
@@ -193,7 +204,11 @@ constructor(
                 maxPrice = priceArray.value?.get(1),
                 sold = sold.value?.int,
                 sellDate = sellDate.value?.toLong(),
-                soldDate = soldDate.value?.toLong()
+                soldDate = soldDate.value?.toLong(),
+                numberOfPics = picsNumber.value,
+                rooms = roomNumber.value,
+                beds = bedroomNumber.value,
+                baths = bathroomNumber.value
             )
 
         Timber.d(
@@ -201,7 +216,8 @@ constructor(
         )
         propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
             filterSearchProperties.invoke(
-                searchFilterQuery.value
+                searchFilterQuery.value,
+                sortBy.value!!
             )
         }
 
@@ -215,7 +231,8 @@ constructor(
                 }"
             )
             filterSearchProperties.invoke(
-                searchFilterQuery.value
+                searchFilterQuery.value,
+                sortBy.value!!
             )
                 .catch { e ->
                     _stateFilter.value = (DataState.error(e.toString(), null))
@@ -242,9 +259,9 @@ constructor(
         priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
         surfaceArray.value = arrayOf(minSurface.value!!, maxSurface.value!!)
         typeList.value = arrayListOf("House", "Flat", "Duplex", "Penthouse", "Manor", "Loft")
-        roomNumber.value = ""
-        bathroomNumber.value = ""
-        bedroomNumber.value = ""
+        roomNumber.value = 1F
+        bathroomNumber.value = 1F
+        bedroomNumber.value = 1F
         description.value = ""
         schools.value = false
         shops.value = false
