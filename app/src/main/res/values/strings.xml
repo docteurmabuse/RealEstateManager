@@ -100,5 +100,7 @@
     <string name="apply">Apply</string>
     <string name="empty_property_message2">Property cannot be empty</string>
     <string name="select_an_area">Select an area</string>
+    <string name="reset">Reset</string>
+    <string name="loft">Loft</string>
 
 </resources>

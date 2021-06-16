@@ -50,7 +50,7 @@ interface PropertyDao {
         OR area  LIKE '%' || :searchQuery || '%'  
         OR state  LIKE '%' || :searchQuery || '%'  
         OR city  LIKE '%' || :searchQuery || '%'
-        ORDER BY sell_date ASC
+        ORDER BY price ASC
    """
     )
     fun searchProperties(
@@ -75,6 +75,8 @@ interface PropertyDao {
         AND  (type IN (:typeList))
         AND surface BETWEEN :minSurface AND :maxSurface
         AND price BETWEEN :minPrice AND :maxPrice
+        AND (:sellDate IS NULL OR sell_date < :sellDate)
+        AND (:soldDate IS NULL OR sold_date < :soldDate)
         ORDER BY sell_date ASC
    """
     )
@@ -93,8 +95,8 @@ interface PropertyDao {
         minPrice: Float?,
         maxPrice: Float?,
         sold: Int? = null,
-        // sellDate: Long?,
-        // soldDate: Long?
+        sellDate: Long?,
+        soldDate: Long?
     ): Flow<List<PropertyEntityAggregate>>
 
     /*

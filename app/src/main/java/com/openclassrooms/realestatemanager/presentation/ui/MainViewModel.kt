@@ -49,6 +49,7 @@ constructor(
     var flat = MutableLiveData<Boolean>(true)
     var duplex = MutableLiveData<Boolean>(true)
     var penthouse = MutableLiveData<Boolean>(true)
+    var loft = MutableLiveData<Boolean>(true)
     var manor = MutableLiveData<Boolean>(true)
 
     var maxPrice = MutableLiveData<Float>(100000000F)
@@ -160,14 +161,16 @@ constructor(
     @ExperimentalCoroutinesApi
     fun filterData() {
         if (house.value == true || flat.value == true || duplex.value == true
-            || penthouse.value == true || manor.value == true
+            || penthouse.value == true || manor.value == true || loft.value == true
         ) {
             typeList.value = arrayListOf()
             if (house.value == true) typeList.value!!.add("House")
             if (flat.value == true) typeList.value!!.add("Flat")
             if (duplex.value == true) typeList.value!!.add("Duplex")
             if (penthouse.value == true) typeList.value!!.add("Penthouse")
+            if (loft.value == true) typeList.value!!.add("Loft")
             if (manor.value == true) typeList.value!!.add("Manor")
+
             Timber.d(
                 "FILTER_CLICK: House is true:  ${flat.value}, ${house.value},${typeList.value} "
             )
@@ -194,7 +197,7 @@ constructor(
             )
 
         Timber.d(
-            "FILTER_CLICK: House:  ${searchFilterQuery.value}, ${surfaceArray.value}"
+            "FILTER_CLICK: House:  ${searchFilterQuery.value}, ${sellDate.value}"
         )
         propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
             filterSearchProperties.invoke(
@@ -227,5 +230,32 @@ constructor(
                     )
                 }
         }
+    }
+
+    @ExperimentalCoroutinesApi
+    fun resetFilters() {
+        house.value = true
+        flat.value = true
+        duplex.value = true
+        penthouse.value = true
+        manor.value = true
+        priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
+        surfaceArray.value = arrayOf(minSurface.value!!, maxPrice.value!!)
+        typeList.value = arrayListOf("House", "Flat", "Duplex", "Penthouse", "Manor", "Loft")
+        roomNumber.value = ""
+        bathroomNumber.value = ""
+        bedroomNumber.value = ""
+        description.value = ""
+        schools.value = false
+        shops.value = false
+        park.value = false
+        stations.value = false
+        hospital.value = false
+        museum.value = false
+        sold.value = false
+        sellDate.value = DateUtil.todayDate
+        soldDate.value = DateUtil.todayDate
+        area.value = ""
+        filterData()
     }
 }

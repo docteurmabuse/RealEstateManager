@@ -16,7 +16,7 @@ object DateUtil {
      */
     val todayDate: String
         get() {
-            return dateToLong(createTimestamp()).toString()
+            return createTimeStamp().toString()
         }
 
     fun longToDate(long: Long?): Date? {
@@ -60,8 +60,8 @@ object DateUtil {
         }
     }
 
-    fun createTimestamp(): Date {
-        return Date()
+    fun createTimeStamp(): Long {
+        return System.currentTimeMillis()
     }
 
     fun DatePicker.getDate(): Date {

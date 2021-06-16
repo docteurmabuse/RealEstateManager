@@ -62,15 +62,17 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         binding.viewModel?.sellDate = MutableLiveData(dateOnMarket.toString())
         binding.sellDateDropdown.setText(DateUtil.longDateToString(dateOnMarket))
         viewModel.sellDate = MutableLiveData(dateOnMarket.toString())
+        viewModel.filterData()
         Timber.d("DATE_PICKER : ${dateOnMarket}")
-
     }
 
+    @ExperimentalCoroutinesApi
     private fun updateSoldDateInView() {
         val dateOnMarket = cal.timeInMillis
         binding.viewModel?.soldDate = MutableLiveData(dateOnMarket.toString())
         binding.filterSoldDate.setText(DateUtil.longDateToString(dateOnMarket))
         viewModel.soldDate = MutableLiveData(dateOnMarket.toString())
+        viewModel.filterData()
     }
 
     override fun onCreateView(
@@ -98,8 +100,8 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
     private fun setDatesListener() {
         val todayDate = cal.timeInMillis
-        viewModel.sellDate = MutableLiveData(todayDate.toString())
-        viewModel.soldDate = MutableLiveData(todayDate.toString())
+        // viewModel.sellDate = MutableLiveData(todayDate.toString())
+        //   viewModel.soldDate = MutableLiveData(todayDate.toString())
 
         binding.sellDateDropdown.setOnClickListener {
             val sellDatePicker = DatePickerDialog(
