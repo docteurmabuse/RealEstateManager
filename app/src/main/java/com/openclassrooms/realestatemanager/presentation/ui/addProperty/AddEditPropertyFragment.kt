@@ -165,7 +165,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         setUpPermissions()
         setupTypeValues(typeDropdown)
         setFabListener()
-        setupSellDateListener()
         setupUploadImageListener()
         setupSnackbar()
         setupDateListener()
@@ -201,26 +200,35 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     }
 
     private fun setupDateListener() {
+        val todayDate = cal.timeInMillis
+
+        viewModel.sellDate = MutableLiveData(todayDate.toString())
+        viewModel.soldDate = MutableLiveData(todayDate.toString())
+
         binding.dates!!.sellDateDropdown.setOnClickListener {
-            DatePickerDialog(
+            val sellDatePicker = DatePickerDialog(
                 requireContext(),
                 dateSellSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            )
+            sellDatePicker.datePicker.maxDate = todayDate
+            sellDatePicker.show()
         }
 
         binding.dates!!.soldDateDropdown.setOnClickListener {
-            DatePickerDialog(
+            val soldDatePicker = DatePickerDialog(
                 requireContext(),
                 dateSoldSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            )
+            soldDatePicker.datePicker.maxDate = todayDate
+            soldDatePicker.show()
         }
     }
 
@@ -414,36 +422,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         setupRecyclerView()
     }
 
-    private fun setupSellDateListener() {
-
-        /*var date: Long=0
-
-        val calendar: Calendar = Calendar.getInstance()
-        day = calendar.get(Calendar.DAY_OF_MONTH)
-        month = calendar.get(Calendar.MONTH)
-        year = calendar.get(Calendar.YEAR)
-        val datePickerDialog =
-            DatePickerDialog(requireContext(), this, year, month,day)
-        datePickerDialog.datePicker
-        datePickerDialog.show()
-        onDateSet(datePickerDialog.datePicker,myYear, myMonth, myDay )
-        val dateOnMarket= calendar.timeInMillis
-        binding.dates!!.viewModel?.sellDate = MutableLiveData(dateOnMarket.toString())
-        binding.dates!!.sellDateDropdown.setText(longToDate(dateOnMarket).toString())
-        viewModel.sellDate = MutableLiveData(dateOnMarket.toString())
-        Timber.d("DATE_PICKER : $year/$month/$myDay, {${longToDate(dateOnMarket)}}")*/
-
-
-    }
-
-    private fun setupSoldDateListener() {
-        binding.dates!!.sellDateDropdown.setOnClickListener {
-
-            //  val datePickerDialog =
-            //       DatePickerDialog(requireContext(), this, year, month,day)
-            //  datePickerDialog.show()
-        }
-    }
 
     private fun setupRecyclerView() {
         photosRecyclerView.apply {

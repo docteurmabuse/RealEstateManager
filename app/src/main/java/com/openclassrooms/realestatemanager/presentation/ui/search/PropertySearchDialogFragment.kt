@@ -97,32 +97,36 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun setDatesListener() {
-        val dateOnMarket = cal.timeInMillis
-        viewModel.sellDate = MutableLiveData(dateOnMarket.toString())
-        viewModel.soldDate = MutableLiveData(dateOnMarket.toString())
+        val todayDate = cal.timeInMillis
+        viewModel.sellDate = MutableLiveData(todayDate.toString())
+        viewModel.soldDate = MutableLiveData(todayDate.toString())
 
         binding.sellDateDropdown.setOnClickListener {
-            DatePickerDialog(
+            val sellDatePicker = DatePickerDialog(
                 requireContext(),
                 dateSellSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
+            )
+            sellDatePicker.datePicker.maxDate = todayDate
+            sellDatePicker.show()
+
 
         }
 
         binding.filterSoldDate.setOnClickListener {
-            DatePickerDialog(
+            val soldDatePicker = DatePickerDialog(
                 requireContext(),
                 dateSoldSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)
-            ).show()
-
+            )
+            soldDatePicker.datePicker.maxDate = todayDate
+            soldDatePicker.show()
         }
     }
 
