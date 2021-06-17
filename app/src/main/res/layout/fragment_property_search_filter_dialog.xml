@@ -620,6 +620,8 @@
                             android:hint="@string/rooms"
                             app:endIconMode="clear_text"
                             app:endIconTint="@color/colorAccent"
+                            android:layout_weight="0.5"
+
                             app:layout_constraintEnd_toStartOf="@id/number_of_bedroom_text_layout"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -628,7 +630,6 @@
                                 android:id="@+id/number_of_room_text_input"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.5"
                                 android:inputType="number"
                                 android:onClick="@{()->viewModel.filterData()}"
                                 android:text="@={viewModel.roomNumber }"
@@ -652,15 +653,14 @@
                             app:endIconMode="clear_text"
                             app:endIconTint="@color/colorAccent"
                             app:layout_constraintStart_toEndOf="@id/numberOfRoomLayout"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/number_of_bedroom_text_input"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:layout_weight="0.5"
                                 android:inputType="number"
-
                                 android:onClick="@{()->viewModel.filterData()}"
                                 android:text="@={ viewModel.bedroomNumber }"
                                 android:textAlignment="center"
@@ -684,6 +684,7 @@
                             app:endIconTint="@color/colorAccent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/numberPicsLayout"
                             app:layout_constraintTop_toBottomOf="@id/number_of_bedroom_text_layout">
 
                             <com.google.android.material.textfield.TextInputEditText
@@ -694,6 +695,37 @@
                                 android:inputType="number"
                                 android:onClick="@{()->viewModel.filterData()}"
                                 android:text="@={viewModel.bathroomNumber }"
+                                android:textAlignment="center"
+                                android:textSize="@dimen/textSize"
+                                app:drawableStartCompat="@drawable/ic_bathroom_24dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/numberPicsLayout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/marginStart"
+                            android:layout_marginTop="@dimen/marginTop"
+                            android:layout_marginEnd="@dimen/marginEnd"
+                            android:layout_marginBottom="@dimen/marginTop"
+                            android:layout_weight="0.5"
+                            android:hint="@string/bathroom"
+                            android:inputType="number"
+                            app:endIconMode="clear_text"
+                            app:endIconTint="@color/colorAccent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/bathroomsLayout"
+                            app:layout_constraintTop_toBottomOf="@id/number_of_bedroom_text_layout">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/numberPicsInput"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:inputType="number"
+                                android:onClick="@{()->viewModel.filterData()}"
+                                android:text="@={viewModel.picsNumber }"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/textSize"
                                 app:drawableStartCompat="@drawable/ic_bathroom_24dp" />

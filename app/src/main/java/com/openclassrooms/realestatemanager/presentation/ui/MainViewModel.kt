@@ -59,7 +59,7 @@ constructor(
     var maxSurface = MutableLiveData<Float>(10000F)
     var surfaceArray = MutableLiveData<Array<Float>>(arrayOf())
 
-    var picsNumber = MutableLiveData<Float>(1F)
+    var picsNumber = MutableLiveData<String>("")
 
     var roomNumber = MutableLiveData<String>("")
     var bathroomNumber = MutableLiveData<String>("")
@@ -105,7 +105,7 @@ constructor(
             sold = null,
             sellDate = null,
             soldDate = null,
-            numberOfPics = null,
+            numberOfPics = 1,
             rooms = 1,
             beds = 1,
             baths = 1
@@ -196,6 +196,10 @@ constructor(
         val baths: Int =
             if (bathroomNumber.value.isNullOrBlank())
                 1 else bathroomNumber.value!!.toInt()
+
+        val pics: Int =
+            if (picsNumber.value.isNullOrBlank())
+                1 else picsNumber.value!!.toInt()
         searchFilterQuery.value =
             SearchFilters(
                 textQuery = searchQuery.value,
@@ -214,7 +218,7 @@ constructor(
                 sold = sold.value?.int,
                 sellDate = sellDate.value?.toLong(),
                 soldDate = soldDate.value?.toLong(),
-                numberOfPics = picsNumber.value,
+                numberOfPics = pics,
                 rooms = rooms,
                 beds = beds,
                 baths = baths
