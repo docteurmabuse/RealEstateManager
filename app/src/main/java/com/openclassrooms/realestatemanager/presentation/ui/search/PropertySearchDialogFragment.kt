@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.ImageButton
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +19,6 @@ import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.chip.ChipGroup
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertySearchFilterDialogBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
@@ -123,14 +123,13 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         setDatesListener()
     }
 
-    fun setExpandableListener(cardView: ChipGroup, button: ImageButton) {
+    fun setExpandableListener(cardView: CardView, button: ImageButton) {
         if (cardView.visibility == View.VISIBLE) {
             TransitionManager.beginDelayedTransition(
                 cardView,
                 AutoTransition()
             )
             cardView.visibility = View.GONE
-            //  binding.typeHidden.visibility = View.GONE
             button.setImageResource(com.openclassrooms.realestatemanager.R.drawable.ic_baseline_keyboard_arrow_down_24)
         } else {
             TransitionManager.beginDelayedTransition(
@@ -138,8 +137,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
                 AutoTransition()
             )
             cardView.visibility = View.VISIBLE
-
-            //  binding.typeHidden.visibility = View.VISIBLE
             button.setImageResource(com.openclassrooms.realestatemanager.R.drawable.ic_baseline_keyboard_arrow_up_24)
         }
     }
