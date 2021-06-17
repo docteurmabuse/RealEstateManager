@@ -42,6 +42,10 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    override fun getTheme(): Int {
+
+        return com.openclassrooms.realestatemanager.R.style.BottomSheetDialogTheme
+    }
 
     private val viewModel: MainViewModel by activityViewModels()
 

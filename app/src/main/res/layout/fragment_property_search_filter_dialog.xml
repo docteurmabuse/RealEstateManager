@@ -25,14 +25,13 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/white"
-            android:elevation="20dp"
             android:theme="@style/AppTheme.NoActionBar">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/marginEnd"
-                android:text="Close"
+                android:text="@string/close"
                 android:textAlignment="textEnd"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -41,7 +40,7 @@
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/list"
-            android:layout_height="500dp"
+            android:layout_height="400dp"
             android:layout_width="match_parent"
             android:layout_marginBottom="50dp"
             android:fitsSystemWindows="true"

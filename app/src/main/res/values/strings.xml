@@ -103,5 +103,6 @@
     <string name="reset">Reset</string>
     <string name="loft">Loft</string>
     <string name="sort_by_price">Sort by price</string>
+    <string name="close">Close</string>
 
 </resources>
