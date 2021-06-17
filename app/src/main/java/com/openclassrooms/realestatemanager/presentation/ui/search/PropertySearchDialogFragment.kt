@@ -2,14 +2,18 @@ package com.openclassrooms.realestatemanager.presentation.ui.search
 
 import android.R
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.FrameLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.openclassrooms.realestatemanager.databinding.FragmentPropertySearchFilterDialogBinding
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
@@ -30,14 +34,16 @@ const val ARG_ITEM_COUNT = "item_count"
 @AndroidEntryPoint
 class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
+    private lateinit var dialog: BottomSheetDialog
+    private lateinit var behavior: BottomSheetBehavior<View>
+
     private var _binding: FragmentPropertySearchFilterDialogBinding? = null
-    private val viewModel: MainViewModel by activityViewModels()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val mainViewModel: MainViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
     private var cal = Calendar.getInstance()
 
@@ -69,6 +75,21 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         Timber.d("DATE_PICKER : ${dateOnMarket}")
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+
+        dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
+        dialog.setOnShowListener {
+            val d = it as BottomSheetDialog
+            val sheet =
+                d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
+            behavior = BottomSheetBehavior.from(sheet)
+            behavior.isHideable = false
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+        return dialog
+
+    }
+
     @ExperimentalCoroutinesApi
     private fun updateSoldDateInView() {
         val dateOnMarket = cal.timeInMillis
@@ -88,7 +109,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.viewModel = mainViewModel
+        binding.viewModel = viewModel
         setObserver()
         setDatesListener()
     }
