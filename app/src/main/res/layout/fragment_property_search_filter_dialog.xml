@@ -180,8 +180,8 @@
                     android:id="@+id/nearByFilter"
                     style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
                     android:layout_width="0dp"
-                    android:layout_marginTop="16dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:text="@string/nearby"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -286,29 +286,56 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/marginTop"
-                    android:text="@string/nearby"
+                    android:text="@string/area"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/base_cardview2" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/areaTex"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                    android:layout_width="@dimen/formWidth"
+                <ImageButton
+                    android:id="@+id/arrowButtonArea"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/select_an_area"
-                    android:inputType="textAutoComplete"
-                    android:labelFor="@id/filterArea"
+                    android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewArea, arrowButtonArea )}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.802"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/areaText"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/baseCardViewArea"
+                    style="@style/Base.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.473"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/areaText"
-                    app:layout_goneMarginEnd="@dimen/marginEnd">
+                    app:layout_constraintVertical_bias="0.021">
 
-                    <AutoCompleteTextView
-                        android:id="@+id/filterArea"
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/areaTex"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                        android:layout_width="@dimen/formWidth"
                         android:layout_height="wrap_content"
-                        android:text="@={viewModel.area}" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:hint="@string/select_an_area"
+                        android:inputType="textAutoComplete"
+                        android:labelFor="@id/filterArea"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/areaText"
+                        app:layout_goneMarginEnd="@dimen/marginEnd">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/filterArea"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@={viewModel.area}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/priceRangeText"
@@ -319,7 +346,7 @@
                     android:text="@string/price"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/areaTex" />
+                    app:layout_constraintTop_toBottomOf="@id/baseCardViewArea" />
 
                 <ImageButton
                     android:id="@+id/arrowButtonPrice"
@@ -331,7 +358,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/nearByFilter"
+                    app:layout_constraintTop_toTopOf="@id/priceRangeText"
                     app:layout_constraintVertical_bias="0.0"
                     app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24" />
 
@@ -372,40 +399,41 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/baseCardViewPrice" />
 
-                <com.google.android.material.slider.RangeSlider
-                    android:id="@+id/surfaceRangeSlider"
+                <ImageButton
+                    android:id="@+id/arrowButtonSurface"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:stepSize="10"
-                    android:valueFrom="@{viewModel.minSurface}"
-                    android:valueTo="@{viewModel.maxSurface}"
+                    android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewSurface, arrowButtonArea )}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.802"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/surfaceRangeText"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/baseCardViewSurface"
+                    style="@style/Base.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.473"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/surfaceRangeText"
-                    app:values="@{viewModel.surfaceArray}" />
+                    app:layout_constraintVertical_bias="0.021">
 
-
-                <TextView
-                    android:id="@+id/switchSoldText"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="22dp"
-                    android:layout_marginStart="@dimen/marginStart"
-                    android:layout_marginTop="22dp"
-                    android:text="@string/sold"
-                    app:layout_constraintBottom_toBottomOf="@+id/marketText"
-                    app:layout_constraintStart_toStartOf="@id/filterSoldSwitch"
-                    app:layout_constraintTop_toTopOf="@+id/marketText" />
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/filterSoldSwitch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/marginStart"
-                    android:checked="@={viewModel.sold}"
-                    android:onClick="@{(v)->viewModel.filterData()}"
-                    app:layout_constraintBottom_toBottomOf="@id/sellDateFilter"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/sellDateFilter" />
+                    <com.google.android.material.slider.RangeSlider
+                        android:id="@+id/surfaceRangeSlider"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:stepSize="10"
+                        android:valueFrom="@{viewModel.minSurface}"
+                        android:valueTo="@{viewModel.maxSurface}"
+                        app:values="@{viewModel.surfaceArray}" />
+                </androidx.cardview.widget.CardView>
 
 
                 <TextView
@@ -417,76 +445,176 @@
                     android:layout_marginTop="@dimen/marginTop"
                     android:layout_marginEnd="@dimen/marginEnd"
                     android:text="@string/on_market_since"
-                    app:layout_constraintStart_toEndOf="@id/filterSoldSwitch"
-                    app:layout_constraintTop_toBottomOf="@id/surfaceRangeSlider" />
+                    app:layout_constraintStart_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/baseCardViewSurface" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/sellDateFilter"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                    android:layout_width="@dimen/formWidth"
+                <ImageButton
+                    android:id="@+id/arrowButtonSellDate"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/marginStart"
-                    android:layout_marginTop="@dimen/marginTop"
-                    app:layout_constraintStart_toEndOf="@id/filterSoldSwitch"
-                    app:layout_constraintTop_toBottomOf="@id/marketText"
-                    app:layout_goneMarginEnd="@dimen/marginEnd">
+                    android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewSellDate, arrowButtonSellDate )}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.802"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/switchSoldText"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24" />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/sell_date_dropdown"
-                        textToDate="@{viewModel.sellDate}"
-                        android:layout_width="match_parent"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/baseCardViewSellDate"
+                    style="@style/Base.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.473"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/marketText"
+                    app:layout_constraintVertical_bias="0.021">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/sellDateFilter"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                        android:layout_width="@dimen/formWidth"
                         android:layout_height="wrap_content"
-                        android:hint="@string/on_market_since"
-                        android:inputType="textAutoComplete"
-                        android:labelFor="@id/type_input_layout" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_marginStart="@dimen/marginStart"
+                        android:layout_marginTop="@dimen/marginTop"
+                        app:layout_constraintStart_toEndOf="@id/filterSoldSwitch"
+                        app:layout_constraintTop_toBottomOf="@id/marketText"
+                        app:layout_goneMarginEnd="@dimen/marginEnd">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/sell_date_dropdown"
+                            textToDate="@{viewModel.sellDate}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/on_market_since"
+                            android:inputType="textAutoComplete"
+                            android:labelFor="@id/type_input_layout" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.cardview.widget.CardView>
 
                 <TextView
-                    android:id="@+id/soldText"
+                    android:id="@+id/switchSoldText"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    isVisible="@{viewModel.sold}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="22dp"
+                    android:text="@string/sold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/baseCardViewSellDate" />
+
+                <ImageButton
+                    android:id="@+id/arrowButtonSoldSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewArea, arrowButtonSoldSwitch )}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.802"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/switchSoldText"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/baseCardViewSoldSwitch"
+                    style="@style/Base.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.473"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/switchSoldText"
+                    app:layout_constraintVertical_bias="0.021">
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/filterSoldSwitch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/marginStart"
+                        android:checked="@={viewModel.sold}"
+                        android:onClick="@{(v)->viewModel.filterData()}"
+                        app:layout_constraintBottom_toBottomOf="@id/sellDateFilter"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/sellDateFilter" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/filterSoldText"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                        android:layout_width="@dimen/formWidth"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/marginStart"
+                        android:layout_marginEnd="@dimen/marginEnd"
+                        app:layout_constraintStart_toEndOf="@id/filterSoldSwitch"
+                        app:layout_constraintTop_toBottomOf="@id/switchSoldText"
+                        app:layout_goneMarginEnd="@dimen/marginEnd">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/filterSoldDate"
+                            textToDate="@{ viewModel.soldDate}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/sold_date"
+                            android:inputType="textAutoComplete"
+                            android:labelFor="@id/sold_input_layout" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/characteristicsText"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
                     android:layout_marginTop="@dimen/marginTop"
                     android:layout_marginEnd="@dimen/marginEnd"
-                    android:text="@string/sold_since"
+                    android:text="@string/characteristics"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sellDateFilter" />
+                    app:layout_constraintTop_toBottomOf="@+id/baseCardViewSoldSwitch" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/filterSoldText"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                    android:layout_width="@dimen/formWidth"
+                <ImageButton
+                    android:id="@+id/arrowButtonCharacteristics"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/marginStart"
-                    android:layout_marginEnd="@dimen/marginEnd"
+                    android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewCharacteristics,arrowButtonCharacteristics )}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.802"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/soldText"
-                    app:layout_goneMarginEnd="@dimen/marginEnd">
+                    app:layout_constraintTop_toTopOf="@id/characteristicsText"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24" />
 
-                    <AutoCompleteTextView
-                        android:id="@+id/filterSoldDate"
-                        textToDate="@{ viewModel.soldDate}"
-                        android:layout_width="match_parent"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/baseCardViewCharacteristics"
+                    style="@style/Base.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.473"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/characteristicsText"
+                    app:layout_constraintVertical_bias="0.021">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/numberOfRoomLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="@string/sold_date"
-                        android:inputType="textAutoComplete"
-                        android:labelFor="@id/sold_input_layout" />
-
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/numberOfRoomLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/marginStart"
-                    android:layout_marginTop="@dimen/marginTop"
-                    android:layout_marginEnd="@dimen/marginEnd"
-                    android:layout_marginBottom="@dimen/marginTop"
-                    android:hint="@string/rooms"
+                        android:layout_marginStart="@dimen/marginStart"
+                        android:layout_marginTop="@dimen/marginTop"
+                        android:layout_marginEnd="@dimen/marginEnd"
+                        android:layout_marginBottom="@dimen/marginTop"
+                        android:hint="@string/rooms"
                     app:endIconMode="clear_text"
                     app:endIconTint="@color/colorAccent"
                     app:layout_constraintEnd_toStartOf="@id/number_of_bedroom_text_layout"
@@ -497,7 +625,7 @@
                         android:id="@+id/number_of_room_text_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
+                        android:layout_weight="0.5"
                         android:inputType="number"
                         android:onClick="@{()->viewModel.filterData()}"
                         android:text="@={viewModel.roomNumber }"
@@ -516,7 +644,7 @@
                     android:layout_marginTop="@dimen/marginTop"
                     android:layout_marginEnd="@dimen/marginEnd"
                     android:layout_marginBottom="@dimen/marginTop"
-                    android:layout_weight="0.33"
+                    android:layout_weight="0.5"
                     android:hint="@string/bedrooms"
                     app:endIconMode="clear_text"
                     app:endIconTint="@color/colorAccent"
@@ -536,7 +664,6 @@
                         app:drawableStartCompat="@drawable/ic_bedroom_parent_24dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/bathroomsLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -546,14 +673,14 @@
                     android:layout_marginTop="@dimen/marginTop"
                     android:layout_marginEnd="@dimen/marginEnd"
                     android:layout_marginBottom="@dimen/marginTop"
-                    android:layout_weight="0.33"
+                    android:layout_weight="0.5"
                     android:hint="@string/bathroom"
                     android:inputType="number"
                     app:endIconMode="clear_text"
                     app:endIconTint="@color/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/number_of_bedroom_text_layout"
-                    app:layout_constraintTop_toBottomOf="@id/filterSoldText">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/number_of_bedroom_text_layout">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/number_of_bathroom_text_input"
@@ -567,6 +694,7 @@
                         android:textSize="@dimen/textSize"
                         app:drawableStartCompat="@drawable/ic_bathroom_24dp" />
                 </com.google.android.material.textfield.TextInputLayout>
+                </androidx.cardview.widget.CardView>
 
                 <Button
                     android:id="@+id/applyFilter"
@@ -576,9 +704,8 @@
                     android:text="@string/reset"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/bathroomsLayout" />
+                    app:layout_constraintTop_toBottomOf="@id/baseCardViewCharacteristics" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
