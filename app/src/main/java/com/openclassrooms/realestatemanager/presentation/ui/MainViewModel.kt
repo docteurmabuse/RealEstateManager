@@ -13,7 +13,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.stream.Collectors
 import javax.inject.Inject
 
 @HiltViewModel
@@ -233,13 +232,14 @@ constructor(
 
 
         viewModelScope.launch {
-            Timber.d(
+         /*   Timber.d(
                 "FILTER_CLICK: park:  ${searchFilterQuery.value}, ${
                     typeList.value?.stream()?.map { it ->
                         it.toString()
                     }?.collect(Collectors.joining("','"))
                 }"
-            )
+            )*/
+
             filterSearchProperties.invoke(
                 searchFilterQuery.value,
                 sortBy.value!!

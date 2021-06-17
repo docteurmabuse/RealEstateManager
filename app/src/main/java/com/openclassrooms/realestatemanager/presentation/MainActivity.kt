@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -54,9 +55,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private var isAddPropertyView = false
     private var agentList: List<Agent>? = arrayListOf()
 
-    private val navHostFragment by lazy { supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment }
-    private val navController by lazy { navHostFragment.navController }
-    private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
+    private lateinit var navHostFragment: NavHostFragment
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private var isFabOpen = false
 
     val currentNavigationFragment: Fragment?
@@ -69,6 +70,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment
+        navController = navHostFragment.navController
+        appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
         viewModel.fetchProperties()
         setObserver()

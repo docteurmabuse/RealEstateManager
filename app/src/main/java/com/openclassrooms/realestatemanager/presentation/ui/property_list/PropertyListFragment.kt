@@ -101,9 +101,7 @@ class PropertyListFragment :
             ).show()
             true
         }
-
         setupRecyclerView(recyclerView!!, onClickListener, onContextClickListener)
-
     }
 
     private fun setupRecyclerView(
@@ -127,7 +125,7 @@ class PropertyListFragment :
     @ExperimentalCoroutinesApi
     private fun setObserver() {
         lifecycleScope.launchWhenStarted {
-            /*    val value = viewModel.state
+         /*    val value = viewModel.state
                value.collect() {
                    when (it.status) {
                        DataState.Status.SUCCESS -> {
@@ -144,12 +142,9 @@ class PropertyListFragment :
                        }
                    }
                }*/
+
             viewModel.properties.observe(requireActivity()) {
                 renderList(it)
-            }
-            viewModel.filteredPropertyList.observe(requireActivity()) {
-                if (it != null)
-                    renderList(it)
             }
             viewModel.filteredPropertyList.observe(requireActivity()) {
                 if (it != null)
