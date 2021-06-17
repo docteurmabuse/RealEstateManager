@@ -509,7 +509,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewArea, arrowButtonSoldSwitch )}"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewSoldSwitch, arrowButtonSoldSwitch )}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
                     app:layout_constraintStart_toStartOf="parent"
