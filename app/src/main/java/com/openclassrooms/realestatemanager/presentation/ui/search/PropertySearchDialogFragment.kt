@@ -9,9 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
+import android.widget.ImageButton
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -44,7 +48,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     override fun getTheme(): Int {
 
-        return com.openclassrooms.realestatemanager.R.style.BottomSheetDialogTheme
+        return com.openclassrooms.realestatemanager.R.style.CustomBottomSheetDialog
     }
 
     private val viewModel: MainViewModel by activityViewModels()
@@ -114,8 +118,30 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.viewModel = viewModel
+        binding.fragment = this
         setObserver()
         setDatesListener()
+    }
+
+    fun setExpandableListener(cardView: CardView, button: ImageButton) {
+        if (cardView.visibility == View.VISIBLE) {
+            TransitionManager.beginDelayedTransition(
+                cardView,
+                AutoTransition()
+            )
+            cardView.visibility = View.GONE
+            //  binding.typeHidden.visibility = View.GONE
+            button.setImageResource(com.openclassrooms.realestatemanager.R.drawable.ic_baseline_keyboard_arrow_down_24)
+        } else {
+            TransitionManager.beginDelayedTransition(
+                cardView,
+                AutoTransition()
+            )
+            cardView.visibility = View.VISIBLE
+
+            //  binding.typeHidden.visibility = View.VISIBLE
+            button.setImageResource(com.openclassrooms.realestatemanager.R.drawable.ic_baseline_keyboard_arrow_up_24)
+        }
     }
 
     @ExperimentalCoroutinesApi

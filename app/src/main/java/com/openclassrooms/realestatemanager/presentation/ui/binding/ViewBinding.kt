@@ -4,10 +4,13 @@ import android.view.View
 import android.widget.*
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.openclassrooms.realestatemanager.R
@@ -22,6 +25,27 @@ import java.util.*
 class ViewBinding {
 
     companion object {
+
+        @JvmStatic
+        @BindingAdapter("cardCollapsed")
+        fun bindCollapsableCardView(cardView: CardView, button: ImageButton) {
+            if (cardView.visibility == View.VISIBLE) {
+                TransitionManager.beginDelayedTransition(
+                    cardView, AutoTransition()
+                )
+                cardView.visibility = View.GONE
+                // constraintLayout.visibility=View.GONE
+                button.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
+            } else {
+                TransitionManager.beginDelayedTransition(
+                    cardView, AutoTransition()
+                )
+                cardView.visibility = View.VISIBLE
+                //  constraintLayout.visibility=View.VISIBLE
+                button.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+            }
+        }
+
         @JvmStatic
         @BindingAdapter("imagePath")
         fun bindImage(imgView: ImageView, imgPath: String?) {

@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="android.view.View" />
+
+        <variable
+            name="fragment"
+            type="com.openclassrooms.realestatemanager.presentation.ui.search.PropertySearchDialogFragment" />
 
         <variable
             name="viewModel"
@@ -20,42 +25,51 @@
         app:behavior_hideable="false"
         tools:context=".presentation.ui.search.PropertySearchDialogFragment">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mainCardView"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/white"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/dialog_holo_light_frame"
+            android:onClick="@{}"
+            card_view:cardCornerRadius="3dp"
+            card_view:cardElevation="15dp">
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/marginEnd"
-                android:text="@string/close"
-                android:textAlignment="textEnd"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </com.google.android.material.appbar.AppBarLayout>
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/closeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/marginEnd"
+                    android:text="@string/close"
+                    android:textAlignment="textEnd"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </RelativeLayout>
+        </com.google.android.material.card.MaterialCardView>
 
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/list"
-            android:layout_height="400dp"
             android:layout_width="match_parent"
+            android:layout_height="400dp"
             android:layout_marginBottom="50dp"
             android:fitsSystemWindows="true"
-            app:behavior_hideable="false"
             android:paddingStart="@dimen/marginStart"
             android:paddingTop="@dimen/list_item_spacing_half"
             android:paddingEnd="@dimen/marginEnd"
-            app:behavior_peekHeight="600dp"
+            app:behavior_hideable="false"
+            app:behavior_peekHeight="400dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                app:behavior_hideable="false"
-
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingTop="@dimen/marginTop"
+                app:behavior_hideable="false">
 
                 <TextView
                     android:id="@+id/typeFilter"
@@ -67,70 +81,106 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/typeChipGroup"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                <ImageButton
+                    android:id="@+id/arrow_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    app:chipSpacingHorizontal="22dp"
+                    android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardview, arrowButton  )}"
+                    app:layout_constraintBottom_toBottomOf="@id/typeFilter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.802"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/typeFilter">
+                    app:layout_constraintTop_toTopOf="@id/typeFilter"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/house"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.house}"
-                        android:onClick="@{(v)->viewModel.filterData()}"
-                        android:text="@string/house" />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/base_cardview"
+                    style="@style/Base.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.473"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.021">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/flat"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.flat}"
-                        android:onClick="@{(v)->viewModel.filterData()}"
-                        android:text="@string/flat" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/typeHidden"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingTop="@dimen/marginTop"
+                        app:behavior_hideable="false">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/duplex"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.duplex}"
-                        android:onClick="@{(v)->viewModel.filterData()}"
-                        android:text="@string/duplex" />
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/typeChipGroup"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            app:chipSpacingHorizontal="22dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/penthouse"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.penthouse}"
-                        android:onClick="@{(v)->viewModel.filterData()}"
-                        android:text="@string/penthouse" />
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/house"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@={viewModel.house}"
+                                android:onClick="@{(v)->viewModel.filterData()}"
+                                android:text="@string/house" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/loft"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.loft}"
-                        android:onClick="@{(v)->viewModel.filterData()}"
-                        android:text="@string/loft" />
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/flat"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@={viewModel.flat}"
+                                android:onClick="@{(v)->viewModel.filterData()}"
+                                android:text="@string/flat" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/manor"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.manor}"
-                        android:onClick="@{(v)->viewModel.filterData()}"
-                        android:text="@string/manor" />
-                </com.google.android.material.chip.ChipGroup>
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/duplex"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@={viewModel.duplex}"
+                                android:onClick="@{(v)->viewModel.filterData()}"
+                                android:text="@string/duplex" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/penthouse"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@={viewModel.penthouse}"
+                                android:onClick="@{(v)->viewModel.filterData()}"
+                                android:text="@string/penthouse" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/loft"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@={viewModel.loft}"
+                                android:onClick="@{(v)->viewModel.filterData()}"
+                                android:text="@string/loft" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/manor"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="@={viewModel.manor}"
+                                android:onClick="@{(v)->viewModel.filterData()}"
+                                android:text="@string/manor" />
+                        </com.google.android.material.chip.ChipGroup>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/nearByFilter"
@@ -141,72 +191,100 @@
                     android:text="@string/nearby"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/typeChipGroup" />
+                    app:layout_constraintTop_toBottomOf="@id/base_cardview" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/nearbyChipGroup"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                <ImageButton
+                    android:id="@+id/arrowButton2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:checked="true"
-                    app:chipSpacingHorizontal="22dp"
+                    android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardview2, arrowButton2  )}"
+                    app:layout_constraintBottom_toBottomOf="@id/nearByFilter"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.802"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nearByFilter">
+                    app:layout_constraintTop_toTopOf="@id/nearByFilter"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_baseline_keyboard_arrow_up_24" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipMuseum"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/base_cardview2"
+                    style="@style/Base.CardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.473"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nearByFilter"
+                    app:layout_constraintVertical_bias="0.021">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/nearbyChipGroup"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="@={viewModel.museum}"
-                        android:onClick="@{()->viewModel.filterData()}"
-                        android:text="@string/museum" />
+                        android:checked="true"
+                        app:chipSpacingHorizontal="22dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/nearByFilter">
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipSchool"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.schools}"
-                        android:onClick="@{()->viewModel.filterData()}"
-                        android:text="@string/schools" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipMuseum"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@={viewModel.museum}"
+                            android:onClick="@{()->viewModel.filterData()}"
+                            android:text="@string/museum" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipShop"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.shops}"
-                        android:onClick="@{()->viewModel.filterData()}"
-                        android:text="@string/shops" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipSchool"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@={viewModel.schools}"
+                            android:onClick="@{()->viewModel.filterData()}"
+                            android:text="@string/schools" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipHospital"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.hospital}"
-                        android:onClick="@{()->viewModel.filterData()}"
-                        android:text="@string/hospital" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipShop"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@={viewModel.shops}"
+                            android:onClick="@{()->viewModel.filterData()}"
+                            android:text="@string/shops" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipStation"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.stations}"
-                        android:onClick="@{()->viewModel.filterData()}"
-                        android:text="@string/station" />
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipHospital"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@={viewModel.hospital}"
+                            android:onClick="@{()->viewModel.filterData()}"
+                            android:text="@string/hospital" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipPark"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="@={viewModel.park}"
-                        android:onClick="@{()->viewModel.filterData()}"
-                        android:text="@string/park" />
-                </com.google.android.material.chip.ChipGroup>
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipStation"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@={viewModel.stations}"
+                            android:onClick="@{()->viewModel.filterData()}"
+                            android:text="@string/station" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipPark"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="@={viewModel.park}"
+                            android:onClick="@{()->viewModel.filterData()}"
+                            android:text="@string/park" />
+                    </com.google.android.material.chip.ChipGroup>
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/areaText"
@@ -217,7 +295,7 @@
                     android:text="@string/nearby"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nearbyChipGroup" />
+                    app:layout_constraintTop_toBottomOf="@id/base_cardview2" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/areaTex"
@@ -398,8 +476,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
                         android:inputType="number"
-                        android:text="@={viewModel.roomNumber }"
                         android:onClick="@{()->viewModel.filterData()}"
+                        android:text="@={viewModel.roomNumber }"
                         android:textAlignment="center"
                         android:textSize="@dimen/textSize"
                         app:drawableStartCompat="@drawable/ic_room_24dp"
@@ -428,8 +506,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:text="@={ viewModel.bedroomNumber }"
                         android:onClick="@{()->viewModel.filterData()}"
+                        android:text="@={ viewModel.bedroomNumber }"
                         android:textAlignment="center"
                         android:textSize="@dimen/textSize"
                         app:drawableStartCompat="@drawable/ic_bedroom_parent_24dp" />
@@ -460,8 +538,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:inputType="number"
-                        android:text="@={viewModel.bathroomNumber }"
                         android:onClick="@{()->viewModel.filterData()}"
+                        android:text="@={viewModel.bathroomNumber }"
                         android:textAlignment="center"
                         android:textSize="@dimen/textSize"
                         app:drawableStartCompat="@drawable/ic_bathroom_24dp" />
