@@ -852,7 +852,7 @@
                             android:layout_marginEnd="@dimen/marginEnd"
                             android:layout_marginBottom="@dimen/marginTop"
                             android:layout_weight="0.5"
-                            android:hint="@string/bathroom"
+                            android:hint="@string/number_of_pics"
                             android:inputType="number"
                             app:endIconMode="clear_text"
                             app:endIconTint="@color/colorAccent"
@@ -870,7 +870,7 @@
                                 android:text="@={viewModel.picsNumber }"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/textSize"
-                                app:drawableStartCompat="@drawable/ic_bathroom_24dp" />
+                                app:drawableStartCompat="@drawable/ic_baseline_insert_photo_24" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/propertyListFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListFragment"
-        android:label="PropertyListFragment">
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_propertyListFragment_to_propertyDetailFragment"
             app:destination="@id/propertyDetailFragment"
@@ -25,7 +25,7 @@
     <fragment
         android:id="@+id/propertyDetailFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment"
-        android:label="property_detail"
+        android:label="@string/app_name"
         tools:layout="@layout/property_list_content">
         <argument
             android:name="edit_property_view"
@@ -59,7 +59,7 @@
     <fragment
         android:id="@+id/addEditPropertyFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyFragment"
-        android:label="add_property_fragment"
+        android:label="@string/app_name"
         tools:layout="@layout/add_property_fragment">
         <action
             android:id="@+id/action_addPropertyFragment_to_photoOptionDialogFragment"
@@ -78,7 +78,7 @@
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.property_map.MapFragment"
-        android:label="fragment_map"
+        android:label="@string/app_name"
         tools:layout="@layout/map_layout">
         <action
             android:id="@+id/action_mapFragment_to_propertyDetailFragment"
@@ -92,7 +92,7 @@
     <activity
         android:id="@+id/mainActivity"
         android:name="com.openclassrooms.realestatemanager.presentation.MainActivity"
-        android:label="activity_main"
+        android:label="@string/app_name"
         tools:layout="@layout/activity_main" />
     <dialog
         android:id="@+id/photoOptionDialogFragment"
@@ -101,7 +101,7 @@
     <fragment
         android:id="@+id/itemTabsFragment2"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragment"
-        android:label="ItemTabsFragment">
+        android:label="@string/app_name">
         <action
             android:id="@+id/action_itemTabsFragment2_to_addPropertyFragment"
             app:destination="@id/addEditPropertyFragment"
@@ -131,7 +131,7 @@
     <fragment
         android:id="@+id/addEditAgentFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.addAgent.AddEditAgentFragment"
-        android:label="AddAgentFragment">
+        android:label="@string/app_name">
         <argument
             android:name="AddAgentView"
             android:defaultValue="false"
@@ -143,6 +143,6 @@
     <dialog
         android:id="@+id/propertySearchDialogFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.search.PropertySearchDialogFragment"
-        android:label="fragment_property_search_dialog_list_dialog"
+        android:label="Properteis fiolter"
         tools:layout="@layout/fragment_property_search_filter_dialog" />
 </navigation>
