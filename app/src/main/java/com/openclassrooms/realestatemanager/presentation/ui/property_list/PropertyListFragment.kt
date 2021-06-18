@@ -65,6 +65,7 @@ class PropertyListFragment :
             setObserver()
         }
         setObserver()
+
         //       viewModel.fetchProperties()
         // Leaving this not using view binding as it relies on if the view is visible the current
         // layout configuration (layout, layout-sw600dp)

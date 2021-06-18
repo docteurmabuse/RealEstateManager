@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.presentation.ui.property_map
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
@@ -26,11 +27,13 @@ import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.awaitMapLoad
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.MapLayoutBinding
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 
 
@@ -59,11 +62,14 @@ class MapFragment :
         return binding.root
     }
 
+    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupMap()
     }
 
+    @ExperimentalCoroutinesApi
+    @SuppressLint("PotentialBehaviorOverride")
     private fun setupMap() {
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         lifecycleScope.launchWhenCreated {
@@ -144,9 +150,9 @@ class MapFragment :
 
     @ExperimentalCoroutinesApi
     private fun setObserver() {
-        /*lifecycleScope.launchWhenStarted {
-            val value = viewModel.state
-            value.collect {
+        lifecycleScope.launchWhenStarted {
+            val value = viewModel.stateFilter
+            value.collectLatest {
                 when (it.status) {
                     DataState.Status.SUCCESS -> {
                         displayLoading(false)
@@ -162,9 +168,6 @@ class MapFragment :
                     }
                 }
             }
-        }*/
-        viewModel.properties.observe(requireActivity()) {
-            renderList(it)
         }
     }
 
@@ -185,7 +188,8 @@ class MapFragment :
     private fun renderList(list: List<Property>) {
         properties = list
 
-        Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
+        Timber.tag("MAP").d("MAP_PROPERTIES in Map: ${properties.size}")
+        googleMap.clear()
         properties.forEach { property ->
             if (property.address?.lat != null && property.address?.lng != null) {
                 val location = LatLng(property.address?.lat!!, property.address?.lng!!)
