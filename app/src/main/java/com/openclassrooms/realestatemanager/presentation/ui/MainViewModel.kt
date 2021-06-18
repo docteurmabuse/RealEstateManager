@@ -83,9 +83,6 @@ constructor(
 
     var area = MutableLiveData<String>("")
 
-    init {
-        fetchProperties()
-    }
 
     private var searchFilterQuery = MutableStateFlow(
         SearchFilters(
@@ -112,6 +109,10 @@ constructor(
         )
     )
 
+    init {
+        fetchProperties()
+    }
+
     @ExperimentalCoroutinesApi
     private var propertiesFlow = searchQuery.flatMapLatest {
         searchProperties.invoke(
@@ -136,12 +137,15 @@ constructor(
 
     fun fetchProperties() {
         viewModelScope.launch {
-            getProperties.invoke()
+            filterSearchProperties.invoke(
+                searchFilterQuery.value,
+                sortBy.value!!
+            )
                 .catch { e ->
-                    _state.value = (DataState.error(e.toString(), null))
+                    _stateFilter.value = (DataState.error(e.toString(), null))
                 }
                 .collectLatest {
-                    _state.value = DataState.success(it)
+                    _stateFilter.value = DataState.success(it)
                     initSurfaceFilter(it)
                     initPriceFilter(it)
                 }
@@ -227,23 +231,15 @@ constructor(
         Timber.d(
             "FILTER_CLICK: House:  ${searchFilterQuery.value}, ${sellDate.value}, ${sortBy.value}"
         )
-        propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
-            filterSearchProperties.invoke(
-                searchFilterQuery.value,
-                sortBy.value!!
-            )
-        }
+        /* propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
+             filterSearchProperties.invoke(
+                 searchFilterQuery.value,
+                 sortBy.value!!
+             )
+         }*/
 
 
         viewModelScope.launch {
-         /*   Timber.d(
-                "FILTER_CLICK: park:  ${searchFilterQuery.value}, ${
-                    typeList.value?.stream()?.map { it ->
-                        it.toString()
-                    }?.collect(Collectors.joining("','"))
-                }"
-            )*/
-
             filterSearchProperties.invoke(
                 searchFilterQuery.value,
                 sortBy.value!!
@@ -262,6 +258,7 @@ constructor(
                 }
         }
     }
+
 
     @ExperimentalCoroutinesApi
     fun resetFilters() {

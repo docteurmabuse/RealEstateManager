@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        viewModel.fetchProperties()
+        //viewModel.fetchProperties()
         setObserver()
         setupBottomNavigationAndFab()
         setAddPropertyFabListener()

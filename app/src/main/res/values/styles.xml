@@ -54,5 +54,12 @@
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
+    <style name="MyCustomTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBarTheme</item>
+    </style>
+
+    <style name="MyActionBarTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="android:background">@color/white</item>
+    </style>
 
 </resources>

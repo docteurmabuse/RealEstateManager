@@ -15,12 +15,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyListBinding
+import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import timber.log.Timber
 
 
 /**
@@ -125,31 +128,34 @@ class PropertyListFragment :
     @ExperimentalCoroutinesApi
     private fun setObserver() {
         lifecycleScope.launchWhenStarted {
-         /*    val value = viewModel.state
-               value.collect() {
-                   when (it.status) {
-                       DataState.Status.SUCCESS -> {
-                           displayLoading(false)
-                           it.data?.let { properties -> renderList(properties) }
-                       }
-                       DataState.Status.LOADING -> {
-                           displayLoading(true)
-                       }
-                       DataState.Status.ERROR -> {
-                           displayLoading(false)
-                           displayError(it.message)
-                           Timber.d("LIST_OBSERVER: ${it.message}")
-                       }
-                   }
-               }*/
+            val value = viewModel.stateFilter
+            value.collectLatest {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+                        displayLoading(false)
+                        it.data?.let { properties -> renderList(properties) }
+                    }
+                    DataState.Status.LOADING -> {
+                        displayLoading(true)
+                    }
+                    DataState.Status.ERROR -> {
+                        displayLoading(false)
+                        displayError(it.message)
+                        Timber.d("LIST_OBSERVER: ${it.message}")
+                    }
+                }
+            }
 
-            viewModel.properties.observe(requireActivity()) {
+
+            /*viewModel.properties.observe(requireActivity()) {
                 renderList(it)
             }
-            viewModel.filteredPropertyList.observe(requireActivity()) {
-                if (it != null)
-                    renderList(it)
-            }
+            */
+
+            /*   viewModel.filteredPropertyList.observe(requireActivity()) {
+                   if (it != null)
+                       renderList(it)
+               }*/
         }
 
     }

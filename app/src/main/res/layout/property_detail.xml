@@ -80,12 +80,13 @@
                     app:progressMode="true"
                     app:selectedDotColor="@color/colorAccent" />
 
-                <androidx.appcompat.widget.Toolbar
+              <!--  <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/detail_toolbar"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
