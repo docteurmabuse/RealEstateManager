@@ -75,8 +75,8 @@ interface PropertyDao {
         AND  (type IN (:typeList))
         AND surface BETWEEN :minSurface AND :maxSurface
         AND price BETWEEN :minPrice AND :maxPrice
-        AND (:sellDate IS NULL OR sell_date < :sellDate)
-        AND (:soldDate IS NULL OR sold_date < :soldDate)
+        AND (:sellDate IS NULL OR sell_date >= :sellDate)
+        AND (:soldDate IS NULL OR sold_date >= :soldDate)
         AND (:rooms IS NULL OR room_number >= :rooms)
         AND (:beds IS NULL OR bedroom_number >= :beds)
         AND (:baths IS NULL OR bathroom_number >= :baths)

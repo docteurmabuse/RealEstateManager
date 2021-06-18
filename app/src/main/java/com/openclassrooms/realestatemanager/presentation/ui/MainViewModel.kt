@@ -78,8 +78,8 @@ constructor(
 
     var sold = MutableLiveData<Boolean>(false)
 
-    var sellDate = MutableLiveData<String>(DateUtil.todayDate)
-    var soldDate = MutableLiveData<String>(DateUtil.todayDate)
+    var sellDate = MutableLiveData<String>("")
+    var soldDate = MutableLiveData<String>("")
 
     var area = MutableLiveData<String>("")
 
@@ -204,6 +204,15 @@ constructor(
         val pics: Int =
             if (picsNumber.value.isNullOrBlank())
                 1 else picsNumber.value!!.toInt()
+
+        val sellDateLong: Long? =
+            if (sellDate.value.isNullOrBlank())
+                null else sellDate.value!!.toLong()
+
+        val soldDateLong: Long? =
+            if (soldDate.value.isNullOrBlank())
+                null else soldDate.value!!.toLong()
+
         searchFilterQuery.value =
             SearchFilters(
                 textQuery = searchQuery.value,
@@ -220,8 +229,8 @@ constructor(
                 minPrice = priceArray.value?.get(0),
                 maxPrice = priceArray.value?.get(1),
                 sold = sold.value?.int,
-                sellDate = sellDate.value?.toLong(),
-                soldDate = soldDate.value?.toLong(),
+                sellDate = sellDateLong,
+                soldDate = soldDateLong,
                 numberOfPics = pics,
                 rooms = rooms,
                 beds = beds,

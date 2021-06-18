@@ -105,5 +105,7 @@
     <string name="sort_by_price">Sort by price</string>
     <string name="close">Close</string>
     <string name="number_of_pics">Number of pictures</string>
+    <string name="property_add">Property add</string>
+    <string name="fab_add">Fab add</string>
 
 </resources>

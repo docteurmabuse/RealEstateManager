@@ -102,7 +102,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     private fun updateSoldDateInView() {
         val dateOnMarket = cal.timeInMillis
         binding.viewModel?.soldDate = MutableLiveData(dateOnMarket.toString())
-        binding.filterSoldDate.setText(DateUtil.longDateToString(dateOnMarket))
+         binding.filterSoldDate.setText(DateUtil.longDateToString(dateOnMarket))
         viewModel.soldDate = MutableLiveData(dateOnMarket.toString())
         viewModel.filterData()
     }
@@ -246,11 +246,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
                     putInt(ARG_ITEM_COUNT, itemCount)
                 }
             }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
 }
