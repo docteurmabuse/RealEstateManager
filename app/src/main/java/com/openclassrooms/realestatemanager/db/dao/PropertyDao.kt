@@ -63,6 +63,7 @@ interface PropertyDao {
        SELECT *
         FROM PROPERTIES
         INNER JOIN property_address ON property_address.property_id = properties.id
+        INNER JOIN property_photos ON property_photos.property_id = properties.id
         WHERE ( :textQuery iS NULL OR city LIKE '%' || :textQuery || '%')
         AND (:area IS NULL OR area LIKE '%' || :area || '%')
         AND (:museum IS NULL OR museum IS :museum)
