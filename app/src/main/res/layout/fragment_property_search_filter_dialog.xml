@@ -73,7 +73,7 @@
                 <TextView
                     android:id="@+id/typeFilter"
                     style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/property_type"
                     android:textStyle="bold"
@@ -108,7 +108,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.473"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/typeFilter"
                     app:layout_constraintVertical_bias="0.021">
 
 
@@ -169,7 +169,6 @@
                             android:checked="@={viewModel.loft}"
                             android:onClick="@{(v)->viewModel.filterData()}"
                             android:text="@string/loft" />
-
                         <com.google.android.material.chip.Chip
                             android:id="@+id/manor"
                             style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -182,11 +181,13 @@
                 </androidx.cardview.widget.CardView>
 
                 <View
+                    android:id="@+id/dividerNear"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/marginTop"
+                    android:paddingBottom="@dimen/marginStart"
                     android:background="@android:color/darker_gray"
-                    app:layout_constraintBottom_toBottomOf="@id/typeFilter"
+                    app:layout_constraintBottom_toBottomOf="@id/base_cardview"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
@@ -201,7 +202,7 @@
                     android:text="@string/nearby"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/base_cardview" />
+                    app:layout_constraintTop_toBottomOf="@id/dividerNear" />
 
                 <ImageButton
                     android:id="@+id/arrowButton2"
@@ -299,24 +300,36 @@
                     </com.google.android.material.chip.ChipGroup>
                 </androidx.cardview.widget.CardView>
 
+                <View
+                    android:id="@+id/dividerArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
+                    android:paddingBottom="@dimen/marginStart"
+                    app:layout_constraintBottom_toBottomOf="@id/base_cardview2"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
                     android:id="@+id/areaText"
                     style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/marginTop"
+                    android:layout_marginBottom="@dimen/marginStart"
+                    android:paddingTop="@dimen/marginStart"
                     android:paddingStart="@dimen/marginStart"
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@string/area"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/base_cardview2" />
+                    app:layout_constraintTop_toBottomOf="@id/dividerArea" />
 
                 <ImageButton
                     android:id="@+id/arrowButtonArea"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:paddingBottom="@dimen/marginStart"
                     android:onClick="@{()->fragment.setExpandableListener(baseCardViewArea, arrowButtonArea )}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
@@ -360,6 +373,16 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
 
+                <View
+                    android:id="@+id/dividerPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
+                    android:paddingBottom="@dimen/marginStart"
+                    app:layout_constraintBottom_toBottomOf="@id/baseCardViewArea"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
                     android:id="@+id/priceRangeText"
                     style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
@@ -371,7 +394,7 @@
                     android:text="@string/price"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/baseCardViewArea" />
+                    app:layout_constraintTop_toBottomOf="@id/dividerPrice" />
 
                 <ImageButton
                     android:id="@+id/arrowButtonPrice"
@@ -415,6 +438,16 @@
                         app:values="@{viewModel.priceArray}" />
                 </androidx.cardview.widget.CardView>
 
+                <View
+                    android:id="@+id/dividerSurface"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
+                    android:paddingBottom="@dimen/marginStart"
+                    app:layout_constraintBottom_toBottomOf="@id/baseCardViewSurface"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
                     android:id="@+id/surfaceRangeText"
                     style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
@@ -426,7 +459,7 @@
                     android:text="@string/surface"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/baseCardViewPrice" />
+                    app:layout_constraintTop_toBottomOf="@id/dividerSurface" />
 
                 <ImageButton
                     android:id="@+id/arrowButtonSurface"
@@ -465,6 +498,16 @@
                         app:values="@{viewModel.surfaceArray}" />
                 </androidx.cardview.widget.CardView>
 
+                <View
+                    android:id="@+id/dividerMarket"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
+                    android:paddingBottom="@dimen/marginStart"
+                    app:layout_constraintBottom_toBottomOf="@id/baseCardViewSurface"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
                     android:id="@+id/marketText"
                     style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
@@ -476,7 +519,7 @@
                     android:paddingEnd="@dimen/marginEnd"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/baseCardViewSurface" />
+                    app:layout_constraintTop_toBottomOf="@id/dividerMarket" />
 
                 <ImageButton
                     android:id="@+id/arrowButtonSellDate"
@@ -525,6 +568,16 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.cardview.widget.CardView>
 
+                <View
+                    android:id="@+id/dividerSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
+                    android:paddingBottom="@dimen/marginStart"
+                    app:layout_constraintBottom_toBottomOf="@id/baseCardViewSellDate"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
                     android:id="@+id/switchSoldText"
                     style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
@@ -536,7 +589,7 @@
                     android:text="@string/sold"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/baseCardViewSellDate" />
+                    app:layout_constraintTop_toBottomOf="@id/dividerSwitch" />
 
                 <ImageButton
                     android:id="@+id/arrowButtonSoldSwitch"
@@ -602,6 +655,16 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
+                <View
+                    android:id="@+id/dividerCharacteristics"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
+                    android:paddingBottom="@dimen/marginStart"
+                    app:layout_constraintBottom_toBottomOf="@id/baseCardViewSoldSwitch"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
                     android:id="@+id/characteristicsText"
                     style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
@@ -613,7 +676,7 @@
                     android:text="@string/characteristics"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/baseCardViewSoldSwitch" />
+                    app:layout_constraintTop_toBottomOf="@+id/dividerCharacteristics" />
 
                 <ImageButton
                     android:id="@+id/arrowButtonCharacteristics"
@@ -772,6 +835,16 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
+                <View
+                    android:id="@+id/dividerReset"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
+                    android:paddingBottom="@dimen/marginStart"
+                    app:layout_constraintBottom_toBottomOf="@id/baseCardViewCharacteristics"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <Button
                     android:id="@+id/applyFilter"
                     android:layout_width="wrap_content"
@@ -780,7 +853,7 @@
                     android:text="@string/reset"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/baseCardViewCharacteristics" />
+                    app:layout_constraintTop_toBottomOf="@id/dividerReset" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
