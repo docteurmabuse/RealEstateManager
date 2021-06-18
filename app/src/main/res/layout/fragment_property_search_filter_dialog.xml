@@ -445,7 +445,7 @@
                     android:layout_marginTop="@dimen/marginTop"
                     android:background="@android:color/darker_gray"
                     android:paddingBottom="@dimen/marginStart"
-                    app:layout_constraintBottom_toBottomOf="@id/baseCardViewSurface"
+                    app:layout_constraintBottom_toBottomOf="@id/baseCardViewPrice"
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
