@@ -157,11 +157,11 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 Timber.d("FILTER: price ok")
             }
             R.id.action_sort_by_date_on_market_asc -> {
-                viewModel.sortOrder.value = SortOrder.BY_PRICE_ASC
+                viewModel.sortOrder.value = SortOrder.BY_DATE_ASC
                 viewModel.filterData()
             }
             R.id.action_sort_by_date_on_market_dsc -> {
-                viewModel.sortOrder.value = SortOrder.BY_PRICE_DESC
+                viewModel.sortOrder.value = SortOrder.BY_DATE_DESC
                 viewModel.filterData()
             }
             android.R.id.home -> {
