@@ -89,7 +89,7 @@
     <string name="search">Search</string>
     <string name="sort_by_name">Sort by name</string>
     <string name="sort_by_date_on_market_asc">Sort by date on market ASC</string>
-    <string name="sort_by_date_on_market_dsc">Sort by date on market DASC</string>
+    <string name="sort_by_date_on_market_dsc">Sort by date on market DESC</string>
 
     <string name="filtered">Filtered</string>
     <string name="filters">Filters:</string>
