@@ -66,7 +66,6 @@ constructor(
     var description = MutableLiveData<String>("")
 
     var sortBy = MutableLiveData<String>("sell_date")
-
     var schools = MutableLiveData<Boolean>(false)
     var shops = MutableLiveData<Boolean>(false)
     var park = MutableLiveData<Boolean>(false)
@@ -81,6 +80,7 @@ constructor(
 
     var area = MutableLiveData<String>("")
 
+    var sortOrder = MutableStateFlow(SortOrder.BY_DATE_DESC)
 
     private var searchFilterQuery = MutableStateFlow(
         SearchFilters(
@@ -122,7 +122,7 @@ constructor(
     private var propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
         filterSearchProperties.invoke(
             it,
-            sortBy.value!!
+            sortOrder.value
         )
     }
 
@@ -137,7 +137,7 @@ constructor(
         viewModelScope.launch {
             filterSearchProperties.invoke(
                 searchFilterQuery.value,
-                sortBy.value!!
+                sortOrder.value
             )
                 .catch { e ->
                     _stateFilter.value = (DataState.error(e.toString(), null))
@@ -241,7 +241,7 @@ constructor(
         viewModelScope.launch {
             filterSearchProperties.invoke(
                 searchFilterQuery.value,
-                sortBy.value!!
+                sortOrder.value
             )
                 .catch { e ->
                     _stateFilter.value = (DataState.error(e.toString(), null))
@@ -286,3 +286,5 @@ constructor(
         filterData()
     }
 }
+
+enum class SortOrder { BY_PRICE_ASC, BY_PRICE_DESC, BY_DATE_ASC, BY_DATE_DESC }

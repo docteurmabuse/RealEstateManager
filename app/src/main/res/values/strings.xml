@@ -88,7 +88,9 @@
     <string name="sort">Sort</string>
     <string name="search">Search</string>
     <string name="sort_by_name">Sort by name</string>
-    <string name="sort_by_date_on_market">Sort by date on market</string>
+    <string name="sort_by_date_on_market_asc">Sort by date on market ASC</string>
+    <string name="sort_by_date_on_market_dsc">Sort by date on market DASC</string>
+
     <string name="filtered">Filtered</string>
     <string name="filters">Filters:</string>
     <string name="house">House</string>
@@ -107,5 +109,7 @@
     <string name="number_of_pics">Number of pictures</string>
     <string name="property_add">Property add</string>
     <string name="fab_add">Fab add</string>
+    <string name="sort_by_price_dsc">Sort By Price DSC</string>
+    <string name="sort_by_price_asc">Sort by price ASC</string>
 
 </resources>

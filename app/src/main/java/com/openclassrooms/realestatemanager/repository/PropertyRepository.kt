@@ -2,6 +2,7 @@ package com.openclassrooms.realestatemanager.repository
 
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.domain.model.search.SearchFilters
+import com.openclassrooms.realestatemanager.presentation.ui.SortOrder
 import kotlinx.coroutines.flow.Flow
 
 interface PropertyRepository {
@@ -12,7 +13,7 @@ interface PropertyRepository {
     ): Flow<List<Property>>
 
     suspend fun filterSearchProperties(
-        query: SearchFilters, sortBy: String
+        query: SearchFilters, sortBy: SortOrder
     ): Flow<List<Property>>
 
     suspend fun getAllProperties(): Flow<List<Property>>

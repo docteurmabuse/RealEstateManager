@@ -31,6 +31,7 @@ import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
+import com.openclassrooms.realestatemanager.presentation.ui.SortOrder
 import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
@@ -143,10 +144,26 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 navController.navigate(R.id.action_itemTabsFragment2_to_propertySearchDialogFragment)
                 Timber.d("FILTER: filter ok")
             }
-            R.id.action_sort_by_price -> {
-                viewModel.sortBy.value = "price"
+            R.id.action_sort_by_price_asc -> {
+                viewModel.sortOrder.value = SortOrder.BY_PRICE_ASC
+                viewModel.filterData()
+                Timber.d("FILTER: price ASC ok")
+            }
+            R.id.action_sort_by_price_dsc -> {
+                viewModel.sortOrder.value = SortOrder.BY_PRICE_DESC
                 viewModel.filterData()
                 Timber.d("FILTER: price ok")
+            }
+            R.id.action_sort_by_date_on_market_asc -> {
+                viewModel.sortOrder.value = SortOrder.BY_PRICE_ASC
+                viewModel.filterData()
+            }
+            R.id.action_sort_by_date_on_market_dsc -> {
+                viewModel.sortOrder.value = SortOrder.BY_PRICE_DESC
+                viewModel.filterData()
+            }
+            android.R.id.home -> {
+                onBackPressed()
             }
         }
         return true
@@ -214,15 +231,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     @ExperimentalCoroutinesApi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_sort_by_price -> {
-                Timber.d("SEARCH:CLICKED-SORT-PRICE")
-                // viewModel.sortBy.value="price"
-                // viewModel.filterData()
-            }
-
-            R.id.action_sort_by_date_on_market -> {
-
-            }
 
             R.id.action_search ->
                 Timber.d("SEARCH:CLICKED")

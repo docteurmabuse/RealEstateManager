@@ -4,6 +4,7 @@ import com.openclassrooms.realestatemanager.db.dao.AgentDao
 import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntityAggregate
+import com.openclassrooms.realestatemanager.presentation.ui.SortOrder
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
@@ -58,7 +59,7 @@ class RoomPersistence @Inject constructor(
         rooms: Int?,
         beds: Int?,
         baths: Int?,
-        sortBy: String?
+        sortBy: SortOrder?
     ): Flow<List<PropertyEntityAggregate>> {
         Timber.d("FILTER_SEARCH  $park,  $hospital, $area, $shop, $school, $museum, $museum , $typeList , $sortBy")
 

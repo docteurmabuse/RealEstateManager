@@ -147,12 +147,6 @@ class PropertyListFragment :
                 }
             }
 
-
-            /*viewModel.properties.observe(requireActivity()) {
-                renderList(it)
-            }
-            */
-
             /*   viewModel.filteredPropertyList.observe(requireActivity()) {
                    if (it != null)
                        renderList(it)
