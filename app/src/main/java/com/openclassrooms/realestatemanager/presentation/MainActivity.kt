@@ -48,7 +48,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     NavController.OnDestinationChangedListener {
     @Inject
     lateinit var fragmentFactory: MainFragmentFactory
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel: MainViewModel by viewModels()
     private val agentViewModel: AgentsViewModel by viewModels()
     private var properties: List<Property> = arrayListOf()
@@ -69,7 +71,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment
@@ -330,5 +332,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private fun displayLoading(isLoading: Boolean) {
         if (isLoading) binding.progressBar.visibility = View.VISIBLE
         else binding.progressBar.visibility = View.GONE
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
