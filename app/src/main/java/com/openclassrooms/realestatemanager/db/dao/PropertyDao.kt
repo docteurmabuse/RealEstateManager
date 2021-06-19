@@ -82,7 +82,7 @@ interface PropertyDao {
         AND (:beds IS NULL OR bedroom_number >= :beds)
         AND (:baths IS NULL OR bathroom_number >= :baths)
         GROUP BY  property_photos.property_id
-        HAVING COUNT (property_photos.property_id>= :numberOfPics)
+        HAVING COUNT (property_photos.property_id) >= :numberOfPics
         ORDER BY :sortBy ASC
    """
     )
