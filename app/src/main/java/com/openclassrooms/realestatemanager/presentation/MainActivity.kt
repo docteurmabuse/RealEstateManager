@@ -220,7 +220,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 // viewModel.filterData()
             }
 
-
             R.id.action_sort_by_date_on_market -> {
 
             }
@@ -285,30 +284,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     }
 
     private fun setObserver() {
-/*
-        lifecycleScope.launchWhenStarted {
-            val value = viewModel.state
-            value.collect {
-                when (it.status) {
-                    DataState.Status.SUCCESS -> {
-                        it.data?.let { properties ->
-                            renderList(properties)
-                        }
-                        displayLoading(false)
-                    }
-                    DataState.Status.LOADING -> {
-                        displayLoading(true)
-                    }
-                    DataState.Status.ERROR -> {
-                        displayLoading(false)
-                        displayError(it.message)
-                        Timber.d("LIST_OBSERVER: ${it.message}")
-                    }
-                }
-            }
-        }
-*/
-
         lifecycleScope.launchWhenStarted {
             val value = agentViewModel.state
             value.collect {
@@ -333,18 +308,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private fun renderAgentList(agents: List<Agent>) {
         agentList = agents
         binding.fabAddProperty.fabOptionEnabled = agents.isNotEmpty()
-    }
-
-    private fun renderList(list: List<Property>) {
-        properties = list
-        Timber.tag("MAP").d("MAP_PROPERTIES: ${properties.size}")
-        val minPrice = list.minWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
-        val maxPrice = list.maxWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
-        viewModel.minPrice.value = minPrice
-        viewModel.maxPrice.value = maxPrice
-        viewModel.priceArray.value = arrayOf(minPrice!!, maxPrice!!)
-        Timber.d(" PRICE_RANGE: ${viewModel.minPrice.value}, ${viewModel.maxPrice.value}}")
-
     }
 
 

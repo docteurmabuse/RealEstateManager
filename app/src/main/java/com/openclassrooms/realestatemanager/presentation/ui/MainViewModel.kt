@@ -1,7 +1,6 @@
 package com.openclassrooms.realestatemanager.presentation.ui
 
 import androidx.lifecycle.*
-import com.openclassrooms.realestatemanager.domain.interactors.property.GetProperties
 import com.openclassrooms.realestatemanager.domain.interactors.searchProperty.FilterSearchProperties
 import com.openclassrooms.realestatemanager.domain.interactors.searchProperty.SearchProperties
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
@@ -19,7 +18,6 @@ import javax.inject.Inject
 class MainViewModel
 @Inject
 constructor(
-    private val getProperties: GetProperties,
     private val searchProperties: SearchProperties,
     private val filterSearchProperties: FilterSearchProperties,
     private val savedStateHandle: SavedStateHandle
@@ -260,7 +258,6 @@ constructor(
         }
     }
 
-
     @ExperimentalCoroutinesApi
     fun resetFilters() {
         house.value = true
@@ -275,8 +272,6 @@ constructor(
         bathroomNumber.value = 0F
         bedroomNumber.value = 1F
         picsNumber.value = 1F
-
-
         description.value = ""
         schools.value = false
         shops.value = false

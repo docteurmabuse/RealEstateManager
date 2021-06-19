@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:drawable/dialog_holo_light_frame"
-            android:onClick="@{}"
+            android:onClick="@{()-> fragment.dismiss()}"
             card_view:cardCornerRadius="3dp"
             card_view:cardElevation="15dp">
 
