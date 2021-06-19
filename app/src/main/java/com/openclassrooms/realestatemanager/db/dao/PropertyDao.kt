@@ -81,6 +81,8 @@ interface PropertyDao {
         AND (:rooms IS NULL OR room_number >= :rooms)
         AND (:beds IS NULL OR bedroom_number >= :beds)
         AND (:baths IS NULL OR bathroom_number >= :baths)
+        GROUP BY  property_photos.property_id
+        HAVING COUNT (property_photos.property_id>= :numberOfPics)
         ORDER BY :sortBy ASC
    """
     )
@@ -101,14 +103,12 @@ interface PropertyDao {
         sold: Int? = null,
         sellDate: Long?,
         soldDate: Long?,
-        //  numberOfPics: Int?,
+        numberOfPics: Int?,
         rooms: Int? = null,
         beds: Int?,
         baths: Int?,
         sortBy: String?
     ): Flow<List<PropertyEntityAggregate>>
-
-    //        AND (:numberOfPics IS NULL OR sold_date < :numberOfPics)
 
     //Update PropertyEntity
     @Update(onConflict = OnConflictStrategy.REPLACE)

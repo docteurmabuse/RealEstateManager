@@ -72,15 +72,15 @@
 
                 <TextView
                     android:id="@+id/typeFilter"
-                    android:text="@string/property_type"
-                    android:textStyle="bold"
                     style="@style/MaterialAlertDialog.MaterialComponents.Title.Text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/marginStart"
-                    android:paddingTop="@dimen/marginStart"
                     android:paddingStart="@dimen/marginStart"
+                    android:paddingTop="@dimen/marginStart"
                     android:paddingEnd="@dimen/marginEnd"
+                    android:text="@string/property_type"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -88,12 +88,12 @@
                     android:id="@+id/arrow_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardview, arrowButton  )}"
                     android:paddingStart="@dimen/marginStart"
                     android:paddingTop="@dimen/marginTop"
                     android:paddingEnd="@dimen/marginEnd"
                     android:paddingBottom="@dimen/marginTop"
-                    android:background="@color/white"
-                    android:onClick="@{()->fragment.setExpandableListener(baseCardview, arrowButton  )}"
                     app:layout_constraintBottom_toBottomOf="@id/typeFilter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
@@ -122,10 +122,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        app:chipSpacingHorizontal="22dp"
                         android:paddingStart="@dimen/marginStart"
                         android:paddingEnd="@dimen/marginEnd"
                         android:paddingBottom="@dimen/marginTop"
+                        app:chipSpacingHorizontal="22dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -173,6 +173,7 @@
                             android:checked="@={viewModel.loft}"
                             android:onClick="@{(v)->viewModel.filterData()}"
                             android:text="@string/loft" />
+
                         <com.google.android.material.chip.Chip
                             android:id="@+id/manor"
                             style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -189,8 +190,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/marginTop"
-                    android:paddingBottom="@dimen/marginStart"
                     android:background="@android:color/darker_gray"
+                    android:paddingBottom="@dimen/marginStart"
                     app:layout_constraintBottom_toBottomOf="@id/base_cardview"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -200,8 +201,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/marginStart"
-                    android:paddingTop="@dimen/marginStart"
                     android:paddingStart="@dimen/marginStart"
+                    android:paddingTop="@dimen/marginStart"
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@string/nearby"
                     android:textStyle="bold"
@@ -213,11 +214,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:paddingTop="@dimen/marginTop"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardview2, arrowButton2  )}"
                     android:paddingStart="@dimen/marginStart"
+                    android:paddingTop="@dimen/marginTop"
                     android:paddingEnd="@dimen/marginEnd"
                     android:paddingBottom="@dimen/marginTop"
-                    android:onClick="@{()->fragment.setExpandableListener(baseCardview2, arrowButton2  )}"
                     app:layout_constraintBottom_toBottomOf="@id/nearByFilter"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
@@ -239,14 +240,14 @@
                     app:layout_constraintVertical_bias="0.021">
 
                     <com.google.android.material.chip.ChipGroup
-                        android:paddingStart="@dimen/marginStart"
-                        android:paddingEnd="@dimen/marginEnd"
-                        android:paddingBottom="@dimen/marginTop"
                         android:id="@+id/nearbyChipGroup"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
+                        android:paddingStart="@dimen/marginStart"
+                        android:paddingEnd="@dimen/marginEnd"
+                        android:paddingBottom="@dimen/marginTop"
                         app:chipSpacingHorizontal="22dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/nearByFilter">
@@ -312,8 +313,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/marginTop"
-                    android:paddingBottom="@dimen/marginStart"
                     android:background="@android:color/darker_gray"
+                    android:paddingBottom="@dimen/marginStart"
                     app:layout_constraintBottom_toBottomOf="@id/base_cardview2"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -323,8 +324,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/marginStart"
-                    android:paddingTop="@dimen/marginStart"
                     android:paddingStart="@dimen/marginStart"
+                    android:paddingTop="@dimen/marginStart"
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@string/area"
                     android:textStyle="bold"
@@ -336,11 +337,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewArea, arrowButtonArea )}"
                     android:paddingStart="@dimen/marginStart"
                     android:paddingTop="@dimen/marginTop"
                     android:paddingEnd="@dimen/marginEnd"
                     android:paddingBottom="@dimen/marginTop"
-                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewArea, arrowButtonArea )}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
                     app:layout_constraintStart_toStartOf="parent"
@@ -367,10 +368,10 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/select_an_area"
                         android:inputType="textAutoComplete"
+                        android:labelFor="@id/filterArea"
                         android:paddingStart="@dimen/marginStart"
                         android:paddingEnd="@dimen/marginEnd"
                         android:paddingBottom="@dimen/marginTop"
-                        android:labelFor="@id/filterArea"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/areaText"
                         app:layout_goneMarginEnd="@dimen/marginEnd">
@@ -387,8 +388,8 @@
                     android:id="@+id/dividerPrice"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
                     android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
                     android:paddingBottom="@dimen/marginStart"
                     app:layout_constraintBottom_toBottomOf="@id/baseCardViewArea"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -399,8 +400,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/marginStart"
-                    android:paddingTop="@dimen/marginStart"
                     android:paddingStart="@dimen/marginStart"
+                    android:paddingTop="@dimen/marginStart"
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@string/price"
                     android:textStyle="bold"
@@ -412,11 +413,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewPrice, arrowButtonPrice  )}"
                     android:paddingStart="@dimen/marginStart"
                     android:paddingTop="@dimen/marginTop"
                     android:paddingEnd="@dimen/marginEnd"
                     android:paddingBottom="@dimen/marginTop"
-                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewPrice, arrowButtonPrice  )}"
                     app:layout_constraintBottom_toBottomOf="@id/priceRangeText"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
@@ -457,8 +458,8 @@
                     android:id="@+id/dividerSurface"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
                     android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
                     android:paddingBottom="@dimen/marginStart"
                     app:layout_constraintBottom_toBottomOf="@id/baseCardViewPrice"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -469,8 +470,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/marginStart"
-                    android:paddingTop="@dimen/marginStart"
                     android:paddingStart="@dimen/marginStart"
+                    android:paddingTop="@dimen/marginStart"
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@string/surface"
                     android:textStyle="bold"
@@ -482,11 +483,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewSurface, arrowButtonSurface )}"
                     android:paddingStart="@dimen/marginStart"
                     android:paddingTop="@dimen/marginTop"
                     android:paddingEnd="@dimen/marginEnd"
                     android:paddingBottom="@dimen/marginTop"
-                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewSurface, arrowButtonSurface )}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
                     app:layout_constraintStart_toStartOf="parent"
@@ -514,11 +515,11 @@
                         android:paddingStart="@dimen/marginStart"
                         android:paddingEnd="@dimen/marginEnd"
                         android:paddingBottom="@dimen/marginTop"
+                        android:valueFrom="@{viewModel.minSurface}"
+                        android:valueTo="@{viewModel.maxSurface}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:valueFrom="@{viewModel.minSurface}"
-                        android:valueTo="@{viewModel.maxSurface}"
                         app:values="@{viewModel.surfaceArray}" />
                 </androidx.cardview.widget.CardView>
 
@@ -526,8 +527,8 @@
                     android:id="@+id/dividerMarket"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
                     android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
                     android:paddingBottom="@dimen/marginStart"
                     app:layout_constraintBottom_toBottomOf="@id/baseCardViewSurface"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -538,11 +539,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/marginTop"
-                    android:text="@string/on_market_since"
                     android:paddingStart="@dimen/marginStart"
                     android:paddingTop="@dimen/marginTop"
                     android:paddingEnd="@dimen/marginEnd"
                     android:paddingBottom="@dimen/marginTop"
+                    android:text="@string/on_market_since"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/dividerMarket" />
@@ -552,11 +553,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewSellDate, arrowButtonSellDate )}"
                     android:paddingStart="@dimen/marginStart"
                     android:paddingTop="@dimen/marginTop"
                     android:paddingEnd="@dimen/marginEnd"
                     android:paddingBottom="@dimen/marginTop"
-                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewSellDate, arrowButtonSellDate )}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
                     app:layout_constraintStart_toStartOf="parent"
@@ -602,8 +603,8 @@
                     android:id="@+id/dividerSwitch"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
                     android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
                     android:paddingBottom="@dimen/marginStart"
                     app:layout_constraintBottom_toBottomOf="@id/baseCardViewSellDate"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -626,12 +627,12 @@
                     android:id="@+id/arrowButtonSoldSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewSoldSwitch, arrowButtonSoldSwitch )}"
                     android:paddingStart="@dimen/marginStart"
                     android:paddingTop="@dimen/marginTop"
                     android:paddingEnd="@dimen/marginEnd"
                     android:paddingBottom="@dimen/marginTop"
-                    android:background="@color/white"
-                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewSoldSwitch, arrowButtonSoldSwitch )}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
                     app:layout_constraintStart_toStartOf="parent"
@@ -651,11 +652,11 @@
                     app:layout_constraintVertical_bias="0.021">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:paddingStart="@dimen/marginStart"
                         android:paddingEnd="@dimen/marginEnd"
-                        android:paddingBottom="@dimen/marginTop"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:paddingBottom="@dimen/marginTop">
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/filterSoldSwitch"
@@ -694,8 +695,8 @@
                     android:id="@+id/dividerCharacteristics"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
                     android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
                     android:paddingBottom="@dimen/marginStart"
                     app:layout_constraintBottom_toBottomOf="@id/baseCardViewSoldSwitch"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -719,11 +720,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewCharacteristics,arrowButtonCharacteristics )}"
                     android:paddingStart="@dimen/marginStart"
                     android:paddingTop="@dimen/marginTop"
                     android:paddingEnd="@dimen/marginEnd"
                     android:paddingBottom="@dimen/marginTop"
-                    android:onClick="@{()->fragment.setExpandableListener(baseCardViewCharacteristics,arrowButtonCharacteristics )}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.802"
                     app:layout_constraintStart_toStartOf="parent"
@@ -745,133 +746,88 @@
                     app:layout_constraintVertical_bias="0.021">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:paddingStart="@dimen/marginStart"
                         android:paddingEnd="@dimen/marginEnd"
-                        android:paddingBottom="@dimen/marginTop"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:paddingBottom="@dimen/marginTop">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/numberOfRoomLayout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/roomSliderText"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/marginStart"
-                            android:layout_marginTop="@dimen/marginTop"
-                            android:layout_marginEnd="@dimen/marginEnd"
-                            android:layout_marginBottom="@dimen/marginTop"
-                            android:layout_weight="0.5"
-                            android:hint="@string/rooms"
-                            app:endIconMode="clear_text"
-                            app:endIconTint="@color/colorAccent"
-                            app:layout_constraintEnd_toStartOf="@id/number_of_bedroom_text_layout"
+                            android:text="@string/rooms"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/number_of_room_text_input"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="number"
-                                android:onClick="@{()->viewModel.filterData()}"
-                                android:text="@={viewModel.roomNumber }"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/textSize"
-                                app:drawableStartCompat="@drawable/ic_room_24dp"
-                                app:endIconMode="clear_text" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/number_of_bedroom_text_layout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="0dp"
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/roomsSlider"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/marginStart"
-                            android:layout_marginTop="@dimen/marginTop"
-                            android:layout_marginEnd="@dimen/marginEnd"
-                            android:layout_marginBottom="@dimen/marginTop"
-                            android:layout_weight="0.5"
-                            android:hint="@string/bedrooms"
-                            app:endIconMode="clear_text"
-                            app:endIconTint="@color/colorAccent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/numberOfRoomLayout"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/number_of_bedroom_text_input"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:inputType="number"
-                                android:onClick="@{()->viewModel.filterData()}"
-                                android:text="@={ viewModel.bedroomNumber }"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/textSize"
-                                app:drawableStartCompat="@drawable/ic_bedroom_parent_24dp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/bathroomsLayout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/marginStart"
-                            android:layout_marginTop="@dimen/marginTop"
-                            android:layout_marginEnd="@dimen/marginEnd"
-                            android:layout_marginBottom="@dimen/marginTop"
-                            android:layout_weight="0.5"
-                            android:hint="@string/bathroom"
-                            android:inputType="number"
-                            app:endIconMode="clear_text"
-                            app:endIconTint="@color/colorAccent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintEnd_toStartOf="@id/numberPicsLayout"
+                            android:stepSize="1.0"
+                            android:value="@{viewModel.roomNumber}"
+                            android:valueFrom="1.0"
+                            android:valueTo="15.0"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/number_of_bedroom_text_layout">
+                            app:layout_constraintTop_toBottomOf="@id/roomSliderText" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/number_of_bathroom_text_input"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:inputType="number"
-                                android:onClick="@{()->viewModel.filterData()}"
-                                android:text="@={viewModel.bathroomNumber }"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/textSize"
-                                app:drawableStartCompat="@drawable/ic_bathroom_24dp" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/numberPicsLayout"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/bedsSliderText"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/marginStart"
-                            android:layout_marginTop="@dimen/marginTop"
-                            android:layout_marginEnd="@dimen/marginEnd"
-                            android:layout_marginBottom="@dimen/marginTop"
-                            android:layout_weight="0.5"
-                            android:hint="@string/number_of_pics"
-                            android:inputType="number"
-                            app:endIconMode="clear_text"
-                            app:endIconTint="@color/colorAccent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/bathroomsLayout"
-                            app:layout_constraintTop_toBottomOf="@id/number_of_bedroom_text_layout">
+                            android:text="@string/bedrooms"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/roomsSlider" />
 
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/numberPicsInput"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:inputType="number"
-                                android:onClick="@{()->viewModel.filterData()}"
-                                android:text="@={viewModel.picsNumber }"
-                                android:textAlignment="center"
-                                android:textSize="@dimen/textSize"
-                                app:drawableStartCompat="@drawable/ic_baseline_insert_photo_24" />
-                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/bedsSlider"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:stepSize="1.0"
+                            android:value="@{viewModel.bedroomNumber }"
+                            android:valueFrom="0.0"
+                            android:valueTo="15.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/bedsSliderText" />
+
+                        <TextView
+                            android:id="@+id/bathsSliderText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/bathroom"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/bedsSlider" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/bathsSlider"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:stepSize="1.0"
+                            android:value="@{viewModel.bathroomNumber}"
+                            android:valueFrom="0.0"
+                            android:valueTo="15.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/bathsSliderText" />
+
+                        <TextView
+                            android:id="@+id/picsSliderText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/number_of_pics"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/bathsSlider" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/picsSlider"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:stepSize="1.0"
+                            android:value="@{viewModel.picsNumber}"
+                            android:valueFrom="1.0"
+                            android:valueTo="15.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/picsSliderText" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -879,8 +835,8 @@
                     android:id="@+id/dividerReset"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"
                     android:layout_marginTop="@dimen/marginTop"
+                    android:background="@android:color/darker_gray"
                     android:paddingBottom="@dimen/marginStart"
                     app:layout_constraintBottom_toBottomOf="@id/baseCardViewCharacteristics"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -889,9 +845,9 @@
                     android:id="@+id/applyFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/marginStart"
                     android:onClick="@{()->viewModel.resetFilters()}"
                     android:text="@string/reset"
-                    android:layout_marginEnd="@dimen/marginStart"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/dividerReset" />

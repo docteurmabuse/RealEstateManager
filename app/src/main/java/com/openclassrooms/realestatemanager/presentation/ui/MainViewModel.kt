@@ -59,11 +59,11 @@ constructor(
     var maxSurface = MutableLiveData<Float>(10000F)
     var surfaceArray = MutableLiveData<Array<Float>>(arrayOf())
 
-    var picsNumber = MutableLiveData<String>("")
+    var picsNumber = MutableLiveData<Float>(1F)
 
-    var roomNumber = MutableLiveData<String>("")
-    var bathroomNumber = MutableLiveData<String>("")
-    var bedroomNumber = MutableLiveData<String>("")
+    var roomNumber = MutableLiveData<Float>(1F)
+    var bathroomNumber = MutableLiveData<Float>(1F)
+    var bedroomNumber = MutableLiveData<Float>(1F)
 
     var description = MutableLiveData<String>("")
 
@@ -189,21 +189,13 @@ constructor(
                 "FILTER_CLICK: House is true:  ${flat.value}, ${house.value},${typeList.value} "
             )
         }
-        val rooms: Int =
-            if (roomNumber.value.isNullOrBlank())
-                1 else roomNumber.value!!.toInt()
+        val rooms: Int = roomNumber.value!!.toInt()
 
-        val beds: Int =
-            if (bedroomNumber.value.isNullOrBlank())
-                1 else bedroomNumber.value!!.toInt()
+        val beds: Int = bedroomNumber.value!!.toInt()
 
-        val baths: Int =
-            if (bathroomNumber.value.isNullOrBlank())
-                1 else bathroomNumber.value!!.toInt()
+        val baths: Int = bathroomNumber.value!!.toInt()
 
-        val pics: Int =
-            if (picsNumber.value.isNullOrBlank())
-                1 else picsNumber.value!!.toInt()
+        val pics: Int = picsNumber.value!!.toInt()
 
         val sellDateLong: Long? =
             if (sellDate.value.isNullOrBlank())
@@ -279,9 +271,12 @@ constructor(
         priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
         surfaceArray.value = arrayOf(minSurface.value!!, maxSurface.value!!)
         typeList.value = arrayListOf("House", "Flat", "Duplex", "Penthouse", "Manor", "Loft")
-        roomNumber.value = "1"
-        bathroomNumber.value = "1"
-        bedroomNumber.value = "1"
+        roomNumber.value = 1F
+        bathroomNumber.value = 0F
+        bedroomNumber.value = 1F
+        picsNumber.value = 1F
+
+
         description.value = ""
         schools.value = false
         shops.value = false

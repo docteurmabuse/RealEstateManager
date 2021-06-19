@@ -34,7 +34,7 @@ interface Persistence {
         sold: Int?,
         sellDate: Long?,
         soldDate: Long?,
-        // numberOfPics: Float?,
+        numberOfPics: Int?,
         rooms: Int?,
         beds: Int?,
         baths: Int?,

@@ -102,7 +102,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     private fun updateSoldDateInView() {
         val dateOnMarket = cal.timeInMillis
         binding.viewModel?.soldDate = MutableLiveData(dateOnMarket.toString())
-         binding.filterSoldDate.setText(DateUtil.longDateToString(dateOnMarket))
+        binding.filterSoldDate.setText(DateUtil.longDateToString(dateOnMarket))
         viewModel.soldDate = MutableLiveData(dateOnMarket.toString())
         viewModel.filterData()
     }
@@ -121,6 +121,10 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         binding.fragment = this
         setObserver()
         setDatesListener()
+        initRoomsListener()
+        initBedsListener()
+        initBathsListener()
+        initPicsListener()
     }
 
     fun setExpandableListener(cardView: CardView, button: ImageButton) {
@@ -217,6 +221,42 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         binding.priceRangeSlider.addOnChangeListener { slider, value, fromUser ->
             viewModel.priceArray.value =
                 arrayOf(binding.priceRangeSlider.values[0], binding.priceRangeSlider.values[1])
+            viewModel.filterData()
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun initRoomsListener() {
+        binding.roomsSlider.addOnChangeListener { slider, value, fromUser ->
+            viewModel.roomNumber.value =
+                binding.roomsSlider.value
+            viewModel.filterData()
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun initBedsListener() {
+        binding.bedsSlider.addOnChangeListener { slider, value, fromUser ->
+            viewModel.bedroomNumber.value =
+                binding.bedsSlider.value
+            viewModel.filterData()
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun initBathsListener() {
+        binding.bathsSlider.addOnChangeListener { slider, value, fromUser ->
+            viewModel.bathroomNumber.value =
+                binding.bathsSlider.value
+            viewModel.filterData()
+        }
+    }
+
+    @ExperimentalCoroutinesApi
+    private fun initPicsListener() {
+        binding.picsSlider.addOnChangeListener { slider, value, fromUser ->
+            viewModel.picsNumber.value =
+                binding.picsSlider.value
             viewModel.filterData()
         }
     }
