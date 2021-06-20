@@ -12,18 +12,9 @@ import com.openclassrooms.realestatemanager.provider.PropertyContract.AGENT_SING
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AUTHORITY
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_AGENT
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTIES
-import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTY_ADDRESS
-import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTY_PHOTOS
-import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTY_VIDEOS
 import com.openclassrooms.realestatemanager.provider.PropertyContract.COUNT
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_MULTIPLE_RECORD_MIME_TYPE
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_SINGLE_RECORD_MIME_TYPE
-import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_ADDRESS_MULTIPLE_RECORD_MIME_TYPE
-import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_ADDRESS_SINGLE_RECORD_MIME_TYPE
-import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_PHOTOS_MULTIPLE_RECORD_MIME_TYPE
-import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_PHOTOS_SINGLE_RECORD_MIME_TYPE
-import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_VIDEOS_MULTIPLE_RECORD_MIME_TYPE
-import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_VIDEOS_SINGLE_RECORD_MIME_TYPE
 import javax.inject.Inject
 
 class PropertyContentProvider @Inject constructor(
@@ -51,50 +42,6 @@ class PropertyContentProvider @Inject constructor(
             AUTHORITY, "$CONTENT_PATH_PROPERTIES/$COUNT",
             PROPERTIES_URI_COUNT_CODE
         )
-
-        sUriMatcher.addURI(
-            AUTHORITY,
-            CONTENT_PATH_PROPERTY_ADDRESS,
-            PROPERTY_ADDRESS_URI_ALL_ITEMS_CODE
-        )
-        sUriMatcher.addURI(
-            AUTHORITY,
-            "$CONTENT_PATH_PROPERTY_ADDRESS/#",
-            PROPERTY_ADDRESS_URI_ONE_ITEM_CODE
-        )
-        sUriMatcher.addURI(
-            AUTHORITY, "$CONTENT_PATH_PROPERTY_ADDRESS/$COUNT",
-            PROPERTY_ADDRESS_URI_COUNT_CODE
-        )
-        sUriMatcher.addURI(
-            AUTHORITY,
-            CONTENT_PATH_PROPERTY_PHOTOS,
-            PROPERTY_PHOTOS_URI_ALL_ITEMS_CODE
-        )
-        sUriMatcher.addURI(
-            AUTHORITY,
-            "$CONTENT_PATH_PROPERTY_PHOTOS/#",
-            PROPERTY_PHOTOS_URI_ONE_ITEM_CODE
-        )
-        sUriMatcher.addURI(
-            AUTHORITY, "$CONTENT_PATH_PROPERTY_PHOTOS/$COUNT",
-            PROPERTY_PHOTOS_URI_COUNT_CODE
-        )
-
-        sUriMatcher.addURI(
-            AUTHORITY,
-            CONTENT_PATH_PROPERTY_VIDEOS,
-            PROPERTY_VIDEOS_URI_ALL_ITEMS_CODE
-        )
-        sUriMatcher.addURI(
-            AUTHORITY,
-            "$CONTENT_PATH_PROPERTY_VIDEOS/#",
-            PROPERTY_VIDEOS_URI_ONE_ITEM_CODE
-        )
-        sUriMatcher.addURI(
-            AUTHORITY, "$CONTENT_PATH_PROPERTY_VIDEOS/$COUNT",
-            PROPERTY_VIDEOS_URI_COUNT_CODE
-        )
     }
 
     // The URI Codes
@@ -104,15 +51,6 @@ class PropertyContentProvider @Inject constructor(
     private val PROPERTIES_URI_ALL_ITEMS_CODE = 11
     private val PROPERTIES_URI_ONE_ITEM_CODE = 21
     private val PROPERTIES_URI_COUNT_CODE = 31
-    private val PROPERTY_ADDRESS_URI_ALL_ITEMS_CODE = 12
-    private val PROPERTY_ADDRESS_URI_ONE_ITEM_CODE = 22
-    private val PROPERTY_ADDRESS_URI_COUNT_CODE = 32
-    private val PROPERTY_PHOTOS_URI_ALL_ITEMS_CODE = 13
-    private val PROPERTY_PHOTOS_URI_ONE_ITEM_CODE = 23
-    private val PROPERTY_PHOTOS_URI_COUNT_CODE = 33
-    private val PROPERTY_VIDEOS_URI_ALL_ITEMS_CODE = 14
-    private val PROPERTY_VIDEOS_URI_ONE_ITEM_CODE = 24
-    private val PROPERTY_VIDEOS_URI_COUNT_CODE = 34
 
     override fun onCreate(): Boolean {
         initializeUriMatching()
@@ -124,12 +62,6 @@ class PropertyContentProvider @Inject constructor(
         AGENT_URI_ONE_ITEM_CODE -> AGENT_SINGLE_RECORD_MIME_TYPE
         PROPERTIES_URI_ALL_ITEMS_CODE -> PROPERTIES_MULTIPLE_RECORD_MIME_TYPE
         PROPERTIES_URI_ONE_ITEM_CODE -> PROPERTIES_SINGLE_RECORD_MIME_TYPE
-        PROPERTY_ADDRESS_URI_ALL_ITEMS_CODE -> PROPERTY_ADDRESS_MULTIPLE_RECORD_MIME_TYPE
-        PROPERTY_ADDRESS_URI_ONE_ITEM_CODE -> PROPERTY_ADDRESS_SINGLE_RECORD_MIME_TYPE
-        PROPERTY_PHOTOS_URI_ALL_ITEMS_CODE -> PROPERTY_PHOTOS_MULTIPLE_RECORD_MIME_TYPE
-        PROPERTY_PHOTOS_URI_ONE_ITEM_CODE -> PROPERTY_PHOTOS_SINGLE_RECORD_MIME_TYPE
-        PROPERTY_VIDEOS_URI_ALL_ITEMS_CODE -> PROPERTY_VIDEOS_MULTIPLE_RECORD_MIME_TYPE
-        PROPERTY_VIDEOS_URI_ONE_ITEM_CODE -> PROPERTY_VIDEOS_SINGLE_RECORD_MIME_TYPE
         else -> throw IllegalArgumentException("Unknown URI: $uri")
     }
 
@@ -151,18 +83,19 @@ class PropertyContentProvider @Inject constructor(
             }
 
             AGENT_URI_ALL_ITEMS_CODE -> {
-                cursor = propertyDao.getAllPropertiesWithCursor()
+                cursor = agentDao.getAllAgentsWithCursor()
             }
             AGENT_URI_ONE_ITEM_CODE -> {
-                cursor = id?.let { propertyDao.getPropertyByIdWithCursor(it) }
+                cursor = id?.let { agentDao.getAgentByIdWithCursor(it) }
             }
             AGENT_URI_COUNT_CODE -> {
-                cursor = propertyDao.getPropertiesCountWithCursor()
+                cursor = agentDao.getAgentCountWithCursor()
             }
 
             UriMatcher.NO_MATCH -> { /*error handling goes here*/
             }
-            else -> { /*unexpected problem*/
+            else -> {
+                throw IllegalArgumentException("Query doesn't exist: $uri")
             }
         }
         return cursor
