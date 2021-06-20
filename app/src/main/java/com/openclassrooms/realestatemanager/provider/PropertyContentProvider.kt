@@ -21,8 +21,10 @@ class PropertyContentProvider @Inject constructor() : ContentProvider() {
 
     // provide access to the database
     private lateinit var sUriMatcher: UriMatcher
+
     @Inject
     lateinit var propertyDao: PropertyDao
+
     @Inject
     lateinit var agentDao: AgentDao
 
@@ -104,18 +106,17 @@ class PropertyContentProvider @Inject constructor() : ContentProvider() {
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        TODO("Implement this to handle requests to insert a new row.")
+        return null
     }
 
     override fun update(
         uri: Uri, values: ContentValues?, selection: String?,
         selectionArgs: Array<String>?
     ): Int {
-        TODO("Implement this to handle requests to update one or more rows.")
+        return 0
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
-        TODO("Implement this to handle requests to delete one or more rows")
+        return 0
     }
-
 }
