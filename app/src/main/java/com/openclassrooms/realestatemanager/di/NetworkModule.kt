@@ -1,3 +1,0 @@
-package com.openclassrooms.realestatemanager.di
-
-object NetworkModule

@@ -17,12 +17,14 @@ import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_SINGLE_RECORD_MIME_TYPE
 import javax.inject.Inject
 
-class PropertyContentProvider @Inject constructor(
-    private val propertyDao: PropertyDao,
-    private val agentDao: AgentDao
-) : ContentProvider() {
+class PropertyContentProvider @Inject constructor() : ContentProvider() {
+
     // provide access to the database
     private lateinit var sUriMatcher: UriMatcher
+    @Inject
+    lateinit var propertyDao: PropertyDao
+    @Inject
+    lateinit var agentDao: AgentDao
 
     // Add the URI's that can be matched on
     // this content provider
