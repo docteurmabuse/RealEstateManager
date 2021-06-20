@@ -36,14 +36,15 @@ class PropertyContentProvider @Inject constructor(
     // Add the URI's that can be matched on
     // this content provider
     private fun initializeUriMatching() {
-
         sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+
         sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_AGENT, AGENT_URI_ALL_ITEMS_CODE)
         sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_AGENT/#", AGENT_URI_ONE_ITEM_CODE)
         sUriMatcher.addURI(
             AUTHORITY, "$CONTENT_PATH_AGENT/$COUNT",
             AGENT_URI_COUNT_CODE
         )
+
         sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_PROPERTIES, PROPERTIES_URI_ALL_ITEMS_CODE)
         sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTIES/#", PROPERTIES_URI_ONE_ITEM_CODE)
         sUriMatcher.addURI(
@@ -100,18 +101,19 @@ class PropertyContentProvider @Inject constructor(
     private val AGENT_URI_ALL_ITEMS_CODE = 10
     private val AGENT_URI_ONE_ITEM_CODE = 20
     private val AGENT_URI_COUNT_CODE = 30
-    private val PROPERTIES_URI_ALL_ITEMS_CODE = 10
-    private val PROPERTIES_URI_ONE_ITEM_CODE = 20
-    private val PROPERTIES_URI_COUNT_CODE = 30
-    private val PROPERTY_ADDRESS_URI_ALL_ITEMS_CODE = 10
-    private val PROPERTY_ADDRESS_URI_ONE_ITEM_CODE = 20
-    private val PROPERTY_ADDRESS_URI_COUNT_CODE = 30
-    private val PROPERTY_PHOTOS_URI_ALL_ITEMS_CODE = 10
-    private val PROPERTY_PHOTOS_URI_ONE_ITEM_CODE = 20
-    private val PROPERTY_PHOTOS_URI_COUNT_CODE = 30
-    private val PROPERTY_VIDEOS_URI_ALL_ITEMS_CODE = 10
-    private val PROPERTY_VIDEOS_URI_ONE_ITEM_CODE = 20
-    private val PROPERTY_VIDEOS_URI_COUNT_CODE = 30
+    private val PROPERTIES_URI_ALL_ITEMS_CODE = 11
+    private val PROPERTIES_URI_ONE_ITEM_CODE = 21
+    private val PROPERTIES_URI_COUNT_CODE = 31
+    private val PROPERTY_ADDRESS_URI_ALL_ITEMS_CODE = 12
+    private val PROPERTY_ADDRESS_URI_ONE_ITEM_CODE = 22
+    private val PROPERTY_ADDRESS_URI_COUNT_CODE = 32
+    private val PROPERTY_PHOTOS_URI_ALL_ITEMS_CODE = 13
+    private val PROPERTY_PHOTOS_URI_ONE_ITEM_CODE = 23
+    private val PROPERTY_PHOTOS_URI_COUNT_CODE = 33
+    private val PROPERTY_VIDEOS_URI_ALL_ITEMS_CODE = 14
+    private val PROPERTY_VIDEOS_URI_ONE_ITEM_CODE = 24
+    private val PROPERTY_VIDEOS_URI_COUNT_CODE = 34
+
     override fun onCreate(): Boolean {
         initializeUriMatching()
         return true
@@ -128,14 +130,42 @@ class PropertyContentProvider @Inject constructor(
         PROPERTY_PHOTOS_URI_ONE_ITEM_CODE -> PROPERTY_PHOTOS_SINGLE_RECORD_MIME_TYPE
         PROPERTY_VIDEOS_URI_ALL_ITEMS_CODE -> PROPERTY_VIDEOS_MULTIPLE_RECORD_MIME_TYPE
         PROPERTY_VIDEOS_URI_ONE_ITEM_CODE -> PROPERTY_VIDEOS_SINGLE_RECORD_MIME_TYPE
-        else -> null
+        else -> throw IllegalArgumentException("Unknown URI: $uri")
     }
 
     override fun query(
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
-        TODO("Implement this to handle query requests from clients.")
+        var cursor: Cursor? = null
+        val id = uri.lastPathSegment
+        when (sUriMatcher.match(uri)) {
+            PROPERTIES_URI_ALL_ITEMS_CODE -> {
+                cursor = propertyDao.getAllPropertiesWithCursor()
+            }
+            PROPERTIES_URI_ONE_ITEM_CODE -> {
+                cursor = id?.let { propertyDao.getPropertyByIdWithCursor(it) }
+            }
+            PROPERTIES_URI_COUNT_CODE -> {
+                cursor = propertyDao.getPropertiesCountWithCursor()
+            }
+
+            AGENT_URI_ALL_ITEMS_CODE -> {
+                cursor = propertyDao.getAllPropertiesWithCursor()
+            }
+            AGENT_URI_ONE_ITEM_CODE -> {
+                cursor = id?.let { propertyDao.getPropertyByIdWithCursor(it) }
+            }
+            AGENT_URI_COUNT_CODE -> {
+                cursor = propertyDao.getPropertiesCountWithCursor()
+            }
+
+            UriMatcher.NO_MATCH -> { /*error handling goes here*/
+            }
+            else -> { /*unexpected problem*/
+            }
+        }
+        return cursor
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {

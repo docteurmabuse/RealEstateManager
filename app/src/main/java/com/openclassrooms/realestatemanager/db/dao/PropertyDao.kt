@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.db.dao
 
+import android.database.Cursor
 import androidx.room.*
 import com.openclassrooms.realestatemanager.db.model.property.*
 import com.openclassrooms.realestatemanager.presentation.ui.SortOrder
@@ -423,4 +424,23 @@ interface PropertyDao {
             propertyEntityAggregate.address
         )
     }
+
+    @Transaction
+    //Get PropertiesEntity List
+    @Query(
+        "SELECT * from  PROPERTIES ORDER BY sell_date ASC"
+    )
+    fun getAllPropertiesWithCursor(): Cursor
+
+    @Transaction
+    //Get Properties Count
+    @Query(
+        "SELECT COUNT(*)  from PROPERTIES"
+    )
+    fun getPropertiesCountWithCursor(): Cursor
+
+    @Transaction
+    //Get PropertyEntity by Id
+    @Query("SELECT * FROM properties WHERE id = :id")
+    fun getPropertyByIdWithCursor(id: String): Cursor
 }
