@@ -10,6 +10,7 @@ import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PA
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTIES
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTY_ADDRESS
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTY_PHOTOS
+import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTY_VIDEOS
 import com.openclassrooms.realestatemanager.provider.PropertyContract.COUNT
 
 class PropertyContentProvider : ContentProvider() {
@@ -57,6 +58,12 @@ class PropertyContentProvider : ContentProvider() {
             AUTHORITY, "$CONTENT_PATH_PROPERTY_PHOTOS/$COUNT",
             URI_COUNT_CODE
         )
+        sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_PROPERTY_VIDEOS, URI_ALL_ITEMS_CODE)
+        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTY_VIDEOS/#", URI_ONE_ITEM_CODE)
+        sUriMatcher.addURI(
+            AUTHORITY, "$CONTENT_PATH_PROPERTY_VIDEOS/$COUNT",
+            URI_COUNT_CODE
+        )
     }
 
     // The URI Codes
@@ -64,8 +71,9 @@ class PropertyContentProvider : ContentProvider() {
     private val URI_ONE_ITEM_CODE = 20
     private val URI_COUNT_CODE = 30
 
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
-        TODO("Implement this to handle requests to delete one or more rows")
+
+    override fun onCreate(): Boolean {
+        TODO("Implement this to initialize your content provider on startup.")
     }
 
     override fun getType(uri: Uri): String? {
@@ -75,19 +83,15 @@ class PropertyContentProvider : ContentProvider() {
         )
     }
 
-    override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        TODO("Implement this to handle requests to insert a new row.")
-    }
-
-    override fun onCreate(): Boolean {
-        TODO("Implement this to initialize your content provider on startup.")
-    }
-
     override fun query(
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
         TODO("Implement this to handle query requests from clients.")
+    }
+
+    override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        TODO("Implement this to handle requests to insert a new row.")
     }
 
     override fun update(
@@ -96,4 +100,9 @@ class PropertyContentProvider : ContentProvider() {
     ): Int {
         TODO("Implement this to handle requests to update one or more rows.")
     }
+
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
+        TODO("Implement this to handle requests to delete one or more rows")
+    }
+
 }
