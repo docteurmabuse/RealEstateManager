@@ -5,6 +5,10 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
+import com.openclassrooms.realestatemanager.db.dao.AgentDao
+import com.openclassrooms.realestatemanager.db.dao.PropertyDao
+import com.openclassrooms.realestatemanager.provider.PropertyContract.AGENT_MULTIPLE_RECORDS_MIME_TYPE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.AGENT_SINGLE_RECORD_MIME_TYPE
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AUTHORITY
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_AGENT
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTIES
@@ -12,8 +16,20 @@ import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PA
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTY_PHOTOS
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTY_VIDEOS
 import com.openclassrooms.realestatemanager.provider.PropertyContract.COUNT
+import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_MULTIPLE_RECORD_MIME_TYPE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_SINGLE_RECORD_MIME_TYPE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_ADDRESS_MULTIPLE_RECORD_MIME_TYPE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_ADDRESS_SINGLE_RECORD_MIME_TYPE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_PHOTOS_MULTIPLE_RECORD_MIME_TYPE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_PHOTOS_SINGLE_RECORD_MIME_TYPE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_VIDEOS_MULTIPLE_RECORD_MIME_TYPE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTY_VIDEOS_SINGLE_RECORD_MIME_TYPE
+import javax.inject.Inject
 
-class PropertyContentProvider : ContentProvider() {
+class PropertyContentProvider @Inject constructor(
+    private val propertyDao: PropertyDao,
+    private val agentDao: AgentDao
+) : ContentProvider() {
     // provide access to the database
     private lateinit var sUriMatcher: UriMatcher
 
@@ -22,65 +38,97 @@ class PropertyContentProvider : ContentProvider() {
     private fun initializeUriMatching() {
 
         sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
-        sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_AGENT, URI_ALL_ITEMS_CODE)
-        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_AGENT/#", URI_ONE_ITEM_CODE)
+        sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_AGENT, AGENT_URI_ALL_ITEMS_CODE)
+        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_AGENT/#", AGENT_URI_ONE_ITEM_CODE)
         sUriMatcher.addURI(
             AUTHORITY, "$CONTENT_PATH_AGENT/$COUNT",
-            URI_COUNT_CODE
+            AGENT_URI_COUNT_CODE
         )
-        sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_PROPERTIES, URI_ALL_ITEMS_CODE)
-        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTIES/#", URI_ONE_ITEM_CODE)
+        sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_PROPERTIES, PROPERTIES_URI_ALL_ITEMS_CODE)
+        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTIES/#", PROPERTIES_URI_ONE_ITEM_CODE)
         sUriMatcher.addURI(
             AUTHORITY, "$CONTENT_PATH_PROPERTIES/$COUNT",
-            URI_COUNT_CODE
+            PROPERTIES_URI_COUNT_CODE
         )
-        sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_PROPERTIES, URI_ALL_ITEMS_CODE)
-        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTIES/#", URI_ONE_ITEM_CODE)
+
         sUriMatcher.addURI(
-            AUTHORITY, "$CONTENT_PATH_PROPERTIES/$COUNT",
-            URI_COUNT_CODE
+            AUTHORITY,
+            CONTENT_PATH_PROPERTY_ADDRESS,
+            PROPERTY_ADDRESS_URI_ALL_ITEMS_CODE
         )
-        sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_PROPERTY_ADDRESS, URI_ALL_ITEMS_CODE)
-        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTY_ADDRESS/#", URI_ONE_ITEM_CODE)
+        sUriMatcher.addURI(
+            AUTHORITY,
+            "$CONTENT_PATH_PROPERTY_ADDRESS/#",
+            PROPERTY_ADDRESS_URI_ONE_ITEM_CODE
+        )
         sUriMatcher.addURI(
             AUTHORITY, "$CONTENT_PATH_PROPERTY_ADDRESS/$COUNT",
-            URI_COUNT_CODE
+            PROPERTY_ADDRESS_URI_COUNT_CODE
         )
-        sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_PROPERTY_PHOTOS, URI_ALL_ITEMS_CODE)
-        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTY_PHOTOS/#", URI_ONE_ITEM_CODE)
+        sUriMatcher.addURI(
+            AUTHORITY,
+            CONTENT_PATH_PROPERTY_PHOTOS,
+            PROPERTY_PHOTOS_URI_ALL_ITEMS_CODE
+        )
+        sUriMatcher.addURI(
+            AUTHORITY,
+            "$CONTENT_PATH_PROPERTY_PHOTOS/#",
+            PROPERTY_PHOTOS_URI_ONE_ITEM_CODE
+        )
         sUriMatcher.addURI(
             AUTHORITY, "$CONTENT_PATH_PROPERTY_PHOTOS/$COUNT",
-            URI_COUNT_CODE
+            PROPERTY_PHOTOS_URI_COUNT_CODE
         )
-        sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_PROPERTY_PHOTOS, URI_ALL_ITEMS_CODE)
-        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTY_PHOTOS/#", URI_ONE_ITEM_CODE)
+
         sUriMatcher.addURI(
-            AUTHORITY, "$CONTENT_PATH_PROPERTY_PHOTOS/$COUNT",
-            URI_COUNT_CODE
+            AUTHORITY,
+            CONTENT_PATH_PROPERTY_VIDEOS,
+            PROPERTY_VIDEOS_URI_ALL_ITEMS_CODE
         )
-        sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_PROPERTY_VIDEOS, URI_ALL_ITEMS_CODE)
-        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTY_VIDEOS/#", URI_ONE_ITEM_CODE)
+        sUriMatcher.addURI(
+            AUTHORITY,
+            "$CONTENT_PATH_PROPERTY_VIDEOS/#",
+            PROPERTY_VIDEOS_URI_ONE_ITEM_CODE
+        )
         sUriMatcher.addURI(
             AUTHORITY, "$CONTENT_PATH_PROPERTY_VIDEOS/$COUNT",
-            URI_COUNT_CODE
+            PROPERTY_VIDEOS_URI_COUNT_CODE
         )
     }
 
     // The URI Codes
-    private val URI_ALL_ITEMS_CODE = 10
-    private val URI_ONE_ITEM_CODE = 20
-    private val URI_COUNT_CODE = 30
-
-
+    private val AGENT_URI_ALL_ITEMS_CODE = 10
+    private val AGENT_URI_ONE_ITEM_CODE = 20
+    private val AGENT_URI_COUNT_CODE = 30
+    private val PROPERTIES_URI_ALL_ITEMS_CODE = 10
+    private val PROPERTIES_URI_ONE_ITEM_CODE = 20
+    private val PROPERTIES_URI_COUNT_CODE = 30
+    private val PROPERTY_ADDRESS_URI_ALL_ITEMS_CODE = 10
+    private val PROPERTY_ADDRESS_URI_ONE_ITEM_CODE = 20
+    private val PROPERTY_ADDRESS_URI_COUNT_CODE = 30
+    private val PROPERTY_PHOTOS_URI_ALL_ITEMS_CODE = 10
+    private val PROPERTY_PHOTOS_URI_ONE_ITEM_CODE = 20
+    private val PROPERTY_PHOTOS_URI_COUNT_CODE = 30
+    private val PROPERTY_VIDEOS_URI_ALL_ITEMS_CODE = 10
+    private val PROPERTY_VIDEOS_URI_ONE_ITEM_CODE = 20
+    private val PROPERTY_VIDEOS_URI_COUNT_CODE = 30
     override fun onCreate(): Boolean {
-        TODO("Implement this to initialize your content provider on startup.")
+        initializeUriMatching()
+        return true
     }
 
-    override fun getType(uri: Uri): String? {
-        TODO(
-            "Implement this to handle requests for the MIME type of the data" +
-                    "at the given URI"
-        )
+    override fun getType(uri: Uri): String? = when (sUriMatcher.match(uri)) {
+        AGENT_URI_ALL_ITEMS_CODE -> AGENT_MULTIPLE_RECORDS_MIME_TYPE
+        AGENT_URI_ONE_ITEM_CODE -> AGENT_SINGLE_RECORD_MIME_TYPE
+        PROPERTIES_URI_ALL_ITEMS_CODE -> PROPERTIES_MULTIPLE_RECORD_MIME_TYPE
+        PROPERTIES_URI_ONE_ITEM_CODE -> PROPERTIES_SINGLE_RECORD_MIME_TYPE
+        PROPERTY_ADDRESS_URI_ALL_ITEMS_CODE -> PROPERTY_ADDRESS_MULTIPLE_RECORD_MIME_TYPE
+        PROPERTY_ADDRESS_URI_ONE_ITEM_CODE -> PROPERTY_ADDRESS_SINGLE_RECORD_MIME_TYPE
+        PROPERTY_PHOTOS_URI_ALL_ITEMS_CODE -> PROPERTY_PHOTOS_MULTIPLE_RECORD_MIME_TYPE
+        PROPERTY_PHOTOS_URI_ONE_ITEM_CODE -> PROPERTY_PHOTOS_SINGLE_RECORD_MIME_TYPE
+        PROPERTY_VIDEOS_URI_ALL_ITEMS_CODE -> PROPERTY_VIDEOS_MULTIPLE_RECORD_MIME_TYPE
+        PROPERTY_VIDEOS_URI_ONE_ITEM_CODE -> PROPERTY_VIDEOS_SINGLE_RECORD_MIME_TYPE
+        else -> null
     }
 
     override fun query(
