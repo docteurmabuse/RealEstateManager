@@ -44,7 +44,7 @@
             android:name=".provider.PropertyContentProvider"
             android:authorities="com.openclassrooms.realestatemanager.provider"
             android:enabled="true"
-            android:exported="true"></provider>
+            android:exported="true" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -66,7 +66,7 @@
         <activity
             android:name=".presentation.ui.BaseActivity"
             android:exported="true" />
-        <activity android:name=".presentation.ui.auth.AuthActivity"></activity>
+        <activity android:name=".presentation.ui.auth.AuthActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

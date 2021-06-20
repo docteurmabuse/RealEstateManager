@@ -38,8 +38,10 @@ const val ARG_ITEM_COUNT = "item_count"
 @AndroidEntryPoint
 class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
-    private lateinit var dialog: BottomSheetDialog
-    private lateinit var behavior: BottomSheetBehavior<View>
+    private var dialog: BottomSheetDialog? = null
+
+    private var behavior: BottomSheetBehavior<View>? = null
+
 
     private var _binding: FragmentPropertySearchFilterDialogBinding? = null
 
@@ -86,15 +88,15 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        dialog.setOnShowListener {
+        dialog!!.setOnShowListener {
             val d = it as BottomSheetDialog
             val sheet =
                 d.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet) as FrameLayout
             behavior = BottomSheetBehavior.from(sheet)
-            behavior.isHideable = false
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior!!.isHideable = false
+            behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
         }
-        return dialog
+        return dialog as BottomSheetDialog
 
     }
 
@@ -283,11 +285,15 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        dialog = null
+        behavior = null
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        dialog = null
+        behavior = null
     }
 
     companion object {
