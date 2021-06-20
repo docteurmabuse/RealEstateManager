@@ -40,6 +40,13 @@ interface PropertyDao {
     )
     fun getAllProperties(): Flow<List<PropertyEntityAggregate>>
 
+    @Transaction
+    //Get Properties Count
+    @Query(
+        "SELECT COUNT(*)  from PROPERTIES"
+    )
+    suspend fun getPropertiesCount(): Int
+
     // Retrieve PropertiesEntity from search word
     @Transaction
     @Query(
