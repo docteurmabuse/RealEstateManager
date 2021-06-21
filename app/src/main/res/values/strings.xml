@@ -111,5 +111,6 @@
     <string name="fab_add">Fab add</string>
     <string name="sort_by_price_dsc">Sort By Price DSC</string>
     <string name="sort_by_price_asc">Sort by price ASC</string>
+    <string name="currency_choose">Choose currency</string>
 
 </resources>

@@ -31,9 +31,7 @@ constructor(
     val stateFilter: StateFlow<DataState<List<Property>>>
         get() = _stateFilter
 
-
     val searchQuery = MutableStateFlow("")
-
 
     private val Boolean.int
         get() = if (this) 1 else null
@@ -83,6 +81,8 @@ constructor(
     var area = MutableLiveData<String>("")
 
     var sortOrder = MutableStateFlow(SortOrder.BY_DATE_DESC)
+
+    var currency = MutableStateFlow(PropertyCurrency.DOLLAR)
 
     var searchFilterQuery = MutableStateFlow(
         SearchFilters(
@@ -232,13 +232,6 @@ constructor(
         Timber.d(
             "FILTER_CLICK: House:  ${searchFilterQuery.value}, ${sellDate.value}, ${sortBy.value}"
         )
-        /* propertiesFilteredFlow = searchFilterQuery.flatMapLatest {
-             filterSearchProperties.invoke(
-                 searchFilterQuery.value,
-                 sortBy.value!!
-             )
-         }*/
-
 
         viewModelScope.launch {
             filterSearchProperties.invoke(
@@ -290,3 +283,5 @@ constructor(
 }
 
 enum class SortOrder { BY_PRICE_ASC, BY_PRICE_DESC, BY_DATE_ASC, BY_DATE_DESC }
+enum class PropertyCurrency { DOLLAR, EURO }
+

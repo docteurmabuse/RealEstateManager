@@ -30,6 +30,7 @@ import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
+import com.openclassrooms.realestatemanager.presentation.ui.PropertyCurrency
 import com.openclassrooms.realestatemanager.presentation.ui.SortOrder
 import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
@@ -61,12 +62,13 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var isFabOpen = false
+    private var defaultCurrency = PropertyCurrency.DOLLAR
 
-   /* val currentNavigationFragment: Fragment?
-        get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
-            ?.childFragmentManager
-            ?.fragments
-            ?.first()*/
+    /* val currentNavigationFragment: Fragment?
+         get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
+             ?.childFragmentManager
+             ?.fragments
+             ?.first()*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,6 +144,21 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     @ExperimentalCoroutinesApi
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
+            R.id.action_currency_dollar -> {
+                when (defaultCurrency) {
+                    PropertyCurrency.DOLLAR -> {
+                        defaultCurrency = PropertyCurrency.EURO
+                        viewModel.currency.value = PropertyCurrency.EURO
+                        item.setIcon(R.drawable.ic_euro_symbol_24dp)
+                    }
+                    PropertyCurrency.EURO -> {
+                        defaultCurrency = PropertyCurrency.DOLLAR
+                        viewModel.currency.value = PropertyCurrency.DOLLAR
+                        item.setIcon(R.drawable.ic_attach_dollars_24dp)
+                    }
+                }
+            }
+
             R.id.action_filter_properties -> {
                 navController.navigate(R.id.action_itemTabsFragment2_to_propertySearchDialogFragment)
                 Timber.d("FILTER: filter ok")
@@ -238,14 +255,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             R.id.action_search ->
                 Timber.d("SEARCH:CLICKED")
 
-
             R.id.action_filter_properties ->
                 Timber.d("FILTER:CLICKED")
 
             android.R.id.home -> {
                 onBackPressed()
             }
-
         }
         return true
     }
