@@ -8,15 +8,22 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheet</item>
         <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
-
+        <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
         <item name="bottomAppBarStyle">@style/MyCustomTheme</item>
+        <item name="actionBarTheme">@style/MyActionBar</item>
+    </style>
 
-
+    <style name="WindowTitleBackground">
+        <item name="android:background">#0000FF</item>
     </style>
 
     <style name="Widget.MyApp.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
         ...
         <item name="materialThemeOverlay">@style/ThemeOverlay.MyApp.Chip.Choice</item>
+    </style>
+
+    <style name="MyActionBar" parent="@style/Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="android:background">#fff</item>
     </style>
 
     <!-- Disabling elevation overlays because when chip's default background/surface

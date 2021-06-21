@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -29,7 +30,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -59,6 +59,7 @@ import timber.log.Timber
 import java.io.File
 import java.util.*
 
+
 private const val REQ_CAPTURE = 100
 private const val RES_IMAGE = 100
 
@@ -83,28 +84,16 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     private lateinit var photoListAdapter: PhotoListAdapter
 
     //Arguments
-    private var photoFile: File? = null
     private var photos: ArrayList<Media.Photo> = arrayListOf()
-    private var videos: ArrayList<Media.Video> = arrayListOf()
-    private var address: String? = ""
-    private var location: LatLng? = null
+
     private var latestTmpUri: Uri? = null
     private var mItemTouchHelper: ItemTouchHelper? = null
     private var isConnected: Boolean = true
-    private var address1: String? = ""
-    private var address2: String? = ""
-    private var city: String = "New York"
-    private var zipCode: String? = ""
-    private var state: String? = "NY"
-    private var country: String = "United States"
-    private var area: String? = ""
-    private var lat: Double? = null
-    private var lng: Double? = null
+
     private var queryImageUrl: String = ""
     private var imgPath: String = ""
     private var imageUri: Uri? = null
     private var isPermissionsAllowed: Boolean = false
-    private var agent: String? = null
     private var agentList: List<Agent>? = arrayListOf()
     private var selectedAgent: Agent = Agent("", "", "")
     private var selectedType: String = ""
@@ -161,6 +150,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
+
         setObserver()
         setUpPermissions()
         setupTypeValues(typeDropdown)
@@ -370,12 +360,15 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
             viewModel.isNewProperty.value = true
         }
         isEditPropertyView = args.editPropertyView
+
         args.property?.let {
             it.id?.let { it1 ->
                 viewModel.start(it1)
                 binding.dates?.switchTitle?.visibility = View.VISIBLE
                 binding.dates?.soldSwitch?.visibility = View.VISIBLE
                 viewModel.isNewProperty.value = false
+                (activity as AppCompatActivity?)!!.supportActionBar!!.title =
+                    requireActivity().resources.getString(R.string.edit_property)
                 Timber.d("EDIT_MODE_FRAG: $it")
             }
         }
@@ -384,7 +377,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
 
     private fun setPropertyInLayout(property: Property) {
         Timber.d("PROPERTY_DETAIL layout: $property")
-
         binding.property = property
         photos = property.media.photos as ArrayList<Media.Photo>
         binding.dates?.soldSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -396,6 +388,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
             binding.dates!!.soldInputLayout.visibility = View.GONE
             binding.dates!!.soldDateDropdown.visibility = View.GONE
         }
+
         setupRecyclerView()
     }
 
