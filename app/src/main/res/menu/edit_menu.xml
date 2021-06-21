@@ -6,4 +6,10 @@
         android:icon="@drawable/ic_edit_24dp"
         android:title="@string/edit"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/devise"
+        android:icon="@drawable/ic_edit_24dp"
+        android:title="@string/edit"
+        app:showAsAction="ifRoom" />
 </menu>

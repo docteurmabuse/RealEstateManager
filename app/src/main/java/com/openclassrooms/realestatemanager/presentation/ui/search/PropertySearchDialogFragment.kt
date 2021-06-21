@@ -282,18 +282,12 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-        dialog = null
-        behavior = null
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
         dialog = null
         behavior = null
+        cal = null
     }
 
     companion object {

@@ -12,7 +12,6 @@ import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -63,11 +62,11 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var isFabOpen = false
 
-    val currentNavigationFragment: Fragment?
+   /* val currentNavigationFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
             ?.childFragmentManager
             ?.fragments
-            ?.first()
+            ?.first()*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +96,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         // Set up the BottomAppBar menu
         binding.bottomAppBar.apply {
             setNavigationOnClickListener {
+
             }
             setOnMenuItemClickListener(this@MainActivity)
         }
@@ -192,9 +192,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             ?: findNavController(R.id.nav_host_fragment_activity_main).currentDestination
         return when (dest?.id) {
             R.id.itemTabsFragment2 -> R.menu.menu_fragment_properties
-            R.id.propertySearchDialogFragment -> R.menu.edit_menu
+            //  R.id.propertySearchDialogFragment -> R.menu.edit_menu
 
-            else -> R.menu.bottom_nav_menu
+            else -> R.menu.menu_fragment_properties
         }
     }
 
@@ -202,6 +202,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         val searchItem = binding.bottomAppBar.menu?.findItem(R.id.action_search)
         (searchItem?.actionView as? SearchView)?.onQueryTextChanged {
             viewModel.searchQuery.value = it
+            viewModel.filterData()
             Timber.d("SEARCH: $it")
         }
         return super.onCreateOptionsMenu(menu)

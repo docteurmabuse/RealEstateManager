@@ -37,7 +37,9 @@ constructor(
 
     private val Boolean.int
         get() = if (this) 1 else null
+
     var _filteredPropertyList = MutableLiveData<List<Property>>(arrayListOf())
+
     var typeList = MutableLiveData<ArrayList<String>>(
         arrayListOf()
     )
@@ -82,7 +84,7 @@ constructor(
 
     var sortOrder = MutableStateFlow(SortOrder.BY_DATE_DESC)
 
-    private var searchFilterQuery = MutableStateFlow(
+    var searchFilterQuery = MutableStateFlow(
         SearchFilters(
             "",
             null,

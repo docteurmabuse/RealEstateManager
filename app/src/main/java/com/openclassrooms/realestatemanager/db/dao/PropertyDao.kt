@@ -74,6 +74,9 @@ interface PropertyDao {
         INNER JOIN property_address ON property_address.property_id = properties.id
         INNER JOIN property_photos ON property_photos.property_id = properties.id
         WHERE ( :textQuery iS NULL OR city LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR address1 LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR type LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR area LIKE '%' || :textQuery || '%')
         AND (:area IS NULL OR area LIKE '%' || :area || '%')
         AND (:museum IS NULL OR museum IS :museum)
         AND (:school IS NULL OR schools IS :school)
@@ -126,6 +129,9 @@ interface PropertyDao {
         INNER JOIN property_address ON property_address.property_id = properties.id
         INNER JOIN property_photos ON property_photos.property_id = properties.id
         WHERE ( :textQuery iS NULL OR city LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR address1 LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR type LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR area LIKE '%' || :textQuery || '%')
         AND (:area IS NULL OR area LIKE '%' || :area || '%')
         AND (:museum IS NULL OR museum IS :museum)
         AND (:school IS NULL OR schools IS :school)
@@ -179,6 +185,9 @@ interface PropertyDao {
         INNER JOIN property_address ON property_address.property_id = properties.id
         INNER JOIN property_photos ON property_photos.property_id = properties.id
         WHERE ( :textQuery iS NULL OR city LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR address1 LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR type LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR area LIKE '%' || :textQuery || '%')
         AND (:area IS NULL OR area LIKE '%' || :area || '%')
         AND (:museum IS NULL OR museum IS :museum)
         AND (:school IS NULL OR schools IS :school)
@@ -230,7 +239,10 @@ interface PropertyDao {
         FROM PROPERTIES
         INNER JOIN property_address ON property_address.property_id = properties.id
         INNER JOIN property_photos ON property_photos.property_id = properties.id
-        WHERE ( :textQuery iS NULL OR city LIKE '%' || :textQuery || '%')
+        WHERE (:textQuery iS NULL OR city LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR address1 LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR type LIKE '%' || :textQuery || '%')
+        OR ( :textQuery iS NULL OR area LIKE '%' || :textQuery || '%')
         AND (:area IS NULL OR area LIKE '%' || :area || '%')
         AND (:museum IS NULL OR museum IS :museum)
         AND (:school IS NULL OR schools IS :school)
