@@ -12,6 +12,7 @@ import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -63,11 +64,11 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var isFabOpen = false
 
-    /* val currentNavigationFragment: Fragment?
-         get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
-             ?.childFragmentManager
-             ?.fragments
-             ?.first()*/
+    val currentNavigationFragment: Fragment?
+        get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
+            ?.childFragmentManager
+            ?.fragments
+            ?.first()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -191,6 +192,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             R.id.itemTabsFragment2 -> {
                 setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
             }
+            R.id.propertyDetailFragment -> {
+                setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
+            }
             R.id.propertySearchDialogFragment -> {
                 setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
                 hideBottomAppBar()
@@ -209,6 +213,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         }
     }
 
+    @ExperimentalCoroutinesApi
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val searchItem = binding.bottomAppBar.menu?.findItem(R.id.action_search)
         (searchItem?.actionView as? SearchView)?.onQueryTextChanged {
@@ -332,7 +337,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         agentList = agents
         binding.fabAddProperty.fabOptionEnabled = agents.isNotEmpty()
     }
-
 
     private fun displayError(message: String?) {
         if (message != null) {
