@@ -64,24 +64,33 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/roomSliderText"
+            android:id="@+id/loanTermText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/rooms"
+            android:layout_marginTop="@dimen/marginTop"
+            android:text="@string/loan_term"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/interestRateLayout" />
 
         <com.google.android.material.slider.Slider
-            android:id="@+id/roomsSlider"
+            android:id="@+id/loanTermSlider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stepSize="1.0"
-            android:value="@{viewModel.roomNumber}"
-            android:valueFrom="1.0"
-            android:valueTo="15.0"
+            android:stepSize="5.0"
+            android:value="@{viewModel.loanTerm}"
+            android:valueFrom="5.0"
+            android:valueTo="30.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/interestRateLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/loanTermText" />
 
-
+        <TextView
+            android:id="@+id/resultText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginTop"
+            android:text="@{@string/loanResult(viewModel.loanTerm) }"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loanTermSlider" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

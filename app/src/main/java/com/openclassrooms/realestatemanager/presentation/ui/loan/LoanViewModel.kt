@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 class LoanViewModel : ViewModel() {
     var propertyPrice = MutableLiveData<String>("")
     var downPayment = MutableLiveData<String>("")
-    var interestRate = MutableLiveData<String>("")
+    var interestRate = MutableLiveData<String>("1")
+    var loanTerm = MutableLiveData<Float>(5F)
 
 
 }
