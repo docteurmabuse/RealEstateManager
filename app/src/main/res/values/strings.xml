@@ -112,5 +112,8 @@
     <string name="sort_by_price_dsc">Sort By Price DSC</string>
     <string name="sort_by_price_asc">Sort by price ASC</string>
     <string name="currency_choose">Choose currency</string>
+    <string name="down_payment">Down Payment</string>
+    <string name="property_price">Property price</string>
+    <string name="interest_rate">Interest rate</string>
 
 </resources>
