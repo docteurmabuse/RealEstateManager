@@ -105,6 +105,4 @@ object Utils {
         return if (string.isNullOrEmpty()) 0
         else string.toInt()
     }
-
-
 }

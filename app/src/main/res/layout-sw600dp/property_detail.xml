@@ -96,7 +96,7 @@
                 android:id="@+id/item_price"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 price="@{property.price}"
-                currency="@{viewModel.currency}"
+                currency="@{viewModel.isEuroCurrency()}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="@dimen/marginEnd"

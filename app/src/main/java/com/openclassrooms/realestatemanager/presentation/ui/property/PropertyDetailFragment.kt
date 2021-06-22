@@ -51,6 +51,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private val viewModel: PropertyDetailViewModel by viewModels()
     private val maiViewModel: MainViewModel by activityViewModels()
     private lateinit var mapView: MapView
+    private var isCurrencyEuro = false
 
 
     // This property is only valid between onCreateView and
@@ -147,6 +148,11 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                 }
             }
         }
+        binding.viewModel = maiViewModel
+        /* maiViewModel.isEuroCurrency.observe(requireActivity()) {
+              this.isCurrencyEuro = it
+             binding.
+          }*/
     }
 
     private fun renderAgent(agent: Agent) {

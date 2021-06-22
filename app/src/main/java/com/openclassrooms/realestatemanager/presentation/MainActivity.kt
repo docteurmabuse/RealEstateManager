@@ -34,8 +34,6 @@ import com.openclassrooms.realestatemanager.presentation.ui.SortOrder
 import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
-import com.openclassrooms.realestatemanager.utils.Utils
-import com.openclassrooms.realestatemanager.utils.Utils.PropertyCurrency
 import com.openclassrooms.realestatemanager.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -58,12 +56,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private var isAddAgentView = false
     private var isAddPropertyView = false
     private var agentList: List<Agent>? = arrayListOf()
+    private var isEuroCurrency = false
 
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var isFabOpen = false
-    private var defaultCurrency = PropertyCurrency.DOLLAR
 
     /* val currentNavigationFragment: Fragment?
          get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
@@ -146,15 +144,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.action_currency -> {
-                when (defaultCurrency) {
-                    Utils.PropertyCurrency.DOLLAR -> {
-                        viewModel.toggleCurrency()
-                        item.setIcon(R.drawable.ic_euro_symbol_24dp)
-                    }
-                    PropertyCurrency.EURO -> {
-                        viewModel.toggleCurrency()
-                        item.setIcon(R.drawable.ic_attach_dollars_24dp)
-                    }
+                if (!isEuroCurrency) {
+                    viewModel.toggleCurrency()
+                    item.setIcon(R.drawable.ic_attach_dollars_24dp)
+                } else {
+                    viewModel.toggleCurrency()
+                    item.setIcon(R.drawable.ic_euro_symbol_24dp)
                 }
             }
 
@@ -327,6 +322,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                     }
                 }
             }
+        }
+        viewModel.isEuroCurrency.observe(this) {
+            this.isEuroCurrency = it
         }
     }
 

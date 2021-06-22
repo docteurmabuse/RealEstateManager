@@ -26,6 +26,7 @@ private var isCurrencyEuro: Boolean = false
     override fun onBindViewHolder(holder: PropertyViewHolder, position: Int) {
         val item = getItem(position)
         holder.binding.property = item
+        holder.binding.currency = isCurrencyEuro
         with(holder.itemView) {
             tag = item
             setOnClickListener(onClickListener)
