@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.awaitMapLoad
+import com.nambimobile.widgets.efab.ExpandableFabLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
@@ -27,6 +29,7 @@ import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyPagerAdapter
+import com.openclassrooms.realestatemanager.utils.EDIT_PROPERTY_VIEW
 import com.openclassrooms.realestatemanager.utils.MAPVIEW_BUNDLE_KEY
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,8 +96,8 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         rootView.setOnDragListener(dragListener)
         setFabListener()
         setCurrencyListener()
-        // requireActivity().findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout)
-        //  .removeAllViews()
+        requireActivity().findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout)
+            .removeAllViews()
         return rootView
     }
 
@@ -119,7 +122,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     }
 
     private fun setFabListener() {
-       /* binding.addPropertyFAB?.setOnClickListener {
+        binding.addPropertyFAB?.setOnClickListener {
             val navHostFragment = findNavController()
             val action = property?.let { property ->
                 PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
@@ -132,7 +135,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                 navHostFragment.navigate(action)
             }
             Timber.tag("PROPERTY").d("PROPERTY_ID:")
-        }*/
+        }
     }
 
     private fun setObserver() {

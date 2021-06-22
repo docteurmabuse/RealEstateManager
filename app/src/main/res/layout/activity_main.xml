@@ -102,5 +102,6 @@
                 tools:ignore="BottomAppBar" />
 
         </com.nambimobile.widgets.efab.ExpandableFabLayout>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

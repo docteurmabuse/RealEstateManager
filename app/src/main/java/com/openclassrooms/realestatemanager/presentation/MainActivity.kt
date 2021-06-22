@@ -138,7 +138,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 AppCompatResources.getDrawable(applicationContext, R.drawable.ic_edit_24dp)
             bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
             bottomAppBar.performShow()
-            expandableFabLayout.isShown
         }
     }
 

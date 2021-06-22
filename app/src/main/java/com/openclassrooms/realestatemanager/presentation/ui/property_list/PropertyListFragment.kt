@@ -116,7 +116,8 @@ class PropertyListFragment :
     ) {
         adapter = PropertyAdapter(
             onClickListener,
-            onContextClickListener
+            onContextClickListener,
+            isCurrencyEuro
         )
         recyclerView.addItemDecoration(
             DividerItemDecoration(
@@ -150,6 +151,9 @@ class PropertyListFragment :
         }
         viewModel.isEuroCurrency.observe(requireActivity()) {
             this.isCurrencyEuro = it
+            // adapter.submitList(properties)
+            if (this::adapter.isInitialized)
+                adapter.setCurrency(it)
         }
     }
 
@@ -171,7 +175,6 @@ class PropertyListFragment :
     private fun renderList(list: List<Property>) {
         adapter.submitList(list)
         properties = list
-        adapter
     }
 
     companion object {

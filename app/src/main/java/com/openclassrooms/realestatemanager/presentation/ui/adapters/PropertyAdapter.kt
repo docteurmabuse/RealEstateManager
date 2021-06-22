@@ -12,11 +12,11 @@ import timber.log.Timber
 
 class PropertyAdapter(
     private val onClickListener: View.OnClickListener,
-    private val onContextClickListener: View.OnContextClickListener
+    private val onContextClickListener: View.OnContextClickListener,
+    private var isCurrencyEuro: Boolean
 ) : ListAdapter<Property, PropertyAdapter.PropertyViewHolder>(
     ITEM_COMPARATOR
 ) {
-private var isCurrencyEuro: Boolean = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
         val binding =
             PropertyListContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -27,6 +27,7 @@ private var isCurrencyEuro: Boolean = false
         val item = getItem(position)
         holder.binding.property = item
         holder.binding.currency = isCurrencyEuro
+
         with(holder.itemView) {
             tag = item
             setOnClickListener(onClickListener)
@@ -39,12 +40,15 @@ private var isCurrencyEuro: Boolean = false
 
     fun setCurrency(isCurrencyEuro: Boolean) {
         this.isCurrencyEuro = isCurrencyEuro
+        Timber.d("CURRENCY $isCurrencyEuro")
+        notifyDataSetChanged()
     }
 
     inner class PropertyViewHolder(
         val binding: PropertyListContentBinding
     ) :
         RecyclerView.ViewHolder(binding.root)
+
 }
 
 private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Property>() {
