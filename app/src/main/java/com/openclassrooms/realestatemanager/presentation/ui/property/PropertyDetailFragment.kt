@@ -95,10 +95,17 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         updateContent()
         rootView.setOnDragListener(dragListener)
         setFabListener()
-
+        setCurrencyListener()
         requireActivity().findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout)
             .removeAllViews()
         return rootView
+    }
+
+    private fun setCurrencyListener() {
+        maiViewModel.isEuroCurrency.observe(requireActivity()) {
+            this.isCurrencyEuro = it
+            binding.isCurrencyEuro = it
+        }
     }
 
     private fun setupViewPager() {
@@ -148,11 +155,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                 }
             }
         }
-        binding.viewModel = maiViewModel
-        /* maiViewModel.isEuroCurrency.observe(requireActivity()) {
-              this.isCurrencyEuro = it
-             binding.
-          }*/
     }
 
     private fun renderAgent(agent: Agent) {

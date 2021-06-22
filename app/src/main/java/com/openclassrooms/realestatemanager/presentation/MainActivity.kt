@@ -323,7 +323,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 }
             }
         }
-        viewModel.isEuroCurrency.observe(this) {
+        viewModel.isEuroCurrency.observe(this@MainActivity) {
             this.isEuroCurrency = it
         }
     }

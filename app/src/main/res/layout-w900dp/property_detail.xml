@@ -21,8 +21,8 @@
             type="android.view.View.OnClickListener" />
 
         <variable
-            name="viewModel"
-            type="com.openclassrooms.realestatemanager.presentation.ui.MainViewModel" />
+            name="isCurrencyEuro"
+            type="java.lang.Boolean" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -96,7 +96,7 @@
             <TextView
                 android:id="@+id/item_price"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                currency="@{viewModel.isEuroCurrency}"
+                currency="@{isCurrencyEuro}"
                 price="@{property.price}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
