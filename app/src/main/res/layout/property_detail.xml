@@ -437,7 +437,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
+<!--
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
@@ -445,7 +445,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:fabAlignmentMode="end"
-            app:navigationIcon="@drawable/ic_menu_24dp"
+
             app:title="Add a new property" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -457,7 +457,7 @@
             android:contentDescription="@string/add_property_button"
             app:backgroundTint="@color/colorAccent"
             app:layout_anchor="@id/bottomAppBar"
-            app:srcCompat="@drawable/ic_edit_24dp" />
+            app:srcCompat="@drawable/ic_edit_24dp" />-->
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

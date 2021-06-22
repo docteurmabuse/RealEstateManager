@@ -20,7 +20,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.awaitMapLoad
-import com.nambimobile.widgets.efab.ExpandableFabLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
@@ -94,8 +93,8 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         rootView.setOnDragListener(dragListener)
         setFabListener()
         setCurrencyListener()
-        requireActivity().findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout)
-            .removeAllViews()
+        // requireActivity().findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout)
+        //  .removeAllViews()
         return rootView
     }
 

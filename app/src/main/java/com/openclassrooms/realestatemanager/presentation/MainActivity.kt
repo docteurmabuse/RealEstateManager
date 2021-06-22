@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -120,6 +121,22 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             bottomAppBar.replaceMenu(menuRes)
             expandableFabLayout.contentDescription = getString(R.string.hello_blank_fragment)
             expandableFabLayout.visibility = View.VISIBLE
+            expandableFabPortrait.show()
+            bottomAppBar.performShow()
+            expandableFabLayout.isShown
+        }
+    }
+
+    private fun setBottomAppBarForDetail(@MenuRes menuRes: Int) {
+        binding.run {
+            // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
+            bottomAppBar.visibility = View.VISIBLE
+            bottomAppBar.replaceMenu(menuRes)
+            expandableFabLayout.contentDescription = getString(R.string.title_property_detail)
+            expandableFabLayout.visibility = View.VISIBLE
+            expandableFabPortrait.efabIcon =
+                AppCompatResources.getDrawable(applicationContext, R.drawable.ic_edit_24dp)
+            bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
             bottomAppBar.performShow()
             expandableFabLayout.isShown
         }
@@ -193,7 +210,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
             }
             R.id.propertyDetailFragment -> {
-                setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
+                setBottomAppBarForDetail(getBottomAppBarMenuDestination(destination))
             }
             R.id.propertySearchDialogFragment -> {
                 setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
