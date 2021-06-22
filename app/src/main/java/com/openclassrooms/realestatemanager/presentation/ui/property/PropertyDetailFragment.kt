@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -26,6 +27,7 @@ import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyPagerAdapter
 import com.openclassrooms.realestatemanager.utils.EDIT_PROPERTY_VIEW
 import com.openclassrooms.realestatemanager.utils.MAPVIEW_BUNDLE_KEY
@@ -47,6 +49,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private var _binding: PropertyDetailBinding? = null
     private var liteMap: GoogleMap? = null
     private val viewModel: PropertyDetailViewModel by viewModels()
+    private val maiViewModel: MainViewModel by activityViewModels()
     private lateinit var mapView: MapView
 
 

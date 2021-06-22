@@ -146,13 +146,7 @@ class PropertyListFragment :
                     }
                 }
             }
-
-            /*   viewModel.filteredPropertyList.observe(requireActivity()) {
-                   if (it != null)
-                       renderList(it)
-               }*/
         }
-
     }
 
 

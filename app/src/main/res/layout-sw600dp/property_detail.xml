@@ -18,6 +18,10 @@
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="viewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.MainViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -92,6 +96,7 @@
                 android:id="@+id/item_price"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 price="@{property.price}"
+                currency="@{viewModel.currency}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="@dimen/marginEnd"

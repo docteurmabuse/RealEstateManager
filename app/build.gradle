@@ -282,6 +282,9 @@ dependencies {
     //Faker for fake data
     implementation 'com.github.javafaker:javafaker:1.0.2'
 
+    //Jetpack Data Store
+    implementation("androidx.datastore:datastore:1.0.0-beta02")
+    implementation "androidx.datastore:datastore-preferences:1.0.0-beta02"
 
 
 }

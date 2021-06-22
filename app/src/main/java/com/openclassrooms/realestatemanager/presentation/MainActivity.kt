@@ -30,11 +30,12 @@ import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
-import com.openclassrooms.realestatemanager.presentation.ui.PropertyCurrency
 import com.openclassrooms.realestatemanager.presentation.ui.SortOrder
 import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
+import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.Utils.PropertyCurrency
 import com.openclassrooms.realestatemanager.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -144,10 +145,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     @ExperimentalCoroutinesApi
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.action_currency_dollar -> {
+            R.id.action_currency -> {
                 when (defaultCurrency) {
-                    PropertyCurrency.DOLLAR -> {
-                        defaultCurrency = PropertyCurrency.EURO
+                    Utils.PropertyCurrency.DOLLAR -> {
+                        defaultCurrency = Utils.PropertyCurrency.EURO
                         viewModel.currency.value = PropertyCurrency.EURO
                         item.setIcon(R.drawable.ic_euro_symbol_24dp)
                     }

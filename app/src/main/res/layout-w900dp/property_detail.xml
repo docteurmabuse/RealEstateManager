@@ -19,6 +19,10 @@
         <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="currency"
+            type="com.openclassrooms.realestatemanager.utils.Utils.PropertyCurrency" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -92,6 +96,7 @@
             <TextView
                 android:id="@+id/item_price"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                currency="@{viewModel.currency}"
                 price="@{property.price}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

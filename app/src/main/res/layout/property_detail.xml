@@ -25,6 +25,10 @@
             type="com.openclassrooms.realestatemanager.domain.model.property.Address" />
 
         <variable
+            name="viewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.MainViewModel" />
+
+        <variable
             name="clickListener"
             type="android.view.View.OnClickListener" />
     </data>
@@ -80,13 +84,13 @@
                     app:progressMode="true"
                     app:selectedDotColor="@color/colorAccent" />
 
-              <!--  <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/detail_toolbar"
-                    app:layout_scrollFlags="scroll|enterAlways|snap"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
+                <!--  <com.google.android.material.appbar.MaterialToolbar
+                      android:id="@+id/detail_toolbar"
+                      app:layout_scrollFlags="scroll|enterAlways|snap"
+                      android:layout_width="match_parent"
+                      android:layout_height="?attr/actionBarSize"
+                      app:layout_collapseMode="pin"
+                      app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -135,6 +139,7 @@
                 <TextView
                     android:id="@+id/item_price"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    currency="@{viewModel.currency}"
                     price="@{property.price}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -381,8 +386,8 @@
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@string/agent"
                     app:drawableStartCompat="@drawable/ic_baseline_account_circle_24"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="@id/agentImage"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/onMarketSince_text" />
 
                 <ImageView
@@ -405,8 +410,8 @@
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@{agent.name}"
-                    app:layout_constraintStart_toEndOf="@id/agentImage"
                     app:layout_constraintBottom_toBottomOf="@id/agentImage"
+                    app:layout_constraintStart_toEndOf="@id/agentImage"
                     app:layout_constraintTop_toBottomOf="@id/onMarketSince_text" />
 
                 <TextView

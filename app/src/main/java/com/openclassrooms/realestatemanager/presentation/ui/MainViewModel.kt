@@ -7,6 +7,7 @@ import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.domain.model.search.SearchFilters
 import com.openclassrooms.realestatemanager.utils.DateUtil
+import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -82,7 +83,7 @@ constructor(
 
     var sortOrder = MutableStateFlow(SortOrder.BY_DATE_DESC)
 
-    var currency = MutableStateFlow(PropertyCurrency.DOLLAR)
+    var currency = MutableLiveData(Utils.PropertyCurrency.DOLLAR)
 
     var searchFilterQuery = MutableStateFlow(
         SearchFilters(
@@ -283,5 +284,4 @@ constructor(
 }
 
 enum class SortOrder { BY_PRICE_ASC, BY_PRICE_DESC, BY_DATE_ASC, BY_DATE_DESC }
-enum class PropertyCurrency { DOLLAR, EURO }
 

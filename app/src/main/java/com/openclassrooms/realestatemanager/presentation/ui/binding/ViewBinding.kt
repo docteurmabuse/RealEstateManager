@@ -17,6 +17,8 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.utils.DateUtil.longDateToString
 import com.openclassrooms.realestatemanager.utils.DateUtil.stringToLongDate
+import com.openclassrooms.realestatemanager.utils.Utils
+import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
 import timber.log.Timber
 import java.text.NumberFormat
 import java.util.*
@@ -94,11 +96,19 @@ class ViewBinding {
         }
 
         @JvmStatic
-        @BindingAdapter("price")
-        fun bindGetPriceText(textView: TextView, price: Int?) {
+        @BindingAdapter("price", "currency")
+        fun bindGetPriceText(textView: TextView, price: Int?, currency: Utils.PropertyCurrency) {
             price?.let {
                 Timber.d("PRICE: $it")
-                textView.text = NumberFormat.getCurrencyInstance(Locale.US).format(price)
+                when (currency) {
+                    Utils.PropertyCurrency.DOLLAR -> {
+                        textView.text = NumberFormat.getCurrencyInstance(Locale.US).format(price)
+                    }
+                    Utils.PropertyCurrency.EURO -> {
+                        textView.text = NumberFormat.getCurrencyInstance(Locale.FRANCE)
+                            .format(convertDollarToEuro(price))
+                    }
+                }
             }
         }
 
