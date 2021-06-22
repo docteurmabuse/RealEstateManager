@@ -2,6 +2,8 @@ package com.openclassrooms.realestatemanager.di
 
 import android.content.Context
 import com.openclassrooms.realestatemanager.domain.model.property.Property
+import com.openclassrooms.realestatemanager.prefsstore.PrefsStore
+import com.openclassrooms.realestatemanager.prefsstore.PrefsStoreImpl
 import com.openclassrooms.realestatemanager.presentation.BaseApplication
 import com.openclassrooms.realestatemanager.utils.CoroutineDispatchersProvider
 import com.openclassrooms.realestatemanager.utils.DispatchersProvider
@@ -20,6 +22,9 @@ abstract class AppModule {
     @Binds
     abstract fun bindDispatchersProvider(dispatchersProvider: CoroutineDispatchersProvider):
             DispatchersProvider
+
+    @Binds
+    abstract fun bindPrefsStore(prefsStoreImpl: PrefsStoreImpl): PrefsStore
 
     companion object {
         @Singleton

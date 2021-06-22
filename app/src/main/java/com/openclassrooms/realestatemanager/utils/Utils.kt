@@ -106,7 +106,5 @@ object Utils {
         else string.toInt()
     }
 
-    enum class PropertyCurrency { DOLLAR, EURO }
-
 
 }

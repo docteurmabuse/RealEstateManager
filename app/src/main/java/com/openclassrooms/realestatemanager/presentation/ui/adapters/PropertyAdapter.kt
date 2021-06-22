@@ -16,7 +16,7 @@ class PropertyAdapter(
 ) : ListAdapter<Property, PropertyAdapter.PropertyViewHolder>(
     ITEM_COMPARATOR
 ) {
-
+private var isCurrencyEuro: Boolean = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PropertyViewHolder {
         val binding =
             PropertyListContentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -34,6 +34,10 @@ class PropertyAdapter(
                 Timber.tag("clickTransformation").d("click item : It's OK :$position")
             }
         }
+    }
+
+    fun setCurrency(isCurrencyEuro: Boolean) {
+        this.isCurrencyEuro = isCurrencyEuro
     }
 
     inner class PropertyViewHolder(

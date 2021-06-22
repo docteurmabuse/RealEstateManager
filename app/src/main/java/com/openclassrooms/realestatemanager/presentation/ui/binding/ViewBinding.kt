@@ -17,7 +17,6 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.utils.DateUtil.longDateToString
 import com.openclassrooms.realestatemanager.utils.DateUtil.stringToLongDate
-import com.openclassrooms.realestatemanager.utils.Utils
 import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
 import timber.log.Timber
 import java.text.NumberFormat
@@ -97,17 +96,14 @@ class ViewBinding {
 
         @JvmStatic
         @BindingAdapter("price", "currency")
-        fun bindGetPriceText(textView: TextView, price: Int?, currency: Utils.PropertyCurrency) {
+        fun bindGetPriceText(textView: TextView, price: Int?, isCurrencyEuro: Boolean) {
             price?.let {
                 Timber.d("PRICE: $it")
-                when (currency) {
-                    Utils.PropertyCurrency.DOLLAR -> {
-                        textView.text = NumberFormat.getCurrencyInstance(Locale.US).format(price)
-                    }
-                    Utils.PropertyCurrency.EURO -> {
-                        textView.text = NumberFormat.getCurrencyInstance(Locale.FRANCE)
-                            .format(convertDollarToEuro(price))
-                    }
+                if (isCurrencyEuro)
+                    textView.text = NumberFormat.getCurrencyInstance(Locale.FRANCE)
+                        .format(convertDollarToEuro(price))
+                else {
+                    textView.text = NumberFormat.getCurrencyInstance(Locale.US).format(price)
                 }
             }
         }
@@ -218,7 +214,8 @@ class ViewBinding {
         @get:InverseBindingAdapter(attribute = "value")
         @set:BindingAdapter("value")
         var AutoCompleteTextView.selectedValue: Any?
-            get() = if (listSelection != ListView.INVALID_POSITION) adapter.getItem(listSelection) else null
+            get() =
+                if (listSelection != ListView.INVALID_POSITION) adapter.getItem(listSelection) else null
             set(value) {
                 val newValue = value ?: adapter.getItem(0)
                 setText(newValue.toString(), true)

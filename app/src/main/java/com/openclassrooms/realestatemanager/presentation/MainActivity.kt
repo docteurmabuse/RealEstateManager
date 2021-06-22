@@ -148,13 +148,11 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             R.id.action_currency -> {
                 when (defaultCurrency) {
                     Utils.PropertyCurrency.DOLLAR -> {
-                        defaultCurrency = Utils.PropertyCurrency.EURO
-                        viewModel.currency.value = PropertyCurrency.EURO
+                        viewModel.toggleCurrency()
                         item.setIcon(R.drawable.ic_euro_symbol_24dp)
                     }
                     PropertyCurrency.EURO -> {
-                        defaultCurrency = PropertyCurrency.DOLLAR
-                        viewModel.currency.value = PropertyCurrency.DOLLAR
+                        viewModel.toggleCurrency()
                         item.setIcon(R.drawable.ic_attach_dollars_24dp)
                     }
                 }

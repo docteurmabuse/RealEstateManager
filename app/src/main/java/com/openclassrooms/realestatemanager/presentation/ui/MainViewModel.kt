@@ -6,8 +6,8 @@ import com.openclassrooms.realestatemanager.domain.interactors.searchProperty.Se
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.domain.model.search.SearchFilters
+import com.openclassrooms.realestatemanager.prefsstore.PrefsStore
 import com.openclassrooms.realestatemanager.utils.DateUtil
-import com.openclassrooms.realestatemanager.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -21,6 +21,7 @@ class MainViewModel
 constructor(
     private val searchProperties: SearchProperties,
     private val filterSearchProperties: FilterSearchProperties,
+    private val prefsStore: PrefsStore,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -83,7 +84,7 @@ constructor(
 
     var sortOrder = MutableStateFlow(SortOrder.BY_DATE_DESC)
 
-    var currency = MutableLiveData(Utils.PropertyCurrency.DOLLAR)
+    var isEuroCurrency = prefsStore.isCurrencyEuro().asLiveData()
 
     var searchFilterQuery = MutableStateFlow(
         SearchFilters(
@@ -112,6 +113,12 @@ constructor(
 
     init {
         fetchProperties()
+    }
+
+    fun toggleCurrency() {
+        viewModelScope.launch {
+            prefsStore.toggleCurrency()
+        }
     }
 
     @ExperimentalCoroutinesApi

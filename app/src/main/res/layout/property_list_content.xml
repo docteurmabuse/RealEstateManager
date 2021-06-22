@@ -17,7 +17,7 @@
 
         <variable
             name="currency"
-            type="com.openclassrooms.realestatemanager.utils.Utils.PropertyCurrency" />
+            type="java.lang.Boolean" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -73,8 +73,8 @@
 
             <TextView
                 android:id="@+id/text_price"
-                price="@{property.price}"
                 currency="@{currency}"
+                price="@{property.price}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/text_margin"

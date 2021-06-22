@@ -40,7 +40,7 @@ class PropertyListFragment :
     private lateinit var adapter: PropertyAdapter
     private var recyclerView: RecyclerView? = null
     private var swipeRefreshLayout: SwipeRefreshLayout? = null
-
+    private var isCurrencyEuro = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -147,6 +147,9 @@ class PropertyListFragment :
                 }
             }
         }
+        viewModel.isEuroCurrency.observe(requireActivity()) {
+            this.isCurrencyEuro = it
+        }
     }
 
 
@@ -167,6 +170,7 @@ class PropertyListFragment :
     private fun renderList(list: List<Property>) {
         adapter.submitList(list)
         properties = list
+        adapter
     }
 
     companion object {
