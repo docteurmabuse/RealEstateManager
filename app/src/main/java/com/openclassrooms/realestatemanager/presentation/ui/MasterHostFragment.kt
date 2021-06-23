@@ -24,7 +24,6 @@ class MasterHostFragment : Fragment() {
             val navController = master.navController
             val navInflater = navController.navInflater
             val graph = navInflater.inflate(R.navigation.mobile_navigation)
-
             master.navController.setGraph(graph, arguments)
         }
 
@@ -40,7 +39,6 @@ class MasterHostFragment : Fragment() {
             val bundle = Bundle()
             bundle.putInt(TAB_NUMBER, tabNumber)
             fragment.arguments = bundle
-
             return fragment
         }
     }

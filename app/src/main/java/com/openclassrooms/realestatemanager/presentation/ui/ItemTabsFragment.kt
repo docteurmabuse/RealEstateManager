@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.TabsPagerAdapter
+import com.openclassrooms.realestatemanager.presentation.ui.loan.LoanFragment
 import com.openclassrooms.realestatemanager.presentation.ui.property_list.PropertyListFragment
 import com.openclassrooms.realestatemanager.presentation.ui.property_map.MapFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,7 +39,8 @@ class ItemTabsFragment : Fragment() {
         )
         val fragmentList = arrayListOf(
             PropertyListFragment(),
-            MapFragment()
+            MapFragment(),
+            LoanFragment()
         )
 
         tabsPagerAdapter = TabsPagerAdapter(
@@ -55,22 +57,20 @@ class ItemTabsFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "View List"
+                    tab.text = " List"
                     tab.setIcon(R.drawable.ic_view_list_24dp)
                 }
 
                 1 -> {
-                    tab.text = "View Map"
+                    tab.text = "Map"
                     tab.setIcon(R.drawable.ic_map_24dp)
                 }
                 2 -> {
-                    tab.text = "Loan Simulator"
-                    tab.setIcon(R.drawable.baseline_attach_money_24)
+                    tab.text = "Loan"
+                    tab.setIcon(R.drawable.ic_baseline_account_balance_24)
                 }
             }
         }.attach()
 
     }
-
-
 }
