@@ -16,14 +16,19 @@ class LoanFragment : Fragment(R.layout.loan_fragment) {
     }
 
     private val viewModel: LoanViewModel by viewModels()
-    private lateinit var binding: LoanFragmentBinding
+    private var _binding: LoanFragmentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = LoanFragmentBinding.inflate(layoutInflater, container, false)
+        _binding = LoanFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
+    }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,7 +31,11 @@ class ItemTabsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        val navController = findNavController()
+        navController.previousBackStackEntry?.savedStateHandle?.set(
+            "key",
+            true
+        )
         val fragmentList = arrayListOf(
             PropertyListFragment(),
             MapFragment()
@@ -57,6 +62,10 @@ class ItemTabsFragment : Fragment() {
                 1 -> {
                     tab.text = "View Map"
                     tab.setIcon(R.drawable.ic_map_24dp)
+                }
+                2 -> {
+                    tab.text = "Loan Simulator"
+                    tab.setIcon(R.drawable.baseline_attach_money_24)
                 }
             }
         }.attach()

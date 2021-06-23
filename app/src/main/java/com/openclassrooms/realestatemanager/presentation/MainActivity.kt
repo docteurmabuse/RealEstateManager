@@ -7,19 +7,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -51,7 +49,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     lateinit var fragmentFactory: MainFragmentFactory
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: MainViewModel by viewModels()
     private val agentViewModel: AgentsViewModel by viewModels()
     private var properties: List<Property> = arrayListOf()
@@ -60,31 +57,37 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private var agentList: List<Agent>? = arrayListOf()
     private var isEuroCurrency = false
 
-    private lateinit var navHostFragment: NavHostFragment
-    private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private var isFabOpen = false
+    private val navHostFragment by lazy {
+        supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment
+    }
 
-    val currentNavigationFragment: Fragment?
+    private val navController by lazy { navHostFragment.navController }
+    private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
+    private var menu: Menu? = null
+
+    /*var currentNavigationFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
             ?.childFragmentManager
             ?.fragments
-            ?.first()
+            ?.first()*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
+        binding.lifecycleOwner = this
+
         setContentView(binding.root)
-        navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment
-        navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+
         setupActionBarWithNavController(navController, appBarConfiguration)
-        //viewModel.fetchProperties()
+
         setObserver()
         setupBottomNavigationAndFab()
         setAddPropertyFabListener()
         setAddAgentFabListener()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     private fun setupBottomNavigationAndFab() {
@@ -99,7 +102,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         // Set up the BottomAppBar menu
         binding.bottomAppBar.apply {
             setNavigationOnClickListener {
-
+                navController.navigate(R.id.action_itemTabsFragment2_to_bottomNavigationDrawerFragment)
             }
             setOnMenuItemClickListener(this@MainActivity)
         }
@@ -119,8 +122,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
             bottomAppBar.visibility = View.VISIBLE
             bottomAppBar.replaceMenu(menuRes)
-            expandableFabLayout.contentDescription = getString(R.string.hello_blank_fragment)
+            expandableFabLayout.contentDescription = getString(R.string.title_property_list)
             expandableFabLayout.visibility = View.VISIBLE
+            expandableFabPortrait.efabIcon =
+                AppCompatResources.getDrawable(applicationContext, R.drawable.ic_add_24dp)
             expandableFabPortrait.show()
             bottomAppBar.performShow()
             expandableFabLayout.isShown
@@ -137,24 +142,8 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             expandableFabPortrait.efabIcon =
                 AppCompatResources.getDrawable(applicationContext, R.drawable.ic_edit_24dp)
             bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-            bottomAppBar.performShow()
+            // bottomAppBar.performShow()
         }
-    }
-
-    override fun onSaveInstanceState(savedInstanceState: Bundle) {
-        super.onSaveInstanceState(savedInstanceState)
-        savedInstanceState.putBundle("nav_state", navHostFragment.findNavController().saveState())
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        navHostFragment.findNavController().restoreState(savedInstanceState.getBundle("nav_state"))
-    }
-
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     @ExperimentalCoroutinesApi
@@ -163,10 +152,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             R.id.action_currency -> {
                 if (!isEuroCurrency) {
                     viewModel.toggleCurrency()
-                    item.setIcon(R.drawable.ic_attach_dollars_24dp)
+                    item.setIcon(R.drawable.ic_euro_symbol_24dp)
                 } else {
                     viewModel.toggleCurrency()
-                    item.setIcon(R.drawable.ic_euro_symbol_24dp)
+                    item.setIcon(R.drawable.ic_attach_dollars_24dp)
                 }
             }
 
@@ -192,9 +181,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 viewModel.sortOrder.value = SortOrder.BY_DATE_DESC
                 viewModel.filterData()
             }
-            android.R.id.home -> {
-                onBackPressed()
-            }
+
         }
         return true
     }
@@ -210,6 +197,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             }
             R.id.propertyDetailFragment -> {
                 setBottomAppBarForDetail(getBottomAppBarMenuDestination(destination))
+                binding.expandableFabLayout.visibility = View.GONE
+
+                hideBottomAppBar()
             }
             R.id.propertySearchDialogFragment -> {
                 setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
@@ -223,14 +213,21 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             ?: findNavController(R.id.nav_host_fragment_activity_main).currentDestination
         return when (dest?.id) {
             R.id.itemTabsFragment2 -> R.menu.menu_fragment_properties
-            //  R.id.propertySearchDialogFragment -> R.menu.edit_menu
-
+            //     R.id.propertyDetailFragment -> R.menu.edit_menu
             else -> R.menu.menu_fragment_properties
         }
     }
 
     @ExperimentalCoroutinesApi
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menu = menu
+        if (isEuroCurrency)
+            binding.bottomAppBar.menu?.findItem(R.id.action_currency)
+                ?.setIcon(R.drawable.ic_euro_symbol_24dp)
+        else
+            binding.bottomAppBar.menu?.findItem(R.id.action_currency)
+                ?.setIcon(R.drawable.ic_attach_dollars_24dp)
+
         val searchItem = binding.bottomAppBar.menu?.findItem(R.id.action_search)
         (searchItem?.actionView as? SearchView)?.onQueryTextChanged {
             viewModel.searchQuery.value = it
@@ -266,7 +263,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     @ExperimentalCoroutinesApi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.navLoan -> {
+                Timber.d("LOAN")
 
+            }
             R.id.action_search ->
                 Timber.d("SEARCH:CLICKED")
 
@@ -275,6 +275,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
 
             android.R.id.home -> {
                 onBackPressed()
+                this@MainActivity.onBackPressedDispatcher.addCallback(this) {
+                    findNavController(R.id.nav_host_fragment_activity_main).popBackStack()
+                }
             }
         }
         return true
@@ -282,7 +285,13 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
 
     override fun onBackPressed() {
         binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-        navController.navigate(R.id.mainActivity)
+        navController.popBackStack()
+        if (isEuroCurrency)
+            binding.bottomAppBar.menu?.findItem(R.id.action_currency)
+                ?.setIcon(R.drawable.ic_euro_symbol_24dp)
+        else
+            binding.bottomAppBar.menu?.findItem(R.id.action_currency)
+                ?.setIcon(R.drawable.ic_attach_dollars_24dp)
     }
 
     private fun setAddAgentFabListener() {
@@ -302,7 +311,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             navController.navigate(action)
         }
     }
-
 
     private fun setAddPropertyFabListener() {
         binding.fabAddProperty.setOnClickListener {
@@ -370,5 +378,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+
     }
+
 }

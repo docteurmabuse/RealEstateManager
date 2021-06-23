@@ -21,7 +21,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.awaitMapLoad
-import com.nambimobile.widgets.efab.ExpandableFabLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.PropertyDetailBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
@@ -39,8 +38,6 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class PropertyDetailFragment : Fragment(R.layout.property_detail) {
-
-
     private var property: Property? = null
     private var viewPager: ViewPager2? = null
     private var dotsIndicator: DotsIndicator? = null
@@ -53,9 +50,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private lateinit var mapView: MapView
     private var isCurrencyEuro = false
 
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private val dragListener = View.OnDragListener { v, event ->
@@ -89,6 +83,8 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     ): View {
 
         _binding = PropertyDetailBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this.viewLifecycleOwner
+
         val rootView = binding.root
         toolbarLayout = binding.toolbarLayout
         setupViewPager()
@@ -96,15 +92,15 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         rootView.setOnDragListener(dragListener)
         setFabListener()
         setCurrencyListener()
-        requireActivity().findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout)
-            .removeAllViews()
         return rootView
     }
 
     private fun setCurrencyListener() {
-        maiViewModel.isEuroCurrency.observe(requireActivity()) {
-            this.isCurrencyEuro = it
-            binding.isCurrencyEuro = it
+        maiViewModel.isEuroCurrency.observe(viewLifecycleOwner) {
+            it?.let {
+                this.isCurrencyEuro = it
+                binding.isCurrencyEuro = it
+            }
         }
     }
 
@@ -242,5 +238,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         super.onDestroyView()
         _binding = null
         viewPager!!.adapter = null
+        viewPager = null
+        dotsIndicator = null
     }
 }

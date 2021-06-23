@@ -116,6 +116,6 @@
     <string name="property_price">Property price</string>
     <string name="interest_rate">Interest rate</string>
     <string name="loan_term">Loan term in year</string>
-    <string name="loanResult">Your mortgage payments over %1$d years will add up to $1,429,560. Estimated monthly payment: $3,971</string>
+    <string name="loanResult">Your mortgage payments over %1$s years will add up to $1,429,560. Estimated monthly payment: $3,971</string>
 
 </resources>

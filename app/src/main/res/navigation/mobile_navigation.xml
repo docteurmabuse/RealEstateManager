@@ -123,6 +123,12 @@
         <action
             android:id="@+id/action_itemTabsFragment2_to_propertySearchDialogFragment"
             app:destination="@id/propertySearchDialogFragment" />
+        <action
+            android:id="@+id/action_itemTabsFragment2_to_loanFragment"
+            app:destination="@id/loanFragment" />
+        <action
+            android:id="@+id/action_itemTabsFragment2_to_bottomNavigationDrawerFragment"
+            app:destination="@id/bottomNavigationDrawerFragment" />
     </fragment>
     <fragment
         android:id="@+id/masterHostFragment"
@@ -145,4 +151,12 @@
         android:name="com.openclassrooms.realestatemanager.presentation.ui.search.PropertySearchDialogFragment"
         android:label="Properties filter"
         tools:layout="@layout/fragment_property_search_filter_dialog" />
+    <fragment
+        android:id="@+id/loanFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.loan.LoanFragment"
+        android:label="LoanFragment" />
+    <dialog
+        android:id="@+id/bottomNavigationDrawerFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.drawer.BottomNavigationDrawerFragment"
+        android:label="BottomNavigationDrawerFragment" />
 </navigation>
