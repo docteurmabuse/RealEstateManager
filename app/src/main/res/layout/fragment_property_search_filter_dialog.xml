@@ -448,7 +448,7 @@
                         android:paddingBottom="@dimen/marginTop"
                         android:stepSize="@{viewModel.stepSize}"
                         android:valueFrom="@{viewModel.minPrice}"
-                        android:valueTo="@{viewModel.maxPrice}"
+                        android:valueTo="@{viewModel.maxPrice>0 ? viewModel.maxPrice : 1000F }"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/priceRangeText"
                         app:values="@{viewModel.priceArray}" />
@@ -516,7 +516,7 @@
                         android:paddingEnd="@dimen/marginEnd"
                         android:paddingBottom="@dimen/marginTop"
                         android:valueFrom="@{viewModel.minSurface}"
-                        android:valueTo="@{viewModel.maxSurface}"
+                        android:valueTo="@{viewModel.maxSurface>0 ? viewModel.maxSurface : 1000F}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"

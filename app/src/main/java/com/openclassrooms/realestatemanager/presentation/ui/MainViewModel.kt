@@ -51,15 +51,15 @@ constructor(
     var loft = MutableLiveData<Boolean>(true)
     var manor = MutableLiveData<Boolean>(true)
 
-    var maxPrice = MutableLiveData<Float>(100000000F)
+    var maxPrice = MutableLiveData<Float>(1000F)
     var minPrice = MutableLiveData<Float>(0F)
-    var stepSize = MutableLiveData<Float>(1000F)
+    var stepSize = MutableLiveData<Float>(1F)
 
-    var priceArray = MutableLiveData<Array<Float>>(arrayOf())
+    var priceArray = MutableLiveData<Array<Float>>(arrayOf(0F, 1000F))
 
     var minSurface = MutableLiveData<Float>(0F)
-    var maxSurface = MutableLiveData<Float>(10000F)
-    var surfaceArray = MutableLiveData<Array<Float>>(arrayOf())
+    var maxSurface = MutableLiveData<Float>(1000F)
+    var surfaceArray = MutableLiveData<Array<Float>>(arrayOf(0F, 100F))
 
     var picsNumber = MutableLiveData<Float>(1F)
 
@@ -165,12 +165,16 @@ constructor(
     private fun initPriceFilter(list: List<Property>) {
         minPrice.value =
             list.minWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
-                ?.minus(100000)
         maxPrice.value =
             list.maxWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
-        if (minPrice.value != null && maxPrice.value != null)
+        if (minPrice.value != null && maxPrice.value != null) {
             priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
-        stepSize.value = (minPrice.value?.let { maxPrice.value?.minus(it) })?.div(100)
+            val priceDif = minPrice.value!! - maxPrice.value!!
+            stepSize.value = ((priceDif + 99) / 1000) * 1000
+        } else {
+            stepSize.value = 1F
+        }
+
     }
 
     private fun initSurfaceFilter(list: List<Property>) {
@@ -216,6 +220,23 @@ constructor(
             if (soldDate.value.isNullOrBlank())
                 null else soldDate.value!!.toLong()
 
+        val minSurface: Float? =
+            if (surfaceArray.value.isNullOrEmpty())
+                0F else surfaceArray.value?.get(0)
+
+        val maxSurface: Float? =
+            if (surfaceArray.value.isNullOrEmpty())
+                1000F
+            else surfaceArray.value?.get(1)
+
+        val minPrice: Float? =
+            if (priceArray.value.isNullOrEmpty())
+                0F else priceArray.value?.get(0)
+
+        val maxPrice: Float? =
+            if (priceArray.value.isNullOrEmpty())
+                1000F
+            else priceArray.value?.get(1)
         searchFilterQuery.value =
             SearchFilters(
                 textQuery = searchQuery.value,
@@ -227,10 +248,10 @@ constructor(
                 park = park.value?.int,
                 area = area.value,
                 types = typeList.value,
-                minSurface = surfaceArray.value?.get(0),
-                maxSurface = surfaceArray.value?.get(1),
-                minPrice = priceArray.value?.get(0),
-                maxPrice = priceArray.value?.get(1),
+                minSurface = minSurface,
+                maxSurface = maxSurface,
+                minPrice = minPrice,
+                maxPrice = maxPrice,
                 sold = sold.value?.int,
                 sellDate = sellDateLong,
                 soldDate = soldDateLong,

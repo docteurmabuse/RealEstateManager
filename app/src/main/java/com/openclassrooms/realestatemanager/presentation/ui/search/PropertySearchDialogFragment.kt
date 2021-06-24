@@ -56,6 +56,27 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
     private var cal = Calendar.getInstance()
 
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentPropertySearchFilterDialogBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.viewModel = viewModel
+        binding.fragment = this
+        setObserver()
+        setDatesListener()
+        initRoomsListener()
+        initBedsListener()
+        initBathsListener()
+        initPicsListener()
+    }
+
     @ExperimentalCoroutinesApi
     private val dateSellSetListener =
         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -108,25 +129,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         viewModel.filterData()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentPropertySearchFilterDialogBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    @ExperimentalCoroutinesApi
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.viewModel = viewModel
-        binding.fragment = this
-        setObserver()
-        setDatesListener()
-        initRoomsListener()
-        initBedsListener()
-        initBathsListener()
-        initPicsListener()
-    }
 
     fun setExpandableListener(cardView: CardView, button: ImageButton) {
         if (cardView.visibility == View.VISIBLE) {
