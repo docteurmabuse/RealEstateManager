@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.presentation.Event
 import com.openclassrooms.realestatemanager.utils.LoanUtils.calculateLoan
-import timber.log.Timber
 
 class LoanViewModel : ViewModel() {
 
@@ -33,6 +32,5 @@ class LoanViewModel : ViewModel() {
                 terms = loanTerm.value!!
             )
         }
-        Timber.d("LOAN: ${propertyPrice.value} , ${downPayment.value}, ${interestRate.value}, ${monthlyLoan.value} ")
     }
 }
