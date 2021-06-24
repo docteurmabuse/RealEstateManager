@@ -42,7 +42,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
     private var behavior: BottomSheetBehavior<View>? = null
 
-
     private var _binding: FragmentPropertySearchFilterDialogBinding? = null
 
     // This property is only valid between onCreateView and
@@ -281,6 +280,13 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+        dialog = null
+        behavior = null
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

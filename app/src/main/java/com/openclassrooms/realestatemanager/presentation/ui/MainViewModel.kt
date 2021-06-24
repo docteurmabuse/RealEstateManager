@@ -53,6 +53,8 @@ constructor(
 
     var maxPrice = MutableLiveData<Float>(100000000F)
     var minPrice = MutableLiveData<Float>(0F)
+    var stepSize = MutableLiveData<Float>(1000F)
+
     var priceArray = MutableLiveData<Array<Float>>(arrayOf())
 
     var minSurface = MutableLiveData<Float>(0F)
@@ -168,6 +170,7 @@ constructor(
             list.maxWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
         if (minPrice.value != null && maxPrice.value != null)
             priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
+        stepSize.value = (minPrice.value?.let { maxPrice.value?.minus(it) })?.div(100)
     }
 
     private fun initSurfaceFilter(list: List<Property>) {

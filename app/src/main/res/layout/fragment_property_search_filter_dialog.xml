@@ -446,7 +446,7 @@
                         android:paddingStart="@dimen/marginStart"
                         android:paddingEnd="@dimen/marginEnd"
                         android:paddingBottom="@dimen/marginTop"
-                        android:stepSize="100000"
+                        android:stepSize="@{viewModel.stepSize}"
                         android:valueFrom="@{viewModel.minPrice}"
                         android:valueTo="@{viewModel.maxPrice}"
                         app:layout_constraintStart_toStartOf="parent"
