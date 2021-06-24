@@ -1,6 +1,6 @@
 package com.openclassrooms.realestatemanager
 
-import com.openclassrooms.realestatemanager.utils.LoanUtils.calculateLoan
+import com.openclassrooms.realestatemanager.utils.LoanUtils.calculateLoanInDollar
 import junit.framework.TestCase
 import org.junit.Test
 
@@ -13,7 +13,7 @@ class LoanTest : TestCase() {
         val down = "100"
         val rate = "0"
         val term = 5F
-        assertEquals("0,00", calculateLoan(loan, rate, down, term))
+        assertEquals("$0.00", calculateLoanInDollar(loan, rate, down, term))
     }
 
     fun testLoanResultDownIsEqualToZero() {
@@ -22,8 +22,8 @@ class LoanTest : TestCase() {
         val down = "0"
         val rate = "0"
         val term = 5F
-        val result = "166,67"
-        assertEquals(result, calculateLoan(loan, rate, down, term))
+        val result = "$166.67"
+        assertEquals(result, calculateLoanInDollar(loan, rate, down, term))
     }
 
     fun testLoanResultRateIsEqualToOne() {
@@ -32,8 +32,8 @@ class LoanTest : TestCase() {
         val down = "0"
         val rate = "1"
         val term = 5F
-        val result = "175,00"
-        assertEquals(result, calculateLoan(loan, rate, down, term))
+        val result = "$175.00"
+        assertEquals(result, calculateLoanInDollar(loan, rate, down, term))
     }
 
     fun testLoanResultWithAllValues() {
@@ -42,7 +42,7 @@ class LoanTest : TestCase() {
         val down = "1000"
         val rate = "1"
         val term = 5F
-        val result = "157,50"
-        assertEquals(result, calculateLoan(loan, rate, down, term))
+        val result = "$157.50"
+        assertEquals(result, calculateLoanInDollar(loan, rate, down, term))
     }
 }

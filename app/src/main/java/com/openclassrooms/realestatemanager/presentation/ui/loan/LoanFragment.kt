@@ -20,7 +20,6 @@ class LoanFragment : Fragment(R.layout.loan_fragment) {
     private val viewModel: LoanViewModel by viewModels()
     private var _binding: LoanFragmentBinding? = null
     private val binding get() = _binding!!
-    private var monthlyLoan: Float = 0F
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,8 +40,6 @@ class LoanFragment : Fragment(R.layout.loan_fragment) {
         viewModel.monthlyLoan.observe(viewLifecycleOwner) {
             binding.viewModel = viewModel
             binding.resultText.visibility = View.VISIBLE
-            if (it.isNotEmpty())
-                this.monthlyLoan = it.toFloat()
         }
     }
 

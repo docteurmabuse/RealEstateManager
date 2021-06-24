@@ -100,9 +100,4 @@ object Utils {
             networkInfo != null && networkInfo.isConnected
         }
     }
-
-    fun returnZeroIfNull(string: String): Int {
-        return if (string.isNullOrEmpty()) 0
-        else string.toInt()
-    }
 }

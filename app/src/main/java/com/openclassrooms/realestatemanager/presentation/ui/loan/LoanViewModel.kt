@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.presentation.Event
-import com.openclassrooms.realestatemanager.utils.LoanUtils.calculateLoan
+import com.openclassrooms.realestatemanager.utils.LoanUtils.calculateInterestInDollar
+import com.openclassrooms.realestatemanager.utils.LoanUtils.calculateLoanInDollar
 
 class LoanViewModel : ViewModel() {
 
@@ -14,6 +15,7 @@ class LoanViewModel : ViewModel() {
     var downPayment = MutableLiveData<String>("")
     var interestRate = MutableLiveData<String>("1")
     var interest = MutableLiveData<Float>(0F)
+    var interestInDollar = MutableLiveData<String>("")
     var loanTerm = MutableLiveData<Float>(5F)
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarText: LiveData<Event<Int>> = _snackbarText
@@ -25,7 +27,13 @@ class LoanViewModel : ViewModel() {
             _snackbarText.value = Event(R.string.empty_loan_message)
             return
         } else {
-            _monthlyLoan.value = calculateLoan(
+            interestInDollar.value = calculateInterestInDollar(
+                price = propertyPrice.value!!,
+                rate = interestRate.value!!,
+                down = downPayment.value!!,
+                terms = loanTerm.value!!
+            )
+            _monthlyLoan.value = calculateLoanInDollar(
                 price = propertyPrice.value!!,
                 rate = interestRate.value!!,
                 down = downPayment.value!!,

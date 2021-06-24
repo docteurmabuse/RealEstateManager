@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/marginEnd"
             android:layout_marginTop="@dimen/marginTop"
-            android:text="@{ @string/loanResult(viewModel.loanTerm,viewModel.interest, viewModel.monthlyLoan ) }"
+            android:text="@{ @string/loanResult(viewModel.loanTerm,viewModel.interestInDollar, viewModel.monthlyLoan ) }"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
