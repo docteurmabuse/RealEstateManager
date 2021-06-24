@@ -115,9 +115,8 @@
     <string name="currency_choose">Choose currency</string>
     <string name="down_payment">Down Payment</string>
     <string name="property_price">Property price</string>
-    <string name="interest_rate">Interest rate</string>
+    <string name="interest_rate">Interest rate in %</string>
     <string name="loan_term">Loan term in year</string>
-    <string name="loanResult">Your mortgage payments over %1$s years will add up to $%3$s. Estimated monthly payment:$%3$s</string>
+    <string name="loanResult">Your mortgage payments over %1$s years will add up to $%3$s. Estimated monthly payment: $%3$s</string>
     <string name="calculate_loan">Simulate loan</string>
-
 </resources>

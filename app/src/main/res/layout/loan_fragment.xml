@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
 
         <variable
@@ -30,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/property_price"
+                android:inputType="number"
                 android:text="@={viewModel.propertyPrice}" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -37,9 +39,8 @@
             android:id="@+id/downPaymentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginTop"
             android:layout_margin="@dimen/marginEnd"
-
+            android:layout_marginTop="@dimen/marginTop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/propertyPriceLayout">
 
@@ -48,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/down_payment"
+                android:inputType="number"
                 android:text="@={viewModel.downPayment}" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -55,8 +57,8 @@
             android:id="@+id/interestRateLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginTop"
             android:layout_margin="@dimen/marginEnd"
+            android:layout_marginTop="@dimen/marginTop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/downPaymentLayout">
 
@@ -65,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/interest_rate"
+                android:inputType="numberDecimal"
                 android:text="@={viewModel.interestRate}" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -72,9 +75,9 @@
             android:id="@+id/loanTermText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginEnd"
             android:layout_marginTop="@dimen/marginTop"
             android:text="@string/loan_term"
-            android:layout_margin="@dimen/marginEnd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/interestRateLayout" />
 
@@ -82,24 +85,35 @@
             android:id="@+id/loanTermSlider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginEnd"
             android:stepSize="5.0"
             android:value="@{viewModel.loanTerm}"
             android:valueFrom="5.0"
             android:valueTo="30.0"
-            android:layout_margin="@dimen/marginEnd"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loanTermText" />
+
+        <Button
+            android:id="@+id/calculLoan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/marginEnd"
+            android:layout_marginTop="@dimen/marginTop"
+            android:onClick="@{()-> viewModel.applyChange()}"
+            android:text="@string/calculate_loan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loanTermSlider" />
 
         <TextView
             android:id="@+id/resultText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginTop"
             android:layout_margin="@dimen/marginEnd"
+            android:layout_marginTop="@dimen/marginTop"
             android:text="@{ @string/loanResult(viewModel.loanTerm,viewModel.interest, viewModel.monthlyLoan ) }"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loanTermSlider" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calculLoan" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.presentation.Event
+import com.openclassrooms.realestatemanager.utils.LoanUtils.calculateLoan
 import timber.log.Timber
 
 class LoanViewModel : ViewModel() {
@@ -25,18 +26,13 @@ class LoanViewModel : ViewModel() {
             _snackbarText.value = Event(R.string.empty_loan_message)
             return
         } else {
-            val rate = interestRate.value!!.toFloatOrNull()?.div(100) ?: 0F
-            val price = propertyPrice.value!!.toFloatOrNull() ?: 0F
-            val down = downPayment.value!!.toFloatOrNull() ?: 0F
-            interest.value = (rate * (price - down) * loanTerm.value!!)
-            _monthlyLoan.value =
-                String.format("%.2f", (interest.value!! + price - down) / (12 * loanTerm.value!!))
+            _monthlyLoan.value = calculateLoan(
+                price = propertyPrice.value!!,
+                rate = interestRate.value!!,
+                down = downPayment.value!!,
+                terms = loanTerm.value!!
+            )
         }
-        /*  interest.value =
-              (interestRate.value!!.toFloat() / 100 * propertyPrice.value!!.toFloat()) * loanTerm.value!!
-          _monthlyLoan.value =
-              ((interest.value!! + propertyPrice.value!!.toFloat()) / (12.0 * loanTerm.value!!)).roundToInt()
-                  .toString()*/
         Timber.d("LOAN: ${propertyPrice.value} , ${downPayment.value}, ${interestRate.value}, ${monthlyLoan.value} ")
     }
 }

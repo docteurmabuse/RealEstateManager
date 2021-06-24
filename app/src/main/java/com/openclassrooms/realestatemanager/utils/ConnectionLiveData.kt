@@ -76,7 +76,6 @@ class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
             Timber.d("onLost: $network")
             validNetworks.remove(network)
             checkValidNetworks()
-
         }
 
     }

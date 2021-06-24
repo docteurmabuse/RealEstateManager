@@ -102,7 +102,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         // Set up the BottomAppBar menu
         binding.bottomAppBar.apply {
             setNavigationOnClickListener {
-                navController.navigate(R.id.action_itemTabsFragment2_to_bottomNavigationDrawerFragment)
             }
             setOnMenuItemClickListener(this@MainActivity)
         }

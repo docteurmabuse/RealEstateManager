@@ -126,9 +126,7 @@
         <action
             android:id="@+id/action_itemTabsFragment2_to_loanFragment"
             app:destination="@id/loanFragment" />
-        <action
-            android:id="@+id/action_itemTabsFragment2_to_bottomNavigationDrawerFragment"
-            app:destination="@id/bottomNavigationDrawerFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/masterHostFragment"
@@ -154,9 +152,6 @@
     <fragment
         android:id="@+id/loanFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.loan.LoanFragment"
-        android:label="LoanFragment" />
-    <dialog
-        android:id="@+id/bottomNavigationDrawerFragment"
-        android:name="com.openclassrooms.realestatemanager.presentation.ui.drawer.BottomNavigationDrawerFragment"
-        android:label="BottomNavigationDrawerFragment" />
+        android:label="Loan Simulator" />
+
 </navigation>

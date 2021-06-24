@@ -8,8 +8,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.InverseMethod
 import com.google.common.primitives.Ints
-import timber.log.Timber
-import java.io.IOException
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.ParseException
@@ -17,28 +15,6 @@ import java.util.*
 
 
 object Converter {
-/*
-    @InverseMethod("stringTextViewToDate")
-    @JvmStatic
-    fun dateToTextViewString(
-        view: EditText, oldValue: Long,
-        value: Long
-    ): String? {
-        return if (oldValue != value) {
-            DateUtil.longDateToString(value)
-        } else DateUtil.longDateToString(oldValue)
-    }
-
-    @JvmStatic
-    fun stringTextViewToDate(
-        view: EditText, oldValue: String,
-        value: String
-    ): Long? {
-        return if (oldValue != value) {
-            DateUtil.stringToLongDate(value)
-        } else DateUtil.stringToLongDate(oldValue)
-    }*/
-
     @JvmStatic
     @InverseMethod("toDouble")
     fun toString(
@@ -87,42 +63,6 @@ object Converter {
         return format
     }
 
-    @JvmStatic
-    fun stringToInt(v: EditText, old: Int, new: String): Int {
-        return try {
-            if (old.toString() != new) {
-                if (new == "") {
-                    0
-                } else {
-                    new.toInt()
-                }
-            } else {
-                0
-            }
-        } catch (e: IOException) {
-            val errStr: String = "error"
-            v.error = errStr
-            old
-        }
-    }
-
-    @InverseMethod("stringToInt")
-    @JvmStatic
-    fun intToString(v: EditText, old: Int, new: Int): String {
-        val result: String
-        return try {
-            /*result = if (old != new) {
-                v.text.toString()
-            } else {
-                v.text.toString()
-            }*/
-            v.text.toString()
-        } catch (e: IOException) {
-            Timber.e("Error")
-            old.toString()
-        }
-
-    }
 
     @JvmStatic
     @InverseMethod("localPriceToString")
