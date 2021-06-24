@@ -13,6 +13,11 @@
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
+    <item
+        android:id="@+id/action_loan"
+        android:icon="@drawable/ic_baseline_account_balance_24"
+        android:title="@string/calculate_loan"
+        app:showAsAction="ifRoom|collapseActionView" />
 
     <item
         android:icon="@drawable/ic_baseline_sort_24"

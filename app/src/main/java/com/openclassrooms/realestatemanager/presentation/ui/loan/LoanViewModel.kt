@@ -3,8 +3,9 @@ package com.openclassrooms.realestatemanager.presentation.ui.loan
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.openclassrooms.realestatemanager.R
+import com.openclassrooms.realestatemanager.presentation.Event
 import timber.log.Timber
-import kotlin.math.roundToInt
 
 class LoanViewModel : ViewModel() {
 
@@ -14,20 +15,28 @@ class LoanViewModel : ViewModel() {
     var interestRate = MutableLiveData<String>("1")
     var interest = MutableLiveData<Float>(0F)
     var loanTerm = MutableLiveData<Float>(5F)
+    private val _snackbarText = MutableLiveData<Event<Int>>()
+    val snackbarText: LiveData<Event<Int>> = _snackbarText
+
     private var _monthlyLoan = MutableLiveData<String>("")
     val monthlyLoan: LiveData<String> get() = _monthlyLoan
     fun applyChange() {
-        if (propertyPrice.value?.isNotEmpty() == true && downPayment.value?.isNotEmpty() == true && interestRate.value?.isNotEmpty() == true) {
-            interest.value =
-                (interestRate.value!!.toFloat() / 100 * propertyPrice.value!!.toFloat()) * loanTerm.value!!
+        if (propertyPrice.value?.isEmpty() == true && downPayment.value?.isEmpty() == true && interestRate.value?.isEmpty() == true) {
+            _snackbarText.value = Event(R.string.empty_loan_message)
+            return
+        } else {
+            val rate = interestRate.value!!.toFloatOrNull()?.div(100) ?: 0F
+            val price = propertyPrice.value!!.toFloatOrNull() ?: 0F
+            val down = downPayment.value!!.toFloatOrNull() ?: 0F
+            interest.value = (rate * (price - down) * loanTerm.value!!)
             _monthlyLoan.value =
-                ((interest.value!! + propertyPrice.value!!.toFloat() / 12).toString())
+                String.format("%.2f", (interest.value!! + price - down) / (12 * loanTerm.value!!))
         }
-        interest.value =
-            (interestRate.value!!.toFloat() / 100 * propertyPrice.value!!.toFloat()) * loanTerm.value!!
-        _monthlyLoan.value =
-            ((interest.value!! + propertyPrice.value!!.toFloat()) / (12.0 * loanTerm.value!!)).roundToInt()
-                .toString()
+        /*  interest.value =
+              (interestRate.value!!.toFloat() / 100 * propertyPrice.value!!.toFloat()) * loanTerm.value!!
+          _monthlyLoan.value =
+              ((interest.value!! + propertyPrice.value!!.toFloat()) / (12.0 * loanTerm.value!!)).roundToInt()
+                  .toString()*/
         Timber.d("LOAN: ${propertyPrice.value} , ${downPayment.value}, ${interestRate.value}, ${monthlyLoan.value} ")
     }
 }

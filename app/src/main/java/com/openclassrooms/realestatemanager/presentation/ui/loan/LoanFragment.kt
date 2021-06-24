@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.LoanFragmentBinding
+import com.openclassrooms.realestatemanager.utils.setupSnackbar
 
 class LoanFragment : Fragment(R.layout.loan_fragment) {
 
@@ -32,6 +34,7 @@ class LoanFragment : Fragment(R.layout.loan_fragment) {
         binding.viewModel = viewModel
         initBathsListener()
         setObserver()
+        setupSnackbar()
     }
 
     private fun setObserver() {
@@ -49,5 +52,9 @@ class LoanFragment : Fragment(R.layout.loan_fragment) {
                 binding.loanTermSlider.value
             viewModel.applyChange()
         }
+    }
+
+    private fun setupSnackbar() {
+        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 }

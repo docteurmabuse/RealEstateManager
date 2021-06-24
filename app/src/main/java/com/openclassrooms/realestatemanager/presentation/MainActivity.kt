@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                     item.setIcon(R.drawable.ic_attach_dollars_24dp)
                 }
             }
-
+            R.id.action_loan -> navController.navigate(R.id.action_itemTabsFragment2_to_loanFragment)
             R.id.action_filter_properties -> {
                 navController.navigate(R.id.action_itemTabsFragment2_to_propertySearchDialogFragment)
                 Timber.d("FILTER: filter ok")
