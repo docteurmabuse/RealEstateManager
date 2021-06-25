@@ -107,22 +107,25 @@
                 <TextView
                     android:id="@+id/textViewType"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="@dimen/marginStart"
                     android:text="@string/property_type"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/type"
                     app:layout_constraintTop_toBottomOf="@id/description" />
 
                 <include
                     android:id="@+id/type"
                     layout="@layout/type_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/marginEnd"
+                    android:layout_weight="0.5"
                     app:layout_constraintHorizontal_weight="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/price"
                     app:layout_constraintTop_toBottomOf="@id/textViewType"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:viewModel="@{viewModel}" />
@@ -137,16 +140,43 @@
                     android:text="@string/price"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/type" />
+                    app:layout_constraintTop_toBottomOf="@id/description" />
 
                 <include
                     android:id="@+id/price"
                     layout="@layout/price_layout"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintHorizontal_weight="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_weight="0.5"
+
+                    app:layout_constraintEnd_toStartOf="@id/type"
+                    app:layout_constraintStart_toStartOf="@id/textViewPrice"
                     app:layout_constraintTop_toBottomOf="@id/textViewPrice"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:viewModel="@{viewModel}" />
+
+                <TextView
+                    android:id="@+id/textViewAgent"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/agent_in_charge"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/point_of_interest" />
+
+                <include
+                    android:id="@+id/agentLayout"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    layout="@layout/agents_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:agentViewModel="@{agentViewModel}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewAgent"
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:viewModel="@{viewModel}" />
 
@@ -195,29 +225,7 @@
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:viewModel="@{viewModel}" />
 
-                <TextView
-                    android:id="@+id/textViewAgent"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/marginStart"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/agent_in_charge"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/point_of_interest" />
 
-                <include
-                    android:id="@+id/agentLayout"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    layout="@layout/agents_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:agentViewModel="@{agentViewModel}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/textViewAgent"
-                    app:layout_goneMarginEnd="@dimen/marginEnd"
-                    app:viewModel="@{viewModel}" />
 
                 <TextView
                     android:id="@+id/textViewDates"
