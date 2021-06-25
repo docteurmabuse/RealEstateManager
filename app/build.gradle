@@ -247,12 +247,12 @@ dependencies {
 
     //Hilt
     // For Robolectric tests.
-    testImplementation 'com.google.dagger:hilt-android-testing:2.36'
+    testImplementation 'com.google.dagger:hilt-android-testing:2.37'
     // ...with Kotlin.
-    kaptTest 'com.google.dagger:hilt-android-compiler:2.35'
+    kaptTest 'com.google.dagger:hilt-android-compiler:2.37'
     // For instrumented tests.
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.35.1'
-    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.35'
+    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.37'
+    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.37'
 
 
     //Espresso

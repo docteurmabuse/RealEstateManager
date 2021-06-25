@@ -10,7 +10,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.db.dao.AgentDao
@@ -28,13 +27,11 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.io.IOException
 import javax.inject.Inject
 
-@RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
-internal class MainActivityTest {
+class MainActivityTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
     private lateinit var propertyDatabase: PropertyDatabase
     private lateinit var agentDao: AgentDao
@@ -108,21 +105,6 @@ internal class MainActivityTest {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
-
-        // Create a TestNavHostController
-        /* val navController = TestNavHostController(
-             ApplicationProvider.getApplicationContext()
-         )*/
-
-
-        //  launchFragmentInHiltContainer<ItemTabsFragment>(factory = fragmentFactory)
-        //  dataBindingIdlingResource.monitorActivity(activityScenario)
-        /*  tabsScenario.onFragment{
-              // Set the graph on the TestNavHostController
-              navController.setGraph(R.navigation.mobile_navigation)
-              // Make the NavController available via the findNavController() APIs
-              Navigation.setViewNavController(it.requireView(), navController)
-          }*/
 
         //Click add button
         // onView(withContentDescription("Property add")).perform(click())

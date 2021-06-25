@@ -65,11 +65,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
     private var menu: Menu? = null
 
-    /*var currentNavigationFragment: Fragment?
-        get() = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
-            ?.childFragmentManager
-            ?.fragments
-            ?.first()*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,7 +74,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         setContentView(binding.root)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
-
+        viewModel.fetchProperties()
         setObserver()
         setupBottomNavigationAndFab()
         setAddPropertyFabListener()

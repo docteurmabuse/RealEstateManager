@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import com.openclassrooms.realestatemanager.db.dao.AgentDao
 import com.openclassrooms.realestatemanager.db.dao.PropertyDao
+import com.openclassrooms.realestatemanager.db.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AGENT_MULTIPLE_RECORDS_MIME_TYPE
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AGENT_SINGLE_RECORD_MIME_TYPE
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AUTHORITY
@@ -15,18 +16,33 @@ import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PA
 import com.openclassrooms.realestatemanager.provider.PropertyContract.COUNT
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_MULTIPLE_RECORD_MIME_TYPE
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_SINGLE_RECORD_MIME_TYPE
-import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlin.coroutines.CoroutineContext
 
-class PropertyContentProvider @Inject constructor() : ContentProvider() {
+class PropertyContentProvider : ContentProvider(), CoroutineScope {
 
     // provide access to the database
     private lateinit var sUriMatcher: UriMatcher
 
-    @Inject
-    lateinit var propertyDao: PropertyDao
+    private lateinit var propertyDatabase: PropertyDatabase
+    private lateinit var propertyDao: PropertyDao
 
-    @Inject
-    lateinit var agentDao: AgentDao
+    private lateinit var agentDao: AgentDao
+
+
+    override fun onCreate(): Boolean {
+        propertyDatabase = getRoomDatabase()
+        propertyDao = propertyDatabase.propertyDao()
+        agentDao = propertyDatabase.agentDao()
+        initializeUriMatching()
+        return true
+    }
+
+    private fun getRoomDatabase(): PropertyDatabase =
+        PropertyDatabase.getDatabase(context!!)
+
 
     // Add the URI's that can be matched on
     // this content provider
@@ -56,10 +72,6 @@ class PropertyContentProvider @Inject constructor() : ContentProvider() {
     private val PROPERTIES_URI_ONE_ITEM_CODE = 21
     private val PROPERTIES_URI_COUNT_CODE = 31
 
-    override fun onCreate(): Boolean {
-        initializeUriMatching()
-        return true
-    }
 
     override fun getType(uri: Uri): String? = when (sUriMatcher.match(uri)) {
         AGENT_URI_ALL_ITEMS_CODE -> AGENT_MULTIPLE_RECORDS_MIME_TYPE
@@ -75,31 +87,33 @@ class PropertyContentProvider @Inject constructor() : ContentProvider() {
     ): Cursor? {
         var cursor: Cursor? = null
         val id = uri.lastPathSegment
-        when (sUriMatcher.match(uri)) {
-            PROPERTIES_URI_ALL_ITEMS_CODE -> {
-                cursor = propertyDao.getAllPropertiesWithCursor()
-            }
-            PROPERTIES_URI_ONE_ITEM_CODE -> {
-                cursor = id?.let { propertyDao.getPropertyByIdWithCursor(it) }
-            }
-            PROPERTIES_URI_COUNT_CODE -> {
-                cursor = propertyDao.getPropertiesCountWithCursor()
-            }
+        runBlocking {
+            when (sUriMatcher.match(uri)) {
+                PROPERTIES_URI_ALL_ITEMS_CODE -> {
+                    cursor = propertyDao.getAllPropertiesWithCursor()
+                }
+                PROPERTIES_URI_ONE_ITEM_CODE -> {
+                    cursor = id?.let { propertyDao.getPropertyByIdWithCursor(it) }
+                }
+                PROPERTIES_URI_COUNT_CODE -> {
+                    cursor = propertyDao.getPropertiesCountWithCursor()
+                }
 
-            AGENT_URI_ALL_ITEMS_CODE -> {
-                cursor = agentDao.getAllAgentsWithCursor()
-            }
-            AGENT_URI_ONE_ITEM_CODE -> {
-                cursor = id?.let { agentDao.getAgentByIdWithCursor(it) }
-            }
-            AGENT_URI_COUNT_CODE -> {
-                cursor = agentDao.getAgentCountWithCursor()
-            }
+                AGENT_URI_ALL_ITEMS_CODE -> {
+                    cursor = agentDao.getAllAgentsWithCursor()
+                }
+                AGENT_URI_ONE_ITEM_CODE -> {
+                    cursor = id?.let { agentDao.getAgentByIdWithCursor(it) }
+                }
+                AGENT_URI_COUNT_CODE -> {
+                    cursor = agentDao.getAgentCountWithCursor()
+                }
 
-            UriMatcher.NO_MATCH -> { /*error handling goes here*/
-            }
-            else -> {
-                throw IllegalArgumentException("Query doesn't exist: $uri")
+                UriMatcher.NO_MATCH -> { /*error handling goes here*/
+                }
+                else -> {
+                    throw IllegalArgumentException("Query doesn't exist: $uri")
+                }
             }
         }
         return cursor
@@ -119,4 +133,7 @@ class PropertyContentProvider @Inject constructor() : ContentProvider() {
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
         return 0
     }
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.IO
 }

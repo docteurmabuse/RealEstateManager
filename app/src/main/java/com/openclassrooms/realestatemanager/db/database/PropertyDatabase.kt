@@ -1,6 +1,8 @@
 package com.openclassrooms.realestatemanager.db.database
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.openclassrooms.realestatemanager.db.dao.AgentDao
 import com.openclassrooms.realestatemanager.db.dao.PropertyDao
@@ -25,5 +27,20 @@ abstract class PropertyDatabase : RoomDatabase() {
 
     companion object {
         const val DATABASE_BASE = "property_db"
+
+        @Volatile
+        private var INSTANCE: PropertyDatabase? = null
+        fun getDatabase(context: Context): PropertyDatabase {
+            return INSTANCE
+                ?: synchronized(this) {
+                    val instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        PropertyDatabase::class.java,
+                        DATABASE_BASE
+                    ).build()
+                    INSTANCE = instance
+                    return instance
+                }
+        }
     }
 }

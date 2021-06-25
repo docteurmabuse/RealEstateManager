@@ -287,13 +287,30 @@ constructor(
 
     @ExperimentalCoroutinesApi
     fun resetFilters() {
+        val minSurface: Float? =
+            if (surfaceArray.value.isNullOrEmpty())
+                0F else surfaceArray.value?.get(0)
+
+        val maxSurface: Float? =
+            if (surfaceArray.value.isNullOrEmpty())
+                1000F
+            else surfaceArray.value?.get(1)
+
+        val minPrice: Float? =
+            if (priceArray.value.isNullOrEmpty())
+                0F else priceArray.value?.get(0)
+
+        val maxPrice: Float? =
+            if (priceArray.value.isNullOrEmpty())
+                1000F
+            else priceArray.value?.get(1)
         house.value = true
         flat.value = true
         duplex.value = true
         penthouse.value = true
         manor.value = true
-        priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
-        surfaceArray.value = arrayOf(minSurface.value!!, maxSurface.value!!)
+        priceArray.value = arrayOf(minPrice!!, maxPrice!!)
+        surfaceArray.value = arrayOf(minSurface!!, maxSurface!!)
         typeList.value = arrayListOf("House", "Flat", "Duplex", "Penthouse", "Manor", "Loft")
         roomNumber.value = 1F
         bathroomNumber.value = 0F

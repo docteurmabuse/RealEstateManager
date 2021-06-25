@@ -167,12 +167,13 @@ class PropertyListFragment :
     }
 
     private fun displayLoading(isLoading: Boolean) {
-        if (isLoading) binding.progressBar?.visibility = View.VISIBLE
-        else binding.progressBar?.visibility = View.GONE
+        if (isLoading) binding.progressBar.visibility = View.VISIBLE
+        else binding.progressBar.visibility = View.GONE
         swipeRefreshLayout?.isRefreshing = isLoading
     }
 
     private fun renderList(list: List<Property>) {
+        Timber.d("LIST = $list")
         adapter.submitList(list)
         properties = list
     }
