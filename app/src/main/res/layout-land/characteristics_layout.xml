@@ -27,6 +27,7 @@
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginEnd="@dimen/marginEnd"
             android:layout_marginBottom="@dimen/marginTop"
+            android:layout_weight="0.25"
             android:hint="@string/surface"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
@@ -38,10 +39,10 @@
                 android:id="@+id/surfaceTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="4"
                 android:inputType="number"
-                android:textAlignment="center"
+                android:maxLength="4"
                 android:text="@={ viewModel.surface}"
+                android:textAlignment="center"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_square_foot_24dp"
                 app:endIconMode="clear_text" />
@@ -57,10 +58,11 @@
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginEnd="@dimen/marginEnd"
             android:layout_marginBottom="@dimen/marginTop"
+            android:layout_weight="0.25"
             android:hint="@string/rooms"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/number_of_bedroom_text_layout"
             app:layout_constraintStart_toEndOf="@id/surfaceTextLayout"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -69,9 +71,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:textAlignment="center"
                 android:inputType="number"
                 android:text="@={viewModel.roomNumber }"
+                android:textAlignment="center"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_room_24dp"
                 app:endIconMode="clear_text" />
@@ -88,21 +90,21 @@
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginEnd="@dimen/marginEnd"
             android:layout_marginBottom="@dimen/marginTop"
-            android:layout_weight="0.5"
+            android:layout_weight="0.25"
             android:hint="@string/bedrooms"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
             app:layout_constraintEnd_toStartOf="@id/bathroomsLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/surfaceTextLayout">
+            app:layout_constraintStart_toEndOf="@id/numberOfRoomLayout"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/number_of_bedroom_text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:textAlignment="center"
                 android:text="@={ viewModel.bedroomNumber }"
+                android:textAlignment="center"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_bedroom_parent_24dp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -117,14 +119,14 @@
             android:layout_marginTop="@dimen/marginTop"
             android:layout_marginEnd="@dimen/marginEnd"
             android:layout_marginBottom="@dimen/marginTop"
-            android:layout_weight="0.5"
+            android:layout_weight="0.25"
             android:hint="@string/bathroom"
             android:inputType="number"
             app:endIconMode="clear_text"
             app:endIconTint="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/number_of_bedroom_text_layout"
-            app:layout_constraintTop_toBottomOf="@id/numberOfRoomLayout">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/number_of_bathroom_text_input"
@@ -132,8 +134,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:inputType="number"
-                android:textAlignment="center"
                 android:text="@={viewModel.bathroomNumber }"
+                android:textAlignment="center"
                 android:textSize="@dimen/textSize"
                 app:drawableStartCompat="@drawable/ic_bathroom_24dp" />
         </com.google.android.material.textfield.TextInputLayout>
