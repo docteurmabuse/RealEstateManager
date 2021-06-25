@@ -170,7 +170,7 @@ constructor(
         if (minPrice.value != null && maxPrice.value != null) {
             priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
             val priceDif = minPrice.value!! - maxPrice.value!!
-            stepSize.value = ((priceDif + 99) / 1000) * 1000
+            stepSize.value = 1F
         } else {
             stepSize.value = 1F
         }
