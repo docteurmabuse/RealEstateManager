@@ -67,7 +67,6 @@ class PropertyListFragment :
         }
         setObserver()
 
-        //       viewModel.fetchProperties()
         // Leaving this not using view binding as it relies on if the view is visible the current
         // layout configuration (layout, layout-sw600dp)
         val itemDetailFragmentContainer: View? =
@@ -79,9 +78,9 @@ class PropertyListFragment :
         val onClickListener = View.OnClickListener { itemView ->
             val item = itemView.tag as Property
             val bundle = Bundle()
-            bundle.putParcelable(
-                PropertyDetailFragment.ARG_PROPERTY,
-                item
+            bundle.putString(
+                PropertyDetailFragment.ARG_PROPERTY_ID,
+                item.id
             )
 
             if (itemDetailFragmentContainer != null) {

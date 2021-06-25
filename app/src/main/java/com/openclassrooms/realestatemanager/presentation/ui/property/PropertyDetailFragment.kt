@@ -65,33 +65,45 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bundle = arguments
-        if (bundle == null) {
-            Timber.d("PropertyDetailFragment did not received arguments")
-            return
+        arguments?.let {
+            if (it.containsKey(ARG_PROPERTY_ID)) {
+                it.getString(ARG_PROPERTY_ID)?.let { it1 -> viewModel.start(it1) }
+
+                /*
+                val bundle = arguments
+                if (bundle == null) {
+                    Timber.d("PropertyDetailFragment did not received arguments")
+                    return
+                }
+                val args = PropertyDetailFragmentArgs.fromBundle(bundle)
+                property = args.property
+                Timber.d("PROPERTY_DETAIL: $property")
+                property?.agent?.let { viewModel.getAgent(it) }
+                setObserver()
+                */
+
+            }
+
+
+
+            setPropertyObserver()
+            setAgentObserver()
         }
-        val args = PropertyDetailFragmentArgs.fromBundle(bundle)
-        property = args.property
-        Timber.d("PROPERTY_DETAIL: $property")
-        property?.agent?.let { viewModel.start(it) }
-        setObserver()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = PropertyDetailBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this.viewLifecycleOwner
-
         val rootView = binding.root
+        binding.lifecycleOwner = this.viewLifecycleOwner
+        rootView.setOnDragListener(dragListener)
         toolbarLayout = binding.toolbarLayout
         setupViewPager()
-        updateContent()
-        rootView.setOnDragListener(dragListener)
         setFabListener()
         setCurrencyListener()
+
         return rootView
     }
 
@@ -118,7 +130,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     }
 
     private fun setFabListener() {
-        binding.addPropertyFAB?.setOnClickListener {
+        binding.addPropertyFAB.setOnClickListener {
             val navHostFragment = findNavController()
             val action = property?.let { property ->
                 PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
@@ -134,8 +146,9 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         }
     }
 
-    private fun setObserver() {
+    private fun setAgentObserver() {
         lifecycleScope.launchWhenStarted {
+
             val value = viewModel.agentState
             value.collect {
                 when (it.status) {
@@ -153,8 +166,34 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         }
     }
 
+    private fun setPropertyObserver() {
+        lifecycleScope.launchWhenStarted {
+            val value = viewModel.propertyState
+            value.collect {
+                when (it.status) {
+                    DataState.Status.SUCCESS -> {
+                        it.data?.let { property -> renderProperty(property) }
+                    }
+                    DataState.Status.LOADING -> {
+
+                    }
+                    DataState.Status.ERROR -> {
+                        Timber.d("LIST_OBSERVER: ${it.message}")
+                    }
+                }
+            }
+        }
+    }
+
     private fun renderAgent(agent: Agent) {
         binding.agent = agent
+    }
+
+    private fun renderProperty(property: Property) {
+        this.property = property
+        binding.property = property
+        property.agent?.let { viewModel.getAgent(it) }
+        updateContent()
     }
 
 
@@ -189,9 +228,8 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     }
 
     private fun updateContent() {
-        //toolbarLayout?.title = property?.content
+        toolbarLayout?.title = property?.address?.address1
         lifecycleScope.launchWhenStarted {
-            // Show the placeholder content as text in a TextView.
             property?.let {
                 binding.property = it
                 adapter.submitList(it.media.photos)
@@ -204,9 +242,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
          * The fragment argument representing the item ID that this fragment
          * represents.
          */
-        const val ARG_ITEM_ID = "item_id"
-        const val ARG_PROPERTY = "property"
-
+        const val ARG_PROPERTY_ID = "property_id"
     }
 
     override fun onLowMemory() {

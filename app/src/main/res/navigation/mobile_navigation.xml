@@ -36,7 +36,7 @@
             app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
             app:nullable="true" />
         <argument
-            android:name="item_id"
+            android:name="property_id"
             android:defaultValue=""
             app:argType="string" />
 

@@ -63,7 +63,7 @@ class AddPropertyViewModel @Inject constructor(
         val item = itemView.tag as Property
         val bundle = Bundle()
         bundle.putParcelable(
-            PropertyDetailFragment.ARG_PROPERTY,
+            PropertyDetailFragment.ARG_PROPERTY_ID,
             item
         )
     }

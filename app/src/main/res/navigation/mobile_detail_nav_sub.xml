@@ -10,7 +10,7 @@
         android:label="PropertyDetailFragment"
         tools:layout="@layout/property_detail" />
     <argument
-        android:name="item_id"
+        android:name="property_id"
         android:defaultValue=""
         app:argType="string" />
 </navigation>
