@@ -10,7 +10,7 @@
         android:label="PropertyDetailFragment"
         tools:layout="@layout/property_detail" />
     <argument
-        android:name="property_id"
-        android:defaultValue=""
-        app:argType="string" />
+        android:name="property"
+        app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
+        app:nullable="true" />
 </navigation>

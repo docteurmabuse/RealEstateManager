@@ -78,9 +78,9 @@ class PropertyListFragment :
         val onClickListener = View.OnClickListener { itemView ->
             val item = itemView.tag as Property
             val bundle = Bundle()
-            bundle.putString(
+            bundle.putParcelable(
                 PropertyDetailFragment.ARG_PROPERTY_ID,
-                item.id
+                item
             )
 
             if (itemDetailFragmentContainer != null) {

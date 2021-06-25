@@ -35,11 +35,6 @@
             android:name="property"
             app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
             app:nullable="true" />
-        <argument
-            android:name="property_id"
-            android:defaultValue=""
-            app:argType="string" />
-
         <action
             android:id="@+id/action_propertyDetailFragment_to_addPropertyFragment"
             app:destination="@id/addEditPropertyFragment"

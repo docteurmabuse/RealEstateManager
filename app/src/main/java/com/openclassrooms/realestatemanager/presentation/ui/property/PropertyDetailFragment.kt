@@ -62,30 +62,20 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         true
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
+        arguments?.let { it ->
             if (it.containsKey(ARG_PROPERTY_ID)) {
-                it.getString(ARG_PROPERTY_ID)?.let { it1 -> viewModel.start(it1) }
-
-                /*
-                val bundle = arguments
-                if (bundle == null) {
-                    Timber.d("PropertyDetailFragment did not received arguments")
-                    return
+                it.getParcelable<Property>(ARG_PROPERTY_ID)?.let { it1 ->
+                    this.property = it1
+                    updateContent()
                 }
-                val args = PropertyDetailFragmentArgs.fromBundle(bundle)
-                property = args.property
-                Timber.d("PROPERTY_DETAIL: $property")
-                property?.agent?.let { viewModel.getAgent(it) }
-                setObserver()
-                */
-
             }
 
-
-
+            property?.agent?.let {
+                viewModel.getAgent(it)
+                setAgentObserver()
+            }
             setPropertyObserver()
             setAgentObserver()
         }
@@ -103,7 +93,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         setupViewPager()
         setFabListener()
         setCurrencyListener()
-
         return rootView
     }
 
@@ -242,7 +231,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
          * The fragment argument representing the item ID that this fragment
          * represents.
          */
-        const val ARG_PROPERTY_ID = "property_id"
+        const val ARG_PROPERTY_ID = "property"
     }
 
     override fun onLowMemory() {
