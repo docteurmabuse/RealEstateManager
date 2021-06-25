@@ -69,15 +69,15 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                 it.getParcelable<Property>(ARG_PROPERTY_ID)?.let { it1 ->
                     this.property = it1
                     updateContent()
+                    property?.agent?.let {
+                        viewModel.getAgent(it)
+                        setAgentObserver()
+                    }
+                    setPropertyObserver()
+                    setAgentObserver()
                 }
             }
 
-            property?.agent?.let {
-                viewModel.getAgent(it)
-                setAgentObserver()
-            }
-            setPropertyObserver()
-            setAgentObserver()
         }
     }
 
@@ -114,12 +114,17 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (property == null) {
+            binding.noPropertyText?.visibility = View.VISIBLE
+            binding.appBar.visibility = View.GONE
+            binding.itemDetailScrollView.visibility = View.GONE
+        }
         mapView = view.findViewById<MapView>(R.id.lite_map_view)
         initGoogleMap(savedInstanceState)
     }
 
     private fun setFabListener() {
-        binding.addPropertyFAB.setOnClickListener {
+        binding.addPropertyFAB?.setOnClickListener {
             val navHostFragment = findNavController()
             val action = property?.let { property ->
                 PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
@@ -217,12 +222,15 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     }
 
     private fun updateContent() {
-        toolbarLayout?.title = property?.address?.address1
         lifecycleScope.launchWhenStarted {
+            Timber.d("PROPERTY_DETAIL=$property")
+
             property?.let {
                 binding.property = it
                 adapter.submitList(it.media.photos)
+                toolbarLayout?.title = property?.address?.address1
             }
+
         }
     }
 

@@ -40,6 +40,14 @@
         tools:context=".ItemDetailHostActivity"
         tools:ignore="MergeRootFrame">
 
+        <TextView
+            android:id="@+id/no_property_text"
+            style="@style/TextAppearance.AppCompat.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_property_yet" />
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
