@@ -67,29 +67,6 @@
                 android:layout_height="match_parent"
                 app:overlay_orientation="landscape" />
 
-            <com.nambimobile.widgets.efab.ExpandableFab
-                android:id="@+id/expandable_fab_landscape"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:efab_color="@color/colorAccent"
-                app:efab_orientation="landscape" />
-
-            <com.nambimobile.widgets.efab.FabOption
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_color="@color/colorAccent"
-                app:fab_icon="@drawable/ic_edit_24dp"
-                app:fab_orientation="landscape"
-                app:label_text="Unique Option 1 for Landscape!" />
-
-            <com.nambimobile.widgets.efab.FabOption
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_color="@color/colorAccent"
-                app:fab_icon="@drawable/ic_house_24dp"
-                app:fab_orientation="landscape"
-                app:label_text="Unique Option 2 for Landscape!" />
-
             <com.google.android.material.bottomappbar.BottomAppBar
                 android:id="@+id/bottomAppBar"
                 style="@style/Widget.MaterialComponents.BottomAppBar.Colored"

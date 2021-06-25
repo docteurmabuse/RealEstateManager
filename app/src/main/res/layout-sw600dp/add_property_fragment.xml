@@ -5,14 +5,22 @@
 
     <data>
 
+        <import type="com.openclassrooms.realestatemanager.utils.converter.Converter" />
+
+        <import type="android.view.View" />
+
         <variable
             name="property"
             type="com.openclassrooms.realestatemanager.domain.model.property.Property" />
 
         <variable
+            name="agent"
+            type="com.openclassrooms.realestatemanager.domain.model.agent.Agent" />
+
+
+        <variable
             name="photo"
             type="com.openclassrooms.realestatemanager.domain.model.property.Media.Photo" />
-
 
         <variable
             name="viewModel"
@@ -28,112 +36,239 @@
         android:layout_height="match_parent"
         tools:context=".presentation.ui.addProperty.AddEditPropertyFragment">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="60dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/type_input_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_goneMarginEnd="@dimen/marginEnd">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <AutoCompleteTextView
-                    android:id="@+id/type_dropdown"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:labelFor="@id/type_input_layout" />
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/price_input_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/type_input_layout"
-                app:layout_goneMarginEnd="@dimen/marginEnd">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/price_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/marginStart"
-                    android:layout_marginTop="@dimen/marginTop"
-                    android:hint="@string/price"
-                    android:textSize="@dimen/textSize"
-                    app:layout_goneMarginEnd="@dimen/marginEnd" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/surface_input_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/price_input_layout"
-                app:layout_goneMarginEnd="@dimen/marginEnd">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/surface_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/marginStart"
-                    android:layout_marginTop="@dimen/marginTop"
-                    android:hint="@string/price"
-                    android:textSize="@dimen/textSize"
-                    app:layout_goneMarginEnd="@dimen/marginEnd" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/number_of_room_input_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/surface_input_layout"
-                app:layout_goneMarginEnd="@dimen/marginEnd">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/number_of_room_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/marginStart"
-                    android:layout_marginTop="@dimen/marginTop"
-                    android:hint="@string/price"
-                    android:textSize="@dimen/textSize"
-                    app:layout_goneMarginEnd="@dimen/marginEnd" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/number_of_bathroom_input_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/marginStart"
-                android:layout_marginTop="@dimen/marginTop"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/number_of_room_input_layout"
-                app:layout_goneMarginEnd="@dimen/marginEnd">
-
-                <NumberPicker
+                <TextView
+                    android:id="@+id/textViewAddress"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/marginStart"
-                    android:layout_marginTop="@dimen/marginTop"
-                    app:layout_goneMarginEnd="@dimen/marginEnd" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="20dp"
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:text="@string/address"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <include
+                    android:id="@+id/address"
+                    layout="@layout/address_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewAddress"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:viewModel="@{viewModel}" />
+
+                <View
+                    android:id="@+id/dividerAddress"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginStart="70dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="70dp"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintBottom_toTopOf="@+id/textViewDescription"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/address" />
+
+                <TextView
+                    android:id="@+id/textViewDescription"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/description"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dividerAddress" />
+
+                <include
+                    android:id="@+id/description"
+                    layout="@layout/description_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewDescription"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:viewModel="@{viewModel}" />
+
+                <TextView
+                    android:id="@+id/textViewType"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:text="@string/property_type"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/description" />
+
+                <include
+                    android:id="@+id/type"
+                    layout="@layout/type_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewType"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:viewModel="@{viewModel}" />
+
+                <TextView
+                    android:id="@+id/textViewPrice"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/price"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/type" />
+
+                <include
+                    android:id="@+id/price"
+                    layout="@layout/price_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHorizontal_weight="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewPrice"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:viewModel="@{viewModel}" />
+
+                <TextView
+                    android:id="@+id/textViewCharacteristics"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:text="@string/characteristics"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/price" />
+
+                <include
+                    android:id="@+id/characteristics"
+                    layout="@layout/characteristics_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewCharacteristics"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:viewModel="@{viewModel}" />
+
+
+                <TextView
+                    android:id="@+id/textNearBy"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/nearby"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/characteristics" />
+
+                <include
+                    android:id="@+id/point_of_interest"
+                    layout="@layout/point_of_interest_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textNearBy"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:viewModel="@{viewModel}" />
+
+                <TextView
+                    android:id="@+id/textViewAgent"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/agent_in_charge"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/point_of_interest" />
+
+                <include
+                    android:id="@+id/agentLayout"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    layout="@layout/agents_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:agentViewModel="@{agentViewModel}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewAgent"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:viewModel="@{viewModel}" />
+
+                <TextView
+                    android:id="@+id/textViewDates"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/dates"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/agentLayout" />
+
+                <include
+                    android:id="@+id/dates"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    layout="@layout/dates_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewDates"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:viewModel="@{viewModel}" />
+
+
+                <TextView
+                    android:id="@+id/textViewMedia"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="@dimen/marginStart"
+                    android:text="@string/enter_media_title"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dates" />
+
+                <include
+                    android:id="@+id/media"
+                    layout="@layout/media_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewMedia"
+                    app:layout_goneMarginEnd="@dimen/marginEnd"
+                    app:viewModel="@{viewModel}" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
@@ -152,6 +287,7 @@
             android:background="@color/colorAccent"
             android:baselineAlignBottom="true"
             android:contentDescription="@string/add_property_button"
+            android:onClick="@{(view) -> viewModel.saveProperty() }"
             app:backgroundTint="@color/colorAccent"
             app:layout_anchor="@id/bottomAppBar"
             app:srcCompat="@drawable/ic_check_24dp" />

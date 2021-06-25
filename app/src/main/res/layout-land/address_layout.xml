@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyViewModel" />
+
+        <variable
+            name="address"
+            type="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyViewModel" />
+
+        <import type="android.view.View" />
+
+        <import type="com.openclassrooms.realestatemanager.utils.converter.Converter" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/address1Layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginTop"
+            android:layout_weight="0.5"
+            android:hint="@string/address1"
+            android:inputType="textPostalAddress"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccent"
+            app:layout_constraintEnd_toStartOf="@id/address2Layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address1_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:minLines="2"
+                android:scrollbars="vertical"
+                android:text="@={viewModel.address1}"
+                android:textSize="@dimen/textSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/address2Layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginTop"
+            android:layout_weight="0.5"
+            android:hint="@string/address2"
+            android:inputType="textPostalAddress"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/address1Layout"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/address2_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address2"
+                android:maxLines="3"
+                android:minLines="2"
+                android:text="@={viewModel.address2}"
+                android:textSize="@dimen/textSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/areaLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginTop"
+            android:layout_weight="0.5"
+            android:hint="@string/area"
+            android:inputType="number"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccent"
+            app:layout_constraintEnd_toStartOf="@id/cityLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/address1Layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/area_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@={viewModel.area}"
+                android:textSize="@dimen/textSize"
+                app:endIconMode="clear_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cityLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginTop"
+            android:hint="@string/city"
+            android:inputType="number"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/areaLayout"
+            app:layout_constraintTop_toBottomOf="@id/address1Layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/city_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@={viewModel.city}"
+                android:textSize="@dimen/textSize"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/area_text_input" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/stateLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginTop"
+            android:layout_weight="0.3"
+            android:hint="@string/state"
+            android:inputType="text"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccent"
+            app:layout_constraintEnd_toStartOf="@id/zipcodeLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cityLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/state_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPostalAddress"
+                android:text="@={viewModel.state}"
+                android:textSize="@dimen/textSize" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/zipcodeLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginTop"
+            android:layout_weight="0.3"
+            android:hint="@string/zipcode"
+            android:inputType="number"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccent"
+            app:layout_constraintEnd_toStartOf="@id/countryLayout"
+            app:layout_constraintStart_toEndOf="@id/stateLayout"
+            app:layout_constraintTop_toBottomOf="@id/cityLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/zipcode_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="@={viewModel.zipCode }"
+                android:textSize="@dimen/textSize"
+                app:layout_constraintTop_toBottomOf="@id/city_text_input" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/countryLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/marginStart"
+            android:layout_marginTop="@dimen/marginTop"
+            android:layout_marginEnd="@dimen/marginEnd"
+            android:layout_marginBottom="@dimen/marginTop"
+            android:layout_weight="0.5"
+            android:hint="@string/country"
+            android:inputType="text"
+            app:endIconMode="clear_text"
+            app:endIconTint="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/zipcodeLayout"
+            app:layout_constraintTop_toBottomOf="@id/cityLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/country_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:text="@={viewModel.country}"
+                android:textSize="@dimen/textSize" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -19,7 +19,6 @@ import kotlinx.parcelize.Parcelize
         childColumns = ["agent_id"],
         onDelete = ForeignKey.CASCADE
     )]
-//indices = [Index("agent_id")]
 )
 data class PropertyEntity(
     @PrimaryKey(autoGenerate = false)
