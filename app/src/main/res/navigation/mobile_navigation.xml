@@ -38,8 +38,8 @@
         <action
             android:id="@+id/action_propertyDetailFragment_to_addPropertyFragment"
             app:destination="@id/addEditPropertyFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right">
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim">
 
             <argument
                 android:name="EDIT_PROPERTY_VIEW"
@@ -100,8 +100,8 @@
         <action
             android:id="@+id/action_itemTabsFragment2_to_addPropertyFragment"
             app:destination="@id/addEditPropertyFragment"
-            app:enterAnim="@android:anim/slide_in_left"
-            app:exitAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_itemTabsFragment2_to_propertyDetailFragment"
             app:destination="@id/propertyDetailFragment"
