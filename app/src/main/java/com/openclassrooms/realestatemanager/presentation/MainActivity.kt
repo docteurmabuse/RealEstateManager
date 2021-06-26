@@ -86,18 +86,18 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         val fabOpenRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim)
         val fabCloseRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
         binding.addFab.setOnClickListener {
-            if (isOpen) {
+            isOpen = if (isOpen) {
                 binding.addAgentFab.startAnimation(fabClose)
                 binding.addPropertyFab.startAnimation(fabClose)
                 binding.addFab.startAnimation(fabOpenRotate)
-                isOpen = false
+                false
             } else {
                 binding.addAgentFab.startAnimation(fabOpen)
                 binding.addPropertyFab.startAnimation(fabOpen)
                 binding.addFab.startAnimation(fabCloseRotate)
                 binding.addAgentFab.isClickable
                 binding.addPropertyFab.isClickable
-                isOpen = true
+                true
             }
         }
     }
@@ -137,11 +137,40 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
             bottomAppBar.visibility = View.VISIBLE
             bottomAppBar.replaceMenu(menuRes)
-
+            binding.addAgentFab.visibility = View.INVISIBLE
+            binding.addPropertyFab.visibility = View.INVISIBLE
             // expandableFabPortrait.efabIcon =
             //    AppCompatResources.getDrawable(applicationContext, R.drawable.ic_add_24dp)
 
             bottomAppBar.performShow()
+        }
+    }
+
+    private fun setBottomAppBarForAddEditPropertyFragment(@MenuRes menuRes: Int) {
+        binding.run {
+            // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
+            bottomAppBar.visibility = View.VISIBLE
+            bottomAppBar.replaceMenu(menuRes)
+            binding.addAgentFab.visibility = View.INVISIBLE
+            binding.addPropertyFab.visibility = View.INVISIBLE
+            //   expandableFabPortrait.efabIcon =
+            binding.addFab.setImageResource(R.drawable.ic_edit_24dp)
+            bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+            // bottomAppBar.performShow()
+        }
+    }
+
+    private fun setBottomAppBarForAddEditAgentFragment(@MenuRes menuRes: Int) {
+        binding.run {
+            // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
+            bottomAppBar.visibility = View.VISIBLE
+            bottomAppBar.replaceMenu(menuRes)
+            binding.addAgentFab.visibility = View.INVISIBLE
+            binding.addPropertyFab.visibility = View.INVISIBLE
+            //   expandableFabPortrait.efabIcon =
+            binding.addFab.setImageResource(R.drawable.ic_edit_24dp)
+            bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+            // bottomAppBar.performShow()
         }
     }
 
@@ -150,9 +179,10 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
             bottomAppBar.visibility = View.VISIBLE
             bottomAppBar.replaceMenu(menuRes)
-
+            binding.addAgentFab.visibility = View.INVISIBLE
+            binding.addPropertyFab.visibility = View.INVISIBLE
             //   expandableFabPortrait.efabIcon =
-            //   AppCompatResources.getDrawable(applicationContext, R.drawable.ic_edit_24dp)
+            binding.addFab.setImageResource(R.drawable.ic_edit_24dp)
             bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
             // bottomAppBar.performShow()
         }
@@ -209,15 +239,22 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             }
             R.id.propertyDetailFragment -> {
                 setBottomAppBarForDetail(getBottomAppBarMenuDestination(destination))
-
                 hideBottomAppBar()
             }
             R.id.propertySearchDialogFragment -> {
                 setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
                 hideBottomAppBar()
             }
+            R.id.addEditAgentFragment ->
+                setBottomAppBarForAddEditAgentFragment(getBottomAppBarMenuDestination(destination))
+
+            R.id.addEditPropertyFragment ->
+                setBottomAppBarForAddEditPropertyFragment(getBottomAppBarMenuDestination(destination))
         }
+
+
     }
+
 
     private fun getBottomAppBarMenuDestination(destination: NavDestination? = null): Int {
         val dest = destination
@@ -317,6 +354,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
             }
             navController.navigate(action)
+
         }
     }
 
