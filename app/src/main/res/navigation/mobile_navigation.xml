@@ -147,6 +147,7 @@
     <fragment
         android:id="@+id/loanFragment"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.loan.LoanFragment"
-        android:label="Loan Simulator" />
-
+        android:label="Loan Simulator"
+        app:popUpTo="@id/itemTabsFragment2"
+        app:popUpToInclusive="true" />
 </navigation>

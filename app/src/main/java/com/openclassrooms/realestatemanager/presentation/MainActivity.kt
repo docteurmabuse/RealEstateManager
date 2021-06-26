@@ -100,15 +100,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             }
             setOnMenuItemClickListener(this@MainActivity)
         }
-
-        // Set a custom animation for showing and hiding the FAB
-        /*binding..apply {
-            setShowMotionSpecResource(R.animator.fab_show)
-            setHideMotionSpecResource(R.animator.fab_hide)
-            setOnClickListener {
-                navigateToCompose()
-            }
-        }*/
     }
 
     private fun setBottomAppBarForHome(@MenuRes menuRes: Int) {
@@ -137,6 +128,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 AppCompatResources.getDrawable(applicationContext, R.drawable.ic_edit_24dp)
             bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
             // bottomAppBar.performShow()
+        }
+    }
+
+    private fun setBottomAppBarForLoan(@MenuRes menuRes: Int) {
+        binding.run {
+            bottomAppBar.replaceMenu(menuRes)
         }
     }
 
@@ -192,15 +189,18 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             R.id.propertyDetailFragment -> {
                 setBottomAppBarForDetail(getBottomAppBarMenuDestination(destination))
                 binding.expandableFabLayout.visibility = View.GONE
-
                 hideBottomAppBar()
             }
             R.id.propertySearchDialogFragment -> {
                 setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
                 hideBottomAppBar()
             }
+            R.id.loanFragment -> {
+                setBottomAppBarForLoan(getBottomAppBarMenuDestination(destination))
+            }
         }
     }
+
 
     private fun getBottomAppBarMenuDestination(destination: NavDestination? = null): Int {
         val dest = destination
@@ -257,16 +257,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     @ExperimentalCoroutinesApi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.navLoan -> {
-                Timber.d("LOAN")
-
-            }
-            R.id.action_search ->
-                Timber.d("SEARCH:CLICKED")
-
-            R.id.action_filter_properties ->
-                Timber.d("FILTER:CLICKED")
-
             android.R.id.home -> {
                 onBackPressed()
                 this@MainActivity.onBackPressedDispatcher.addCallback(this) {
