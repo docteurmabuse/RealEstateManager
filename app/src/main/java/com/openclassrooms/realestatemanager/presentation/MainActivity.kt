@@ -197,6 +197,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             }
             R.id.loanFragment -> {
                 setBottomAppBarForLoan(getBottomAppBarMenuDestination(destination))
+                hideBottomAppBar()
             }
         }
     }

@@ -39,6 +39,7 @@ class LoanFragment : Fragment(R.layout.loan_fragment) {
     private fun setObserver() {
         viewModel.monthlyLoan.observe(viewLifecycleOwner) {
             binding.viewModel = viewModel
+
             binding.resultText.visibility = View.VISIBLE
         }
     }
