@@ -89,12 +89,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             isOpen = if (isOpen) {
                 binding.addAgentFab.startAnimation(fabClose)
                 binding.addPropertyFab.startAnimation(fabClose)
-                binding.addFab.startAnimation(fabOpenRotate)
+                binding.addFab.startAnimation(fabCloseRotate)
                 false
             } else {
                 binding.addAgentFab.startAnimation(fabOpen)
                 binding.addPropertyFab.startAnimation(fabOpen)
-                binding.addFab.startAnimation(fabCloseRotate)
+                binding.addFab.startAnimation(fabOpenRotate)
                 binding.addAgentFab.isClickable
                 binding.addPropertyFab.isClickable
                 true
@@ -139,9 +139,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             bottomAppBar.replaceMenu(menuRes)
             binding.addAgentFab.visibility = View.INVISIBLE
             binding.addPropertyFab.visibility = View.INVISIBLE
-            // expandableFabPortrait.efabIcon =
-            //    AppCompatResources.getDrawable(applicationContext, R.drawable.ic_add_24dp)
-
+            binding.addFab.setImageResource(R.drawable.ic_add_24dp)
             bottomAppBar.performShow()
         }
     }
@@ -149,13 +147,26 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private fun setBottomAppBarForAddEditPropertyFragment(@MenuRes menuRes: Int) {
         binding.run {
             // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
-            bottomAppBar.visibility = View.VISIBLE
+            bottomAppBar.visibility = View.INVISIBLE
             bottomAppBar.replaceMenu(menuRes)
-            binding.addAgentFab.visibility = View.INVISIBLE
+            binding.addAgentFab.visibility = View.GONE
             binding.addPropertyFab.visibility = View.INVISIBLE
             //   expandableFabPortrait.efabIcon =
-            binding.addFab.setImageResource(R.drawable.ic_edit_24dp)
+            binding.addFab.setImageResource(R.drawable.ic_check_24dp)
             bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+            binding.addFab.visibility = View.GONE
+            val fabClose = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_close)
+            val fabCloseRotate =
+                AnimationUtils.loadAnimation(applicationContext, R.anim.rotate_close_anim)
+            isOpen = false
+            binding.addAgentFab.startAnimation(fabClose)
+            binding.addPropertyFab.startAnimation(fabClose)
+            binding.addAgentFab.isClickable = false
+            binding.addFab.isClickable = false
+            binding.addFab.alpha = 0F
+            binding.addFab.startAnimation(fabCloseRotate)
+            false
+
             // bottomAppBar.performShow()
         }
     }
@@ -168,8 +179,16 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             binding.addAgentFab.visibility = View.INVISIBLE
             binding.addPropertyFab.visibility = View.INVISIBLE
             //   expandableFabPortrait.efabIcon =
-            binding.addFab.setImageResource(R.drawable.ic_edit_24dp)
+            binding.addFab.setImageResource(R.drawable.ic_check_24dp)
             bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+            isOpen = false
+            val fabClose = AnimationUtils.loadAnimation(applicationContext, R.anim.fab_close)
+            val fabCloseRotate =
+                AnimationUtils.loadAnimation(applicationContext, R.anim.rotate_close_anim)
+            binding.addAgentFab.startAnimation(fabClose)
+            binding.addPropertyFab.startAnimation(fabClose)
+            binding.addFab.startAnimation(fabCloseRotate)
+            false
             // bottomAppBar.performShow()
         }
     }
@@ -242,8 +261,8 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 hideBottomAppBar()
             }
             R.id.propertySearchDialogFragment -> {
-                setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
-                hideBottomAppBar()
+                //   setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
+                // hideBottomAppBar()
             }
             R.id.addEditAgentFragment ->
                 setBottomAppBarForAddEditAgentFragment(getBottomAppBarMenuDestination(destination))
@@ -345,7 +364,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         binding.addAgentFab.setOnClickListener {
             isAddAgentView = true
             isAddPropertyView = false
-
             val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddAgentFragment()
             if (isAddAgentView) {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
@@ -354,7 +372,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
             }
             navController.navigate(action)
-
         }
     }
 

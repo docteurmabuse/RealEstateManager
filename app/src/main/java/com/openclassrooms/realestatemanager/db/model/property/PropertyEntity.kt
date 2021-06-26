@@ -20,6 +20,7 @@ import kotlinx.parcelize.Parcelize
         onDelete = ForeignKey.CASCADE
     )]
 )
+
 data class PropertyEntity(
     @PrimaryKey(autoGenerate = false)
     var id: String = "",

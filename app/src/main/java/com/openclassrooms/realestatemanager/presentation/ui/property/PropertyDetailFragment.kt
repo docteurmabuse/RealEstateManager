@@ -116,7 +116,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         super.onViewCreated(view, savedInstanceState)
         if (property == null) {
             binding.noPropertyText?.visibility = View.VISIBLE
-            binding.appBar.visibility = View.GONE
+            binding.appBar.visibility = View.VISIBLE
             binding.itemDetailScrollView.visibility = View.GONE
         }
         mapView = view.findViewById<MapView>(R.id.lite_map_view)
