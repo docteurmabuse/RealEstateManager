@@ -6,12 +6,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +22,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.nambimobile.widgets.efab.ExpandableFabLayout
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
@@ -56,7 +55,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private var isAddPropertyView = false
     private var agentList: List<Agent>? = arrayListOf()
     private var isEuroCurrency = false
-
+    var isOpen = false
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment
     }
@@ -72,13 +71,35 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         binding.lifecycleOwner = this
 
         setContentView(binding.root)
-
+        setFab()
         setupActionBarWithNavController(navController, appBarConfiguration)
         viewModel.fetchProperties()
         setObserver()
         setupBottomNavigationAndFab()
         setAddPropertyFabListener()
         setAddAgentFabListener()
+    }
+
+    private fun setFab() {
+        val fabOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open)
+        val fabClose = AnimationUtils.loadAnimation(this, R.anim.fab_close)
+        val fabOpenRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim)
+        val fabCloseRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
+        binding.addFab.setOnClickListener {
+            if (isOpen) {
+                binding.addAgentFab.startAnimation(fabClose)
+                binding.addPropertyFab.startAnimation(fabClose)
+                binding.addFab.startAnimation(fabOpenRotate)
+                isOpen = false
+            } else {
+                binding.addAgentFab.startAnimation(fabOpen)
+                binding.addPropertyFab.startAnimation(fabOpen)
+                binding.addFab.startAnimation(fabCloseRotate)
+                binding.addAgentFab.isClickable
+                binding.addPropertyFab.isClickable
+                isOpen = true
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -116,13 +137,11 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
             bottomAppBar.visibility = View.VISIBLE
             bottomAppBar.replaceMenu(menuRes)
-            expandableFabLayout.contentDescription = getString(R.string.title_property_list)
-            expandableFabLayout.visibility = View.VISIBLE
-            expandableFabPortrait.efabIcon =
-                AppCompatResources.getDrawable(applicationContext, R.drawable.ic_add_24dp)
-            expandableFabPortrait.show()
+
+            // expandableFabPortrait.efabIcon =
+            //    AppCompatResources.getDrawable(applicationContext, R.drawable.ic_add_24dp)
+
             bottomAppBar.performShow()
-            expandableFabLayout.isShown
         }
     }
 
@@ -131,10 +150,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
             bottomAppBar.visibility = View.VISIBLE
             bottomAppBar.replaceMenu(menuRes)
-            expandableFabLayout.contentDescription = getString(R.string.title_property_detail)
-            expandableFabLayout.visibility = View.VISIBLE
-            expandableFabPortrait.efabIcon =
-                AppCompatResources.getDrawable(applicationContext, R.drawable.ic_edit_24dp)
+
+            //   expandableFabPortrait.efabIcon =
+            //   AppCompatResources.getDrawable(applicationContext, R.drawable.ic_edit_24dp)
             bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
             // bottomAppBar.performShow()
         }
@@ -191,7 +209,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             }
             R.id.propertyDetailFragment -> {
                 setBottomAppBarForDetail(getBottomAppBarMenuDestination(destination))
-                binding.expandableFabLayout.visibility = View.GONE
 
                 hideBottomAppBar()
             }
@@ -244,7 +261,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                     // Hide the BottomAppBar to avoid it showing above the keyboard
                     // when composing a new email.
                     bottomAppBar.visibility = View.GONE
-                    expandableFabLayout.visibility = View.INVISIBLE
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
@@ -289,25 +305,23 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     }
 
     private fun setAddAgentFabListener() {
-        binding.fabAddAgent.setOnClickListener {
+        binding.addAgentFab.setOnClickListener {
             isAddAgentView = true
             isAddPropertyView = false
 
             val action = ItemTabsFragmentDirections.actionItemTabsFragment2ToAddAgentFragment()
             if (isAddAgentView) {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-                binding.expandableFabLayout.visibility = View.GONE
 
             } else {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-                binding.expandableFabLayout.visibility = View.GONE
             }
             navController.navigate(action)
         }
     }
 
     private fun setAddPropertyFabListener() {
-        binding.fabAddProperty.setOnClickListener {
+        binding.addPropertyFab.setOnClickListener {
             isAddAgentView = false
             isAddPropertyView = true
 
@@ -315,12 +329,8 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 ItemTabsFragmentDirections.actionItemTabsFragment2ToAddPropertyFragment(null)
             if (isAddPropertyView) {
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-                findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout).visibility = View.GONE
-
             } else {
-                findViewById<ExpandableFabLayout>(R.id.expandable_fab_layout).visibility = View.GONE
                 binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-                binding.expandableFabLayout.visibility = View.GONE
             }
             navController.navigate(action)
         }
@@ -353,7 +363,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
 
     private fun renderAgentList(agents: List<Agent>) {
         agentList = agents
-        binding.fabAddProperty.fabOptionEnabled = agents.isNotEmpty()
+        binding.addPropertyFab.isClickable = agents.isNotEmpty()
     }
 
     private fun displayError(message: String?) {
