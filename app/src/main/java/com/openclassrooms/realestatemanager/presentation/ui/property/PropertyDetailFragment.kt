@@ -6,10 +6,12 @@ import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -51,7 +53,15 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private var isCurrencyEuro = false
 
     private val binding get() = _binding!!
-
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(
+                PropertyDetailFragmentDirections.actionPropertyDetailFragmentToItemTabsFragment2(
+                    property
+                )
+            )
+        }
+    }
     private val dragListener = View.OnDragListener { v, event ->
         if (event.action == DragEvent.ACTION_DROP) {
             val clipDataItem: ClipData.Item = event.clipData.getItemAt(0)
@@ -77,9 +87,9 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                     setAgentObserver()
                 }
             }
-
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -250,6 +260,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     override fun onStart() {
         super.onStart()
         mapView.onStart()
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
     override fun onResume() {
@@ -260,6 +271,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     override fun onStop() {
         super.onStop()
         mapView.onStop()
+        callback.remove()
     }
 
     override fun onDestroy() {
@@ -273,5 +285,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         viewPager!!.adapter = null
         viewPager = null
         dotsIndicator = null
+
     }
 }

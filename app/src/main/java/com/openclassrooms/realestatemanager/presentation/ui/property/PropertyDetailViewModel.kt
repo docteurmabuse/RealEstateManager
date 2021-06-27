@@ -1,5 +1,8 @@
 package com.openclassrooms.realestatemanager.presentation.ui.property
 
+import android.os.Bundle
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.domain.interactors.agent.GetAgentById
@@ -20,7 +23,8 @@ class PropertyDetailViewModel @Inject constructor(
     val getAgentById: GetAgentById,
     val getPropertyById: GetPropertyById
 ) : ViewModel() {
-
+    val _bundle = MutableLiveData<Bundle>()
+    val bundle: LiveData<Bundle> get() = _bundle
     private val _state = MutableStateFlow<DataState<Property>>(DataState.loading(null))
     val propertyState: StateFlow<DataState<Property>>
         get() = _state

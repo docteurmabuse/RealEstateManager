@@ -62,6 +62,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_addEditPropertyFragment_to_propertyDetailFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_addPropertyFragment_to_itemTabsFragment2">
                               <value>
                                 <LayoutPositions />
@@ -78,18 +83,6 @@
                               </value>
                             </entry>
                           </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="bottomNavigationDrawerFragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="500" />
-                            <option name="y" value="12" />
-                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -216,6 +209,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_propertyDetailFragment_to_addPropertyFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_propertyDetailFragment_to_itemTabsFragment2">
                               <value>
                                 <LayoutPositions />
                               </value>

@@ -40,7 +40,6 @@
             app:destination="@id/addEditPropertyFragment"
             app:enterAnim="@android:anim/slide_in_left"
             app:exitAnim="@android:anim/slide_out_right">
-
             <argument
                 android:name="EDIT_PROPERTY_VIEW"
                 android:defaultValue="false"
@@ -50,6 +49,10 @@
                 app:argType="com.openclassrooms.realestatemanager.domain.model.property.Property"
                 app:nullable="true" />
         </action>
+        <action
+            android:id="@+id/action_propertyDetailFragment_to_itemTabsFragment2"
+            app:destination="@id/itemTabsFragment2" />
+
     </fragment>
     <fragment
         android:id="@+id/addEditPropertyFragment"
@@ -69,6 +72,9 @@
         <action
             android:id="@+id/action_addPropertyFragment_to_itemTabsFragment2"
             app:destination="@id/itemTabsFragment2" />
+        <action
+            android:id="@+id/action_addEditPropertyFragment_to_propertyDetailFragment"
+            app:destination="@id/propertyDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"

@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -24,6 +25,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.whenStarted
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -46,7 +48,9 @@ import com.openclassrooms.realestatemanager.notif.NotificationHelper
 import com.openclassrooms.realestatemanager.presentation.EventObserver
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PhotoListAdapter
 import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
+import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragment
 import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailFragmentArgs
+import com.openclassrooms.realestatemanager.presentation.ui.property.PropertyDetailViewModel
 import com.openclassrooms.realestatemanager.utils.*
 import com.openclassrooms.realestatemanager.utils.DateUtil.longDateToString
 import com.openclassrooms.realestatemanager.utils.Utils.isNetworkConnected
@@ -69,6 +73,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     //ViewModels
     private val viewModel: AddEditPropertyViewModel by viewModels()
     private val agentViewModel: AgentsViewModel by viewModels()
+    private val detailViewModel: PropertyDetailViewModel by viewModels()
 
     private lateinit var photosRecyclerView: RecyclerView
     private val permissions = arrayOf(Manifest.permission.CAMERA)
@@ -124,12 +129,27 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            val data =
+                Bundle().apply { putParcelable(PropertyDetailFragment.ARG_PROPERTY_ID, property) }
+            detailViewModel._bundle.value = data
+            requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(
+                AddEditPropertyFragmentDirections.actionAddEditPropertyFragmentToPropertyDetailFragment(
+                    editPropertyView = true,
+                    property
+                )
+            )
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = AddPropertyFragmentBinding.inflate(inflater, container, false)
-        photosRecyclerView = binding.media!!.photoRecyclerView
+        photosRecyclerView = binding.media.photoRecyclerView
 
         if (::photoListAdapter.isInitialized) {
             photoListAdapter.submitList(list = photos)
@@ -146,10 +166,53 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+//       // val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+//            Timber.d("BACKPRESSED: Click")
+//            val data = Bundle().apply { putParcelable(PropertyDetailFragment.ARG_PROPERTY_ID, property) }
+//            detailViewModel._bundle.value=data
+//            setHasOptionsMenu(true)
+//
+//            // requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(AddEditPropertyFragmentDirections.actionAddEditPropertyFragmentToPropertyDetailFragment(editPropertyView = true, property))
+//
+//        }
+        /* activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+
+             override fun handleOnBackPressed() {
+                 if(shouldInterceptBackPress()){
+                     Toast.makeText(requireContext(), "Back press intercepted in:${this@AddEditPropertyFragment }", Toast.LENGTH_SHORT).show()
+                     Timber.d("BACKPRESSED: Click")
+
+                 }else{
+                     isEnabled = false
+                     activity?.onBackPressed()
+                 }
+             }
+         })*/
+        /* activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+             override fun handleOnBackPressed() {
+                 val data = Bundle().apply { putParcelable(PropertyDetailFragment.ARG_PROPERTY_ID, property) }
+                 detailViewModel._bundle.value=data
+                 requireActivity().onBackPressed()
+             }
+         })*/
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
+    }
+
+    override fun onStop() {
+        callback.remove()
+        super.onStop()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val typeDropdown: AutoCompleteTextView = binding.type!!.typeDropdown
+        val typeDropdown: AutoCompleteTextView = binding.type.typeDropdown
 
         setObserver()
         setUpPermissions()
@@ -165,7 +228,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         viewModel.propertyUpdatedEvent.observe(viewLifecycleOwner, EventObserver {
             val navHostFragment = findNavController()
             navHostFragment.navigate(R.id.mainActivity)
-            val propertyName: String = binding.address?.address1TextInput?.text.toString()
+            val propertyName: String = binding.address.address1TextInput.text.toString()
             NotificationHelper.createNotification(
                 requireContext(),
                 "Property $propertyName was updated",
@@ -178,7 +241,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         viewModel.propertyAddedEvent.observe(viewLifecycleOwner, EventObserver {
             val navHostFragment = findNavController()
             navHostFragment.navigate(R.id.mainActivity)
-            val propertyName: String = binding.address?.address1TextInput?.text.toString()
+            val propertyName: String = binding.address.address1TextInput.text.toString()
             NotificationHelper.createNotification(
                 requireContext(),
                 "Property $propertyName was added",
@@ -195,7 +258,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         viewModel.sellDate = MutableLiveData(todayDate.toString())
         viewModel.soldDate = MutableLiveData(todayDate.toString())
 
-        binding.dates!!.sellDateDropdown.setOnClickListener {
+        binding.dates.sellDateDropdown.setOnClickListener {
             val sellDatePicker = DatePickerDialog(
                 requireContext(),
                 dateSellSetListener,
@@ -208,7 +271,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
             sellDatePicker.show()
         }
 
-        binding.dates!!.soldDateDropdown.setOnClickListener {
+        binding.dates.soldDateDropdown.setOnClickListener {
             val soldDatePicker = DatePickerDialog(
                 requireContext(),
                 dateSoldSetListener,
@@ -224,8 +287,8 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
 
     private fun updateSellDateInView() {
         val dateOnMarket = cal.timeInMillis
-        binding.dates!!.viewModel?.sellDate = MutableLiveData(dateOnMarket.toString())
-        binding.dates!!.sellDateDropdown.setText(longDateToString(dateOnMarket))
+        binding.dates.viewModel?.sellDate = MutableLiveData(dateOnMarket.toString())
+        binding.dates.sellDateDropdown.setText(longDateToString(dateOnMarket))
         viewModel.sellDate = MutableLiveData(dateOnMarket.toString())
         Timber.d("DATE_PICKER : ${dateOnMarket}")
 
@@ -233,8 +296,8 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
 
     private fun updateSoldDateInView() {
         val dateOnMarket = cal.timeInMillis
-        binding.dates!!.viewModel?.soldDate = MutableLiveData(dateOnMarket.toString())
-        binding.dates!!.soldDateDropdown.setText(longDateToString(dateOnMarket))
+        binding.dates.viewModel?.soldDate = MutableLiveData(dateOnMarket.toString())
+        binding.dates.soldDateDropdown.setText(longDateToString(dateOnMarket))
         viewModel.soldDate = MutableLiveData(dateOnMarket.toString())
     }
 
@@ -260,7 +323,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     }
 
     private fun setupAgentMenuValues(agents: List<Agent>) {
-        binding.agentLayout!!.agentDropdown.setAdapter(
+        binding.agentLayout.agentDropdown.setAdapter(
             ArrayAdapter(
                 requireContext(),
                 R.layout.support_simple_spinner_dropdown_item,
@@ -269,8 +332,8 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         )
         agentList = agents
         Timber.d("AGENTS: $agents")
-        binding.agentLayout!!.agentViewModel = agentViewModel
-        val agentDropdown: AutoCompleteTextView = binding.agentLayout!!.agentDropdown
+        binding.agentLayout.agentViewModel = agentViewModel
+        val agentDropdown: AutoCompleteTextView = binding.agentLayout.agentDropdown
 
         val items = agentList
         Timber.d("AGENT_LIST: $agentList")
@@ -355,8 +418,8 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         val args = PropertyDetailFragmentArgs.fromBundle(bundle)
         property = args.property
         if (property == null) {
-            binding.dates?.switchTitle?.visibility = View.GONE
-            binding.dates?.soldSwitch?.visibility = View.GONE
+            binding.dates.switchTitle.visibility = View.GONE
+            binding.dates.soldSwitch.visibility = View.GONE
             viewModel.isNewProperty.value = true
         }
         isEditPropertyView = args.editPropertyView
@@ -364,8 +427,8 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         args.property?.let {
             it.id?.let { it1 ->
                 viewModel.start(it1)
-                binding.dates?.switchTitle?.visibility = View.VISIBLE
-                binding.dates?.soldSwitch?.visibility = View.VISIBLE
+                binding.dates.switchTitle.visibility = View.VISIBLE
+                binding.dates.soldSwitch.visibility = View.VISIBLE
                 viewModel.isNewProperty.value = false
                 (activity as AppCompatActivity?)!!.supportActionBar!!.title =
                     requireActivity().resources.getString(R.string.edit_property)
@@ -378,15 +441,19 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     private fun setPropertyInLayout(property: Property) {
         Timber.d("PROPERTY_DETAIL layout: $property")
         binding.property = property
+        val data =
+            Bundle().apply { putParcelable(PropertyDetailFragment.ARG_PROPERTY_ID, property) }
+        detailViewModel._bundle.value = data
+
         photos = property.media.photos as ArrayList<Media.Photo>
-        binding.dates?.soldSwitch?.setOnCheckedChangeListener { buttonView, isChecked ->
-            binding.dates!!.viewModel?.sold = MutableLiveData<Boolean>(isChecked)
-            binding.dates!!.soldInputLayout.isVisible = isChecked
+        binding.dates.soldSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            binding.dates.viewModel?.sold = MutableLiveData<Boolean>(isChecked)
+            binding.dates.soldInputLayout.isVisible = isChecked
             Timber.d("SWITCH: $isChecked")
         }
         if (!EDIT_PROPERTY_VIEW) {
-            binding.dates!!.soldInputLayout.visibility = View.GONE
-            binding.dates!!.soldDateDropdown.visibility = View.GONE
+            binding.dates.soldInputLayout.visibility = View.GONE
+            binding.dates.soldDateDropdown.visibility = View.GONE
         }
 
         setupRecyclerView()
@@ -426,10 +493,10 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
                 Timber.d("REORDER: reorder completed")
                 photoListAdapter.submitList(photos)
             }
-            binding.media?.photoRecyclerView?.adapter = photoListAdapter
+            binding.media.photoRecyclerView.adapter = photoListAdapter
             val callback: ItemTouchHelper.Callback = ReorderHelperCallback(photoListAdapter)
             mItemTouchHelper = ItemTouchHelper(callback)
-            mItemTouchHelper?.attachToRecyclerView(binding.media?.photoRecyclerView)
+            mItemTouchHelper?.attachToRecyclerView(binding.media.photoRecyclerView)
             photoListAdapter.submitList(photos)
         }
     }
@@ -442,7 +509,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
 
 
     private fun setupUploadImageListener() {
-        binding.media!!.buttonPhoto.setOnClickListener {
+        binding.media.buttonPhoto.setOnClickListener {
             chooseImage()
             if (isPermissionsAllowed) {
                 chooseImage()
