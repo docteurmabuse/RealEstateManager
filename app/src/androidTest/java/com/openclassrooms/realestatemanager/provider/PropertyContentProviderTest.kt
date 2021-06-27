@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.provider
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.database.Cursor
+import android.net.Uri
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
@@ -13,6 +14,7 @@ import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.database.PropertyDatabase
 import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AUTHORITY
+import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_URI_AGENT
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_URI_PROPERTIES
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.Assert.assertEquals
@@ -37,15 +39,23 @@ class PropertyContentProviderTest {
     private val property2 = PropertyFactory.makeProperty()
     private val property = PropertyFactory.makeOneProperty()
     private val propertyUpdate = PropertyFactory.makeOneUpdateProperty()
-    private val PROPERTIES_URI_ALL_ITEMS_CODE = 11
+    private val PROPERTIES_URI_ALL_ITEMS_CODE = 1
+    private val AGENTS_URI_ALL_ITEMS_CODE = 1
 
     private val agent =
         AgentEntity("1", "John Wayne", "john45@gmail.com", "121221", "myphotourl.com")
-
+    private val TEST_BACKUP_DB_DATA_FILE_NAME = "backupFlightsDB.db"
+    private val INSERT_FIRST_UNITED_COMMAND: String =
+        FlightsDatabaseContract.SQL_INSERTION_COMMAND_PREFIX
+            .toString() + "(1469502629418, 'United', 12, 'Y', 'DCA', 'ORD')"
 
     @get:Rule(order = 0)
     var mProviderRule: ProviderTestRule? =
-        ProviderTestRule.Builder(PropertyContentProvider::class.java, AUTHORITY).build()
+        ProviderTestRule.Builder(
+            PropertyContentProvider::class.java,
+            AUTHORITY
+        )
+            .build()
 
     @get:Rule(order = 1)
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -79,14 +89,41 @@ class PropertyContentProviderTest {
     @Test
     fun verifyContentProviderContractWorks() {
         val resolver = mProviderRule!!.resolver
-        val cursor2: Cursor? = resolver.query(
-            ContentUris.withAppendedId(
-                CONTENT_URI_PROPERTIES,
-                PROPERTIES_URI_ALL_ITEMS_CODE.toLong()
-            ), null, null, null, null, null
-        )
-        assertNotNull(cursor2)
-        assertEquals(1, cursor2?.count)
+        // perform some database (or other) operations
+        val uri: Uri? = resolver.insert(testUrl, testContentValues)
+        // perform some assertions on the resulting URI
+        assertNotNull(uri)
+    }
+
+    @Test
+    fun verifyContentPropertyProviderContractWorks() {
+        runBlocking {
+            propertyDao.insertProperty(property1)
+            val resolver = mProviderRule!!.resolver
+            val cursor: Cursor? = resolver.query(
+                ContentUris.withAppendedId(
+                    CONTENT_URI_PROPERTIES,
+                    PROPERTIES_URI_ALL_ITEMS_CODE.toLong()
+                ), null, null, null, null, null
+            )
+            assertNotNull(cursor)
+            assertEquals(1, cursor?.count)
+        }
+    }
+
+    @Test
+    fun verifyContentProviderAgentContractWorks() {
+        runBlocking {
+            val resolver = mProviderRule!!.resolver
+            val cursor: Cursor? = resolver.query(
+                ContentUris.withAppendedId(
+                    CONTENT_URI_AGENT,
+                    AGENTS_URI_ALL_ITEMS_CODE.toLong()
+                ), null, null, null, null, null
+            )
+            assertNotNull(cursor)
+            assertEquals(1, cursor?.count)
+        }
     }
 
     @Test
