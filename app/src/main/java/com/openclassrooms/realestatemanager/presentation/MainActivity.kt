@@ -119,14 +119,15 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private fun setBottomAppBarForDetail(@MenuRes menuRes: Int) {
         binding.run {
             // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
-            bottomAppBar.visibility = View.VISIBLE
+            // bottomAppBar.visibility = View.VISIBLE
             bottomAppBar.replaceMenu(menuRes)
             expandableFabLayout.contentDescription = getString(R.string.title_property_detail)
             expandableFabLayout.visibility = View.VISIBLE
             expandableFabPortrait.efabIcon =
                 AppCompatResources.getDrawable(applicationContext, R.drawable.ic_edit_24dp)
             bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-            // bottomAppBar.performShow()
+            bottomAppBar.performHide()
+            bottomAppBar.performShow()
         }
     }
 
@@ -190,6 +191,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 binding.expandableFabLayout.visibility = View.GONE
                 hideBottomAppBar()
             }
+            R.id.addEditPropertyFragment -> {
+                setBottomAppBarForDetail(getBottomAppBarMenuDestination(destination))
+                binding.expandableFabLayout.visibility = View.GONE
+                hideBottomAppBar()
+            }
+
             R.id.propertySearchDialogFragment -> {
                 setBottomAppBarForHome(getBottomAppBarMenuDestination(destination))
                 hideBottomAppBar()
