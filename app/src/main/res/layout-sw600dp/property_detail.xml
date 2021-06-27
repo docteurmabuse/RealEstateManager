@@ -49,10 +49,21 @@
             android:text="@string/no_property_yet"
             android:visibility="gone" />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addPropertyFAB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:contentDescription="@string/add_property_button"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_anchor="@id/app_bar"
+            app:layout_anchorGravity="bottom|end"
+            app:srcCompat="@drawable/ic_edit_24dp" />
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_height"
+            android:layout_height="400dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -93,13 +104,13 @@
                     app:progressMode="true"
                     app:selectedDotColor="@color/colorAccent" />
 
-                <!--  <com.google.android.material.appbar.MaterialToolbar
-                      android:id="@+id/detail_toolbar"
-                      app:layout_scrollFlags="scroll|enterAlways|snap"
-                      android:layout_width="match_parent"
-                      android:layout_height="?attr/actionBarSize"
-                      app:layout_collapseMode="pin"
-                      app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/detail_toolbar"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
