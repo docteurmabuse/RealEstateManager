@@ -134,7 +134,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     }
 
     private fun setFabListener() {
-        binding.addPropertyFAB?.setOnClickListener {
+        binding.addPropertyFAB.setOnClickListener {
             val navHostFragment = findNavController()
             val action = property?.let { property ->
                 PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
@@ -285,6 +285,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         viewPager!!.adapter = null
         viewPager = null
         dotsIndicator = null
-
+        mapView.onDestroy()
     }
 }

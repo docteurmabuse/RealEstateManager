@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.LoanFragmentBinding
@@ -20,6 +22,14 @@ class LoanFragment : Fragment(R.layout.loan_fragment) {
     private val viewModel: LoanViewModel by viewModels()
     private var _binding: LoanFragmentBinding? = null
     private val binding get() = _binding!!
+    private val callback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(
+                LoanFragmentDirections.actionLoanFragmentToItemTabsFragment2()
+            )
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +44,16 @@ class LoanFragment : Fragment(R.layout.loan_fragment) {
         initBathsListener()
         setObserver()
         setupSnackbar()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
+    }
+
+    override fun onStop() {
+        callback.remove()
+        super.onStop()
     }
 
     private fun setObserver() {
