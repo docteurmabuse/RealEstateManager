@@ -259,11 +259,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
-                /* this@MainActivity.onBackPressedDispatcher.addCallback(this) {
-                     findNavController(R.id.nav_host_fragment_activity_main).popBackStack()
-                 }*/
-                return true // must return true to consume it here
-
+                return true
             }
         }
         return super.onOptionsItemSelected(item)
@@ -272,14 +268,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     override fun onBackPressed() {
         onBackPressedDispatcher.onBackPressed()
         binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-        // navController.popBackStack()
         if (isEuroCurrency)
             binding.bottomAppBar.menu?.findItem(R.id.action_currency)
                 ?.setIcon(R.drawable.ic_euro_symbol_24dp)
         else
             binding.bottomAppBar.menu?.findItem(R.id.action_currency)
                 ?.setIcon(R.drawable.ic_attach_dollars_24dp)
-
     }
 
     private fun setAddAgentFabListener() {

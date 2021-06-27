@@ -82,6 +82,7 @@ class PropertyListFragment :
                 PropertyDetailFragment.ARG_PROPERTY_ID,
                 item
             )
+            Timber.tag("CONTAINER : $itemDetailFragmentContainer")
 
             if (itemDetailFragmentContainer != null) {
                 itemDetailFragmentContainer.findNavController()

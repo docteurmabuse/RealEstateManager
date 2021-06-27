@@ -12,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -30,7 +29,6 @@ import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.adapters.PropertyPagerAdapter
-import com.openclassrooms.realestatemanager.utils.EDIT_PROPERTY_VIEW
 import com.openclassrooms.realestatemanager.utils.MAPVIEW_BUNDLE_KEY
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,15 +49,15 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private val maiViewModel: MainViewModel by activityViewModels()
     private lateinit var mapView: MapView
     private var isCurrencyEuro = false
-
+    private var itemDetailFragmentContainer: View? = null
     private val binding get() = _binding!!
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-            requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(
-                PropertyDetailFragmentDirections.actionPropertyDetailFragmentToItemTabsFragment2(
-                    property
-                )
-            )
+/*   requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(
+     PropertailFragmentDirections.actionPropertyDetailFragmentToItemTabsFragment2(
+         property
+     )
+ )*/
         }
     }
     private val dragListener = View.OnDragListener { v, event ->
@@ -101,7 +99,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         rootView.setOnDragListener(dragListener)
         toolbarLayout = binding.toolbarLayout
         setupViewPager()
-        setFabListener()
         setCurrencyListener()
         return rootView
     }
@@ -129,23 +126,41 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
             binding.appBar.visibility = View.GONE
             binding.itemDetailScrollView.visibility = View.GONE
         }
+        itemDetailFragmentContainer =
+            requireActivity().findViewById(R.id.item_detail_nav_container)
+        setFabListener(view)
         mapView = view.findViewById<MapView>(R.id.lite_map_view)
         initGoogleMap(savedInstanceState)
     }
 
-    private fun setFabListener() {
-        binding.addPropertyFAB.setOnClickListener {
-            val navHostFragment = findNavController()
-            val action = property?.let { property ->
-                PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
-                    EDIT_PROPERTY_VIEW,
-                    property
-                )
-            }
+    private fun setFabListener(view: View) {
 
-            if (action != null) {
-                navHostFragment.navigate(action)
+        binding.addPropertyFAB.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putParcelable(
+                ARG_PROPERTY_ID,
+                property
+            )
+            Timber.tag("CONTAINER : $itemDetailFragmentContainer")
+
+            if (itemDetailFragmentContainer != null) {
+                requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
+                    .navigate(R.id.addEditPropertyFragment, bundle)
+
+            } else {
+                view.findNavController().navigate(R.id.addEditPropertyFragment, bundle)
             }
+/*  val navHostFragment = findNavController()
+ val action = property?.let { property ->
+     PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
+         EDIT_PROPERTY_VIEW,
+         property
+     )
+ }
+
+ if (action != null) {
+     navHostFragment.navigate(action)
+ }*/
             Timber.tag("PROPERTY").d("PROPERTY_ID:")
         }
     }

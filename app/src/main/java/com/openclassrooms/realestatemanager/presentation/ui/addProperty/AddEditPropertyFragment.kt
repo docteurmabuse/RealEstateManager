@@ -135,12 +135,19 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
             val data =
                 Bundle().apply { putParcelable(PropertyDetailFragment.ARG_PROPERTY_ID, property) }
             detailViewModel._bundle.value = data
-            requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(
-                AddEditPropertyFragmentDirections.actionAddEditPropertyFragmentToPropertyDetailFragment(
-                    editPropertyView = true,
-                    property
+            if (isEditPropertyView) {
+                requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(
+                    AddEditPropertyFragmentDirections.actionAddEditPropertyFragmentToPropertyDetailFragment(
+                        editPropertyView = true,
+                        property
+                    )
                 )
-            )
+            } else {
+                requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(
+                    AddEditPropertyFragmentDirections.actionAddPropertyFragmentToItemTabsFragment2()
+                )
+            }
+
         }
     }
 

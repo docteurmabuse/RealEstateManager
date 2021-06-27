@@ -174,7 +174,7 @@ class MapFragment :
     private fun displayLoading(isLoading: Boolean) {
         if (isLoading) binding.mapProgressBar.visibility = View.VISIBLE
         else binding.mapProgressBar.visibility = View.GONE
-        binding.mapSwiperefresh.isRefreshing = isLoading
+       // binding.mapSwiperefresh.isRefreshing = isLoading
     }
 
     private fun displayError(message: String?) {
