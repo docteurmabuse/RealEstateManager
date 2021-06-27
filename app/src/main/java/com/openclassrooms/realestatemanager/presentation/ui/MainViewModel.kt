@@ -168,8 +168,11 @@ constructor(
         maxPrice.value =
             list.maxWithOrNull(Comparator.comparingInt { it.price!! })?.price?.toFloat()
         if (minPrice.value != null && maxPrice.value != null) {
-            priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
             val priceDif = minPrice.value!! - maxPrice.value!!
+            if (priceDif == 0F)
+                minPrice.value = minPrice.value!! - 1F
+            priceArray.value = arrayOf(minPrice.value!!, maxPrice.value!!)
+
             stepSize.value = 1F
         } else {
             stepSize.value = 1F
