@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_propertyDetailFragmentWide_to_addEditPropertyFragment2"
             app:destination="@id/addEditPropertyFragmentWide" />
+        <action
+            android:id="@+id/action_propertyDetailFragmentWide_to_itemTabsFragment"
+            app:destination="@id/itemTabsFragment" />
     </fragment>
     <argument
         android:name="property"
@@ -21,4 +24,8 @@
         android:id="@+id/addEditPropertyFragmentWide"
         android:name="com.openclassrooms.realestatemanager.presentation.ui.addProperty.AddEditPropertyFragment"
         android:label="AddEditPropertyFragment" />
+    <fragment
+        android:id="@+id/itemTabsFragment"
+        android:name="com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragment"
+        android:label="ItemTabsFragment" />
 </navigation>

@@ -53,11 +53,9 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private val binding get() = _binding!!
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
-/*   requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(
-     PropertailFragmentDirections.actionPropertyDetailFragmentToItemTabsFragment2(
-         property
-     )
- )*/
+            requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(
+                R.id.itemTabsFragment2
+            )
         }
     }
     private val dragListener = View.OnDragListener { v, event ->
@@ -141,7 +139,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
                 ARG_PROPERTY_ID,
                 property
             )
-            Timber.tag("CONTAINER : $itemDetailFragmentContainer")
 
             if (itemDetailFragmentContainer != null) {
                 requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
@@ -150,18 +147,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
             } else {
                 view.findNavController().navigate(R.id.addEditPropertyFragment, bundle)
             }
-/*  val navHostFragment = findNavController()
- val action = property?.let { property ->
-     PropertyDetailFragmentDirections.actionPropertyDetailFragmentToAddPropertyFragment(
-         EDIT_PROPERTY_VIEW,
-         property
-     )
- }
-
- if (action != null) {
-     navHostFragment.navigate(action)
- }*/
-            Timber.tag("PROPERTY").d("PROPERTY_ID:")
         }
     }
 
