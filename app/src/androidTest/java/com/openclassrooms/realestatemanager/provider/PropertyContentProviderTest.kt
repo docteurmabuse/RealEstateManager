@@ -95,10 +95,17 @@ class PropertyContentProviderTest {
         runBlocking {
             //Insert fake properties
             propertyDao.insertProperty(property1)
-
             val cursor: Cursor = propertyDao.getAllPropertiesWithCursor()
             val propertiesDbCount = propertyDao.getPropertiesCount()
             assertEquals(propertiesDbCount, cursor.count)
+            if (cursor.moveToFirst()) {
+                assertEquals(property1.property.id, cursor.getString(cursor.getColumnIndex("id")))
+                assertEquals(
+                    property1.address.address1,
+                    cursor.getString(cursor.getColumnIndex("address1"))
+                )
+            }
+            cursor.close()
         }
     }
 }

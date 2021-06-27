@@ -14,7 +14,7 @@ class PhotoOptionDialogFragment : DialogFragment() {
 
     //Create dialog fragment to choose photo retrieved method
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        //Dynamic indices because position of the Gallery and Camera may change based on evice capabilities
+        //Dynamic indices because position of the Gallery and Camera may change based on device capabilities
         var captureSelectIdx = -1
         var pickSelectIdx = -1
 
