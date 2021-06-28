@@ -44,8 +44,8 @@ import com.openclassrooms.realestatemanager.provider.PropertyContract.Properties
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PropertiesTable.Columns.KEY_PROPERTY_TYPE
 import com.openclassrooms.realestatemanager.provider.PropertyContract.VideosTable.Columns.KEY_VIDEO_ID
 import com.openclassrooms.realestatemanager.provider.PropertyContract.VideosTable.Columns.KEY_VIDEO_NAME
-import com.openclassrooms.realestatemanager.provider.PropertyContract.VideosTable.Columns.KEY_VIDEO_PHOTO_PATH
 import com.openclassrooms.realestatemanager.provider.PropertyContract.VideosTable.Columns.KEY_VIDEO_PROPERTY_ID
+import com.openclassrooms.realestatemanager.provider.PropertyContract.VideosTable.Columns.KEY_VIDEO_VIDEO_PATH
 
 fun propertyFromContentValues(values: ContentValues): PropertyEntity {
     /*  if(values.containsKey(KEY_PROPERTY_ID)) property.id = values.getAsString(KEY_PROPERTY_ID)
@@ -149,7 +149,7 @@ fun videosFromContentValues(values: ContentValues): List<VideoEntity> {
         video_id = values.getAsLong(KEY_VIDEO_ID),
         property_id = values.getAsString(KEY_VIDEO_PROPERTY_ID),
         name = values.getAsString(KEY_VIDEO_NAME),
-        videoPath = values.getAsString(KEY_VIDEO_PHOTO_PATH),
+        videoPath = values.getAsString(KEY_VIDEO_VIDEO_PATH),
     )
     val videos = mutableListOf<VideoEntity>()
 

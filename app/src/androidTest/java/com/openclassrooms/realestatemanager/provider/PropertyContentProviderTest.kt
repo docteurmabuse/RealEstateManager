@@ -89,6 +89,8 @@ class PropertyContentProviderTest {
     private val agent =
         AgentEntity("1", "John Wayne", "john45@gmail.com", "121221", "myphotourl.com")
 
+    private val testAgentUrl = "${CONTENT_URI_AGENT}/${agent.id}".toUri()
+
     @get:Rule(order = 0)
     var mProviderRule: ProviderTestRule? =
         ProviderTestRule.Builder(
@@ -130,11 +132,9 @@ class PropertyContentProviderTest {
     fun verifyContentProviderContractWorks() {
         val resolver = mProviderRule!!.resolver
         // perform some database (or other) operations
-        val testUrl = "${PropertyContract.CONTENT_URI_PROPERTIES}/${property.property.id}".toUri()
         var testContentValues: ContentValues? = null
-
-        testContentValues = generatePropertyItem()
-        val uri: Uri? = resolver.insert(testUrl, testContentValues)
+        testContentValues = generateAgentItem()
+        val uri: Uri? = resolver.insert(testAgentUrl, testContentValues)
         // perform some assertions on the resulting URI
         assertNotNull(uri)
     }
@@ -233,12 +233,17 @@ class PropertyContentProviderTest {
         values.put(KEY_VIDEO_NAME, property1.videos[0].name)
         values.put(KEY_VIDEO_VIDEO_PATH, property1.videos[0].videoPath)
 
+
+        return values
+    }
+
+    private fun generateAgentItem(): ContentValues? {
+        val values = ContentValues()
         values.put(KEY_AGENT_ID, agent.id)
         values.put(KEY_AGENT_NAME, agent.id)
         values.put(KEY_AGENT_EMAIL, agent.id)
         values.put(KEY_AGENT_PHONE, agent.id)
         values.put(KEY_AGENT_PHOTO_URL, agent.id)
-
         return values
     }
 }

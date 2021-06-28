@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
+import androidx.core.net.toUri
 import com.openclassrooms.realestatemanager.db.dao.AgentDao
 import com.openclassrooms.realestatemanager.db.dao.PropertyDao
 import com.openclassrooms.realestatemanager.db.database.PropertyDatabase
@@ -13,8 +14,6 @@ import com.openclassrooms.realestatemanager.provider.PropertyContract.AGENT_SING
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AUTHORITY
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_AGENT
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTIES
-import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_URI_AGENT
-import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_URI_PROPERTIES
 import com.openclassrooms.realestatemanager.provider.PropertyContract.COUNT
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_MULTIPLE_RECORD_MIME_TYPE
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_SINGLE_RECORD_MIME_TYPE
@@ -57,6 +56,7 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
             AUTHORITY, "$CONTENT_PATH_AGENT/$COUNT",
             AGENT_URI_COUNT_CODE
         )
+        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_AGENT/*", AGENT_URI_ONE_ITEM_CODE)
 
         sUriMatcher.addURI(AUTHORITY, CONTENT_PATH_PROPERTIES, PROPERTIES_URI_ALL_ITEMS_CODE)
         sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTIES/#", PROPERTIES_URI_ONE_ITEM_CODE)
@@ -64,6 +64,8 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
             AUTHORITY, "$CONTENT_PATH_PROPERTIES/$COUNT",
             PROPERTIES_URI_COUNT_CODE
         )
+        sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTIES/*", PROPERTIES_URI_ONE_ITEM_CODE)
+
     }
 
     // The URI Codes
@@ -73,8 +75,6 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
     private val PROPERTIES_URI_ALL_ITEMS_CODE = 11
     private val PROPERTIES_URI_ONE_ITEM_CODE = 21
     private val PROPERTIES_URI_COUNT_CODE = 31
-    private val PROPERTIES_URI_ITEM_CODE = 12
-    private val AGENT_URI_ITEM_CODE = 13
 
 
     override fun getType(uri: Uri): String? = when (sUriMatcher.match(uri)) {
@@ -82,6 +82,7 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
         AGENT_URI_ONE_ITEM_CODE -> AGENT_SINGLE_RECORD_MIME_TYPE
         PROPERTIES_URI_ALL_ITEMS_CODE -> PROPERTIES_MULTIPLE_RECORD_MIME_TYPE
         PROPERTIES_URI_ONE_ITEM_CODE -> PROPERTIES_SINGLE_RECORD_MIME_TYPE
+        AGENT_URI_COUNT_CODE -> PROPERTIES_SINGLE_RECORD_MIME_TYPE
         else -> throw IllegalArgumentException("Unknown URI: $uri")
     }
 
@@ -123,7 +124,43 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
         return cursor
     }
 
+    // Insert a record
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        if (context != null && values != null) {
+            when (sUriMatcher.match(uri)) {
+                AGENT_URI_ONE_ITEM_CODE -> {
+                    val agent = agentFromContentValues(values)
+                    runBlocking {
+                        agentDao.insertAgent(agent)
+                        context!!.contentResolver.notifyChange(uri, null)
+                    }
+                    return "$uri/${agent.id}".toUri()
+                }
+                PROPERTIES_URI_ONE_ITEM_CODE -> {
+                    val property = propertyFromContentValues(values)
+                    val address = addressFromContentValues(values)
+                    val photos = photosFromContentValues(values)
+                    val videos = videosFromContentValues(values)
+
+                    runBlocking {
+                        context!!.contentResolver.notifyChange(uri, null)
+                        propertyDao.insertPropertyAggregate(
+                            property,
+                            photos,
+                            videos,
+                            address,
+                        )
+                    }
+                    return "$uri/${property.id}".toUri()
+                }
+                else -> {
+                    throw IllegalArgumentException("Query doesn't exist: $uri")
+                }
+            }
+        }
+        return null
+    }
+    /*override fun insert(uri: Uri, values: ContentValues?): Uri? {
         if (context != null && values != null) {
             when (sUriMatcher.match(uri)) {
                 PROPERTIES_URI_ITEM_CODE -> {
@@ -132,15 +169,18 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
                     val photos = photosFromContentValues(values)
                     val videos = videosFromContentValues(values)
 
-                    runBlocking {
+
                         propertyDao.insertPropertyAggregate(
                             property,
                             photos,
                             videos,
                             address,
                         )
+                        context!!.contentResolver.notifyChange(uri, null)
                     }
-                    return Uri.parse("$CONTENT_URI_PROPERTIES/${property.id}")
+                    return "$uri/${property.id}".toUri()
+
+                    //  return Uri.parse("$CONTENT_URI_PROPERTIES/${property.id}")
                 }
                 AGENT_URI_ITEM_CODE -> {
                     val agent = agentFromContentValues(values)
@@ -152,7 +192,7 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
                     return Uri.parse("$CONTENT_URI_AGENT/${agent.id}")
                 }
 
-                UriMatcher.NO_MATCH -> { /*error handling goes here*/
+                UriMatcher.NO_MATCH -> { *//*error handling goes here*//*
                 }
                 else -> {
                     throw IllegalArgumentException("Query doesn't exist: $uri")
@@ -160,7 +200,7 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
             }
         }
         return null
-    }
+    }*/
 
     override fun update(
         uri: Uri, values: ContentValues?, selection: String?,
