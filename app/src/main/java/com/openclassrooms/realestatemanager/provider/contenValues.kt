@@ -132,22 +132,28 @@ fun addressFromContentValues(values: ContentValues): AddressEntity {
     )
 }
 
-fun photosFromContentValues(values: ContentValues): PhotoEntity {
-    return PhotoEntity(
+fun photosFromContentValues(values: ContentValues): List<PhotoEntity> {
+    PhotoEntity(
         photo_id = values.getAsLong(KEY_PHOTO_ID),
         property_id = values.getAsString(KEY_PHOTO_PROPERTY_ID),
         name = values.getAsString(KEY_PHOTO_NAME),
         photoPath = values.getAsString(KEY_PHOTO_PHOTO_PATH),
     )
+    val photos = mutableListOf<PhotoEntity>()
+
+    return photos
 }
 
-fun videosFromContentValues(values: ContentValues): VideoEntity {
-    return VideoEntity(
+fun videosFromContentValues(values: ContentValues): List<VideoEntity> {
+    VideoEntity(
         video_id = values.getAsLong(KEY_VIDEO_ID),
         property_id = values.getAsString(KEY_VIDEO_PROPERTY_ID),
         name = values.getAsString(KEY_VIDEO_NAME),
         videoPath = values.getAsString(KEY_VIDEO_PHOTO_PATH),
     )
+    val videos = mutableListOf<VideoEntity>()
+
+    return videos
 }
 
 fun agentFromContentValues(values: ContentValues): AgentEntity {

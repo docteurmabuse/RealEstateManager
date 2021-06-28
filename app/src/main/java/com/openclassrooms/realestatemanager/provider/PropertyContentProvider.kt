@@ -13,10 +13,11 @@ import com.openclassrooms.realestatemanager.provider.PropertyContract.AGENT_SING
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AUTHORITY
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_AGENT
 import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PATH_PROPERTIES
+import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_URI_AGENT
+import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_URI_PROPERTIES
 import com.openclassrooms.realestatemanager.provider.PropertyContract.COUNT
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_MULTIPLE_RECORD_MIME_TYPE
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_SINGLE_RECORD_MIME_TYPE
-import com.openclassrooms.realestatemanager.provider.PropertyContract.PropertiesTable.Columns.KEY_PROPERTY_ID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -131,11 +132,24 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
                     val photos = photosFromContentValues(values)
                     val videos = videosFromContentValues(values)
 
-                    val id = db.insert(values.getAsString(KEY_PROPERTY_ID))
-                    return Uri.parse("$CONTENT_PATH_PROPERTIES/$id")
-
+                    runBlocking {
+                        propertyDao.insertPropertyAggregate(
+                            property,
+                            photos,
+                            videos,
+                            address,
+                        )
+                    }
+                    return Uri.parse("$CONTENT_URI_PROPERTIES/${property.id}")
                 }
                 AGENT_URI_ITEM_CODE -> {
+                    val agent = agentFromContentValues(values)
+                    runBlocking {
+                        agentDao.insertAgent(
+                            agent
+                        )
+                    }
+                    return Uri.parse("$CONTENT_URI_AGENT/${agent.id}")
                 }
 
                 UriMatcher.NO_MATCH -> { /*error handling goes here*/

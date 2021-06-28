@@ -77,6 +77,7 @@ object PropertyContract {
         // The constants for the table columns
         object Columns {
             const val KEY_ADDRESS_ID: String = "address_id"
+            const val KEY_ADDRESS_PROPERTY_ID: String = "property_id"
             const val KEY_ADDRESS_ADDRESS1: String = "address1"
             const val KEY_ADDRESS_ADDRESS2: String = "address_2"
             const val KEY_ADDRESS_CITY: String = "city"
@@ -113,7 +114,7 @@ object PropertyContract {
             const val KEY_VIDEO_ID: String = "video_id"
             const val KEY_VIDEO_PROPERTY_ID: String = "property_id"
             const val KEY_VIDEO_NAME: String = "name"
-            const val KEY_VIDEO_PHOTO_PATH: String = "photo_path"
+            const val KEY_VIDEO_VIDEO_PATH: String = "video_path"
         }
     }
 
