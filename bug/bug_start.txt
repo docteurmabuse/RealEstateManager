@@ -1,0 +1,4 @@
+        17 - > 
+		this.textViewMain = findViewById(R.id.activity_main_activity_text_view_main);
+		32 -> 
+		this.textViewQuantity.setText(String.valueOf(quantity));
