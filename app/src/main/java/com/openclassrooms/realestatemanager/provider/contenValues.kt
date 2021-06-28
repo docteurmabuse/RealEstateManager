@@ -1,6 +1,7 @@
 package com.openclassrooms.realestatemanager.provider
 
 import android.content.ContentValues
+import com.openclassrooms.realestatemanager.db.model.agent.AgentEntity
 import com.openclassrooms.realestatemanager.db.model.property.AddressEntity
 import com.openclassrooms.realestatemanager.db.model.property.PhotoEntity
 import com.openclassrooms.realestatemanager.db.model.property.PropertyEntity
@@ -15,6 +16,11 @@ import com.openclassrooms.realestatemanager.provider.PropertyContract.AddressTab
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AddressTable.Columns.KEY_ADDRESS_LNG
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AddressTable.Columns.KEY_ADDRESS_STATE
 import com.openclassrooms.realestatemanager.provider.PropertyContract.AddressTable.Columns.KEY_ADDRESS_ZIPCODE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.AgentTable.Columns.KEY_AGENT_EMAIL
+import com.openclassrooms.realestatemanager.provider.PropertyContract.AgentTable.Columns.KEY_AGENT_ID
+import com.openclassrooms.realestatemanager.provider.PropertyContract.AgentTable.Columns.KEY_AGENT_NAME
+import com.openclassrooms.realestatemanager.provider.PropertyContract.AgentTable.Columns.KEY_AGENT_PHONE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.AgentTable.Columns.KEY_AGENT_PHOTO_URL
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PhotosTable.Columns.KEY_PHOTO_ID
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PhotosTable.Columns.KEY_PHOTO_NAME
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PhotosTable.Columns.KEY_PHOTO_PHOTO_PATH
@@ -141,6 +147,16 @@ fun videosFromContentValues(values: ContentValues): VideoEntity {
         property_id = values.getAsString(KEY_VIDEO_PROPERTY_ID),
         name = values.getAsString(KEY_VIDEO_NAME),
         videoPath = values.getAsString(KEY_VIDEO_PHOTO_PATH),
+    )
+}
+
+fun agentFromContentValues(values: ContentValues): AgentEntity {
+    return AgentEntity(
+        id = values.getAsString(KEY_AGENT_ID),
+        name = values.getAsString(KEY_AGENT_NAME),
+        email = values.getAsString(KEY_AGENT_EMAIL),
+        phone = values.getAsString(KEY_AGENT_PHONE),
+        photoUrl = values.getAsString(KEY_AGENT_PHOTO_URL),
     )
 }
 

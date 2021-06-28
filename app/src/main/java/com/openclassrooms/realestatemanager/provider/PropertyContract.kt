@@ -116,4 +116,19 @@ object PropertyContract {
             const val KEY_VIDEO_PHOTO_PATH: String = "photo_path"
         }
     }
+
+    // Videos Table Constants
+    object AgentTable {
+        // The table name
+        const val TABLE_NAME: String = "agent"
+
+        // The constants for the table columns
+        object Columns {
+            const val KEY_AGENT_ID: String = "id"
+            const val KEY_AGENT_NAME: String = "name"
+            const val KEY_AGENT_EMAIL: String = "email"
+            const val KEY_AGENT_PHONE: String = "email"
+            const val KEY_AGENT_PHOTO_URL: String = "photoUrl"
+        }
+    }
 }
