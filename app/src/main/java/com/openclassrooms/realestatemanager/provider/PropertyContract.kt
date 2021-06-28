@@ -16,7 +16,7 @@ object PropertyContract {
     const val CONTENT_PATH_AGENT = "agent"
     const val CONTENT_PATH_PROPERTIES = "properties"
 
-    // Content URI for this table. Returns all items.
+    // Content URI for  tables. Returns all items.
     val CONTENT_URI_PROPERTIES = Uri.parse("content://$AUTHORITY/$CONTENT_PATH_PROPERTIES")
     val CONTENT_URI_AGENT = Uri.parse("content://$AUTHORITY/$CONTENT_PATH_AGENT")
 

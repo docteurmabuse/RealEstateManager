@@ -443,8 +443,6 @@ interface PropertyDao {
             SELECT *  FROM PROPERTIES
             INNER JOIN property_address ON property_address.property_id = properties.id
             INNER JOIN property_photos ON property_photos.property_id = properties.id 
-            INNER JOIN property_videos ON property_videos.property_id = properties.id
-            ORDER BY sell_date ASC
             """
     )
     fun getAllPropertiesWithCursor(): Cursor
@@ -452,9 +450,14 @@ interface PropertyDao {
     @Transaction
     //Get Properties Count
     @Query(
-        "SELECT COUNT(*)  from PROPERTIES"
+        """
+            SELECT COUNT(*)  FROM PROPERTIES
+            INNER JOIN property_address ON property_address.property_id = properties.id
+            INNER JOIN property_photos ON property_photos.property_id = properties.id 
+            """
     )
     fun getPropertiesCountWithCursor(): Cursor
+
 
     @Transaction
     //Get PropertyEntity by Id
@@ -463,7 +466,6 @@ interface PropertyDao {
         SELECT * FROM properties
         INNER JOIN property_address ON property_address.property_id = properties.id
         INNER JOIN property_photos ON property_photos.property_id = properties.id 
-        INNER JOIN property_videos ON property_videos.property_id = properties.id
         WHERE id = :id
     """
     )

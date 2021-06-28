@@ -65,7 +65,6 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
             PROPERTIES_URI_COUNT_CODE
         )
         sUriMatcher.addURI(AUTHORITY, "$CONTENT_PATH_PROPERTIES/*", PROPERTIES_URI_ONE_ITEM_CODE)
-
     }
 
     // The URI Codes
@@ -97,9 +96,11 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
                 PROPERTIES_URI_ALL_ITEMS_CODE -> {
                     cursor = propertyDao.getAllPropertiesWithCursor()
                 }
+
                 PROPERTIES_URI_ONE_ITEM_CODE -> {
                     cursor = id?.let { propertyDao.getPropertyByIdWithCursor(it) }
                 }
+
                 PROPERTIES_URI_COUNT_CODE -> {
                     cursor = propertyDao.getPropertiesCountWithCursor()
                 }
@@ -107,15 +108,19 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
                 AGENT_URI_ALL_ITEMS_CODE -> {
                     cursor = agentDao.getAllAgentsWithCursor()
                 }
+
                 AGENT_URI_ONE_ITEM_CODE -> {
                     cursor = id?.let { agentDao.getAgentByIdWithCursor(it) }
                 }
+
                 AGENT_URI_COUNT_CODE -> {
                     cursor = agentDao.getAgentCountWithCursor()
                 }
 
-                UriMatcher.NO_MATCH -> { /*error handling goes here*/
+                UriMatcher.NO_MATCH -> {
+                    throw IllegalArgumentException("Query is not matching: $uri")
                 }
+
                 else -> {
                     throw IllegalArgumentException("Query doesn't exist: $uri")
                 }
@@ -124,7 +129,7 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
         return cursor
     }
 
-    // Insert a record
+    // Insert a record for test purpose
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
         if (context != null && values != null) {
             when (sUriMatcher.match(uri)) {
@@ -160,47 +165,6 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
         }
         return null
     }
-    /*override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        if (context != null && values != null) {
-            when (sUriMatcher.match(uri)) {
-                PROPERTIES_URI_ITEM_CODE -> {
-                    val property = propertyFromContentValues(values)
-                    val address = addressFromContentValues(values)
-                    val photos = photosFromContentValues(values)
-                    val videos = videosFromContentValues(values)
-
-
-                        propertyDao.insertPropertyAggregate(
-                            property,
-                            photos,
-                            videos,
-                            address,
-                        )
-                        context!!.contentResolver.notifyChange(uri, null)
-                    }
-                    return "$uri/${property.id}".toUri()
-
-                    //  return Uri.parse("$CONTENT_URI_PROPERTIES/${property.id}")
-                }
-                AGENT_URI_ITEM_CODE -> {
-                    val agent = agentFromContentValues(values)
-                    runBlocking {
-                        agentDao.insertAgent(
-                            agent
-                        )
-                    }
-                    return Uri.parse("$CONTENT_URI_AGENT/${agent.id}")
-                }
-
-                UriMatcher.NO_MATCH -> { *//*error handling goes here*//*
-                }
-                else -> {
-                    throw IllegalArgumentException("Query doesn't exist: $uri")
-                }
-            }
-        }
-        return null
-    }*/
 
     override fun update(
         uri: Uri, values: ContentValues?, selection: String?,

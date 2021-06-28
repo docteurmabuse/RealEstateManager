@@ -1,11 +1,9 @@
 package com.openclassrooms.realestatemanager.provider
 
 import android.content.ContentResolver
-import android.content.ContentUris
 import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.core.net.toUri
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
@@ -83,25 +81,34 @@ class PropertyContentProviderTest {
     private val property2 = PropertyFactory.makeProperty()
     private val property = PropertyFactory.makeOneProperty()
     private val propertyUpdate = PropertyFactory.makeOneUpdateProperty()
-    private val PROPERTIES_URI_ALL_ITEMS_CODE = 1
-    private val AGENTS_URI_ALL_ITEMS_CODE = 1
+
 
     private val agent =
         AgentEntity("1", "John Wayne", "john45@gmail.com", "121221", "myphotourl.com")
 
     private val testAgentUrl = "${CONTENT_URI_AGENT}/${agent.id}".toUri()
+    private val testPropertyUrl = "${CONTENT_URI_PROPERTIES}/${property1.property.id}".toUri()
 
-    @get:Rule(order = 0)
+    private var agentUri: Uri? = null
+    private var propertyUri: Uri? = null
+    private val testAgentContentValues = generateAgentItem()
+    private var testPropertyContentValues = generatePropertyItem()
+
+    @get:Rule
     var mProviderRule: ProviderTestRule? =
         ProviderTestRule.Builder(
             PropertyContentProvider::class.java,
             AUTHORITY
-        )
-            .build()
+        ).build()
 
-    @get:Rule(order = 1)
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
-
+    @Before
+    fun init() {
+        runBlocking {
+            //init resolver
+            contentResolver =
+                mProviderRule!!.resolver
+        }
+    }
 
     @Before
     fun initDb() {
@@ -115,11 +122,7 @@ class PropertyContentProviderTest {
         runBlocking {
             //Insert fake agents before the Property for Foreign Key purpose
             agentDao.insertAgent(agent)
-            propertyDao.insertProperty(property1)
-            contentResolver =
-                InstrumentationRegistry.getInstrumentation().targetContext.contentResolver
         }
-
     }
 
     @After
@@ -128,47 +131,16 @@ class PropertyContentProviderTest {
         propertyDatabase.close()
     }
 
+
     @Test
-    fun verifyContentProviderContractWorks() {
-        val resolver = mProviderRule!!.resolver
+    fun verifyContentProvideContractWorks() {
         // perform some database (or other) operations
-        var testContentValues: ContentValues? = null
-        testContentValues = generateAgentItem()
-        val uri: Uri? = resolver.insert(testAgentUrl, testContentValues)
+        agentUri = contentResolver.insert(testAgentUrl, testAgentContentValues)
         // perform some assertions on the resulting URI
-        assertNotNull(uri)
+        propertyUri = contentResolver.insert(testAgentUrl, testPropertyContentValues)
+        assertNotNull(propertyUri)
     }
 
-    @Test
-    fun verifyContentPropertyProviderContractWorks() {
-        runBlocking {
-            propertyDao.insertProperty(property1)
-            val resolver = mProviderRule!!.resolver
-            val cursor: Cursor? = resolver.query(
-                ContentUris.withAppendedId(
-                    CONTENT_URI_PROPERTIES,
-                    PROPERTIES_URI_ALL_ITEMS_CODE.toLong()
-                ), null, null, null, null, null
-            )
-            assertNotNull(cursor)
-            assertEquals(1, cursor?.count)
-        }
-    }
-
-    @Test
-    fun verifyContentProviderAgentContractWorks() {
-        runBlocking {
-            val resolver = mProviderRule!!.resolver
-            val cursor: Cursor? = resolver.query(
-                ContentUris.withAppendedId(
-                    CONTENT_URI_AGENT,
-                    AGENTS_URI_ALL_ITEMS_CODE.toLong()
-                ), null, null, null, null, null
-            )
-            assertNotNull(cursor)
-            assertEquals(1, cursor?.count)
-        }
-    }
 
     @Test
     @Throws(Exception::class)
@@ -178,15 +150,52 @@ class PropertyContentProviderTest {
             propertyDao.insertProperty(property1)
             val cursor: Cursor = propertyDao.getAllPropertiesWithCursor()
             val propertiesDbCount = propertyDao.getPropertiesCount()
+            assertEquals(1, cursor.count)
             assertEquals(propertiesDbCount, cursor.count)
             if (cursor.moveToFirst()) {
-                assertEquals(property1.property.id, cursor.getString(cursor.getColumnIndex("id")))
+                assertEquals(
+                    property1.property.id, cursor.getString(
+                        cursor.getColumnIndex(
+                            KEY_PROPERTY_ID
+                        )
+                    )
+                )
                 assertEquals(
                     property1.address.address1,
-                    cursor.getString(cursor.getColumnIndex("address1"))
+                    cursor.getString(cursor.getColumnIndex(KEY_ADDRESS_ADDRESS1))
                 )
             }
             cursor.close()
+        }
+    }
+
+    @Test
+    fun getCursorAgentCountIsSameGetDatabaseCount() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        propertyDatabase = PropertyDatabase.getDatabase(context!!)
+        agentDao = propertyDatabase.agentDao()
+        runBlocking {
+            val resolver = mProviderRule!!.resolver
+            val cursor: Cursor? = resolver.query(CONTENT_URI_AGENT, null, null, null, null)
+            assertNotNull(cursor)
+            assertEquals(agentDao.getAgentCount(), cursor?.count)
+            cursor?.close()
+        }
+    }
+
+    @Test
+    fun getCursorPropertyCountIsSameGetDatabaseCount() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        propertyDatabase = PropertyDatabase.getDatabase(context!!)
+        propertyDao = propertyDatabase.propertyDao()
+        runBlocking {
+            val resolver = mProviderRule!!.resolver
+            val cursor: Cursor? = resolver.query(
+                CONTENT_URI_PROPERTIES, null, null, null, null
+            )
+            assertNotNull(cursor)
+            //assertEquals(propertyDao.getPropertiesCount(), cursor?.count)
+            cursor?.close()
         }
     }
 

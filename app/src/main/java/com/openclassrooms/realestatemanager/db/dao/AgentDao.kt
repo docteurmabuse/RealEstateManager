@@ -43,4 +43,11 @@ interface AgentDao {
         "SELECT COUNT(*)  from agent"
     )
     fun getAgentCountWithCursor(): Cursor
+
+    @Transaction
+    //Get Properties Count
+    @Query(
+        "SELECT COUNT(*)  from agent"
+    )
+    suspend fun getAgentCount(): Int
 }
