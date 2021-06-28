@@ -73,13 +73,12 @@ class PropertyDaoTest {
     fun insertAndGetPropertyAggregate() = runBlocking {
         //Insert fake properties
         propertyDao.insertProperty(property1)
-        propertyDao.insertProperty(property2)
 
         //First Property in database
         val firstProperty = propertyDao.getAllProperties().first()[0]
 
         //Fake Property 1 should be equal to first agent in database
-        assertEquals(property1.address.zipCode, firstProperty.address.zipCode)
+        assertEquals(property1.property.price, firstProperty.property.price)
         //Fake Property 2 should not be equal to first agent in database
         Assert.assertNotEquals(property2.address.zipCode, firstProperty.address.zipCode)
         closeDb()
