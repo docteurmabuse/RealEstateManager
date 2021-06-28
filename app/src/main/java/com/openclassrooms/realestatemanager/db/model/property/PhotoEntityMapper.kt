@@ -15,12 +15,4 @@ class PhotoEntityMapper : DomainMapper<PhotoEntity, Media.Photo> {
     override fun mapFromDomainModel(domainModel: Media.Photo): PhotoEntity {
         TODO("Not yet implemented")
     }
-/*
-    override fun mapFromDomainModel(domainModel: Media.Photo): PhotoEntity {
-        return PhotoEntity(
-
-            name = domainModel.name,
-            photoPath = domainModel.photoPath
-        )
-    }*/
 }

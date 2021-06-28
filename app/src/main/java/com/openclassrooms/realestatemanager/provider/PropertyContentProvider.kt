@@ -16,6 +16,7 @@ import com.openclassrooms.realestatemanager.provider.PropertyContract.CONTENT_PA
 import com.openclassrooms.realestatemanager.provider.PropertyContract.COUNT
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_MULTIPLE_RECORD_MIME_TYPE
 import com.openclassrooms.realestatemanager.provider.PropertyContract.PROPERTIES_SINGLE_RECORD_MIME_TYPE
+import com.openclassrooms.realestatemanager.provider.PropertyContract.PropertiesTable.Columns.KEY_PROPERTY_ID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -71,6 +72,8 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
     private val PROPERTIES_URI_ALL_ITEMS_CODE = 11
     private val PROPERTIES_URI_ONE_ITEM_CODE = 21
     private val PROPERTIES_URI_COUNT_CODE = 31
+    private val PROPERTIES_URI_ITEM_CODE = 12
+    private val AGENT_URI_ITEM_CODE = 13
 
 
     override fun getType(uri: Uri): String? = when (sUriMatcher.match(uri)) {
@@ -120,6 +123,28 @@ class PropertyContentProvider : ContentProvider(), CoroutineScope {
     }
 
     override fun insert(uri: Uri, values: ContentValues?): Uri? {
+        if (context != null && values != null) {
+            when (sUriMatcher.match(uri)) {
+                PROPERTIES_URI_ITEM_CODE -> {
+                    val property = propertyFromContentValues(values)
+                    val address = addressFromContentValues(values)
+                    val photos = photosFromContentValues(values)
+                    val videos = videosFromContentValues(values)
+
+                    val id = db.insert(values.getAsString(KEY_PROPERTY_ID))
+                    return Uri.parse("$CONTENT_PATH_PROPERTIES/$id")
+
+                }
+                AGENT_URI_ITEM_CODE -> {
+                }
+
+                UriMatcher.NO_MATCH -> { /*error handling goes here*/
+                }
+                else -> {
+                    throw IllegalArgumentException("Query doesn't exist: $uri")
+                }
+            }
+        }
         return null
     }
 

@@ -39,7 +39,7 @@ object PropertyContract {
     const val PROPERTIES_MULTIPLE_RECORD_MIME_TYPE =
         "vnd.android.cursor.dir/vnd.com.openclassrooms.realestatemanager.provider.properties"
 
-    // Table Constants
+    // Properties Table Constants
     object PropertiesTable {
         // The table name
         const val TABLE_NAME: String = "properties"
@@ -63,10 +63,57 @@ object PropertyContract {
             const val KEY_PROPERTY_SOLD: String = "sold"
             const val KEY_PROPERTY_SELL_DATE: String = "sell_date"
             const val KEY_PROPERTY_SOLD_DATE: String = "sold_date"
-            const val KEY_PROPERTY_MEDIA: String = "media"
-            const val KEY_PROPERTY_AGENT: String = "agent"
+            const val KEY_PROPERTY_AGENT_ID: String = "agent_id"
             const val KEY_PROPERTY_ADDRESS: String = "address"
         }
 
+    }
+
+    // Address Table Constants
+    object AddressTable {
+        // The table name
+        const val TABLE_NAME: String = "property_address"
+
+        // The constants for the table columns
+        object Columns {
+            const val KEY_ADDRESS_ID: String = "address_id"
+            const val KEY_ADDRESS_ADDRESS1: String = "address1"
+            const val KEY_ADDRESS_ADDRESS2: String = "address_2"
+            const val KEY_ADDRESS_CITY: String = "city"
+            const val KEY_ADDRESS_ZIPCODE: String = "zipCode"
+            const val KEY_ADDRESS_STATE: String = "state"
+            const val KEY_ADDRESS_COUNTRY: String = "country"
+            const val KEY_ADDRESS_AREA: String = "area"
+            const val KEY_ADDRESS_LAT: String = "lat"
+            const val KEY_ADDRESS_LNG: String = "lng"
+        }
+    }
+
+    // Photos Table Constants
+    object PhotosTable {
+        // The table name
+        const val TABLE_NAME: String = "property_photos"
+
+        // The constants for the table columns
+        object Columns {
+            const val KEY_PHOTO_ID: String = "photo_id"
+            const val KEY_PHOTO_PROPERTY_ID: String = "property_id"
+            const val KEY_PHOTO_NAME: String = "name"
+            const val KEY_PHOTO_PHOTO_PATH: String = "photo_path"
+        }
+    }
+
+    // Videos Table Constants
+    object VideosTable {
+        // The table name
+        const val TABLE_NAME: String = "property_videos"
+
+        // The constants for the table columns
+        object Columns {
+            const val KEY_VIDEO_ID: String = "video_id"
+            const val KEY_VIDEO_PROPERTY_ID: String = "property_id"
+            const val KEY_VIDEO_NAME: String = "name"
+            const val KEY_VIDEO_PHOTO_PATH: String = "photo_path"
+        }
     }
 }

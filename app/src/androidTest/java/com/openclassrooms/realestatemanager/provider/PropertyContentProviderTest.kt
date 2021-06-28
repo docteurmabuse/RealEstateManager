@@ -44,10 +44,6 @@ class PropertyContentProviderTest {
 
     private val agent =
         AgentEntity("1", "John Wayne", "john45@gmail.com", "121221", "myphotourl.com")
-    private val TEST_BACKUP_DB_DATA_FILE_NAME = "backupFlightsDB.db"
-    private val INSERT_FIRST_UNITED_COMMAND: String =
-        FlightsDatabaseContract.SQL_INSERTION_COMMAND_PREFIX
-            .toString() + "(1469502629418, 'United', 12, 'Y', 'DCA', 'ORD')"
 
     @get:Rule(order = 0)
     var mProviderRule: ProviderTestRule? =
