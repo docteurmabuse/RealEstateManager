@@ -16,7 +16,6 @@ import coil.transform.CircleCropTransformation
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.model.property.Media
 import com.openclassrooms.realestatemanager.utils.DateUtil.longDateToString
-import com.openclassrooms.realestatemanager.utils.DateUtil.stringToLongDate
 import com.openclassrooms.realestatemanager.utils.Utils.convertDollarToEuro
 import timber.log.Timber
 import java.text.NumberFormat
@@ -35,14 +34,12 @@ class ViewBinding {
                     cardView, AutoTransition()
                 )
                 cardView.visibility = View.GONE
-                // constraintLayout.visibility=View.GONE
                 button.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24)
             } else {
                 TransitionManager.beginDelayedTransition(
                     cardView, AutoTransition()
                 )
                 cardView.visibility = View.VISIBLE
-                //  constraintLayout.visibility=View.VISIBLE
                 button.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
             }
         }
@@ -155,40 +152,6 @@ class ViewBinding {
             }
         }
 
-
-        @JvmStatic
-        @BindingAdapter("textLongToDate")
-        fun bindLongTextToDate(textView: TextView, string: String?) {
-            string?.let {
-                if (it.isNotEmpty())
-                    textView.text = stringToLongDate(it).toString()
-                else {
-                    textView.text = ""
-                }
-            }
-        }
-
-        @BindingAdapter("clearOnFocusAndDispatch")
-        @JvmStatic
-        fun clearOnFocusAndDispatch(view: EditText, listener: View.OnFocusChangeListener?) {
-            view.onFocusChangeListener = View.OnFocusChangeListener { focusedView, hasFocus ->
-                val textView = focusedView as TextView
-                if (hasFocus) {
-                    // Delete contents of the EditText if the focus entered.
-                    view.setTag(R.id.previous_value, textView.text)
-                    textView.text = ""
-                } else {
-                    if (textView.text.isEmpty()) {
-                        val tag: CharSequence? =
-                            textView.getTag(R.id.previous_value) as CharSequence
-                        textView.text = tag ?: ""
-                    }
-                    // If the focus left, update the listener
-                    listener?.onFocusChange(focusedView, hasFocus)
-                }
-            }
-        }
-
         @JvmStatic
         @BindingAdapter("items")
         fun <T> setRecyclerViewProperties(recyclerView: RecyclerView, items: List<T>?) {
@@ -198,7 +161,6 @@ class ViewBinding {
                 }
             }
         }
-
 
         @BindingAdapter("valueAttrChanged")
         fun AutoCompleteTextView.setListener(listener: InverseBindingListener?) {
@@ -245,6 +207,5 @@ class ViewBinding {
             }
             setAdapter(adapter)
         }
-
     }
 }
