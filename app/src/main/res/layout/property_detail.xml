@@ -49,6 +49,7 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
+                app:expandedTitleTextAppearance="@android:color/transparent"
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -84,13 +85,13 @@
                     app:progressMode="true"
                     app:selectedDotColor="@color/colorAccent" />
 
-                <!--  <com.google.android.material.appbar.MaterialToolbar
-                      android:id="@+id/detail_toolbar"
-                      app:layout_scrollFlags="scroll|enterAlways|snap"
-                      android:layout_width="match_parent"
-                      android:layout_height="?attr/actionBarSize"
-                      app:layout_collapseMode="pin"
-                      app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />-->
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/detail_toolbar"
+                    app:layout_scrollFlags="scroll|enterAlways|snap"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

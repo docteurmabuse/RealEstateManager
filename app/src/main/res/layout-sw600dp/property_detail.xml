@@ -73,6 +73,7 @@
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:expandedTitleTextAppearance="@android:color/transparent"
                 app:toolbarId="@+id/toolbar">
 
                 <androidx.viewpager2.widget.ViewPager2

@@ -1,5 +1,6 @@
 package com.openclassrooms.realestatemanager.presentation.ui.property
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -200,7 +201,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY)
         }
-
         mapView.onCreate(mapViewBundle)
         lifecycleScope.launchWhenCreated {
             // Get map
@@ -228,10 +228,11 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private fun updateContent() {
         lifecycleScope.launchWhenStarted {
             Timber.d("PROPERTY_DETAIL=$property")
-
             property?.let {
                 binding.property = it
                 adapter.submitList(it.media.photos)
+                toolbarLayout?.setExpandedTitleColor(resources.getColor(R.color.fui_transparent)) // transperent color = #00000000
+                toolbarLayout?.setCollapsedTitleTextColor(Color.WHITE)
                 toolbarLayout?.title = property?.address?.address1
             }
 
