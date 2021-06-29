@@ -63,7 +63,6 @@ class ItemTabsFragment : Fragment() {
                     tab.text = "Map"
                     tab.setIcon(R.drawable.ic_map_24dp)
                 }
-
             }
         }.attach()
 

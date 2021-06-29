@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.maps.android.ktx.awaitMap
 import com.google.maps.android.ktx.awaitMapLoad
 import com.openclassrooms.realestatemanager.R
@@ -59,6 +60,8 @@ class MapFragment :
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireContext())
         isRestore = savedInstanceState != null
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).performShow()
+
         return binding.root
     }
 
@@ -66,6 +69,11 @@ class MapFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupMap()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).performShow()
     }
 
     @ExperimentalCoroutinesApi

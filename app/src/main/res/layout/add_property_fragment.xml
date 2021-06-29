@@ -290,6 +290,7 @@
             android:onClick="@{(view) -> viewModel.saveProperty() }"
             app:backgroundTint="@color/colorAccent"
             app:layout_anchor="@id/bottomAppBar2"
+            android:tint="@color/white"
             app:srcCompat="@drawable/ic_check_24dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

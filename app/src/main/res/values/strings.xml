@@ -122,4 +122,5 @@
     <string name="no_property_yet">No property yet.</string>
     <string name="add_a_new_agent">Add a new agent</string>
     <string name="add_a_new_property">Add a new property</string>
+    <string name="add_button">Add button</string>
 </resources>

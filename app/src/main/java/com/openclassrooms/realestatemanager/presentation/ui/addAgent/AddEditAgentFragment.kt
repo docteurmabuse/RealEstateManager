@@ -74,9 +74,5 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
             Timber.d("PropertyDetailFragment did not received arguments")
             return
         }
-        //  val args = PropertyDetailFragmentArgs.fromBundle(bundle)
-        // agent = args.agent
-        // isEditAgentView = args.editAgentView
-        // agent?.let { setAgentInLayout(it) }
     }
 }
