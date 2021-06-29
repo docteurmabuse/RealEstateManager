@@ -47,7 +47,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
 
-                app:layout_constraintGuide_percent="0.3" />
+                app:layout_constraintGuide_percent="0.33" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/item_detail_nav_container"

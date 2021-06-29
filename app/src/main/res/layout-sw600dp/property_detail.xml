@@ -38,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ItemDetailHostActivity"
+        android:background="@color/white"
         tools:ignore="MergeRootFrame">
 
         <TextView
@@ -280,7 +281,7 @@
                 <TextView
                     android:id="@+id/description_text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="27dp"
                     android:paddingStart="@dimen/marginEnd"
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
@@ -302,6 +303,7 @@
 
 
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayoutCompat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/marginEnd"
@@ -411,13 +413,14 @@
 
                 <ImageView
                     android:id="@+id/agentImage"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:paddingStart="@dimen/marginEnd"
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
                     app:imageCirclePath="@{agent.photoUrl}"
                     app:layout_constraintStart_toEndOf="@id/agentInChargeText"
+                    android:contentDescription="@string/agent_picture"
                     app:layout_constraintTop_toBottomOf="@id/onMarketSince_text" />
 
                 <TextView
@@ -436,23 +439,25 @@
                 <TextView
                     android:id="@+id/location_text"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/marginEnd"
                     android:paddingTop="8dp"
                     android:paddingEnd="@dimen/marginEnd"
                     android:text="@string/location"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/agentImage" />
+                    app:layout_constraintStart_toStartOf="@+id/lite_map_view"
+                    app:layout_constraintTop_toBottomOf="@+id/description_text" />
 
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/lite_map_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/location_text"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_margin="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/location_text"
                     map:cameraZoom="13"
-                    map:liteMode="true" />
+                    map:liteMode="true"
+                    tools:layout_editor_absoluteX="760dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

@@ -41,8 +41,6 @@
                 tools:context=".presentation.ui.property_list.PropertyListFragment"
                 tools:listitem="@layout/property_list_content" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
