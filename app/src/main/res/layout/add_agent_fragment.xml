@@ -156,7 +156,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottomAppBar"
+                android:id="@+id/bottomAppBar2"
                 style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -172,10 +172,9 @@
                 android:background="@color/colorAccent"
                 android:baselineAlignBottom="true"
                 android:contentDescription="@string/add_property_button"
-
                 android:onClick="@{(view) -> viewmodel.saveAgent() }"
                 app:backgroundTint="@color/colorAccent"
-                app:layout_anchor="@id/bottomAppBar"
+                app:layout_anchor="@id/bottomAppBar2"
                 app:srcCompat="@drawable/ic_check_24dp" />
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

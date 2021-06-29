@@ -176,35 +176,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-//       // val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
-//            Timber.d("BACKPRESSED: Click")
-//            val data = Bundle().apply { putParcelable(PropertyDetailFragment.ARG_PROPERTY_ID, property) }
-//            detailViewModel._bundle.value=data
-//            setHasOptionsMenu(true)
-//
-//            // requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(AddEditPropertyFragmentDirections.actionAddEditPropertyFragmentToPropertyDetailFragment(editPropertyView = true, property))
-//
-//        }
-        /* activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-
-             override fun handleOnBackPressed() {
-                 if(shouldInterceptBackPress()){
-                     Toast.makeText(requireContext(), "Back press intercepted in:${this@AddEditPropertyFragment }", Toast.LENGTH_SHORT).show()
-                     Timber.d("BACKPRESSED: Click")
-
-                 }else{
-                     isEnabled = false
-                     activity?.onBackPressed()
-                 }
-             }
-         })*/
-        /* activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-             override fun handleOnBackPressed() {
-                 val data = Bundle().apply { putParcelable(PropertyDetailFragment.ARG_PROPERTY_ID, property) }
-                 detailViewModel._bundle.value=data
-                 requireActivity().onBackPressed()
-             }
-         })*/
     }
 
     override fun onStart() {
@@ -220,7 +191,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val typeDropdown: AutoCompleteTextView = binding.type.typeDropdown
-
         setObserver()
         setUpPermissions()
         setupTypeValues(typeDropdown)
@@ -571,16 +541,8 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
             }
         }
 
-    private fun onPickClick() {
-        val pickIntent =
-        //  Intent(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI))
-            // startActivityForResult(pickIntent, REQUEST_GALLERY_IMAGE)
-            selectImageFromGalleryResult.launch("image/*")
-    }
-
     override fun onDestroyView() {
         _binding = null
-        //binding.media!!.photoRecyclerView.adapter = null
         super.onDestroyView()
     }
 
@@ -717,12 +679,8 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
             imageUri = Uri.fromFile(File(queryImageUrl))
 
             if (queryImageUrl.isNotEmpty()) {
-
                 submitPhotoToList(Media.Photo("", imageUri.toString()))
-
             }
         }
-
     }
-
 }

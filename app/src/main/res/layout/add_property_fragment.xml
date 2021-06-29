@@ -271,7 +271,7 @@
 
 
         <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bottomAppBar"
+            android:id="@+id/bottomAppBar2"
             style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -289,7 +289,7 @@
             android:contentDescription="@string/add_property_button"
             android:onClick="@{(view) -> viewModel.saveProperty() }"
             app:backgroundTint="@color/colorAccent"
-            app:layout_anchor="@id/bottomAppBar"
+            app:layout_anchor="@id/bottomAppBar2"
             app:srcCompat="@drawable/ic_check_24dp" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
