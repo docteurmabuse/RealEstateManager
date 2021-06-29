@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -228,12 +230,21 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     private fun updateContent() {
         lifecycleScope.launchWhenStarted {
             Timber.d("PROPERTY_DETAIL=$property")
+            (activity as AppCompatActivity).setSupportActionBar(binding.detailToolbar)
+            (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            (activity as AppCompatActivity).supportActionBar?.title = property?.address?.address1
+            (activity as AppCompatActivity).supportActionBar?.subtitle = property?.address?.address2
+            setHasOptionsMenu(true)
             property?.let {
                 binding.property = it
                 adapter.submitList(it.media.photos)
-                toolbarLayout?.setExpandedTitleColor(resources.getColor(R.color.fui_transparent)) // transperent color = #00000000
+                toolbarLayout?.setExpandedTitleColor(
+                    ContextCompat.getColor(requireContext(), R.color.fui_transparent)
+                )
                 toolbarLayout?.setCollapsedTitleTextColor(Color.WHITE)
                 toolbarLayout?.title = property?.address?.address1
+                // toolbarLayout?.ti = property?.address?.address1
+
             }
 
         }

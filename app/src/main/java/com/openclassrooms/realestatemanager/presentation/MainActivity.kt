@@ -20,7 +20,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.openclassrooms.realestatemanager.R
@@ -69,41 +68,14 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment
     }
 
-    private fun setFabHome() {
-        findViewById<FloatingActionButton>(R.id.addFab).show()
-        fabOpen = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim)
-        fabClose = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
-        fabOpenRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim)
-        fabCloseRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
-        binding.addFab.setOnClickListener {
-            binding.fabAddAgent.alpha = 1.0F
-            binding.fabAddProperty.alpha = 1.0F
-            binding.addFab.alpha = 1.0F
 
-            isOpen = if (isOpen) {
-                binding.fabAddAgent.startAnimation(fabClose)
-                binding.fabAddProperty.startAnimation(fabClose)
-                binding.addFab.startAnimation(fabCloseRotate)
-                binding.fabAddAgent.isClickable = false
-                binding.fabAddProperty.isClickable = false
-                false
-            } else {
-                binding.fabAddAgent.startAnimation(fabOpen)
-                binding.fabAddProperty.startAnimation(fabOpen)
-                binding.addFab.startAnimation(fabOpenRotate)
-                binding.fabAddAgent.isClickable = true
-                binding.fabAddProperty.isClickable = true
-                true
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         setContentView(binding.root)
-        setupActionBarWithNavController(navController, appBarConfiguration)
+       // setupActionBarWithNavController(navController, appBarConfiguration)
         viewModel.fetchProperties()
         setObserver()
         setupBottomNavigationAndFab()
@@ -144,6 +116,35 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             binding.fabAddProperty.alpha = 1.0F
             binding.addFab.alpha = 1.0F
             setFabHome()
+        }
+    }
+
+    private fun setFabHome() {
+        findViewById<FloatingActionButton>(R.id.addFab).show()
+        fabOpen = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim)
+        fabClose = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
+        fabOpenRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim)
+        fabCloseRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
+        binding.addFab.setOnClickListener {
+            binding.fabAddAgent.alpha = 1.0F
+            binding.fabAddProperty.alpha = 1.0F
+            binding.addFab.alpha = 1.0F
+
+            isOpen = if (isOpen) {
+                binding.fabAddAgent.startAnimation(fabClose)
+                binding.fabAddProperty.startAnimation(fabClose)
+                binding.addFab.startAnimation(fabCloseRotate)
+                binding.fabAddAgent.isClickable = false
+                binding.fabAddProperty.isClickable = false
+                false
+            } else {
+                binding.fabAddAgent.startAnimation(fabOpen)
+                binding.fabAddProperty.startAnimation(fabOpen)
+                binding.addFab.startAnimation(fabOpenRotate)
+                binding.fabAddAgent.isClickable = true
+                binding.fabAddProperty.isClickable = true
+                true
+            }
         }
     }
 
