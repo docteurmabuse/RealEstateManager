@@ -2,9 +2,7 @@ package com.openclassrooms.realestatemanager.presentation
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.content.res.ColorStateList
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,9 +14,6 @@ import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
-import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -191,58 +186,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             binding.addFab.isClickable = false
         }
     }
-
-    private fun hidePlayButton(fab: FloatingActionButton) {
-        // Cancel any animation from the default behavior
-        fab.animate().cancel()
-        fab.animate()
-            .scaleX(0f)
-            .scaleY(0f)
-            .alpha(0f)
-            .setDuration(200)
-            .setInterpolator(FastOutLinearInInterpolator())
-            .setListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator) {}
-                override fun onAnimationEnd(animation: Animator) {
-                    binding.mainCoordinator.removeView(fab)
-                }
-
-                override fun onAnimationCancel(animation: Animator) {}
-                override fun onAnimationRepeat(animation: Animator) {}
-            })
-    }
-
-    private fun showPlayButton() {
-        val fabSize = resources.getDimensionPixelSize(R.dimen.fab_margin)
-        val margin = resources.getDimensionPixelSize(R.dimen.fab_margin)
-        val fab = FloatingActionButton(this)
-        fab.backgroundTintList =
-            ColorStateList.valueOf(ContextCompat.getColor(this, R.color.colorAccent))
-        fab.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_add_24dp))
-        val p = CoordinatorLayout.LayoutParams(fabSize, fabSize)
-        p.topMargin = margin
-        p.bottomMargin = p.topMargin
-        p.leftMargin = p.bottomMargin
-        p.rightMargin = p.leftMargin
-        p.anchorGravity = Gravity.BOTTOM or Gravity.END
-        p.anchorId = R.id.bottomAppBar
-        fab.layoutParams = p
-        // Start from 1 pixel
-        fab.alpha = 0f
-        fab.scaleX = 0f
-        fab.scaleY = 0f
-        binding.mainCoordinator.addView(fab)
-        fab.animate()
-            .alpha(1f)
-            .scaleX(1f)
-            .scaleY(1f)
-            .setDuration(200).interpolator = FastOutLinearInInterpolator()
-        fab.setOnClickListener {
-            hidePlayButton(fab)
-            // do action
-        }
-    }
-
 
     @ExperimentalCoroutinesApi
     override fun onMenuItemClick(item: MenuItem?): Boolean {
