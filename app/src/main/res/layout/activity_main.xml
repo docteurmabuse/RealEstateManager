@@ -27,6 +27,7 @@
 
         <com.nambimobile.widgets.efab.ExpandableFabLayout
             android:id="@+id/expandable_fab_layout"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -42,7 +43,7 @@
                 android:layout_height="wrap_content"
                 app:efab_iconAnimationRotationDeg="0.0"
                 app:efab_orientation="portrait"
-                app:layout_anchor="@id/bottomAppBar" />
+                app:layout_anchor="@id/bottomAppBar2" />
 
             <com.nambimobile.widgets.efab.FabOption
                 android:id="@+id/fabAddProperty"
@@ -68,7 +69,7 @@
                 app:overlay_orientation="landscape" />
 
             <com.google.android.material.bottomappbar.BottomAppBar
-                android:id="@+id/bottomAppBar"
+                android:id="@+id/bottomAppBar2"
                 style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,5 +80,67 @@
 
         </com.nambimobile.widgets.efab.ExpandableFabLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addPropertyFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="130dp"
+            android:background="@color/colorAccent"
+            android:clickable="true"
+            android:contentDescription="@string/add_a_new_property"
+            android:focusable="true"
+            android:tint="@color/colorAccent"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorAccent"
+            app:fabSize="mini"
+            app:pressedTranslationZ="12dp"
+            app:rippleColor="@color/colorPrimaryDark"
+            app:srcCompat="@drawable/ic_house_24dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addAgentFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="90dp"
+            android:background="@color/colorAccent"
+            android:clickable="true"
+            android:contentDescription="@string/add_a_new_agent"
+            android:focusable="true"
+            android:tint="@color/colorAccent"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorAccent"
+            app:fabSize="mini"
+            app:pressedTranslationZ="12dp"
+            app:rippleColor="@color/colorPrimaryDark"
+            app:srcCompat="@drawable/ic_person_add_24dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:clickable="true"
+            android:contentDescription="Add button"
+            android:focusable="true"
+            android:tint="@color/colorAccent"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_anchor="@id/bottomAppBar"
+            app:srcCompat="@drawable/ic_add_24dp" />
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottomAppBar"
+            style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:fabAlignmentMode="center"
+            app:hideOnScroll="true"
+            tools:ignore="BottomAppBar" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

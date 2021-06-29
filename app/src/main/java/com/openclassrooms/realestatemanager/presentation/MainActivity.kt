@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
@@ -13,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isGone
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -55,9 +58,35 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private var isAddPropertyView = false
     private var agentList: List<Agent>? = arrayListOf()
     private var isEuroCurrency = false
-
+    private var isOpen = false
+    var fabOpen: Animation? = null
+    var fabClose: Animation? = null
+    var fabOpenRotate: Animation? = null
+    var fabCloseRotate: Animation? = null
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment
+    }
+
+    private fun setFab() {
+        fabOpen = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim)
+        fabClose = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
+        fabOpenRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim)
+        fabCloseRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
+        binding.addFab.setOnClickListener {
+            isOpen = if (isOpen) {
+                binding.addAgentFab.startAnimation(fabClose)
+                binding.addPropertyFab.startAnimation(fabClose)
+                binding.addFab.startAnimation(fabCloseRotate)
+                false
+            } else {
+                binding.addAgentFab.startAnimation(fabOpen)
+                binding.addPropertyFab.startAnimation(fabOpen)
+                binding.addFab.startAnimation(fabOpenRotate)
+                binding.addAgentFab.isClickable
+                binding.addPropertyFab.isClickable
+                true
+            }
+        }
     }
 
     private val navController by lazy { navHostFragment.navController }
@@ -78,6 +107,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         setupBottomNavigationAndFab()
         setAddPropertyFabListener()
         setAddAgentFabListener()
+        setFab()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -107,27 +137,30 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             bottomAppBar.visibility = View.VISIBLE
             bottomAppBar.replaceMenu(menuRes)
             expandableFabLayout.contentDescription = getString(R.string.title_property_list)
-            expandableFabLayout.visibility = View.VISIBLE
+
             expandableFabPortrait.efabIcon =
                 AppCompatResources.getDrawable(applicationContext, R.drawable.ic_add_24dp)
-            expandableFabPortrait.show()
             bottomAppBar.performShow()
-            expandableFabLayout.isShown
+            expandableFabLayout.visibility = View.GONE
+            bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
         }
     }
 
     private fun setBottomAppBarForDetail(@MenuRes menuRes: Int) {
         binding.run {
-            // expandableFabLayout.setImageState(intArrayOf(-android.R.attr.state_activated), true)
+            expandableFabLayout.isGone
+
             // bottomAppBar.visibility = View.VISIBLE
             bottomAppBar.replaceMenu(menuRes)
             expandableFabLayout.contentDescription = getString(R.string.title_property_detail)
-            expandableFabLayout.visibility = View.VISIBLE
+            expandableFabLayout.visibility = View.GONE
             expandableFabPortrait.efabIcon =
                 AppCompatResources.getDrawable(applicationContext, R.drawable.ic_edit_24dp)
             bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-            bottomAppBar.performHide()
-            bottomAppBar.performShow()
+
+            binding.addAgentFab.startAnimation(fabClose)
+            binding.addPropertyFab.startAnimation(fabClose)
+            binding.addFab.startAnimation(fabCloseRotate)
         }
     }
 
@@ -172,7 +205,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 viewModel.sortOrder.value = SortOrder.BY_DATE_DESC
                 viewModel.filterData()
             }
-
         }
         return true
     }
@@ -207,7 +239,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             }
         }
     }
-
 
     private fun getBottomAppBarMenuDestination(destination: NavDestination? = null): Int {
         val dest = destination
@@ -275,6 +306,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     override fun onBackPressed() {
         onBackPressedDispatcher.onBackPressed()
         binding.bottomAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+
         if (isEuroCurrency)
             binding.bottomAppBar.menu?.findItem(R.id.action_currency)
                 ?.setIcon(R.drawable.ic_euro_symbol_24dp)
@@ -367,7 +399,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-
     }
 
 }

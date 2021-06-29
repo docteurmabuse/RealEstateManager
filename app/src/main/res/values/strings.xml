@@ -120,4 +120,6 @@
     <string name="loanResult">Your mortgage payments over %1$s years will add up to %2$s. Estimated monthly payment: %3$s</string>
     <string name="calculate_loan">Simulate loan</string>
     <string name="no_property_yet">No property yet.</string>
+    <string name="add_a_new_agent">Add a new agent</string>
+    <string name="add_a_new_property">Add a new property</string>
 </resources>
