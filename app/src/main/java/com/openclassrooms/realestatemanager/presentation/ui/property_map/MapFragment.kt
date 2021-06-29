@@ -61,7 +61,6 @@ class MapFragment :
             LocationServices.getFusedLocationProviderClient(requireContext())
         isRestore = savedInstanceState != null
         requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).performShow()
-
         return binding.root
     }
 
@@ -133,7 +132,6 @@ class MapFragment :
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-
             return
         }
         googleMap.isMyLocationEnabled = true
@@ -154,7 +152,6 @@ class MapFragment :
         )
         navHostFragment.navigate(action)
     }
-
 
     @ExperimentalCoroutinesApi
     private fun setObserver() {
@@ -182,7 +179,6 @@ class MapFragment :
     private fun displayLoading(isLoading: Boolean) {
         if (isLoading) binding.mapProgressBar.visibility = View.VISIBLE
         else binding.mapProgressBar.visibility = View.GONE
-       // binding.mapSwiperefresh.isRefreshing = isLoading
     }
 
     private fun displayError(message: String?) {
@@ -195,7 +191,6 @@ class MapFragment :
 
     private fun renderList(list: List<Property>) {
         properties = list
-
         Timber.tag("MAP").d("MAP_PROPERTIES in Map: ${properties.size}")
         googleMap.clear()
         properties.forEach { property ->

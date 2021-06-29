@@ -1,8 +1,6 @@
 package com.openclassrooms.realestatemanager.presentation.ui.property
 
-import android.content.ClipData
 import android.os.Bundle
-import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +56,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
             )
         }
     }
-    private val dragListener = View.OnDragListener { v, event ->
+   /* private val dragListener = View.OnDragListener { v, event ->
         if (event.action == DragEvent.ACTION_DROP) {
             val clipDataItem: ClipData.Item = event.clipData.getItemAt(0)
             val dragData = clipDataItem.text
@@ -67,7 +65,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         }
         true
     }
-
+*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { it ->
@@ -86,7 +84,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         }
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -94,7 +91,7 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
         _binding = PropertyDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
         binding.lifecycleOwner = this.viewLifecycleOwner
-        rootView.setOnDragListener(dragListener)
+        //  rootView.setOnDragListener(dragListener)
         toolbarLayout = binding.toolbarLayout
         setupViewPager()
         setCurrencyListener()
@@ -132,14 +129,12 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
     }
 
     private fun setFabListener(view: View) {
-
         binding.addPropertyFAB.setOnClickListener {
             val bundle = Bundle()
             bundle.putParcelable(
                 ARG_PROPERTY_ID,
                 property
             )
-
             if (itemDetailFragmentContainer != null) {
                 requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
                     .navigate(R.id.addEditPropertyFragment, bundle)
@@ -152,7 +147,6 @@ class PropertyDetailFragment : Fragment(R.layout.property_detail) {
 
     private fun setAgentObserver() {
         lifecycleScope.launchWhenStarted {
-
             val value = viewModel.agentState
             value.collect {
                 when (it.status) {
