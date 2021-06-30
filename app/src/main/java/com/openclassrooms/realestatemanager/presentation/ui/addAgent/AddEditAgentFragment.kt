@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -42,6 +43,8 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewmodel = viewModelEdit
         binding.agent = agent
+        (activity as AppCompatActivity).setSupportActionBar(binding.loanToolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setupSnackbar()
         setupNavigation()
         retrievedArguments()

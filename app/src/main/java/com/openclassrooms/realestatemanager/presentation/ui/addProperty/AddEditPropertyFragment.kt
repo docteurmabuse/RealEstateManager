@@ -165,6 +165,8 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
 
         retrievedArguments()
 
+        (activity as AppCompatActivity).setSupportActionBar(binding.loanToolbar)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.agentViewModel = agentViewModel

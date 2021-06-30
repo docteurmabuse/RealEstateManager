@@ -22,6 +22,23 @@
         android:layout_height="match_parent"
         tools:context=".presentation.ui.addAgent.AddEditAgentFragment">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:theme="@style/MyActionBarTheme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/loan_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/agentCardView"
@@ -30,7 +47,7 @@
             app:cardCornerRadius="100dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@+id/app_bar">
 
             <ImageView
                 android:id="@+id/agentPhoto"
@@ -114,41 +131,7 @@
                 android:layout_height="wrap_content"
                 android:text="@={viewmodel.Phone}" />
         </com.google.android.material.textfield.TextInputLayout>
-        <!-- <com.nambimobile.widgets.efab.ExpandableFabLayout
-             android:id="@+id/expandable_fab_layout"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
-
-             <com.nambimobile.widgets.efab.Overlay
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 app:overlay_orientation="portrait" />
-
-
-
-             <com.nambimobile.widgets.efab.ExpandableFab
-                 android:id="@+id/expandable_fab_portrait"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:onClick="@{(view) -> viewmodel.addAgentToRoomDb(agent) }"
-                 app:efab_icon="@drawable/ic_check_24dp"
-                 app:efab_iconAnimationRotationDeg="0.0"
-                 app:layout_anchor="@id/bottomAppBar" />
-
-
-             <com.google.android.material.bottomappbar.BottomAppBar
-                 android:id="@+id/bottomAppBar"
-                 style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content"
-                 android:layout_gravity="bottom"
-                 app:fabAlignmentMode="end"
-                 app:menu="@menu/bottom_app_bar"
-                 app:navigationIcon="@drawable/ic_menu_24dp"
-                 tools:ignore="BottomAppBar" />
-
-         </com.nambimobile.widgets.efab.ExpandableFabLayout>-->
-
+        =
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
