@@ -58,6 +58,7 @@
             android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
             android:layout_marginBottom="60dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -260,7 +261,6 @@
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:viewModel="@{viewModel}" />
 
-
                 <TextView
                     android:id="@+id/textViewMedia"
                     style="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -283,10 +283,8 @@
                     app:layout_goneMarginEnd="@dimen/marginEnd"
                     app:viewModel="@{viewModel}" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
 
         <com.google.android.material.bottomappbar.BottomAppBar
             android:id="@+id/bottomAppBar"
