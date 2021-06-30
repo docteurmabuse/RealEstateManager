@@ -37,6 +37,7 @@ const val ARG_ITEM_COUNT = "item_count"
 
 @AndroidEntryPoint
 class PropertySearchDialogFragment : BottomSheetDialogFragment() {
+    private val viewModel: MainViewModel by activityViewModels()
 
     private var dialog: BottomSheetDialog? = null
 
@@ -47,12 +48,7 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    override fun getTheme(): Int {
 
-        return com.openclassrooms.realestatemanager.R.style.CustomBottomSheetDialog
-    }
-
-    private val viewModel: MainViewModel by activityViewModels()
 
     private var cal = Calendar.getInstance()
 
@@ -128,7 +124,6 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
         viewModel.soldDate = MutableLiveData(dateOnMarket.toString())
         viewModel.filterData()
     }
-
 
     fun setExpandableListener(cardView: CardView, button: ImageButton) {
         if (cardView.visibility == View.VISIBLE) {
@@ -211,56 +206,71 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
 
     @ExperimentalCoroutinesApi
     private fun initSurfaceListener(list: List<Property>) {
-        binding.surfaceRangeSlider.addOnChangeListener { slider, value, fromUser ->
-            viewModel.surfaceArray.value =
-                arrayOf(binding.surfaceRangeSlider.values[0], binding.surfaceRangeSlider.values[1])
-            viewModel.filterData()
-            Timber.d(" SURFACE_RANGE: ${viewModel.surfaceArray.value}")
+        if (_binding != null) {
+            binding.surfaceRangeSlider.addOnChangeListener { slider, value, fromUser ->
+                viewModel.surfaceArray.value =
+                    arrayOf(
+                        binding.surfaceRangeSlider.values[0],
+                        binding.surfaceRangeSlider.values[1]
+                    )
+                viewModel.filterData()
+                Timber.d(" SURFACE_RANGE: ${viewModel.surfaceArray.value}")
+            }
         }
     }
 
     @ExperimentalCoroutinesApi
     private fun initPriceListener(list: List<Property>) {
-        binding.priceRangeSlider.addOnChangeListener { slider, value, fromUser ->
-            viewModel.priceArray.value =
-                arrayOf(binding.priceRangeSlider.values[0], binding.priceRangeSlider.values[1])
-            viewModel.filterData()
+        if (_binding != null) {
+            binding.priceRangeSlider.addOnChangeListener { slider, value, fromUser ->
+                viewModel.priceArray.value =
+                    arrayOf(binding.priceRangeSlider.values[0], binding.priceRangeSlider.values[1])
+                viewModel.filterData()
+            }
         }
     }
 
     @ExperimentalCoroutinesApi
     private fun initRoomsListener() {
-        binding.roomsSlider.addOnChangeListener { slider, value, fromUser ->
-            viewModel.roomNumber.value =
-                binding.roomsSlider.value
-            viewModel.filterData()
+        if (_binding != null) {
+            binding.roomsSlider.addOnChangeListener { slider, value, fromUser ->
+                viewModel.roomNumber.value =
+                    binding.roomsSlider.value
+                viewModel.filterData()
+            }
         }
     }
 
     @ExperimentalCoroutinesApi
     private fun initBedsListener() {
-        binding.bedsSlider.addOnChangeListener { slider, value, fromUser ->
-            viewModel.bedroomNumber.value =
-                binding.bedsSlider.value
-            viewModel.filterData()
+        if (_binding != null) {
+            binding.bedsSlider.addOnChangeListener { slider, value, fromUser ->
+                viewModel.bedroomNumber.value =
+                    binding.bedsSlider.value
+                viewModel.filterData()
+            }
         }
     }
 
     @ExperimentalCoroutinesApi
     private fun initBathsListener() {
-        binding.bathsSlider.addOnChangeListener { slider, value, fromUser ->
-            viewModel.bathroomNumber.value =
-                binding.bathsSlider.value
-            viewModel.filterData()
+        if (_binding != null) {
+            binding.bathsSlider.addOnChangeListener { slider, value, fromUser ->
+                viewModel.bathroomNumber.value =
+                    binding.bathsSlider.value
+                viewModel.filterData()
+            }
         }
     }
 
     @ExperimentalCoroutinesApi
     private fun initPicsListener() {
-        binding.picsSlider.addOnChangeListener { slider, value, fromUser ->
-            viewModel.picsNumber.value =
-                binding.picsSlider.value
-            viewModel.filterData()
+        if (_binding != null) {
+            binding.picsSlider.addOnChangeListener { slider, value, fromUser ->
+                viewModel.picsNumber.value =
+                    binding.picsSlider.value
+                viewModel.filterData()
+            }
         }
     }
 
@@ -272,13 +282,14 @@ class PropertySearchDialogFragment : BottomSheetDialogFragment() {
                 R.layout.simple_spinner_dropdown_item,
                 list.map { it.address?.area }.toSet().toList()
             )
-        binding.filterArea.setAdapter(dropdownAdapter)
-
-        binding.filterArea.setOnItemClickListener { parent, view, position, id ->
-            val selectedArea = parent.getItemAtPosition(position) as String
-            Timber.d("AGENT_SELECTED: $selectedArea")
-            viewModel.area.value = selectedArea
-            viewModel.filterData()
+        if (_binding != null) {
+            binding.filterArea.setAdapter(dropdownAdapter)
+            binding.filterArea.setOnItemClickListener { parent, view, position, id ->
+                val selectedArea = parent.getItemAtPosition(position) as String
+                Timber.d("AGENT_SELECTED: $selectedArea")
+                viewModel.area.value = selectedArea
+                viewModel.filterData()
+            }
         }
     }
 
