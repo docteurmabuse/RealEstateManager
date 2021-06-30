@@ -1,6 +1,5 @@
 package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
-import android.Manifest
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
@@ -31,10 +30,6 @@ import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.openclassrooms.realestatemanager.BuildConfig
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.AddPropertyFragmentBinding
@@ -72,19 +67,19 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     private val viewModel: AddEditPropertyViewModel by viewModels()
     private val agentViewModel: AgentsViewModel by viewModels()
     private val detailViewModel: PropertyDetailViewModel by viewModels()
+
+    //RecyclerView
     private lateinit var photosRecyclerView: RecyclerView
-    private var property: Property? = null
-    private var isEditPropertyView: Boolean = false
 
     //Adapter
     private lateinit var photoListAdapter: PhotoListAdapter
 
     //Arguments
+    private var property: Property? = null
+    private var isEditPropertyView: Boolean = false
     private var photos: ArrayList<Media.Photo> = arrayListOf()
-
     private var mItemTouchHelper: ItemTouchHelper? = null
     private var isConnected: Boolean = true
-
     private var queryImageUrl: String = ""
     private var imgPath: String = ""
     private var imageUri: Uri? = null
@@ -93,30 +88,29 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     private var selectedAgent: Agent = Agent("", "", "")
     private var selectedType: String = ""
     private var _agentId = ""
-    private val dateSellSetListener =
-        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+    private var cal = Calendar.getInstance()
+    private var _binding: AddPropertyFragmentBinding? = null
+    private val binding get() = _binding!!
+    private val dateSellSetListener by lazy {
+        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateSellDateInView()
         }
-
-    private val dateSoldSetListener =
-        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+    }
+    private val dateSoldSetListener by lazy {
+        DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateSoldDateInView()
         }
-    private var cal = Calendar.getInstance()
+    }
 
     companion object {
         fun newInstance() = AddEditPropertyFragment()
     }
-
-    private var _binding: AddPropertyFragmentBinding? = null
-
-    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -158,7 +152,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         super.onDestroyView()
     }
 
-
     private val callback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             val data =
@@ -176,7 +169,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
                     AddEditPropertyFragmentDirections.actionAddPropertyFragmentToItemTabsFragment2()
                 )
             }
-
         }
     }
 
@@ -184,13 +176,13 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         super.onViewCreated(view, savedInstanceState)
         val typeDropdown: AutoCompleteTextView = binding.type.typeDropdown
         setObserver()
-        setUpPermissions()
         setupTypeValues(typeDropdown)
         setFabListener()
         setupUploadImageListener()
-        setupSnackbar()
+        setupSnackBar()
         setupDateListener()
         setupNavigation()
+        isPermissionsAllowed = setUpPermissionsUtil(requireContext())
     }
 
     private fun setupNavigation() {
@@ -206,7 +198,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
                 autoCancel = false
             )
         })
-
         viewModel.propertyAddedEvent.observe(viewLifecycleOwner, EventObserver {
             val navHostFragment = findNavController()
             navHostFragment.navigate(R.id.mainActivity)
@@ -263,7 +254,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         viewModel.soldDate = MutableLiveData(dateOnMarket.toString())
     }
 
-    private fun setupSnackbar() {
+    private fun setupSnackBar() {
         view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 
@@ -276,7 +267,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
                 items
             )
         dropdown.setAdapter(dropdownAdapter)
-        dropdown.setOnItemClickListener { parent, view, position, id ->
+        dropdown.setOnItemClickListener { parent, _, position, _ ->
             selectedType = (parent.getItemAtPosition(position) as Property.PropertyType).toString()
             viewModel.type.value = selectedType
         }
@@ -323,43 +314,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         setupAgentMenuValues(agents)
     }
 
-    private fun setUpPermissions() {
-        Dexter.withContext(requireContext())
-            .withPermissions(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
-            .withListener(object : MultiplePermissionsListener {
-                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                    report?.let {
-                        if (report.areAllPermissionsGranted()) {
-                            Timber.d("PERMISSIONS OK")
-                            isPermissionsAllowed = true
-                        } else {
-                            isPermissionsAllowed = false
-                        }
-                    }
-                }
-
-                override fun onPermissionRationaleShouldBeShown(
-                    permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?,
-                    token: PermissionToken?
-                ) {
-                    token?.continuePermissionRequest()
-                }
-            })
-            .withErrorListener {
-                Timber.d(it.name)
-            }
-            .check()
-    }
-
-
     private fun retrievedArguments() {
         val bundle = arguments ?: return
         val args = PropertyDetailFragmentArgs.fromBundle(bundle)
@@ -390,7 +344,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         detailViewModel._bundle.value = data
 
         photos = property.media.photos as ArrayList<Media.Photo>
-        binding.dates.soldSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.dates.soldSwitch.setOnCheckedChangeListener { _, isChecked ->
             binding.dates.viewModel?.sold = MutableLiveData<Boolean>(isChecked)
             binding.dates.soldInputLayout.isVisible = isChecked
         }
@@ -418,7 +372,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         setupRecyclerView()
     }
 
-
     private fun setupRecyclerView() {
         photosRecyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -444,7 +397,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         }
     }
 
-
     private fun setupUploadImageListener() {
         binding.media.buttonPhoto.setOnClickListener {
             chooseImage()
@@ -464,11 +416,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         }
     }
 
-    class Handlers {
-        fun onClickFriend() {
-        }
-    }
-
     private fun submitPhotoToList(photo: Media.Photo) {
         viewModel.addPhotoToPhotosList(photo)
         setPhotosObserver()
@@ -477,8 +424,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     override fun onItemSelected(position: Int, item: Media.Photo) {
         viewModel.removePhotoToPhotosList(item)
         photos.remove(item)
-
-        Timber.d("PHOTO_DELETE: ${item.photoPath}, newlist = $photos")
         setupRecyclerView()
     }
 
@@ -514,7 +459,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         }
     }
 
-    fun chooseImage() {
+    private fun chooseImage() {
         startActivityForResult(
             getPickImageIntent(),
             RES_IMAGE
@@ -527,10 +472,8 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         val takePhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, setImageUri())
-
         intentList = addIntentsToList(requireContext(), intentList, pickIntent)
         intentList = addIntentsToList(requireContext(), intentList, takePhotoIntent)
-
         if (intentList.size > 0) {
             chooserIntent = Intent.createChooser(
                 intentList.removeAt(intentList.size - 1),
@@ -547,7 +490,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
     private fun setImageUri(): Uri {
         val folder = File("${requireContext().getExternalFilesDir(Environment.DIRECTORY_DCIM)}")
         folder.mkdirs()
-
         val file = File(folder, "Image_Tmp.jpg")
         if (file.exists())
             file.delete()
@@ -585,9 +527,7 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
                 Toast.LENGTH_SHORT
             ).show()
         }
-
         lifecycleScope.launch(Dispatchers.Main + exceptionHandler) {
-
             if (data?.data != null) {     //Photo from gallery
                 imageUri = data.data
                 queryImageUrl = imageUri?.path!!
