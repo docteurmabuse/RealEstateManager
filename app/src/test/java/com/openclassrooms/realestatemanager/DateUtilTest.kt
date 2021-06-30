@@ -1,25 +1,31 @@
 package com.openclassrooms.realestatemanager
 
+import com.openclassrooms.realestatemanager.utils.DateUtil
+import com.openclassrooms.realestatemanager.utils.DateUtil.createTimeStamp
 import com.openclassrooms.realestatemanager.utils.DateUtil.dateToString
-import com.openclassrooms.realestatemanager.utils.DateUtil.todayDate
 import org.junit.Test
 import org.junit.jupiter.api.Assertions.assertEquals
-
-import java.time.LocalDate
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DateUtilTest {
 
     @Test
     @Throws(Exception::class)
-    fun testGetTodayDate() {
-        assertEquals("29/04/2021", todayDate)
+    fun testDateToString() {
+        val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val todayDate = dateFormat.format(Date())
+        assertEquals(todayDate, dateToString(Date()))
     }
 
     @Test
     @Throws(Exception::class)
-    fun testDateToString() {
-        var date = LocalDate.parse("2021-04-29")
-        assertEquals("29/04/2021", dateToString(Date()))
+    fun testLongDateToString() {
+        val dateFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val todayDate = dateFormat.format(Date())
+        val longDate = createTimeStamp()
+        val formattedDate = DateUtil.longDateToString(longDate)
+        assertEquals(todayDate, formattedDate)
     }
 }

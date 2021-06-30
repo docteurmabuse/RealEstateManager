@@ -34,11 +34,18 @@ class UtilsInstrumentedTest {
     @Test
     @Throws(Exception::class)
     fun testIsInternetAvailableAsNetworkIsDisable() {
-        val context = ApplicationProvider.getApplicationContext<Context>()
-        getInstrumentation().uiAutomation.executeShellCommand("svc wifi disable")
-        getInstrumentation().uiAutomation.executeShellCommand("svc data disable")
-        sleep(3000)
-        assertThat(isNetworkConnected(context), `is`(false))
+        kotlin.runCatching {
+            val context = ApplicationProvider.getApplicationContext<Context>()
+            getInstrumentation().uiAutomation.executeShellCommand("svc wifi disable")
+            getInstrumentation().uiAutomation.executeShellCommand("svc data disable")
+            sleep(3000)
+            //Should be no network
+            assertThat(isNetworkConnected(context), `is`(false))
+            //Check if  has Internet with a ping to Google should be false
+            val hasInternet = DoesNetworkHaveInternet.execute()
+            assertThat(hasInternet, `is`(false))
+        }
+
     }
 
     @Test
@@ -49,6 +56,9 @@ class UtilsInstrumentedTest {
         getInstrumentation().uiAutomation.executeShellCommand("svc data enable")
         sleep(3000)
         assertThat(isNetworkConnected(context), `is`(true))
+        //Check if  has Internet with a ping to Google should be true
+        val hasInternet = DoesNetworkHaveInternet.execute()
+        assertThat(hasInternet, `is`(true))
     }
 
     @Test

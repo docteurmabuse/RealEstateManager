@@ -2,11 +2,8 @@ package com.openclassrooms.realestatemanager.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.Network
 import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import android.os.Build
-import android.util.Log
 import kotlin.math.roundToInt
 
 /**
@@ -44,6 +41,7 @@ object Utils {
      * @param context
      * @return
      */
+/*
     fun isInternetAvailable(context: Context): Boolean {
 //        val wifi = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
 //        return wifi.isWifiEnabled
@@ -85,6 +83,7 @@ object Utils {
         }
         return result
     }
+*/
 
 
     fun isNetworkConnected(context: Context): Boolean {

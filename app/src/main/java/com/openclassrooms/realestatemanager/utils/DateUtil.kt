@@ -25,7 +25,6 @@ object DateUtil {
     }
 
     fun longDateToString(long: Long?): String? {
-
         return longToDate(long)?.let { dateToString(it) }
     }
 
