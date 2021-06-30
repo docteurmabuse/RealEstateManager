@@ -123,4 +123,7 @@
     <string name="add_a_new_agent">Add a new agent</string>
     <string name="add_a_new_property">Add a new property</string>
     <string name="add_button">Add button</string>
+    <string name="enable_gps">PLease enable GPS</string>
+    <string name="required_for_this_app">GPS is requiered for this app.</string>
+    <string name="enable_now">Enable now</string>
 </resources>

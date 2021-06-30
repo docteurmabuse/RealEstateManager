@@ -69,13 +69,12 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     }
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         setContentView(binding.root)
-       // setupActionBarWithNavController(navController, appBarConfiguration)
+        // setupActionBarWithNavController(navController, appBarConfiguration)
         viewModel.fetchProperties()
         setObserver()
         setupBottomNavigationAndFab()
@@ -95,7 +94,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 this@MainActivity
             )
         }
-
         // Set up the BottomAppBar menu
         binding.bottomAppBar.apply {
             setNavigationOnClickListener {
@@ -108,10 +106,8 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         binding.run {
             bottomAppBar.visibility = View.VISIBLE
             findViewById<FloatingActionButton>(R.id.addFab).show()
-
             bottomAppBar.replaceMenu(menuRes)
             bottomAppBar.performShow()
-
             binding.fabAddAgent.alpha = 1.0F
             binding.fabAddProperty.alpha = 1.0F
             binding.addFab.alpha = 1.0F
@@ -129,13 +125,13 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             binding.fabAddAgent.alpha = 1.0F
             binding.fabAddProperty.alpha = 1.0F
             binding.addFab.alpha = 1.0F
-
             isOpen = if (isOpen) {
                 binding.fabAddAgent.startAnimation(fabClose)
                 binding.fabAddProperty.startAnimation(fabClose)
                 binding.addFab.startAnimation(fabCloseRotate)
                 binding.fabAddAgent.isClickable = false
                 binding.fabAddProperty.isClickable = false
+                binding.fabLayout.visibility = View.GONE
                 false
             } else {
                 binding.fabAddAgent.startAnimation(fabOpen)
@@ -143,8 +139,19 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 binding.addFab.startAnimation(fabOpenRotate)
                 binding.fabAddAgent.isClickable = true
                 binding.fabAddProperty.isClickable = true
+                binding.fabLayout.visibility = View.VISIBLE
+                binding.fabLayout.alpha = 0.5F
                 true
             }
+        }
+        binding.fabLayout.setOnClickListener {
+            binding.fabAddAgent.startAnimation(fabClose)
+            binding.fabAddProperty.startAnimation(fabClose)
+            binding.addFab.startAnimation(fabCloseRotate)
+            binding.fabAddAgent.isClickable = false
+            binding.fabAddProperty.isClickable = false
+            isOpen = false
+            binding.fabLayout.visibility = View.GONE
         }
     }
 
@@ -158,8 +165,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private fun setBottomAppBarForEditProperty(@MenuRes menuRes: Int) {
         binding.run {
             bottomAppBar.replaceMenu(menuRes)
-            closeExpandableFab()
-
+            //  closeExpandableFab()
         }
     }
 
@@ -248,7 +254,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             ?: findNavController(R.id.nav_host_fragment_activity_main).currentDestination
         return when (dest?.id) {
             R.id.itemTabsFragment2 -> R.menu.menu_fragment_properties
-            //     R.id.propertyDetailFragment -> R.menu.edit_menu
             else -> R.menu.menu_fragment_properties
         }
     }
@@ -333,7 +338,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         binding.addFab.alpha = 0F
         binding.addFab.isClickable = false
         isOpen = false
-
+        binding.fabLayout.visibility = View.GONE
     }
 
     private fun setAddAgentFabListener() {
