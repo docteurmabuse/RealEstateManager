@@ -2,12 +2,14 @@ package com.openclassrooms.realestatemanager.presentation.ui.addProperty
 
 import android.annotation.SuppressLint
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.domain.interactors.agent.GetAgentById
 import com.openclassrooms.realestatemanager.domain.interactors.property.AddProperty
 import com.openclassrooms.realestatemanager.domain.interactors.property.GetPropertyById
-import com.openclassrooms.realestatemanager.domain.interactors.property.UpdateProperty
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Address
@@ -28,20 +30,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddEditPropertyViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
     private val addProperty: AddProperty,
-    private val updateProperty: UpdateProperty,
     private val getPropertyById: GetPropertyById,
     private val getAgentById: GetAgentById,
     application: Application,
 ) : AndroidViewModel(application) {
-
     @SuppressLint("StaticFieldLeak")
     private val context = getApplication<Application>().applicationContext
-
     // For Type dropdown
     var propertyType = Property.PropertyType.values()
-
     // Two-way databinding, exposing MutableLiveData
     private var propertyId: String? = null
     var type = MutableLiveData<String>("House")
@@ -74,34 +71,24 @@ class AddEditPropertyViewModel @Inject constructor(
     var country = MutableLiveData<String?>("United States")
     var lat = MutableLiveData<Double>(0.0)
     var long = MutableLiveData<Double>(0.0)
-
-
     var isNewProperty = MutableLiveData<Boolean>(false)
-
     //Snackbar with message to user if a field is empty
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarText: LiveData<Event<Int>> = _snackbarText
-
     private var _statePhotos =
         MutableStateFlow<ArrayList<Media.Photo>>(arrayListOf())
     val statePhotos: StateFlow<List<Media.Photo>>
         get() = _statePhotos
-
-
     private val _state = MutableStateFlow<DataState<Property>>(DataState.loading(null))
     val propertyState: StateFlow<DataState<Property>>
         get() = _state
-
     private val _stateAgent = MutableStateFlow<DataState<Agent>>(DataState.loading(null))
     val agentState: StateFlow<DataState<Agent>>
         get() = _stateAgent
-
     private val _propertyAddedEvent = MutableLiveData<Event<Unit>>()
     val propertyAddedEvent: LiveData<Event<Unit>> = _propertyAddedEvent
-
     private val _propertyUpdatedEvent = MutableLiveData<Event<Unit>>()
     val propertyUpdatedEvent: LiveData<Event<Unit>> = _propertyUpdatedEvent
-
     fun start(propertyId: String) {
         this.propertyId = propertyId
         Timber.d("EDIT_MODE: $propertyId")
@@ -124,15 +111,11 @@ class AddEditPropertyViewModel @Inject constructor(
                     }
             }
         }
-
-
     }
 
     private fun onPropertyLoaded(property: Property) {
         // Two-way databinding, exposing MutableLiveData
         propertyId = property.id
-        Timber.d("PROPERTY_ID: ${propertyId}")
-
         type.value = property.type
         price.value = property.price.toString()
         surface.value = property.surface.toString()
@@ -149,7 +132,6 @@ class AddEditPropertyViewModel @Inject constructor(
         sold.value = property.sold
         sellDate.value = property.sellDate.toString()
         soldDate.value = property.soldDate.toString()
-        //photos.value = property.media.photos
         videos.value = property.media.videos
         agentId.value = property.agent
         address.value = property.address
@@ -180,7 +162,6 @@ class AddEditPropertyViewModel @Inject constructor(
     private fun onAgentLoaded(it: Agent) {
         agent.value = it
         Timber.d("PROPERTY_AGENT: ${agent.value}")
-
     }
 
     fun saveProperty() {
@@ -211,23 +192,16 @@ class AddEditPropertyViewModel @Inject constructor(
         val currentArea = area.value
         val currentState = state.value
         val currentCountry = country.value
-
-
         viewModelScope.launch {
             currentPhotos = statePhotos.value
             Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
-            Timber.tag("CURRENT_PHOTOS").d("CURRENT_PHOTOS: ${_statePhotos.value}")
         }
-
-        var currentMedia = Media(statePhotos.value, currentVideos!!)
-
+        val currentMedia = Media(statePhotos.value, currentVideos!!)
         val addressLine =
             "$currentAddress1, $currentCity, $currentState, $currentZipcode, $currentCountry"
         val location = GeocodeUtils.getLatLngFromAddress(addressLine, context)
-
         val currentLat = location?.latitude.toString().toDoubleOrNull()
         val currentLong = location?.longitude.toString().toDoubleOrNull()
-
         val currentAddress = Address(
             currentAddress1,
             currentAddress2,
@@ -239,15 +213,6 @@ class AddEditPropertyViewModel @Inject constructor(
             currentLat,
             currentLong
         )
-
-        Timber.d("PROPERTY_VIEWMODEL3: $location , $addressLine")
-        Timber.d(
-            "CURRENT: $currentType = type ,$currentPrice  = price, $currentSurface = surface" +
-                    "            $currentRoomNumber = room || $currentBathroomNumber = bath || $currentBedroomNumber = beds ||\n" +
-                    "            $currentDescription = description || $currentAgentId == agent ||$ currentAddress1 == address1\n" +
-                    "            || $currentCity == city || $currentState == state || $currentZipcode == zip || $currentCountry == country\n" +
-                    "            || $currentSellDate == sell  $currentId"
-        )
         if (currentType == null || currentPrice == null || currentSurface == null ||
             currentRoomNumber == null || currentBathroomNumber == null || currentBedroomNumber == null ||
             currentDescription == null || currentAgentId == null || currentAddress1 == null
@@ -257,35 +222,6 @@ class AddEditPropertyViewModel @Inject constructor(
             _snackbarText.value = Event(R.string.empty_property_message2)
             return
         }
-
-        /*  if (Property(
-                    currentId,
-                    currentType,
-                    currentPrice,
-                    currentSurface,
-                    currentRoomNumber,
-                    currentBathroomNumber,
-                    currentBedroomNumber,
-                    currentDescription,
-                    currentSchools,
-                    currentShops,
-                    currentPark,
-                    currentStations,
-                    currentHospital,
-                    currentMuseum,
-                    currentSold,
-                    currentSellDate.toLong(),
-                    currentSoldDate?.toLong(),
-                    currentMedia,
-                    currentAgentId,
-                    currentAddress
-                ).isEmpty
-            ) {
-                _snackbarText.value = Event(R.string.empty_property_message)
-                return
-            }*/
-
-
         if (isNewProperty.value == true && currentId == null) {
             saveProperty(
                 Property(
@@ -341,16 +277,13 @@ class AddEditPropertyViewModel @Inject constructor(
     }
 
     fun updatePropertyToRoomDb(property: Property) {
-        Timber.tag("UPDATE_FabClick").d("UPDATE_FabClick: $property.media")
         if (isNewProperty.value == true) {
             throw RuntimeException("updateProperty() was called but property is new.")
         }
         viewModelScope.launch {
-            // Timber.d("PROPERTY: ${property.agentId}, ${property.address1}")
             addProperty.invoke(property)
             _propertyUpdatedEvent.value = Event(Unit)
         }
-
     }
 
     private fun saveProperty(property: Property) {
@@ -362,29 +295,17 @@ class AddEditPropertyViewModel @Inject constructor(
         }
     }
 
-    fun initPhotosList(photos: ArrayList<Media.Photo>) {
-        viewModelScope.launch {
-            _statePhotos.value.addAll(photos)
-            Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
-        }
-    }
-
     fun addPhotoToPhotosList(photo: Media.Photo) {
         viewModelScope.launch {
             _statePhotos.value.add(photo)
-            Timber.tag("STATE_PHOTO").d("STATE_PHOTO: ${_statePhotos.value}")
         }
     }
 
     fun removePhotoToPhotosList(photo: Media.Photo) {
         viewModelScope.launch {
-            Timber.tag("STATE_PHOTO").d("REMOVE_PHOTO1: ${photos.value?.size}")
-            Timber.tag("STATE_PHOTO").d("REMOVE_PHOTO1: ${_statePhotos.value.size}")
-
             _statePhotos.value.remove(photo)
             photos.value?.toMutableList()?.remove(photo)
             Timber.tag("STATE_PHOTO").d("REMOVE_PHOTO: ${photos.value?.size}")
-            Timber.tag("STATE_PHOTO").d("REMOVE_PHOTO: ${_statePhotos.value.size}")
         }
     }
 }

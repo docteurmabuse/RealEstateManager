@@ -15,7 +15,6 @@ import com.openclassrooms.realestatemanager.databinding.LoanFragmentBinding
 import com.openclassrooms.realestatemanager.utils.setupSnackbar
 
 class LoanFragment : Fragment(R.layout.loan_fragment) {
-
     companion object {
         fun newInstance() = LoanFragment()
     }

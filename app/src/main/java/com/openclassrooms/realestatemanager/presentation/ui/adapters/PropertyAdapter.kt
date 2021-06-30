@@ -27,13 +27,11 @@ class PropertyAdapter(
         val item = getItem(position)
         holder.binding.property = item
         holder.binding.currency = isCurrencyEuro
-
         with(holder.itemView) {
             tag = item
             setOnClickListener(onClickListener)
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
                 setOnContextClickListener(onContextClickListener)
-                Timber.tag("clickTransformation").d("click item : It's OK :$position")
             }
         }
     }
@@ -48,7 +46,6 @@ class PropertyAdapter(
         val binding: PropertyListContentBinding
     ) :
         RecyclerView.ViewHolder(binding.root)
-
 }
 
 private val ITEM_COMPARATOR = object : DiffUtil.ItemCallback<Property>() {

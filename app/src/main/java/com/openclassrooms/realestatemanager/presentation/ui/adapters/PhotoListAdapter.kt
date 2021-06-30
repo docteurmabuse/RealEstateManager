@@ -71,9 +71,7 @@ class PhotoListAdapter(
     ) : RecyclerView.ViewHolder(
         binding.root,
     ) {
-
         var removedPosition: Int? = null
-
         @SuppressLint("ClickableViewAccessibility")
         fun bind(item: Media.Photo) = with(binding.root) {
             binding.deleteButton.setOnClickListener {

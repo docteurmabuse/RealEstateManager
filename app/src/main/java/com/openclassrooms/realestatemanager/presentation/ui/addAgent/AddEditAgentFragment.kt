@@ -52,8 +52,6 @@ class AddEditAgentFragment : Fragment(R.layout.add_agent_fragment) {
 
     private fun setupNavigation() {
         viewModelEdit.agentUpdatedEvent.observe(viewLifecycleOwner, EventObserver {
-            /*val action = AddEditAgentFragmentDirections.actionAddAgentFragmentToItemTabsFragment2()
-            findNavController().navigate(action)*/
             val navHostFragment = findNavController()
             navHostFragment.navigate(R.id.mainActivity)
             val agentName: String = binding.agentName.text.toString()
