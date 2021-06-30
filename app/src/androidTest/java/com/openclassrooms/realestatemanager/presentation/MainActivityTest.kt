@@ -105,11 +105,9 @@ class MainActivityTest {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
-
         //Click add button
-        // onView(withContentDescription("Property add")).perform(click())
 
-        onView(withId(R.id.expandable_fab_portrait)).perform(click())
+        onView(withId(R.id.addFab)).perform(click())
         onView(withId(R.id.fabAddAgent)).perform(click())
         onView(withId(R.id.agentName)).check(matches(isDisplayed()))
         // assertEquals(navController.currentDestination?.id, R.id.addEditAgentFragment)

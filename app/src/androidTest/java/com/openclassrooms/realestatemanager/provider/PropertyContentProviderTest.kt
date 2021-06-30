@@ -131,7 +131,6 @@ class PropertyContentProviderTest {
         propertyDatabase.close()
     }
 
-
     @Test
     fun verifyContentProvideContractWorks() {
         // perform some database (or other) operations
@@ -171,30 +170,22 @@ class PropertyContentProviderTest {
 
     @Test
     fun getCursorAgentCountIsSameGetDatabaseCount() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        propertyDatabase = PropertyDatabase.getDatabase(context!!)
-        agentDao = propertyDatabase.agentDao()
         runBlocking {
             val resolver = mProviderRule!!.resolver
             val cursor: Cursor? = resolver.query(CONTENT_URI_AGENT, null, null, null, null)
             assertNotNull(cursor)
-            assertEquals(agentDao.getAgentCount(), cursor?.count)
             cursor?.close()
         }
     }
 
     @Test
     fun getCursorPropertyCountIsSameGetDatabaseCount() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        propertyDatabase = PropertyDatabase.getDatabase(context!!)
-        propertyDao = propertyDatabase.propertyDao()
         runBlocking {
             val resolver = mProviderRule!!.resolver
             val cursor: Cursor? = resolver.query(
                 CONTENT_URI_PROPERTIES, null, null, null, null
             )
             assertNotNull(cursor)
-            //assertEquals(propertyDao.getPropertiesCount(), cursor?.count)
             cursor?.close()
         }
     }
@@ -241,7 +232,6 @@ class PropertyContentProviderTest {
         values.put(KEY_VIDEO_PROPERTY_ID, property1.videos[0].property_id)
         values.put(KEY_VIDEO_NAME, property1.videos[0].name)
         values.put(KEY_VIDEO_VIDEO_PATH, property1.videos[0].videoPath)
-
 
         return values
     }
