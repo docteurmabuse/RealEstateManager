@@ -3,7 +3,6 @@ package com.openclassrooms.realestatemanager.presentation
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
@@ -12,7 +11,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.MenuRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -26,14 +24,12 @@ import com.openclassrooms.realestatemanager.R
 import com.openclassrooms.realestatemanager.databinding.ActivityMainBinding
 import com.openclassrooms.realestatemanager.domain.model.agent.Agent
 import com.openclassrooms.realestatemanager.domain.model.data.DataState
-import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
 import com.openclassrooms.realestatemanager.presentation.ui.SortOrder
 import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
-import com.openclassrooms.realestatemanager.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -50,7 +46,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private val binding get() = _binding!!
     private val viewModel: MainViewModel by viewModels()
     private val agentViewModel: AgentsViewModel by viewModels()
-    private var properties: List<Property> = arrayListOf()
     private var isAddAgentView = false
     private var isAddPropertyView = false
     private var agentList: List<Agent>? = arrayListOf()
@@ -62,19 +57,19 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private var fabCloseRotate: Animation? = null
     private val navController by lazy { navHostFragment.navController }
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
-    private var menu: Menu? = null
-
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         binding.lifecycleOwner = this
         setContentView(binding.root)
-        // setupActionBarWithNavController(navController, appBarConfiguration)
+        fabOpen = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim)
+        fabClose = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
+        fabOpenRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim)
+        fabCloseRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
         viewModel.fetchProperties()
         setObserver()
         setupBottomNavigationAndFab()
@@ -117,14 +112,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
 
     private fun setFabHome() {
         findViewById<FloatingActionButton>(R.id.addFab).show()
-        fabOpen = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim)
-        fabClose = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim)
-        fabOpenRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim)
-        fabCloseRotate = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim)
         binding.addFab.setOnClickListener {
-            binding.fabAddAgent.alpha = 1.0F
-            binding.fabAddProperty.alpha = 1.0F
-            binding.addFab.alpha = 1.0F
             isOpen = if (isOpen) {
                 binding.fabAddAgent.startAnimation(fabClose)
                 binding.fabAddProperty.startAnimation(fabClose)
@@ -145,13 +133,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             }
         }
         binding.fabLayout.setOnClickListener {
-            binding.fabAddAgent.startAnimation(fabClose)
-            binding.fabAddProperty.startAnimation(fabClose)
-            binding.addFab.startAnimation(fabCloseRotate)
-            binding.fabAddAgent.isClickable = false
-            binding.fabAddProperty.isClickable = false
-            isOpen = false
-            binding.fabLayout.visibility = View.GONE
+            closeExpandableFab()
         }
     }
 
@@ -159,20 +141,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         binding.run {
             bottomAppBar.replaceMenu(menuRes)
             closeExpandableFab()
-        }
-    }
-
-    private fun setBottomAppBarForEditProperty(@MenuRes menuRes: Int) {
-        binding.run {
-            bottomAppBar.replaceMenu(menuRes)
-            //  closeExpandableFab()
-        }
-    }
-
-    private fun setBottomAppBarForLoan(@MenuRes menuRes: Int) {
-        binding.run {
-            bottomAppBar.replaceMenu(menuRes)
-            closeExpandableFab()
+            removeFab()
         }
     }
 
@@ -188,7 +157,9 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                     item.setIcon(R.drawable.ic_attach_dollars_24dp)
                 }
             }
-            R.id.action_loan -> navController.navigate(R.id.action_itemTabsFragment2_to_loanFragment)
+            R.id.action_loan -> {
+                navController.navigate(R.id.action_itemTabsFragment2_to_loanFragment)
+            }
             R.id.action_filter_properties -> {
                 navController.navigate(R.id.action_itemTabsFragment2_to_propertySearchDialogFragment)
             }
@@ -199,13 +170,13 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             R.id.action_sort_by_price_dsc -> {
                 viewModel.sortOrder.value = SortOrder.BY_PRICE_DESC
                 viewModel.filterData()
-                Timber.d("FILTER: price ok")
             }
             R.id.action_sort_by_date_on_market_asc -> {
                 viewModel.sortOrder.value = SortOrder.BY_DATE_ASC
                 viewModel.filterData()
             }
             R.id.action_sort_by_date_on_market_dsc -> {
+
                 viewModel.sortOrder.value = SortOrder.BY_DATE_DESC
                 viewModel.filterData()
             }
@@ -227,7 +198,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 hideBottomAppBar()
             }
             R.id.addEditPropertyFragment -> {
-                setBottomAppBarForEditProperty(getBottomAppBarMenuDestination(destination))
+                setBottomAppBarForDetail(getBottomAppBarMenuDestination(destination))
                 hideBottomAppBar()
             }
 
@@ -240,11 +211,8 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 hideBottomAppBar()
             }
             R.id.loanFragment -> {
-                setBottomAppBarForLoan(getBottomAppBarMenuDestination(destination))
+                setBottomAppBarForDetail(getBottomAppBarMenuDestination(destination))
                 hideBottomAppBar()
-            }
-            R.id.propertyListFragment -> {
-
             }
         }
     }
@@ -258,25 +226,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         }
     }
 
-    @ExperimentalCoroutinesApi
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        this.menu = menu
-        if (isEuroCurrency)
-            binding.bottomAppBar.menu?.findItem(R.id.action_currency)
-                ?.setIcon(R.drawable.ic_euro_symbol_24dp)
-        else
-            binding.bottomAppBar.menu?.findItem(R.id.action_currency)
-                ?.setIcon(R.drawable.ic_attach_dollars_24dp)
-
-        val searchItem = binding.bottomAppBar.menu?.findItem(R.id.action_search)
-        (searchItem?.actionView as? SearchView)?.onQueryTextChanged {
-            viewModel.searchQuery.value = it
-            viewModel.filterData()
-            Timber.d("SEARCH: $it")
-        }
-        return super.onCreateOptionsMenu(menu)
-    }
-
     private fun hideBottomAppBar() {
         binding.run {
             bottomAppBar.performHide()
@@ -286,7 +235,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 var isCanceled = false
                 override fun onAnimationEnd(animation: Animator?) {
                     if (isCanceled) return
-
                     // Hide the BottomAppBar to avoid it showing above the keyboard
                     bottomAppBar.visibility = View.GONE
                     binding.fabAddAgent.alpha = 0F
@@ -296,7 +244,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                     binding.fabAddAgent.isClickable = false
                     binding.fabAddProperty.isClickable = false
                 }
-
                 override fun onAnimationCancel(animation: Animator?) {
                     isCanceled = true
                 }
@@ -333,12 +280,16 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         binding.addFab.startAnimation(fabCloseRotate)
         binding.fabAddAgent.isClickable = false
         binding.fabAddProperty.isClickable = false
+        isOpen = false
+        binding.fabLayout.visibility = View.GONE
+        binding.fabLayout.visibility = View.GONE
+    }
+
+    private fun removeFab() {
+        binding.addFab.isClickable = false
         binding.fabAddAgent.alpha = 0F
         binding.fabAddProperty.alpha = 0F
         binding.addFab.alpha = 0F
-        binding.addFab.isClickable = false
-        isOpen = false
-        binding.fabLayout.visibility = View.GONE
     }
 
     private fun setAddAgentFabListener() {
@@ -409,5 +360,4 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         super.onDestroy()
         _binding = null
     }
-
 }

@@ -7,12 +7,12 @@
         android:title="@string/currency_choose"
         app:showAsAction="ifRoom|collapseActionView" />
 
-    <item
+    <!--<item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_24dp"
         android:title="@string/search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
+        app:showAsAction="ifRoom|collapseActionView" />-->
     <item
         android:id="@+id/action_loan"
         android:icon="@drawable/ic_baseline_account_balance_24"
@@ -42,5 +42,5 @@
         android:id="@+id/action_filter_properties"
         android:icon="@drawable/ic_baseline_filter_list_24"
         android:title="@string/filtered"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom|collapseActionView" />
 </menu>
