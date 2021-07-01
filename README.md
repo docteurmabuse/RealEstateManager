@@ -7,9 +7,9 @@ This repository contains a mini-application for the P9 of the Grande École du N
 The **Real Estate Manager** app allow agents to access files of different real estate from their mobile equipment. The app is completely offline. You can create new estate and assign agent created.You can see all estate around you in the map view. App is multi currency view. You can also simulate a loan.
 
 ## Interface preview
-<img src="img/List.png" width="300"/> ![ListAdd.png](img/ListAdd.png)![AddAgent.png](img/AgentAdd.png)
-![AddEditProperty.png](img/AddEditProperty.png)  ![PropertyDetail.png](img/PropertyDetail.png)
-![PropertyDetail2](img/PropertyDetail2.png) ![Sort](img/Sort.png) ![Filter](img/Filter.png) ![Loan](img/Loan.png) 
+<img src="img/List.png" width="300"/> <img src="img/ListAdd.png" width="300"/><img src="img/AgentAdd.png" width="300"/>
+<img src="img/AddEditProperty.png" width="300"/>  <img src="img/PropertyDetail.png" width="300"/> 
+<img src="img/PropertyDetail2.png" width="300"/> <img src="img/Sort.png" width="300"/> <img src="img/Filter.png" width="300"/> ) <img src="img/Loan.png" width="300"/> 
 
  
 ## Getting Started
