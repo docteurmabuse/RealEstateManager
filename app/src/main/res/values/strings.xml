@@ -46,7 +46,7 @@
     <string name="on_market_since">On market since</string>
     <string name="sold_since">Sold since</string>
     <string name="sold_date">Sold date</string>
-    <string name="sold">Sold</string>
+    <string name="sold">SOLD</string>
     <string name="area">Area</string>
     <string name="property_image_view">Property Image View</string>
     <string name="address2_layout">%1$s, %2$s, %3$s, %4$s</string>

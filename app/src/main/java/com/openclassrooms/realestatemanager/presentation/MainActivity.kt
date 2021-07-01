@@ -3,6 +3,7 @@ package com.openclassrooms.realestatemanager.presentation
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.Animation
@@ -57,6 +58,8 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
     private var fabCloseRotate: Animation? = null
     private val navController by lazy { navHostFragment.navController }
     private val appBarConfiguration by lazy { AppBarConfiguration(navController.graph) }
+    private var menu: Menu? = null
+
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as MainNavHostFragment
     }
@@ -224,6 +227,25 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             R.id.itemTabsFragment2 -> R.menu.menu_fragment_properties
             else -> R.menu.menu_fragment_properties
         }
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        this.menu = menu
+        if (isEuroCurrency)
+            binding.bottomAppBar.menu?.findItem(R.id.action_currency)
+                ?.setIcon(R.drawable.ic_euro_symbol_24dp)
+        else
+            binding.bottomAppBar.menu?.findItem(R.id.action_currency)
+                ?.setIcon(R.drawable.ic_attach_dollars_24dp)
+
+        /*   val searchItem = binding.bottomAppBar.menu?.findItem(R.id.action_search)
+           (searchItem?.actionView as? SearchView)?.onQueryTextChanged {
+               viewModel.searchQuery.value = it
+               viewModel.filterData()
+               Timber.d("SEARCH: $it")
+           }*/
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun hideBottomAppBar() {
