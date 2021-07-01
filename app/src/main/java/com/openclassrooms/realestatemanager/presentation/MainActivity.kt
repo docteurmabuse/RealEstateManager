@@ -31,6 +31,7 @@ import com.openclassrooms.realestatemanager.presentation.ui.SortOrder
 import com.openclassrooms.realestatemanager.presentation.ui.agents.AgentsViewModel
 import com.openclassrooms.realestatemanager.presentation.utils.MainFragmentFactory
 import com.openclassrooms.realestatemanager.presentation.utils.MainNavHostFragment
+import com.openclassrooms.realestatemanager.utils.FabUtils.showFab
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
@@ -110,6 +111,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             binding.fabAddProperty.alpha = 1.0F
             binding.addFab.alpha = 1.0F
             setFabHome()
+            showFab(binding.addFab, true)
         }
     }
 
@@ -145,6 +147,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             bottomAppBar.replaceMenu(menuRes)
             closeExpandableFab()
             removeFab()
+            showFab(binding.addFab, false)
         }
     }
 
@@ -179,7 +182,6 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
                 viewModel.filterData()
             }
             R.id.action_sort_by_date_on_market_dsc -> {
-
                 viewModel.sortOrder.value = SortOrder.BY_DATE_DESC
                 viewModel.filterData()
             }
@@ -203,6 +205,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
             R.id.addEditPropertyFragment -> {
                 setBottomAppBarForDetail(getBottomAppBarMenuDestination(destination))
                 hideBottomAppBar()
+                binding.bottomAppBar.visibility = View.GONE
             }
 
             R.id.addEditAgentFragment -> {
@@ -311,7 +314,7 @@ class MainActivity : AppCompatActivity(), Toolbar.OnMenuItemClickListener,
         binding.addFab.isClickable = false
         binding.fabAddAgent.alpha = 0F
         binding.fabAddProperty.alpha = 0F
-        binding.addFab.alpha = 0F
+        //  binding.addFab.alpha = 0F
     }
 
     private fun setAddAgentFabListener() {

@@ -34,6 +34,7 @@ import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.presentation.ui.ItemTabsFragmentDirections
 import com.openclassrooms.realestatemanager.presentation.ui.MainViewModel
+import com.openclassrooms.realestatemanager.utils.FabUtils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
@@ -125,12 +126,13 @@ class MapFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupMap()
-
+        FabUtils.showFab(requireActivity().findViewById(R.id.addFab), true)
     }
 
 
     override fun onResume() {
         super.onResume()
+        FabUtils.showFab(requireActivity().findViewById(R.id.addFab), true)
         requireActivity().findViewById<BottomAppBar>(R.id.bottomAppBar).performShow()
     }
 
