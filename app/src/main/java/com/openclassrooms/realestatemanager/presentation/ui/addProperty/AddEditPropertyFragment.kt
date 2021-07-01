@@ -342,7 +342,6 @@ class AddEditPropertyFragment : androidx.fragment.app.Fragment(R.layout.add_prop
         val data =
             Bundle().apply { putParcelable(PropertyDetailFragment.ARG_PROPERTY_ID, property) }
         detailViewModel._bundle.value = data
-
         photos = property.media.photos as ArrayList<Media.Photo>
         binding.dates.soldSwitch.setOnCheckedChangeListener { _, isChecked ->
             binding.dates.viewModel?.sold = MutableLiveData<Boolean>(isChecked)
