@@ -91,8 +91,6 @@ class AddEditPropertyViewModel @Inject constructor(
     val propertyUpdatedEvent: LiveData<Event<Unit>> = _propertyUpdatedEvent
     fun start(propertyId: String) {
         this.propertyId = propertyId
-        Timber.d("EDIT_MODE: $propertyId")
-
         if (propertyId.isBlank()) {
             isNewProperty.value = true
             Timber.d("EDIT_MODE: TRUE")
