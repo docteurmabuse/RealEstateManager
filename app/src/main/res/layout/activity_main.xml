@@ -84,7 +84,7 @@
             app:behavior_autoHide="false"
             android:tint="@android:color/white"
             app:backgroundTint="@color/colorAccent"
-            app:layout_behavior="com.openclassrooms.realestatemanager.utils.ScrollAwareFABBehavior"
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
             app:layout_anchor="@id/bottomAppBar"
             app:srcCompat="@drawable/ic_add_24dp" />
 
