@@ -7,7 +7,6 @@ import com.openclassrooms.realestatemanager.domain.model.data.DataState
 import com.openclassrooms.realestatemanager.domain.model.property.Property
 import com.openclassrooms.realestatemanager.domain.model.search.SearchFilters
 import com.openclassrooms.realestatemanager.prefsstore.PrefsStore
-import com.openclassrooms.realestatemanager.utils.DateUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -251,10 +250,10 @@ constructor(
                 park = park.value?.int,
                 area = area.value,
                 types = typeList.value,
-                minSurface = surfaceArray.value?.get(0),
-                maxSurface = surfaceArray.value?.get(1),
-                minPrice = priceArray.value?.get(0),
-                maxPrice = priceArray.value?.get(1),
+                minSurface = minSurface,
+                maxSurface = maxSurface,
+                minPrice = minPrice,
+                maxPrice = maxPrice,
                 sold = sold.value?.int,
                 sellDate = sellDateLong,
                 soldDate = soldDateLong,
@@ -311,12 +310,11 @@ constructor(
         hospital.value = false
         museum.value = false
         sold.value = false
-        sellDate.value = DateUtil.todayDate
-        soldDate.value = DateUtil.todayDate
+        sellDate.value = ""
+        soldDate.value = ""
         area.value = ""
         filterData()
     }
 }
 
 enum class SortOrder { BY_PRICE_ASC, BY_PRICE_DESC, BY_DATE_ASC, BY_DATE_DESC }
-
