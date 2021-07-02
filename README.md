@@ -11,6 +11,7 @@ The **Real Estate Manager** app allow agents to access files of different real e
 <img src="img/AddEditProperty.png" width="300"/>  <img src="img/PropertyDetail.png" width="300"/> 
 <img src="img/PropertyDetail2.png" width="300"/> <img src="img/Sort.png" width="300"/> <img src="img/Filter.png" width="300"/>  <img src="img/Loan.png" width="300"/> <img src="img/Map.png" width="300"/> 
 <img src="img/Notification.png" width="300"/> 
+<img src="img/summary.png" width="500"/> <img src="img/kotlin.png" width="500"/> 
 
  
 ## Getting Started
