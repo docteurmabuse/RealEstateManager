@@ -11,16 +11,16 @@ import com.openclassrooms.realestatemanager.utils.LoanUtils.calculateLoanInDolla
 class LoanViewModel : ViewModel() {
 
 
-    var propertyPrice = MutableLiveData<String>("")
-    var downPayment = MutableLiveData<String>("")
-    var interestRate = MutableLiveData<String>("1")
-    var interest = MutableLiveData<Float>(0F)
-    var interestInDollar = MutableLiveData<String>("")
-    var loanTerm = MutableLiveData<Float>(5F)
+    val propertyPrice = MutableLiveData<String>("")
+    val downPayment = MutableLiveData<String>("")
+    val interestRate = MutableLiveData<String>("1")
+    val interest = MutableLiveData<Float>(0F)
+    val interestInDollar = MutableLiveData<String>("")
+    val loanTerm = MutableLiveData<Float>(5F)
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarText: LiveData<Event<Int>> = _snackbarText
 
-    private var _monthlyLoan = MutableLiveData<String>("")
+    private val _monthlyLoan = MutableLiveData<String>("")
     val monthlyLoan: LiveData<String> get() = _monthlyLoan
     fun applyChange() {
         if (propertyPrice.value?.isEmpty() == true && downPayment.value?.isEmpty() == true && interestRate.value?.isEmpty() == true) {

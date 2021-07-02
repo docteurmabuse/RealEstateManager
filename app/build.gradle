@@ -285,8 +285,6 @@ dependencies {
     //Jetpack Data Store
     implementation("androidx.datastore:datastore:1.0.0-beta02")
     implementation "androidx.datastore:datastore-preferences:1.0.0-beta02"
-
-
 }
 secrets {
     // Optionally specify a different file name containing your secrets.

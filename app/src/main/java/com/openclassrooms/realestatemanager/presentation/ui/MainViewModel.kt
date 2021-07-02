@@ -38,57 +38,57 @@ constructor(
     private val Boolean.int
         get() = if (this) 1 else null
 
-    var _filteredPropertyList = MutableLiveData<List<Property>>(arrayListOf())
+    val _filteredPropertyList = MutableLiveData<List<Property>>(arrayListOf())
 
-    var typeList = MutableLiveData<ArrayList<String>>(
+    val typeList = MutableLiveData<ArrayList<String>>(
         arrayListOf()
     )
 
-    var house = MutableLiveData<Boolean>(true)
-    var flat = MutableLiveData<Boolean>(true)
-    var duplex = MutableLiveData<Boolean>(true)
-    var penthouse = MutableLiveData<Boolean>(true)
-    var loft = MutableLiveData<Boolean>(true)
-    var manor = MutableLiveData<Boolean>(true)
+    val house = MutableLiveData<Boolean>(true)
+    val flat = MutableLiveData<Boolean>(true)
+    val duplex = MutableLiveData<Boolean>(true)
+    val penthouse = MutableLiveData<Boolean>(true)
+    val loft = MutableLiveData<Boolean>(true)
+    val manor = MutableLiveData<Boolean>(true)
 
-    var maxPrice = MutableLiveData<Float>(100000000F)
-    var minPrice = MutableLiveData<Float>(0F)
-    var stepSize = MutableLiveData<Float>(1F)
+    val maxPrice = MutableLiveData<Float>(100000000F)
+    val minPrice = MutableLiveData<Float>(0F)
+    val stepSize = MutableLiveData<Float>(1F)
 
-    var priceArray = MutableLiveData<Array<Float>>(arrayOf(0F, 1000F))
+    val priceArray = MutableLiveData<Array<Float>>(arrayOf(0F, 1000F))
 
-    var minSurface = MutableLiveData<Float>(0F)
-    var maxSurface = MutableLiveData<Float>(1000F)
-    var surfaceArray = MutableLiveData<Array<Float>>(arrayOf(0F, 100F))
+    val minSurface = MutableLiveData<Float>(0F)
+    val maxSurface = MutableLiveData<Float>(1000F)
+    val surfaceArray = MutableLiveData<Array<Float>>(arrayOf(0F, 100F))
 
-    var picsNumber = MutableLiveData<Float>(1F)
+    val picsNumber = MutableLiveData<Float>(1F)
 
-    var roomNumber = MutableLiveData<Float>(1F)
-    var bathroomNumber = MutableLiveData<Float>(1F)
-    var bedroomNumber = MutableLiveData<Float>(1F)
+    val roomNumber = MutableLiveData<Float>(1F)
+    val bathroomNumber = MutableLiveData<Float>(1F)
+    val bedroomNumber = MutableLiveData<Float>(1F)
 
-    var description = MutableLiveData<String>("")
+    val description = MutableLiveData<String>("")
 
-    var sortBy = MutableLiveData<String>("sell_date")
-    var schools = MutableLiveData<Boolean>(false)
-    var shops = MutableLiveData<Boolean>(false)
-    var park = MutableLiveData<Boolean>(false)
-    var stations = MutableLiveData<Boolean>(false)
-    var hospital = MutableLiveData<Boolean>(false)
-    var museum = MutableLiveData<Boolean>(false)
+    val sortBy = MutableLiveData<String>("sell_date")
+    val schools = MutableLiveData<Boolean>(false)
+    val shops = MutableLiveData<Boolean>(false)
+    val park = MutableLiveData<Boolean>(false)
+    val stations = MutableLiveData<Boolean>(false)
+    val hospital = MutableLiveData<Boolean>(false)
+    val museum = MutableLiveData<Boolean>(false)
 
-    var sold = MutableLiveData<Boolean>(false)
+    val sold = MutableLiveData<Boolean>(false)
 
     var sellDate = MutableLiveData<String>("")
     var soldDate = MutableLiveData<String>("")
 
-    var area = MutableLiveData<String>("")
+    val area = MutableLiveData<String>("")
 
-    var sortOrder = MutableStateFlow(SortOrder.BY_DATE_DESC)
+    val sortOrder = MutableStateFlow(SortOrder.BY_DATE_DESC)
 
-    var isEuroCurrency = prefsStore.isCurrencyEuro().asLiveData()
+    val isEuroCurrency = prefsStore.isCurrencyEuro().asLiveData()
 
-    var searchFilterQuery = MutableStateFlow(
+    val searchFilterQuery = MutableStateFlow(
         SearchFilters(
             "",
             null,
@@ -251,10 +251,10 @@ constructor(
                 park = park.value?.int,
                 area = area.value,
                 types = typeList.value,
-                minSurface = minSurface,
-                maxSurface = maxSurface,
-                minPrice = minPrice,
-                maxPrice = maxPrice,
+                minSurface = surfaceArray.value?.get(0),
+                maxSurface = surfaceArray.value?.get(1),
+                minPrice = priceArray.value?.get(0),
+                maxPrice = priceArray.value?.get(1),
                 sold = sold.value?.int,
                 sellDate = sellDateLong,
                 soldDate = soldDateLong,
@@ -290,6 +290,7 @@ constructor(
 
     @ExperimentalCoroutinesApi
     fun resetFilters() {
+        "FILTER_CLICK: House:  ${priceArray.value}}"
         house.value = true
         flat.value = true
         duplex.value = true
